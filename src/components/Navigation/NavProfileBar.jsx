@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { HiUserCircle } from 'react-icons/hi';
 import { VscTriangleDown } from 'react-icons/vsc';
+import SignIn from '../Auth/SignIn';
+import SignUp from '../Auth/SignUp';
 
 const ProfileContent = styled.div`
   position: relative;
@@ -33,6 +35,7 @@ const AvatarWrap = styled.div`
   justify-content: space-between;
   & span {
     width: 70px;
+    color: #2c3e50;
     text-align: right;
     margin-left: 5px;
   }
@@ -69,24 +72,29 @@ const ProfileMenu = styled.div`
 const NavProfile = () => {
   const [isActive, setIsActive] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [isSignInClick, setIsSignInClick] = useState(false);
+  const [isSignUpClick, setIsSignUpClick] = useState(false);
+  const [isSignOutClick, setIsSignOutClick] = useState(false);
   const menuClick = () => setIsActive(!isActive);
-  const signIn = () => setIsUser(!isUser);
-  const signOut = () => setIsUser(!isUser);
+
+  const toggleSignIn = () => setIsSignInClick(!isSignInClick);
+  const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
+  const toggleSignOut = () => setIsSignOutClick(!isSignOutClick);
 
   return (
     <>
       <ProfileContent current={isUser} onClick={menuClick}>
         {isUser ? (
           <AvatarWrap>
-            <VscTriangleDown size={20} />
+            <VscTriangleDown size={15} color={'grey'} />
             <span>Hotsumm</span>
-            <HiUserCircle size={35} />
+            <HiUserCircle size={35} color={'grey'} />
           </AvatarWrap>
         ) : (
           <>
-            <VscTriangleDown size={20} />
+            <VscTriangleDown size={15} color={'grey'} />
             <span>로그인을 해주세요.</span>
-            <HiUserCircle size={35} />
+            <HiUserCircle size={35} color={'grey'} />
           </>
         )}
         {isActive && (
@@ -94,17 +102,26 @@ const NavProfile = () => {
             {isUser ? (
               <ul>
                 <li>내 계정</li>
-                <li onClick={signOut}>로그아웃</li>
+                <li>여행기록 올리기</li>
+                <li>설정</li>
+                <li
+                  onClick={toggleSignOut}
+                  style={{ borderTop: '1px solid #ababab80' }}
+                >
+                  로그아웃
+                </li>
               </ul>
             ) : (
               <ul>
-                <li onClick={signIn}>로그인</li>
-                <li>회원가입</li>
+                <li onClick={toggleSignIn}>로그인</li>
+                <li onClick={toggleSignUp}>회원가입</li>
               </ul>
             )}
           </ProfileMenu>
         )}
       </ProfileContent>
+      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
+      {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
     </>
   );
 };

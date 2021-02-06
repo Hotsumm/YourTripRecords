@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const NavSideBarContainer = styled.div`
   display: flex;
+  margin-top: 20px;
   flex-direction: column;
   > svg {
     margin-left: 10px;
@@ -20,6 +21,7 @@ const MenuContentWrap = styled.ul`
   position: absolute;
   width: 250px;
   height: 450px;
+  margin-left: 10px;
   border-radius: 10px;
   top: 0;
   left: 0;

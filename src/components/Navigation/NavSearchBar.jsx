@@ -7,7 +7,7 @@ const SearchBar = styled.input`
   display: flex;
   width: 350px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   border-style: none;
 

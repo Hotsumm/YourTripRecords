@@ -14,24 +14,27 @@ const NavContainer = styled.div`
 `;
 
 const NavWrap = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
-  padding: 0 60px;
+  padding: 0px 60px;
   align-items: center;
+  background: ${(props) => (props.show ? ' white' : 'transparent')};
 `;
 
 const TitleContainer = styled.div`
   width: 33%;
+  height: 100%;
   display: flex;
-  padding: 40px 0;
+  padding: 20px 0;
   justify-content: flex-start;
   font-size: 30px;
   font-weight: 700;
+  color: ${(props) => (props.show ? 'black' : 'white')};
 `;
 
 const SearchContainer = styled.div`
   width: 33%;
-  padding: 40px 0;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
 `;
@@ -39,22 +42,22 @@ const SearchContainer = styled.div`
 const ProfileContainer = styled.div`
   width: 33%;
   display: flex;
-  padding: 40px 0;
+  padding: 20px 0;
   justify-content: flex-end;
 `;
 
-const Navigation = () => {
+const Navigation = ({ show }) => {
   return (
     <>
       <NavContainer>
-        <NavWrap>
-          <TitleContainer>
+        <NavWrap show={show}>
+          <TitleContainer show={show}>
             <Link to="/">Travel</Link>
           </TitleContainer>
-          <SearchContainer>
+          <SearchContainer show={show}>
             <NavSearchBar />
           </SearchContainer>
-          <ProfileContainer>
+          <ProfileContainer show={show}>
             <NavProfileBar />
           </ProfileContainer>
         </NavWrap>
