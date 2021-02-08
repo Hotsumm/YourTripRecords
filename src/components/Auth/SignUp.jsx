@@ -11,6 +11,7 @@ const SignUpContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
   background: rgba(0, 0, 0, 0.4);
 `;
 const SignUpWrap = styled.div`
@@ -75,6 +76,10 @@ const InputWrap = styled.div`
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     ::placeholder {
       font-size: 15px;
+    }
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
     }
   }
 

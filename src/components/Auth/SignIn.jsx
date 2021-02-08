@@ -12,6 +12,7 @@ const SignInContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
   background: rgba(0, 0, 0, 0.4);
 `;
 const SignInWrap = styled.div`
@@ -63,6 +64,10 @@ const InputWrap = styled.div`
     ::placeholder {
       font-size: 15px;
     }
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
   }
   :not(:last-child) {
     & input {
@@ -84,12 +89,21 @@ const ButtonWrap = styled.div`
     border-radius: 15px;
     :first-child {
       background: #16a085;
+
       color: white;
       margin-bottom: 30px;
     }
-    :nth-child(2) {
+    :last-child {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      align-items: center;
       margin-bottom: 10px;
       border: 1px solid #bdc3c7;
+      & svg {
+        position: absolute;
+        left: 20px;
+      }
     }
   }
 `;
@@ -115,7 +129,7 @@ const SignIn = ({ toggleSignIn }) => {
         <ButtonWrap>
           <button>로그인</button>
           <button>
-            <FcGoogle />
+            <FcGoogle size={25} />
             Google로 로그인하기
           </button>
         </ButtonWrap>

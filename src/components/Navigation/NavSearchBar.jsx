@@ -10,7 +10,13 @@ const SearchBar = styled.input`
   border-radius: 20px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   border-style: none;
-
+  padding: 0px 20px;
+  font-size: 16px;
+  text-align: center;
+  :focus {
+    outline: none;
+    border: 2px solid #16a085;
+  }
   ::placeholder {
     display: flex;
     color: darkgray;
