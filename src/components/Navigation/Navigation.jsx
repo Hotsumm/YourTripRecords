@@ -18,6 +18,8 @@ const NavWrap = styled.div`
   display: flex;
   padding: 0px 60px;
   align-items: center;
+  box-shadow: ${(props) =>
+    props.show ? '0px 0px 8px rgba(0, 0, 0, 0.2)' : '0px'};
   background: ${(props) => (props.show ? ' white' : 'transparent')};
 `;
 

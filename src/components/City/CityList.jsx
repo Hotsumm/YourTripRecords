@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { cityArray } from '../../utils/cityArray';
+import { Link } from 'react-router-dom';
 
 const CityListWrap = styled.ul`
   width: 100%;
@@ -39,10 +40,12 @@ const CityList = () => {
   return (
     <CityListWrap>
       {cityArray.map((city, index) => (
-        <City>
-          <Thumbnail src={city.imgUrl}></Thumbnail>
-          <CityName>{city.name}</CityName>
-        </City>
+        <Link to={`/city/${city.name}`} key={index}>
+          <City>
+            <Thumbnail src={city.imgUrl}></Thumbnail>
+            <CityName>{city.name}</CityName>
+          </City>
+        </Link>
       ))}
     </CityListWrap>
   );
