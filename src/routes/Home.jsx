@@ -63,7 +63,7 @@ const Home = () => {
   return (
     <>
       <HomeContainer>
-        <Navigation show={navBar} />
+        <Navigation show={navBar} sideBar={true} />
         <BackgroundContainer>
           <img src={bgImg} alt="메인배경" />
           <span>너의 여행들을 공유 해봐!</span>

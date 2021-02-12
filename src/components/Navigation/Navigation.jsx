@@ -48,7 +48,7 @@ const ProfileContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const Navigation = ({ show }) => {
+const Navigation = ({ show, sideBar }) => {
   return (
     <>
       <NavContainer>
@@ -63,7 +63,7 @@ const Navigation = ({ show }) => {
             <NavProfileBar />
           </ProfileContainer>
         </NavWrap>
-        <NavSideBar />
+        {sideBar && <NavSideBar />}
       </NavContainer>
     </>
   );
