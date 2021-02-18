@@ -17,7 +17,7 @@ const SignInContainer = styled.div`
 `;
 const SignInWrap = styled.div`
   width: 450px;
-  height: 470px;
+  height: 450px;
   background: white;
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -89,9 +89,8 @@ const ButtonWrap = styled.div`
     border-radius: 15px;
     :first-child {
       background: #16a085;
-
       color: white;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
     }
     :last-child {
       display: flex;
@@ -120,7 +119,7 @@ const SignIn = ({ toggleSignIn }) => {
         </SignInHeader>
         <InputContainer>
           <InputWrap>
-            <input type="username" placeholder="아이디" required />
+            <input type="email" placeholder="이메일" required />
           </InputWrap>
           <InputWrap>
             <input type="password" placeholder="비밀번호" required />

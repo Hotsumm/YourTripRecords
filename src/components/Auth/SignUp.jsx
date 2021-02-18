@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
+import { FcGoogle } from 'react-icons/fc';
 
 const SignUpContainer = styled.div`
   width: 100vw;
@@ -16,7 +17,7 @@ const SignUpContainer = styled.div`
 `;
 const SignUpWrap = styled.div`
   width: 450px;
-  height: 650px;
+  height: 600px;
   background: white;
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -44,7 +45,7 @@ const HeaderTitle = styled.span`
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
-  padding: 30px 50px;
+  padding: 30px 50px 10px 50px;
   flex-direction: column;
   align-items: center;
 `;
@@ -61,7 +62,21 @@ const ButtonWrap = styled.div`
     font-size: 16px;
     background: #16a085;
     color: white;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+
+    :last-child {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      align-items: center;
+      color: black;
+      border: 1px solid #bdc3c7;
+      background: white;
+      & svg {
+        position: absolute;
+        left: 20px;
+      }
+    }
   }
 `;
 
@@ -83,14 +98,13 @@ const InputWrap = styled.div`
     }
   }
 
-  :nth-child(3) {
-    margin-bottom: 30px;
-  }
-
   :not(:last-child) {
     & input {
       margin-bottom: 25px;
     }
+  }
+  :last-child {
+    margin-bottom: 30px;
   }
 `;
 const SignUp = ({ toggleSignUp }) => {
@@ -105,7 +119,10 @@ const SignUp = ({ toggleSignUp }) => {
         </SignUpHeader>
         <InputContainer>
           <InputWrap>
-            <input type="username" placeholder="아이디" required />
+            <input type="email" placeholder="이메일" required />
+          </InputWrap>
+          <InputWrap>
+            <input type="text" placeholder="닉네임" required />
           </InputWrap>
           <InputWrap>
             <input type="password" placeholder="비밀번호" required />
@@ -113,15 +130,13 @@ const SignUp = ({ toggleSignUp }) => {
           <InputWrap>
             <input type="password" placeholder="비밀번호 확인" required />
           </InputWrap>
-          <InputWrap>
-            <input type="text" placeholder="닉네임" required />
-          </InputWrap>
-          <InputWrap>
-            <input type="email" placeholder="이메일 주소" required />
-          </InputWrap>
         </InputContainer>
         <ButtonWrap>
           <button>회원가입</button>
+          <button>
+            <FcGoogle size={25} />
+            Google로 회원가입
+          </button>
         </ButtonWrap>
       </SignUpWrap>
     </SignUpContainer>
