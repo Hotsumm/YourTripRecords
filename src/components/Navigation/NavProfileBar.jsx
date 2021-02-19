@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { HiUserCircle } from 'react-icons/hi';
 import { VscTriangleDown } from 'react-icons/vsc';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
+import { UserContext } from '../../Context';
 
 const ProfileContent = styled.div`
   position: relative;
@@ -71,20 +72,20 @@ const ProfileMenu = styled.div`
 
 const NavProfile = () => {
   const [isActive, setIsActive] = useState(false);
-  const [isUser, setIsUser] = useState(false);
   const [isSignInClick, setIsSignInClick] = useState(false);
   const [isSignUpClick, setIsSignUpClick] = useState(false);
   const [isSignOutClick, setIsSignOutClick] = useState(false);
+  const { userObj } = useContext(UserContext);
   const menuClick = () => setIsActive(!isActive);
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
   const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
   const toggleSignOut = () => setIsSignOutClick(!isSignOutClick);
-
+  console.log(userObj);
   return (
     <>
-      <ProfileContent current={isUser} onClick={menuClick}>
-        {isUser ? (
+      <ProfileContent current={userObj} onClick={menuClick}>
+        {userObj ? (
           <AvatarWrap>
             <VscTriangleDown size={15} color={'grey'} />
             <span>Hotsumm</span>
@@ -99,7 +100,7 @@ const NavProfile = () => {
         )}
         {isActive && (
           <ProfileMenu>
-            {isUser ? (
+            {userObj ? (
               <ul>
                 <li>내 계정</li>
                 <li>여행기록 올리기</li>

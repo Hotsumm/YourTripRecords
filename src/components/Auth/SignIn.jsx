@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import { firebaseAuth } from '../../firebaseConfig';
 
 const SignInContainer = styled.div`
   width: 100vw;
@@ -71,7 +72,7 @@ const InputWrap = styled.div`
   }
   :not(:last-child) {
     & input {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
   }
 `;
@@ -108,8 +109,40 @@ const ButtonWrap = styled.div`
 `;
 
 const SignIn = ({ toggleSignIn }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const closeButton = () => toggleSignIn();
 
+  const onChange = (e) => {
+    const {
+      target: { name, value },
+    } = e;
+
+    if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+  };
+
+  const handleSignIn = async () => {
+    await firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        if (error.code === 'auth/wrong-password') {
+          alert('비밀번호를 확인해주세요.');
+        } else {
+          alert(error.message);
+        }
+      });
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSignIn();
+    }
+  };
   return (
     <SignInContainer>
       <SignInWrap>
@@ -119,14 +152,28 @@ const SignIn = ({ toggleSignIn }) => {
         </SignInHeader>
         <InputContainer>
           <InputWrap>
-            <input type="email" placeholder="이메일" required />
+            <input
+              type="email"
+              name="email"
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+              placeholder="이메일"
+              required
+            />
           </InputWrap>
           <InputWrap>
-            <input type="password" placeholder="비밀번호" required />
+            <input
+              type="password"
+              name="password"
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+              placeholder="비밀번호"
+              required
+            />
           </InputWrap>
         </InputContainer>
         <ButtonWrap>
-          <button>로그인</button>
+          <button onClick={handleSignIn}>로그인</button>
           <button>
             <FcGoogle size={25} />
             Google로 로그인하기
