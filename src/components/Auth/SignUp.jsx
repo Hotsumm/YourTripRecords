@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import { CreateUser } from '../User/CreateUser';
 
 const SignUpContainer = styled.div`
   width: 100vw;
@@ -109,6 +110,35 @@ const InputWrap = styled.div`
 `;
 const SignUp = ({ toggleSignUp }) => {
   const closeButton = () => toggleSignUp();
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const onChange = (e) => {
+    const {
+      target: { name, value },
+    } = e;
+    if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'nickname') {
+      setNickname(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    } else if (name === 'passwordConfirm') {
+      setPasswordConfirm(value);
+    }
+  };
+
+  const handleSignUp = () => {
+    if (password !== passwordConfirm) {
+      alert('비밀번호를 확인해주세요.');
+      return;
+    }
+    CreateUser(email, password).then(() => {
+      window.location.reload();
+    });
+  };
 
   return (
     <SignUpContainer>
@@ -119,20 +149,44 @@ const SignUp = ({ toggleSignUp }) => {
         </SignUpHeader>
         <InputContainer>
           <InputWrap>
-            <input type="email" placeholder="이메일" required />
+            <input
+              type="email"
+              placeholder="이메일"
+              name="email"
+              onChange={onChange}
+              required
+            />
           </InputWrap>
           <InputWrap>
-            <input type="text" placeholder="닉네임" required />
+            <input
+              type="text"
+              placeholder="닉네임"
+              name="nickname"
+              onChange={onChange}
+              required
+            />
           </InputWrap>
           <InputWrap>
-            <input type="password" placeholder="비밀번호" required />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              name="password"
+              onChange={onChange}
+              required
+            />
           </InputWrap>
           <InputWrap>
-            <input type="password" placeholder="비밀번호 확인" required />
+            <input
+              type="password"
+              placeholder="비밀번호 확인"
+              name="passwordConfirm"
+              onChange={onChange}
+              required
+            />
           </InputWrap>
         </InputContainer>
         <ButtonWrap>
-          <button>회원가입</button>
+          <button onClick={handleSignUp}>회원가입</button>
           <button>
             <FcGoogle size={25} />
             Google로 회원가입
