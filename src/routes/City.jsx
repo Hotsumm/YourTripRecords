@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { cityArray } from '../utils/cityArray';

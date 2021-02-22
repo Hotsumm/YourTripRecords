@@ -6,6 +6,7 @@ import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { firebaseAuth } from '../../firebaseConfig';
 import { UserContext } from '../../Context';
+import { Link } from 'react-router-dom';
 
 const ProfileContent = styled.div`
   position: relative;
@@ -111,7 +112,9 @@ const NavProfile = () => {
           <ProfileMenu>
             {userObj ? (
               <ul>
-                <li>내 계정</li>
+                <Link to={'/myaccount'}>
+                  <li>내 계정</li>
+                </Link>
                 <li>여행기록 올리기</li>
                 <li>설정</li>
                 <li
