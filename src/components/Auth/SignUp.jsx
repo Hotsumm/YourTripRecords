@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { CreateUser } from '../User/CreateUser';
+import { firebaseAuth } from '../../firebaseConfig';
 
 const SignUpContainer = styled.div`
   width: 100vw;
@@ -114,6 +115,8 @@ const SignUp = ({ toggleSignUp }) => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [linkCode, setLinkCode] = useState('');
+  const [emailConfirm, setEmailConfirm] = useState(false);
 
   const onChange = (e) => {
     const {
@@ -127,17 +130,42 @@ const SignUp = ({ toggleSignUp }) => {
       setPassword(value);
     } else if (name === 'passwordConfirm') {
       setPasswordConfirm(value);
+    } else if (name === 'linkCode') {
+      setLinkCode(value);
     }
   };
+  const validCheck = () => {
+    const passwordRules = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
+    if (!passwordRules.test(password)) {
+      alert('비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.');
+      return;
+    }
+    handleSignUp();
+  };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (password !== passwordConfirm) {
       alert('비밀번호를 확인해주세요.');
       return;
     }
-    CreateUser(email, password).then(() => {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(email, password);
+      CreateUser(email, nickname);
+      //  setEmailConfirm((emailConfrim) => !emailConfirm);
+      alert('회원가입이 완료되었습니다.');
       window.location.reload();
-    });
+    } catch (error) {
+      if (error.code === 'auth/weak-password') {
+        alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
+        console.log(error.code);
+      } else if (error.code === 'auth/email-already-in-use') {
+        alert('이미 사용중인 이메일 입니다.');
+      } else if (error.code === 'auth/invalid-email') {
+        alert('이메일을 정확하게 입력해주세요.');
+      } else {
+        alert(error.code);
+      }
+    }
   };
 
   return (
@@ -147,51 +175,67 @@ const SignUp = ({ toggleSignUp }) => {
           <BsBoxArrowInLeft onClick={closeButton} size={26} />
           <HeaderTitle>회원가입</HeaderTitle>
         </SignUpHeader>
-        <InputContainer>
-          <InputWrap>
-            <input
-              type="email"
-              placeholder="이메일"
-              name="email"
-              onChange={onChange}
-              required
-            />
-          </InputWrap>
-          <InputWrap>
-            <input
-              type="text"
-              placeholder="닉네임"
-              name="nickname"
-              onChange={onChange}
-              required
-            />
-          </InputWrap>
-          <InputWrap>
-            <input
-              type="password"
-              placeholder="비밀번호"
-              name="password"
-              onChange={onChange}
-              required
-            />
-          </InputWrap>
-          <InputWrap>
-            <input
-              type="password"
-              placeholder="비밀번호 확인"
-              name="passwordConfirm"
-              onChange={onChange}
-              required
-            />
-          </InputWrap>
-        </InputContainer>
-        <ButtonWrap>
-          <button onClick={handleSignUp}>회원가입</button>
-          <button>
-            <FcGoogle size={25} />
-            Google로 회원가입
-          </button>
-        </ButtonWrap>
+        {!emailConfirm ? (
+          <>
+            <InputContainer>
+              <InputWrap>
+                <input
+                  type="email"
+                  placeholder="이메일"
+                  name="email"
+                  onChange={onChange}
+                  required
+                />
+              </InputWrap>
+              <InputWrap>
+                <input
+                  type="text"
+                  placeholder="닉네임"
+                  name="nickname"
+                  onChange={onChange}
+                  required
+                />
+              </InputWrap>
+              <InputWrap>
+                <input
+                  type="password"
+                  placeholder="비밀번호"
+                  name="password"
+                  onChange={onChange}
+                  required
+                />
+              </InputWrap>
+              <InputWrap>
+                <input
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  name="passwordConfirm"
+                  onChange={onChange}
+                  required
+                />
+              </InputWrap>
+            </InputContainer>
+            <ButtonWrap>
+              <button onClick={validCheck}>회원가입</button>
+              <button>
+                <FcGoogle size={25} />
+                Google로 회원가입
+              </button>
+            </ButtonWrap>
+          </>
+        ) : (
+          <>
+            <InputContainer>
+              <InputWrap>
+                <h1> 이메일 코드를 입력해주세요.</h1>
+                <input type="text" name="linkCode" />
+              </InputWrap>
+            </InputContainer>
+            <ButtonWrap>
+              <button>확인</button>
+            </ButtonWrap>
+          </>
+        )}
       </SignUpWrap>
     </SignUpContainer>
   );

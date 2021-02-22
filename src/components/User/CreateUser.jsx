@@ -1,13 +1,18 @@
-import { firebaseAuth } from '../../firebaseConfig';
+import { firebaseFireStore } from '../../firebaseConfig';
 
-export const CreateUser = async (email, password) => {
-  await firebaseAuth
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => {
-      if (error.code === 'auth/weak-password') {
-        alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
-      } else {
-        alert(error.message);
-      }
-    });
+const getCreatedDay = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = ('0' + (1 + date.getMonth())).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  return year + '-' + month + '-' + day;
+};
+
+export const CreateUser = async (email, nickname) => {
+  const usersRef = firebaseFireStore.collection('users');
+  await usersRef.add({
+    email,
+    nickname,
+    createdAt: getCreatedDay(),
+  });
 };

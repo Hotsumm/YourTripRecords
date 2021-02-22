@@ -4,6 +4,7 @@ import { HiUserCircle } from 'react-icons/hi';
 import { VscTriangleDown } from 'react-icons/vsc';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
+import { firebaseAuth } from '../../firebaseConfig';
 import { UserContext } from '../../Context';
 
 const ProfileContent = styled.div`
@@ -74,21 +75,29 @@ const NavProfile = () => {
   const [isActive, setIsActive] = useState(false);
   const [isSignInClick, setIsSignInClick] = useState(false);
   const [isSignUpClick, setIsSignUpClick] = useState(false);
-  const [isSignOutClick, setIsSignOutClick] = useState(false);
   const { userObj } = useContext(UserContext);
   const menuClick = () => setIsActive(!isActive);
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
   const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
-  const toggleSignOut = () => setIsSignOutClick(!isSignOutClick);
-  console.log(userObj);
+  const SignOut = () => {
+    firebaseAuth
+      .signOut()
+      .then(() => {
+        alert('로그아웃 되었습니다.');
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
   return (
     <>
       <ProfileContent current={userObj} onClick={menuClick}>
         {userObj ? (
           <AvatarWrap>
             <VscTriangleDown size={15} color={'grey'} />
-            <span>Hotsumm</span>
+            <span>{userObj.nickname}</span>
             <HiUserCircle size={35} color={'grey'} />
           </AvatarWrap>
         ) : (
@@ -106,7 +115,7 @@ const NavProfile = () => {
                 <li>여행기록 올리기</li>
                 <li>설정</li>
                 <li
-                  onClick={toggleSignOut}
+                  onClick={SignOut}
                   style={{ borderTop: '1px solid #ababab80' }}
                 >
                   로그아웃

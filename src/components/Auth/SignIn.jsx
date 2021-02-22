@@ -129,11 +129,14 @@ const SignIn = ({ toggleSignIn }) => {
   const handleSignIn = async () => {
     await firebaseAuth
       .signInWithEmailAndPassword(email, password)
+      .then(() => window.location.reload())
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
           alert('비밀번호를 확인해주세요.');
+        } else if (error.code === 'auth/invalid-email') {
+          alert('이메일을 확인해주세요.');
         } else {
-          alert(error.message);
+          alert(error.code);
         }
       });
   };
