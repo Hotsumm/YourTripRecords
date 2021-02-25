@@ -6,19 +6,26 @@ import { firebaseFireStore } from './firebaseConfig';
 import { UserContext } from './Context';
 
 const App = () => {
-  const [userObj, setUserObj] = useState('');
+  const [userObj, setUserObj] = useState(null);
   const [init, setInit] = useState(false);
 
   useEffect(() => {
     try {
+      let allUser = [];
       firebaseAuth.onAuthStateChanged(async (user) => {
         if (user) {
-          const data = firebaseAuth.currentUser;
-          let allUser = [];
           const usersRef = await firebaseFireStore.collection('users').get();
-          usersRef.forEach((doc) => allUser.push(doc.data()));
-          const user = allUser.filter((user) => user.email === data.email);
-          setUserObj(...user);
+          usersRef.forEach((doc) => {
+            const userData = {
+              id: doc.id,
+              ...doc.data(),
+            };
+            allUser.push(userData);
+          });
+          const currentUser = allUser.filter(
+            (data) => data.email === user.email,
+          );
+          setUserObj(...currentUser);
         }
         setInit(true);
       });

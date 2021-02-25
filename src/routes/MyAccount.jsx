@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
-import fakeAvatar from '../static/assets/fakeavatar.JPG';
+import ProfileEdit from '../components/Profile/ProfileEdit';
 import { UserContext } from '../Context';
+import { Redirect } from 'react-router-dom';
 
 const AccountContainer = styled.div`
   padding-top: 80px;
@@ -87,7 +88,14 @@ const ProfileMenu = styled.div`
 `;
 
 const MyAccount = () => {
+  const [isEditClick, setIsEditClick] = useState(false);
   const { userObj } = useContext(UserContext);
+
+  if (userObj === null) {
+    return <Redirect to="/" />;
+  }
+  const toggleProfileEdit = () => setIsEditClick(!isEditClick);
+
   return (
     <>
       <Navigation show={true} sideBar={false}></Navigation>
@@ -96,7 +104,7 @@ const MyAccount = () => {
         <AccountWrap>
           <ProfileContainer>
             <ProfileWrap>
-              <Avatar src={fakeAvatar}></Avatar>
+              <Avatar src={userObj.avatar}></Avatar>
               <AvatarInfo>
                 <span>닉네임</span>
                 <Nickname>{userObj.nickname}</Nickname>
@@ -106,7 +114,7 @@ const MyAccount = () => {
               <span>내 여행</span>
               <span>내가 올린사진을 보고 싶어요.</span>
             </ProfileMenu>
-            <ProfileMenu>
+            <ProfileMenu onClick={toggleProfileEdit}>
               <span>프로필 변경</span>
               <span>프로필을 변경하고 싶어요.</span>
             </ProfileMenu>
@@ -117,6 +125,7 @@ const MyAccount = () => {
           </ProfileContainer>
         </AccountWrap>
       </AccountContainer>
+      {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
     </>
   );
 };

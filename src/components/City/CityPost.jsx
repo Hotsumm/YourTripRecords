@@ -60,7 +60,6 @@ const CityPost = () => {
           <PostThumbnail src={fakePostImg}></PostThumbnail>
           <PostInfo>
             <PostTitle>Fake Post 1</PostTitle>
-            <div style={{ borderBottom: '1px solid #ababab80' }}></div>
             <PostDescription>Fake Description 1</PostDescription>
           </PostInfo>
         </PostIntro>

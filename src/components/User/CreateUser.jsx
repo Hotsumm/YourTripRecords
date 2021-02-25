@@ -1,4 +1,5 @@
 import { firebaseFireStore } from '../../firebaseConfig';
+import defaultAvatar from '../../static/assets/defaultAvatar.png';
 
 const getCreatedDay = () => {
   const date = new Date();
@@ -13,6 +14,7 @@ export const CreateUser = async (email, nickname) => {
   await usersRef.add({
     email,
     nickname,
+    avatar: defaultAvatar,
     createdAt: getCreatedDay(),
   });
 };

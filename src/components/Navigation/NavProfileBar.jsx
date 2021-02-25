@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const ProfileContent = styled.div`
   position: relative;
-  width: ${(props) => (props.current ? '170px' : '220px')};
+  width: ${(props) => (props.current ? '220px' : '230px')};
   height: 40px;
   border-radius: 20px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
@@ -21,13 +21,6 @@ const ProfileContent = styled.div`
   align-items: center;
   color: black;
   cursor: pointer;
-
-  & span {
-    width: 120px;
-    font-weight: 700;
-    font-size: 15px;
-    text-align: right;
-  }
 `;
 
 const AvatarWrap = styled.div`
@@ -37,9 +30,17 @@ const AvatarWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   & span {
-    width: 70px;
-    color: #2c3e50;
+    width: 60%;
+    font-weight: 700;
+    font-size: 15px;
     text-align: right;
+    margin-left: 10px;
+    color: #2c3e50;
+  }
+  & img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     margin-left: 5px;
   }
 `;
@@ -95,19 +96,21 @@ const NavProfile = () => {
   return (
     <>
       <ProfileContent current={userObj} onClick={menuClick}>
-        {userObj ? (
-          <AvatarWrap>
-            <VscTriangleDown size={15} color={'grey'} />
-            <span>{userObj.nickname}</span>
-            <HiUserCircle size={35} color={'grey'} />
-          </AvatarWrap>
-        ) : (
-          <>
-            <VscTriangleDown size={15} color={'grey'} />
-            <span>로그인을 해주세요.</span>
-            <HiUserCircle size={35} color={'grey'} />
-          </>
-        )}
+        <AvatarWrap>
+          {userObj ? (
+            <>
+              <VscTriangleDown size={15} color={'grey'} />
+              <span>{userObj.nickname}</span>
+              <img src={userObj.avatar} alt="avatar" />
+            </>
+          ) : (
+            <>
+              <VscTriangleDown size={15} color={'grey'} />
+              <span>로그인을 해주세요.</span>
+              <HiUserCircle size={35} color={'grey'} />
+            </>
+          )}
+        </AvatarWrap>
         {isActive && (
           <ProfileMenu>
             {userObj ? (

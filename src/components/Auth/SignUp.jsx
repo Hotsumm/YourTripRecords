@@ -149,8 +149,9 @@ const SignUp = ({ toggleSignUp }) => {
       return;
     }
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(email, password);
-      CreateUser(email, nickname);
+      await firebaseAuth
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => CreateUser(email, nickname));
       //  setEmailConfirm((emailConfrim) => !emailConfirm);
       alert('회원가입이 완료되었습니다.');
       window.location.reload();
