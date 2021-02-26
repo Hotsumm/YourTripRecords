@@ -9,6 +9,7 @@ const NavContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  z-index: 99;
   position: fixed;
   color: white;
 `;

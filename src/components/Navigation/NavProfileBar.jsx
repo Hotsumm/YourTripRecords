@@ -64,9 +64,6 @@ const ProfileMenu = styled.div`
     font-size: 15px;
     padding: 15px 20px;
     cursor: pointer;
-    :first-child {
-      font-weight: 700;
-    }
     :hover {
       background: rgba(0, 0, 0, 0.1);
     }
@@ -116,9 +113,11 @@ const NavProfile = () => {
             {userObj ? (
               <ul>
                 <Link to={'/myaccount'}>
-                  <li>내 계정</li>
+                  <li style={{ fontWeight: '700' }}>내 계정</li>
                 </Link>
-                <li>여행기록 올리기</li>
+                <Link to={'/upload'}>
+                  <li>여행기록 올리기</li>
+                </Link>
                 <li>설정</li>
                 <li
                   onClick={SignOut}

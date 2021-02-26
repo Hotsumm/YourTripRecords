@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../Context';
 import { firebaseFireStore } from '../../firebaseConfig';
+import defaultAvatar from '../../static/assets/defaultAvatar.png';
 
 const ProfileEditContainer = styled.div`
   width: 100vw;
@@ -189,6 +190,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
     };
     reader.readAsDataURL(theFile);
   };
+
   const onSubmit = async () => {
     const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
     await usersRef
@@ -201,6 +203,11 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       })
       .catch((error) => alert(error.message));
     window.location.reload();
+  };
+
+  const defaultAvatarChange = () => {
+    setAvatar(defaultAvatar);
+    setAvatarPreview(true);
   };
 
   return (
@@ -226,7 +233,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
                 onChange={onFileChange}
               />
             </AvatarWrap>
-            <button>기본이미지로 변경</button>
+            <button onClick={defaultAvatarChange}>기본이미지로 변경</button>
           </AvatarContainer>
           <InputContainer>
             <InputWrap>

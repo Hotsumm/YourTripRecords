@@ -23,6 +23,32 @@ const AccountWrap = styled.div`
   height: 250px;
   padding: 0px 130px;
 `;
+const AccountIntroWrap = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  padding: 0px 130px;
+`;
+
+const AccountIntro = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 400px;
+  height: 240px;
+  background: white;
+`;
+const IntroHeader = styled.div`
+  text-align: left;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 20px;
+`;
+
+const Intro = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: left;
+`;
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -124,6 +150,14 @@ const MyAccount = () => {
             </ProfileMenu>
           </ProfileContainer>
         </AccountWrap>
+        <AccountIntroWrap>
+          <AccountIntro>
+            <IntroHeader>소개</IntroHeader>
+            <Intro>
+              {userObj.intro ? userObj.intro : '소개글이 없습니다.'}
+            </Intro>
+          </AccountIntro>
+        </AccountIntroWrap>
       </AccountContainer>
       {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
     </>
