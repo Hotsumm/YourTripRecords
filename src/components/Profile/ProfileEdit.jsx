@@ -284,8 +284,8 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
               <span>소개</span>
               <textarea
                 name="intro"
-                rows="4"
                 value={intro}
+                rows="4"
                 minLength="10"
                 maxLength="160"
                 onChange={onChange}

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
+import { cityArray } from '../utils/cityArray';
+import { firebaseFireStore } from '../firebaseConfig';
+import { getCreatedDay } from '../utils/getCreatedDay';
 
 const UploadContainer = styled.div`
   padding-top: 80px;
@@ -20,25 +23,58 @@ const UploadWrap = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 0px 130px;
+  padding: 0px 250px;
+`;
+
+const RecordTitleWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  span {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  input {
+    width: 300px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
+  }
 `;
 
 const PostContainer = styled.div`
   width: 100%;
-  height: 250px;
+  height: 300px;
   display: flex;
-  padding: 0 120px;
 `;
 
 const Post = styled.img`
   width: 35%;
-  height: 100%;
+  height: 80%;
   margin-right: 50px;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
 `;
 const PostInputWrap = styled.div`
   display: flex;
   width: 45%;
   flex-direction: column;
+`;
+
+const PostInfo = styled.div`
+  display: flex;
+  padding: 5px 0;
+  align-items: flex-start;
   input {
     width: 100%;
     margin-bottom: 15px;
@@ -51,12 +87,14 @@ const PostInputWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-`;
-
-const PostInfo = styled.div`
-  display: flex;
-  padding: 5px 0;
-  align-items: flex-start;
+  select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
   span {
     width: 10%;
     margin-right: 10px;
@@ -73,11 +111,11 @@ const TextAreaWrap = styled.div`
     border-radius: 5px;
     border-style: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    line-height: 20px;
     :focus {
       outline: none;
       border: 2px solid #16a085;
     }
-    line-height: 20px;
   }
   flex-direction: column;
   div {
@@ -139,91 +177,125 @@ const ButtonWrap = styled.div`
 `;
 
 const Upload = () => {
-  const [post, setPost] = useState(null);
-  const [postPreview, setPostPreview] = useState(false);
-  const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
+  const [posts, setPosts] = useState(null);
+  const [recordTitle, setRecordTitle] = useState('');
+  //  const [postObj, setPostObj] = useState(null);
 
   const onChange = (e) => {
     const {
-      target: { name, value },
+      target: { id, name, value },
     } = e;
-    if (name === 'title') {
-      setTitle(value);
+    let newArray = [...posts];
+
+    if (name === 'recordTitle') {
+      setRecordTitle(value);
+    } else if (name === 'city') {
+      newArray[id].city = value;
+      setPosts(newArray);
     } else if (name === 'location') {
-      setLocation(value);
+      newArray[id].location = value;
+      setPosts(newArray);
     } else if (name === 'description') {
-      setDescription(value);
+      newArray[id].description = value;
+      setPosts(newArray);
     }
+    // setPostObj({ recordTitle: recordTitle, ...posts });
   };
 
   const onFileChange = (e) => {
     const {
       target: { files },
     } = e;
+
     if (files.length > 15) {
       alert('사진을 15장 이하로 업로드 해주세요.');
       return;
     }
-    const theFile = files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
-      setPost(result);
-      setPostPreview(true);
-    };
-    reader.readAsDataURL(theFile);
+
+    let pictureFiles = [];
+
+    for (let i = 0; i < files.length; i++) {
+      pictureFiles.push({
+        picture: URL.createObjectURL(files[i]),
+        city: '',
+        location: '',
+        description: '',
+      });
+    }
+
+    setPosts(pictureFiles);
   };
+
+  const onUpload = async () => {
+    const postsRef = firebaseFireStore.collection('posts');
+    await postsRef.add({
+      recordTitle: recordTitle,
+      postObj: posts,
+      createdAt: getCreatedDay(),
+    });
+  };
+
   return (
     <>
       <Navigation show={true} sideBar={false}></Navigation>
       <UploadContainer>
         <UploadHeader>여행기록 올리기</UploadHeader>
         <UploadWrap>
-          {post ? (
-            <PostContainer>
-              <Post src={post} alt="post" />
-              <PostInputWrap>
-                <PostInfo>
-                  <span>제목</span>
-                  <input
-                    type="text"
-                    placeholder="제목"
-                    name="title"
-                    onChange={onChange}
-                    required
-                  />
-                </PostInfo>
-                <PostInfo>
-                  <span>위치</span>
-                  <input
-                    type="text"
-                    placeholder="위치"
-                    name="location"
-                    onChange={onChange}
-                    required
-                  />
-                </PostInfo>
-                <PostInfo>
-                  <span>설명</span>
-                  <TextAreaWrap>
-                    <textarea
-                      type="text"
-                      placeholder="설명"
-                      rows="5"
-                      maxLength="100"
-                      name="description"
-                      onChange={onChange}
-                      required
-                    />
-                    <div>{description.length}/300자</div>
-                  </TextAreaWrap>
-                </PostInfo>
-              </PostInputWrap>
-            </PostContainer>
+          {posts ? (
+            <>
+              <RecordTitleWrap>
+                <span>여행 제목</span>
+                <input type="title" name="recordTitle" onChange={onChange} />
+              </RecordTitleWrap>
+              {posts.map((post, index) => (
+                <>
+                  <PostContainer>
+                    <Post src={post.picture} alt="post" />
+                    <PostInputWrap>
+                      <PostInfo>
+                        <span>도시</span>
+                        <select name="city" id={index} onChange={onChange}>
+                          {cityArray &&
+                            cityArray.length > 0 &&
+                            cityArray.map((city, index) => (
+                              <option key={index} value={city.name}>
+                                {city.name}
+                              </option>
+                            ))}
+                        </select>
+                      </PostInfo>
+                      <PostInfo>
+                        <span>위치</span>
+                        <input
+                          type="text"
+                          placeholder="위치"
+                          id={index}
+                          name="location"
+                          onChange={onChange}
+                          required
+                        />
+                      </PostInfo>
+                      <PostInfo>
+                        <span>설명</span>
+                        <TextAreaWrap>
+                          <textarea
+                            type="text"
+                            placeholder="최대 300자로 사진을 설명해보세요."
+                            rows="5"
+                            maxLength="300"
+                            id={index}
+                            name="description"
+                            onChange={onChange}
+                            required
+                          />
+                          <div>{posts[index].description.length}/300자</div>
+                        </TextAreaWrap>
+                      </PostInfo>
+                    </PostInputWrap>
+                  </PostContainer>
+                </>
+              ))}
+            </>
           ) : (
             <FileContainer>
               <label for="input-file">사진 올리기 (최대 15장)</label>
@@ -232,6 +304,7 @@ const Upload = () => {
                 id="input-file"
                 style={{ display: 'none' }}
                 accept="image/*"
+                multiple="multiple"
                 onChange={onFileChange}
               />
             </FileContainer>
@@ -247,7 +320,7 @@ const Upload = () => {
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>
-            <button>업로드하기</button>
+            <button onClick={onUpload}>업로드하기</button>
           </ButtonWrap>
         </UploadWrap>
       </UploadContainer>
