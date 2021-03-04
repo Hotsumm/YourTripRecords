@@ -257,13 +257,13 @@ const Upload = () => {
   };
 
   const onUpload = async () => {
-    const postId = uuidv4();
-    let pictureList = [];
+    const postRefId = uuidv4();
+    let pictureInfo = [];
     for (let i = 0; i < posts.length; i++) {
-      const fileRef = firebaseStorage.ref(postId).child(posts[i].fileName);
+      const fileRef = firebaseStorage.ref(postRefId).child(posts[i].fileName);
       const res = await fileRef.putString(posts[i].picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
-      pictureList.push({
+      pictureInfo.push({
         location: posts[i].location,
         description: posts[i].description,
         fileName: posts[i].fileName,
@@ -274,15 +274,14 @@ const Upload = () => {
     const postsRef = firebaseFireStore.collection('records');
     await postsRef
       .add({
+        postTitle,
+        createdAt: getCreatedDay(),
+        city,
         creator: {
           userObj,
         },
-        postObj: {
-          postId,
-          postTitle,
-          createdAt: getCreatedDay(),
-          city,
-          ...pictureList,
+        pictureList: {
+          ...pictureInfo,
         },
       })
       .then(() => alert('업로드가 완료 되었습니다.'))

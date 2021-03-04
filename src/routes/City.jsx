@@ -46,7 +46,7 @@ const City = ({ match }) => {
       .then((postsRef) => {
         postsRef.forEach((doc) => {
           const postData = {
-            id: doc.id,
+            postId: doc.id,
             ...doc.data(),
           };
           allPost.push(postData);
@@ -59,7 +59,7 @@ const City = ({ match }) => {
 
   useEffect(() => {
     fetchPost();
-  }, []);
+  }, [cityName]);
 
   return (
     <>

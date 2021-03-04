@@ -50,16 +50,17 @@ const PostDescription = styled.span`
 `;
 
 const CityPost = ({ postObj }) => {
-  console.log(postObj[0]);
   return (
     <CityPostContainer>
       <CityPostWrap>
         {postObj.map((post) => (
           <PostIntro>
-            <PostThumbnail src={post.postObj[0].picture}></PostThumbnail>
+            <PostThumbnail src={post.pictureList[0].pictureURL}></PostThumbnail>
             <PostInfo>
-              <PostTitle>{post.recordTitle}</PostTitle>
-              <PostDescription>{post.postObj[0].description}</PostDescription>
+              <PostTitle>{post.postTitle}</PostTitle>
+              <PostDescription>
+                {post.pictureList[0].description}
+              </PostDescription>
             </PostInfo>
           </PostIntro>
         ))}

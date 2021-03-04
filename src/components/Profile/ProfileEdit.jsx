@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../Context';
-import { firebaseFireStore } from '../../firebaseConfig';
-import defaultAvatar from '../../static/assets/defaultAvatar.png';
+import { v4 as uuidv4 } from 'uuid';
+import { firebaseFireStore, firebaseStorage } from '../../firebaseConfig';
 
 const ProfileEditContainer = styled.div`
   width: 100vw;
@@ -159,6 +159,10 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
   const [intro, setIntro] = useState(userObj.intro ? userObj.intro : '');
   const [avatar, setAvatar] = useState(userObj.avatar);
   const [avatarPreview, setAvatarPreview] = useState(false);
+
+  const defaultAvatar =
+    'https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004';
+
   const closeButton = () => toggleProfileEdit();
 
   const onChange = (e) => {
@@ -180,29 +184,49 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       target: { files },
     } = e;
     const theFile = files[0];
+    console.log(theFile);
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
-      console.log(result);
+
       setAvatar(result);
       setAvatarPreview(true);
     };
     reader.readAsDataURL(theFile);
+    console.log(avatar);
   };
 
   const onSubmit = async () => {
-    const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
-    await usersRef
-      .update({
-        email,
-        nickname,
-        avatar,
-        instagram: instagram,
-        intro: intro,
-      })
-      .catch((error) => alert(error.message));
+    if (avatar === defaultAvatar) {
+      const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
+      await usersRef
+        .update({
+          email,
+          nickname,
+          avatar,
+          instagram: instagram,
+          intro: intro,
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      const fileRef = firebaseStorage
+        .ref('UserProfle')
+        .child(`${userObj.userId}/${uuidv4()}`);
+      const res = await fileRef.putString(avatar, 'data_url');
+      const avatarURL = await res.ref.getDownloadURL();
+      const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
+      await usersRef
+        .update({
+          email,
+          nickname,
+          avatar: avatarURL,
+          instagram: instagram,
+          intro: intro,
+        })
+        .catch((error) => alert(error.message));
+    }
     window.location.reload();
   };
 
