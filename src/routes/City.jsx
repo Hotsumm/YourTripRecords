@@ -69,7 +69,7 @@ const City = ({ match }) => {
           <CityName>{cityName} 둘러보기</CityName>
           <CityImg src={cityImgUrl}></CityImg>
         </CityHeader>
-        {postObj && <CityPost postObj={postObj} />}s
+        {postObj && <CityPost postObj={postObj} cityName={cityName} />}
       </CityContainer>
     </>
   );
