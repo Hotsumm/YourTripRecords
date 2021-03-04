@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
+import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../Context';
 import { cityArray } from '../utils/cityArray';
-import { firebaseFireStore } from '../firebaseConfig';
+import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 
 const UploadContainer = styled.div`
@@ -26,20 +29,30 @@ const UploadWrap = styled.div`
   padding: 0px 250px;
 `;
 
-const RecordTitleWrap = styled.div`
+const RecordContainer = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
+`;
+
+const RecordWrap = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 450px;
+  padding: 10px 0;
   span {
-    font-size: 16px;
+    width: 20%;
+    font-size: 18px;
     margin-right: 10px;
   }
   input {
-    width: 300px;
-    height: 30px;
-    padding: 5px;
+    width: 80%;
+    font-size: 18px;
+    padding: 10px;
     border-radius: 5px;
     border-style: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -47,6 +60,13 @@ const RecordTitleWrap = styled.div`
       outline: none;
       border: 2px solid #16a085;
     }
+  }
+  select {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -86,14 +106,6 @@ const PostInfo = styled.div`
       outline: none;
       border: 2px solid #16a085;
     }
-  }
-  select {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px 5px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   }
   span {
     width: 10%;
@@ -173,13 +185,18 @@ const ButtonWrap = styled.div`
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     color: black;
     border-radius: 5px;
+    :first-child {
+      margin-right: 30px;
+    }
   }
 `;
 
 const Upload = () => {
+  const { userObj } = useContext(UserContext);
+  const history = useHistory();
   const [posts, setPosts] = useState(null);
-  const [recordTitle, setRecordTitle] = useState('');
-  //  const [postObj, setPostObj] = useState(null);
+  const [postTitle, setPostTitle] = useState('');
+  const [city, setCity] = useState('서울');
 
   const onChange = (e) => {
     const {
@@ -188,10 +205,10 @@ const Upload = () => {
     let newArray = [...posts];
 
     if (name === 'recordTitle') {
-      setRecordTitle(value);
+      setPostTitle(value);
     } else if (name === 'city') {
-      newArray[id].city = value;
-      setPosts(newArray);
+      console.log(value);
+      setCity(value);
     } else if (name === 'location') {
       newArray[id].location = value;
       setPosts(newArray);
@@ -199,40 +216,78 @@ const Upload = () => {
       newArray[id].description = value;
       setPosts(newArray);
     }
-    // setPostObj({ recordTitle: recordTitle, ...posts });
   };
 
   const onFileChange = (e) => {
     const {
-      target: { files },
+      target: { files: fileArr },
     } = e;
 
-    if (files.length > 15) {
+    if (fileArr.length > 15) {
       alert('사진을 15장 이하로 업로드 해주세요.');
       return;
     }
 
+    let fileURLs = [];
     let pictureFiles = [];
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < fileArr.length; i++) {
+      let file = fileArr[i];
+
       pictureFiles.push({
-        picture: URL.createObjectURL(files[i]),
-        city: '',
+        picturePreview: URL.createObjectURL(fileArr[i]),
+        fileName: fileArr[i].name,
+        picture: '',
         location: '',
         description: '',
       });
-    }
 
+      const reader = new FileReader();
+
+      reader.onloadend = (finishedEvent) => {
+        const {
+          currentTarget: { result },
+        } = finishedEvent;
+        fileURLs[i] = result;
+        pictureFiles[i].picture = fileURLs[i];
+      };
+      reader.readAsDataURL(file);
+    }
     setPosts(pictureFiles);
   };
 
   const onUpload = async () => {
-    const postsRef = firebaseFireStore.collection('posts');
-    await postsRef.add({
-      recordTitle: recordTitle,
-      postObj: posts,
-      createdAt: getCreatedDay(),
-    });
+    const postId = uuidv4();
+    let pictureList = [];
+    for (let i = 0; i < posts.length; i++) {
+      const fileRef = firebaseStorage.ref(postId).child(posts[i].fileName);
+      const res = await fileRef.putString(posts[i].picture, 'data_url');
+      const pictureURL = await res.ref.getDownloadURL();
+      pictureList.push({
+        location: posts[i].location,
+        description: posts[i].description,
+        fileName: posts[i].fileName,
+        pictureURL: pictureURL,
+      });
+    }
+
+    const postsRef = firebaseFireStore.collection('records');
+    await postsRef
+      .add({
+        creator: {
+          userObj,
+        },
+        postObj: {
+          postId,
+          postTitle,
+          createdAt: getCreatedDay(),
+          city,
+          ...pictureList,
+        },
+      })
+      .then(() => alert('업로드가 완료 되었습니다.'))
+      .then(() => history.push('/'))
+      .catch((error) => console.log(error.message));
   };
 
   return (
@@ -243,27 +298,29 @@ const Upload = () => {
         <UploadWrap>
           {posts ? (
             <>
-              <RecordTitleWrap>
-                <span>여행 제목</span>
-                <input type="title" name="recordTitle" onChange={onChange} />
-              </RecordTitleWrap>
+              <RecordContainer>
+                <RecordWrap>
+                  <span>여행 제목</span>
+                  <input type="title" name="recordTitle" onChange={onChange} />
+                </RecordWrap>
+                <RecordWrap>
+                  <span>도시</span>
+                  <select name="city" onChange={onChange}>
+                    {cityArray &&
+                      cityArray.length > 0 &&
+                      cityArray.map((city, index) => (
+                        <option key={index} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
+                  </select>
+                </RecordWrap>
+              </RecordContainer>
               {posts.map((post, index) => (
                 <>
                   <PostContainer>
-                    <Post src={post.picture} alt="post" />
+                    <Post src={post.picturePreview} alt="post" />
                     <PostInputWrap>
-                      <PostInfo>
-                        <span>도시</span>
-                        <select name="city" id={index} onChange={onChange}>
-                          {cityArray &&
-                            cityArray.length > 0 &&
-                            cityArray.map((city, index) => (
-                              <option key={index} value={city.name}>
-                                {city.name}
-                              </option>
-                            ))}
-                        </select>
-                      </PostInfo>
                       <PostInfo>
                         <span>위치</span>
                         <input
@@ -281,7 +338,7 @@ const Upload = () => {
                           <textarea
                             type="text"
                             placeholder="최대 300자로 사진을 설명해보세요."
-                            rows="5"
+                            rows="7"
                             maxLength="300"
                             id={index}
                             name="description"
@@ -321,6 +378,9 @@ const Upload = () => {
           </GuideContainer>
           <ButtonWrap>
             <button onClick={onUpload}>업로드하기</button>
+            <Link to="/">
+              <button>취소</button>
+            </Link>
           </ButtonWrap>
         </UploadWrap>
       </UploadContainer>

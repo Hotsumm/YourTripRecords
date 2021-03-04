@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import fakePostImg from '../../static/assets/fakepost.jpg';
 
 const CityPostContainer = styled.div`
   display: flex;
@@ -23,9 +22,7 @@ const PostIntro = styled.div`
   height: 100%;
   display: flex;
   padding: 30px;
-
   border-right: 1px solid #ababab80;
-
   cursor: pointer;
   &:hover {
     opacity: 0.8;
@@ -52,24 +49,20 @@ const PostDescription = styled.span`
   font-size: 20px;
 `;
 
-const CityPost = () => {
+const CityPost = ({ postObj }) => {
+  console.log(postObj[0]);
   return (
     <CityPostContainer>
       <CityPostWrap>
-        <PostIntro>
-          <PostThumbnail src={fakePostImg}></PostThumbnail>
-          <PostInfo>
-            <PostTitle>Fake Post 1</PostTitle>
-            <PostDescription>Fake Description 1</PostDescription>
-          </PostInfo>
-        </PostIntro>
-        <PostIntro>
-          <PostThumbnail src={fakePostImg}></PostThumbnail>
-          <PostInfo>
-            <PostTitle>Fake Post 2</PostTitle>
-            <PostDescription>Fake Description 1</PostDescription>
-          </PostInfo>
-        </PostIntro>
+        {postObj.map((post) => (
+          <PostIntro>
+            <PostThumbnail src={post.postObj[0].picture}></PostThumbnail>
+            <PostInfo>
+              <PostTitle>{post.recordTitle}</PostTitle>
+              <PostDescription>{post.postObj[0].description}</PostDescription>
+            </PostInfo>
+          </PostIntro>
+        ))}
       </CityPostWrap>
     </CityPostContainer>
   );

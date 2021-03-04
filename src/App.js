@@ -23,7 +23,7 @@ const App = () => {
             allUser.push(userData);
           });
           const currentUser = allUser.filter(
-            (data) => data.email === user.email,
+            (data) => data.userId === user.uid,
           );
           setUserObj(...currentUser);
         }

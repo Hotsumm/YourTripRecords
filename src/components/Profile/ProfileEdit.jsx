@@ -185,6 +185,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
+      console.log(result);
       setAvatar(result);
       setAvatarPreview(true);
     };
