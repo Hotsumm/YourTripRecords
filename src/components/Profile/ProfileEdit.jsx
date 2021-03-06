@@ -8,6 +8,7 @@ const ProfileEditContainer = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
+  z-index: 99;
   top: 0;
   left: 0;
   display: flex;
@@ -18,19 +19,20 @@ const ProfileEditContainer = styled.div`
 
 const ProfileEditWrap = styled.div`
   width: 570px;
-  height: 620px;
+  height: 630px;
   background: white;
+  z-index: 1;
   border-radius: 20px;
 `;
 
 const ProfileEditHeader = styled.div`
   width: 100%;
-  height: 60px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #ababab80;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 const HeaderTitle = styled.div`
   color: black;

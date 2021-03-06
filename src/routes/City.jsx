@@ -59,7 +59,7 @@ const City = ({ match }) => {
 
   useEffect(() => {
     fetchPost();
-  }, [cityName]);
+  });
 
   return (
     <>

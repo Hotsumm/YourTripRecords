@@ -11,7 +11,7 @@ import { getCreatedDay } from '../utils/getCreatedDay';
 const UploadContainer = styled.div`
   padding-top: 80px;
   width: 100%;
-  height: 100vw;
+  height: 150vh;
   background: #f1f2f6;
   text-align: center;
 `;
@@ -46,8 +46,13 @@ const RecordWrap = styled.div`
   padding: 10px 0;
   span {
     width: 20%;
-    font-size: 18px;
+    font-size: 14px;
     margin-right: 10px;
+  }
+  :first-child {
+    span {
+      font-size: 18px;
+    }
   }
   input {
     width: 80%;
@@ -63,7 +68,8 @@ const RecordWrap = styled.div`
   }
   select {
     width: 80%;
-    padding: 10px;
+    padding: 7px;
+    font-size: 14px;
     border-radius: 5px;
     border-style: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -197,6 +203,7 @@ const Upload = () => {
   const [posts, setPosts] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [city, setCity] = useState('서울');
+  const [season, setSeason] = useState('봄');
 
   const onChange = (e) => {
     const {
@@ -207,8 +214,9 @@ const Upload = () => {
     if (name === 'recordTitle') {
       setPostTitle(value);
     } else if (name === 'city') {
-      console.log(value);
       setCity(value);
+    } else if (name === 'season') {
+      setSeason(value);
     } else if (name === 'location') {
       newArray[id].location = value;
       setPosts(newArray);
@@ -277,6 +285,7 @@ const Upload = () => {
         postTitle,
         createdAt: getCreatedDay(),
         city,
+        season,
         creator: {
           userObj,
         },
@@ -312,6 +321,15 @@ const Upload = () => {
                           {city.name}
                         </option>
                       ))}
+                  </select>
+                </RecordWrap>
+                <RecordWrap>
+                  <span>여행 계절</span>
+                  <select name="season" onChange={onChange}>
+                    <option value="봄">봄</option>
+                    <option value="여름">여름</option>
+                    <option value="가을">가을</option>
+                    <option value="겨울">겨울</option>
                   </select>
                 </RecordWrap>
               </RecordContainer>

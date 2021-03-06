@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { HiUserCircle } from 'react-icons/hi';
 import { VscTriangleDown } from 'react-icons/vsc';
@@ -7,6 +7,7 @@ import SignUp from '../Auth/SignUp';
 import { firebaseAuth } from '../../firebaseConfig';
 import { UserContext } from '../../Context';
 import { Link } from 'react-router-dom';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const ProfileContent = styled.div`
   position: relative;
@@ -71,14 +72,18 @@ const ProfileMenu = styled.div`
 `;
 
 const NavProfile = () => {
-  const [isActive, setIsActive] = useState(false);
-  const [isSignInClick, setIsSignInClick] = useState(false);
+  const [isMenu, setIsMenu] = useState(false);
   const [isSignUpClick, setIsSignUpClick] = useState(false);
+  const [isSignInClick, setIsSignInClick] = useState(false);
+  const ref = useRef();
   const { userObj } = useContext(UserContext);
-  const menuClick = () => setIsActive(!isActive);
 
+  useOutsideClick(ref, () => setIsMenu(false));
+
+  const menuClick = () => setIsMenu(!isMenu);
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
   const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
+
   const SignOut = () => {
     firebaseAuth
       .signOut()
@@ -92,7 +97,7 @@ const NavProfile = () => {
   };
   return (
     <>
-      <ProfileContent current={userObj} onClick={menuClick}>
+      <ProfileContent ref={ref} current={userObj} onClick={menuClick}>
         <AvatarWrap>
           {userObj ? (
             <>
@@ -108,7 +113,7 @@ const NavProfile = () => {
             </>
           )}
         </AvatarWrap>
-        {isActive && (
+        {isMenu && (
           <ProfileMenu>
             {userObj ? (
               <ul>

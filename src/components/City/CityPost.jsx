@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { RiHeartFill } from 'react-icons/ri';
 
 const CityPostContainer = styled.div`
   width: 100%;
@@ -19,7 +21,7 @@ const CityPostWrap = styled.div`
   display: grid;
   grid-gap: 50px;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 250px);
+  grid-template-rows: repeat(4, 280px);
 `;
 const PostIntro = styled.div`
   height: 100%;
@@ -34,7 +36,7 @@ const PostIntro = styled.div`
 
 const PostThumbnail = styled.img`
   width: 100%;
-  height: 150px;
+  height: 180px;
   border-radius: 5px;
 `;
 
@@ -42,20 +44,46 @@ const PostInfo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 15px;
-`;
-const PostTitle = styled.div`
-  margin-bottom: 15px;
-  font-size: 18px;
+  padding: 0 15px;
 `;
 
-const PostCreatorWrap = styled.div`
-  width: 100%;
+const PostCountWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  padding: 10px 0;
+  align-items: flex-end;
+
+  svg {
+    margin-right: 3px;
+  }
+`;
+
+const LikeCount = styled.div`
+  font-size: 14px;
+  margin-right: 3px;
+`;
+
+const CommentCount = styled.div`
+  font-size: 14px;
+  color: #747d8c;
+`;
+
+const PostTitle = styled.div`
+  font-size: 16px;
+`;
+
+const InfoContent = styled.div`
+  width: 100%;
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CreatorWrap = styled.div`
+  display: flex;
   align-items: center;
   div {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
   }
   img {
@@ -65,30 +93,50 @@ const PostCreatorWrap = styled.div`
     margin-right: 5px;
   }
 `;
+const SeasonWrap = styled.div``;
 
 const CityPost = ({ postObj, cityName }) => {
+  console.log(postObj);
   return (
     <CityPostContainer>
       {postObj.length > 0 ? (
         <CityPostWrap>
           {postObj.map((post) => (
             <>
-              <PostIntro>
-                <PostThumbnail
-                  src={post.pictureList[0].pictureURL}
-                ></PostThumbnail>
-                <PostInfo>
-                  <PostTitle>
-                    {post.postTitle.length > 15
-                      ? `${post.postTitle.substring(0, 15)}...`
-                      : post.postTitle}
-                  </PostTitle>
-                  <PostCreatorWrap>
-                    <img src={post.creator.userObj.avatar} alt="Avatar" />
-                    <div>{post.creator.userObj.nickname}</div>
-                  </PostCreatorWrap>
-                </PostInfo>
-              </PostIntro>
+              <Link
+                key={post.postId}
+                to={{
+                  pathname: `/city/${post.city}/${post.postId}`,
+                  state: { cityName: post.city, post: post },
+                }}
+              >
+                <PostIntro>
+                  <PostThumbnail
+                    src={post.pictureList[0].pictureURL}
+                  ></PostThumbnail>
+                  <PostInfo>
+                    <PostCountWrap>
+                      <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
+                      <LikeCount>0</LikeCount>
+                      <CommentCount>(0)</CommentCount>
+                    </PostCountWrap>
+                    <PostTitle>
+                      {post.postTitle.length > 15
+                        ? `${post.postTitle.substring(0, 15)}...`
+                        : post.postTitle}
+                    </PostTitle>
+                    <InfoContent>
+                      <SeasonWrap>
+                        <span>여행계절: {post.season}</span>
+                      </SeasonWrap>
+                      <CreatorWrap>
+                        <img src={post.creator.userObj.avatar} alt="Avatar" />
+                        <div>{post.creator.userObj.nickname}</div>
+                      </CreatorWrap>
+                    </InfoContent>
+                  </PostInfo>
+                </PostIntro>
+              </Link>
             </>
           ))}
         </CityPostWrap>

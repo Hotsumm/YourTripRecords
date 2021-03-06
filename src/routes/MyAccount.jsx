@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 const AccountContainer = styled.div`
   padding-top: 80px;
   width: 100%;
-  height: 100vw;
+  height: 150vh;
   background: #f1f2f6;
   text-align: center;
 `;
