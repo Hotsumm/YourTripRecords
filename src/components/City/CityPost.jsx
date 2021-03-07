@@ -99,7 +99,7 @@ const CityPost = ({ postObj, cityName }) => {
   console.log(postObj);
   return (
     <CityPostContainer>
-      {postObj.length > 0 ? (
+      {postObj && postObj.length > 0 ? (
         <CityPostWrap>
           {postObj.map((post) => (
             <>

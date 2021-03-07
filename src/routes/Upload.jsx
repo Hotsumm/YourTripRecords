@@ -272,6 +272,7 @@ const Upload = () => {
       const res = await fileRef.putString(posts[i].picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
       pictureInfo.push({
+        pictureId: uuidv4(),
         location: posts[i].location,
         description: posts[i].description,
         fileName: posts[i].fileName,
@@ -289,9 +290,7 @@ const Upload = () => {
         creator: {
           userObj,
         },
-        pictureList: {
-          ...pictureInfo,
-        },
+        pictureList: [...pictureInfo],
       })
       .then(() => alert('업로드가 완료 되었습니다.'))
       .then(() => history.push('/'))
