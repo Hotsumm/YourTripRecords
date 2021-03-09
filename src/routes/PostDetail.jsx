@@ -42,6 +42,7 @@ const DetailInfoWrap = styled.div`
 
 const PostDetail = ({ match, location }) => {
   const postObj = location.state.post;
+  const pathName = location.pathname;
   return (
     <>
       <Navigation show={true} sideBar={false}></Navigation>
@@ -53,7 +54,7 @@ const PostDetail = ({ match, location }) => {
               <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
             </DetailHeader>
             <DetailInfoWrap>
-              <Preview postObj={postObj} />
+              <Preview postObj={postObj} pathName={pathName} />
               <PostInfo postObj={postObj} />
               <Comment />
             </DetailInfoWrap>

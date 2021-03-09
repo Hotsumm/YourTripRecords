@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const PreviewImgContainer = styled.div`
+const PreviewContainer = styled.div`
   width: 100%;
 `;
 
-const PreviewImgWrap = styled.div`
+const PreviewWrap = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 180px);
   grid-gap: 5px;
 `;
 
-const PreviewImg = styled.img`
-  cursor: pointer;
+const PreviewImgWrap = styled.div`
   :first-child {
     grid-area: 1 / 1 / 3 / 3;
   }
@@ -27,12 +28,17 @@ const PreviewImg = styled.img`
     grid-area: 1 / 4 / 2 / 5;
   }
 `;
+
+const PreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
 const LastPreviewImg = styled.div`
   position: relative;
   grid-area: 2 / 4 / 3 / 5;
   button {
     position: absolute;
-    cursor: pointer;
     bottom: 15px;
     right: 10px;
     width: 130px;
@@ -47,27 +53,63 @@ const LastPreviewImg = styled.div`
   }
 `;
 
-const Preview = ({ postObj }) => {
+const Preview = ({ postObj, pathName }) => {
+  console.log(pathName);
   return (
-    <PreviewImgContainer>
-      <PreviewImgWrap>
+    <PreviewContainer>
+      <PreviewWrap>
         {postObj.pictureList &&
           postObj.pictureList.length > 0 &&
           postObj.pictureList.map(
             (picture, index) =>
               index < 4 && (
-                <PreviewImg key={picture.pictureId} src={picture.pictureURL} />
+                <PreviewImgWrap>
+                  <Link
+                    to={{
+                      pathname: `${pathName}/${postObj.pictureList[index].pictureId}`,
+                      state: {
+                        pictureIndex: index,
+                        pictureList: postObj.pictureList,
+                      },
+                    }}
+                  >
+                    <PreviewImg
+                      key={picture.pictureId}
+                      src={picture.pictureURL}
+                    />
+                  </Link>
+                </PreviewImgWrap>
               ),
           )}
         <LastPreviewImg>
-          <PreviewImg
-            key={postObj.pictureList[5].pictureId}
-            src={postObj.pictureList[5].pictureURL}
-          />
-          <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
+          <Link
+            to={{
+              pathname: `${pathName}/${postObj.pictureList[5].pictureId}`,
+              state: {
+                pictureIndex: 5,
+                pictureList: postObj.pictureList,
+              },
+            }}
+          >
+            <PreviewImg
+              key={postObj.pictureList[5].pictureId}
+              src={postObj.pictureList[5].pictureURL}
+            />
+          </Link>
+          <Link
+            to={{
+              pathname: `${pathName}/${postObj.pictureList[0].pictureId}`,
+              state: {
+                pictureIndex: 0,
+                pictureList: postObj.pictureList,
+              },
+            }}
+          >
+            <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
+          </Link>
         </LastPreviewImg>
-      </PreviewImgWrap>
-    </PreviewImgContainer>
+      </PreviewWrap>
+    </PreviewContainer>
   );
 };
 

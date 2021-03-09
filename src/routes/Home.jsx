@@ -6,7 +6,6 @@ import CityList from '../components/City/CityList';
 
 const HomeContainer = styled.div`
   width: 100%;
-  height: 200vh;
 `;
 const BackgroundContainer = styled.div`
   width: 100%;

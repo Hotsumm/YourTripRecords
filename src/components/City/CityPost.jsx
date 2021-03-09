@@ -96,7 +96,6 @@ const CreatorWrap = styled.div`
 const SeasonWrap = styled.div``;
 
 const CityPost = ({ postObj, cityName }) => {
-  console.log(postObj);
   return (
     <CityPostContainer>
       {postObj && postObj.length > 0 ? (

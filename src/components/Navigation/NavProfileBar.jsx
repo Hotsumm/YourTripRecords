@@ -120,6 +120,9 @@ const NavProfile = () => {
                 <Link to={'/myaccount'}>
                   <li style={{ fontWeight: '700' }}>내 계정</li>
                 </Link>
+                <Link to={'/city/서울'}>
+                  <li>여행기록 둘러보기</li>
+                </Link>
                 <Link to={'/upload'}>
                   <li>여행기록 올리기</li>
                 </Link>
