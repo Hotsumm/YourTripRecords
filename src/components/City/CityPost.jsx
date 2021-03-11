@@ -101,42 +101,40 @@ const CityPost = ({ postObj, cityName }) => {
       {postObj && postObj.length > 0 ? (
         <CityPostWrap>
           {postObj.map((post) => (
-            <>
-              <Link
-                key={post.postId}
-                to={{
-                  pathname: `/city/${post.city}/${post.postId}`,
-                  state: { cityName: post.city, post: post },
-                }}
-              >
-                <PostIntro>
-                  <PostThumbnail
-                    src={post.pictureList[0].pictureURL}
-                  ></PostThumbnail>
-                  <PostInfo>
-                    <PostCountWrap>
-                      <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
-                      <LikeCount>0</LikeCount>
-                      <CommentCount>(0)</CommentCount>
-                    </PostCountWrap>
-                    <PostTitle>
-                      {post.postTitle.length > 15
-                        ? `${post.postTitle.substring(0, 15)}...`
-                        : post.postTitle}
-                    </PostTitle>
-                    <InfoContent>
-                      <SeasonWrap>
-                        <span>여행계절: {post.season}</span>
-                      </SeasonWrap>
-                      <CreatorWrap>
-                        <img src={post.creator.userObj.avatar} alt="Avatar" />
-                        <div>{post.creator.userObj.nickname}</div>
-                      </CreatorWrap>
-                    </InfoContent>
-                  </PostInfo>
-                </PostIntro>
-              </Link>
-            </>
+            <Link
+              key={post.postId}
+              to={{
+                pathname: `/city/${post.city}/${post.postId}`,
+                state: { cityName: post.city, post: post },
+              }}
+            >
+              <PostIntro>
+                <PostThumbnail
+                  src={post.pictureList[0].pictureURL}
+                ></PostThumbnail>
+                <PostInfo>
+                  <PostCountWrap>
+                    <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
+                    <LikeCount>0</LikeCount>
+                    <CommentCount>(0)</CommentCount>
+                  </PostCountWrap>
+                  <PostTitle>
+                    {post.postTitle.length > 15
+                      ? `${post.postTitle.substring(0, 15)}...`
+                      : post.postTitle}
+                  </PostTitle>
+                  <InfoContent>
+                    <SeasonWrap>
+                      <span>여행계절: {post.season}</span>
+                    </SeasonWrap>
+                    <CreatorWrap>
+                      <img src={post.creator.userObj.avatar} alt="Avatar" />
+                      <div>{post.creator.userObj.nickname}</div>
+                    </CreatorWrap>
+                  </InfoContent>
+                </PostInfo>
+              </PostIntro>
+            </Link>
           ))}
         </CityPostWrap>
       ) : (

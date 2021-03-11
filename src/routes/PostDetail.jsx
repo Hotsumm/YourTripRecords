@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
+import { UserContext } from '../Context';
+import { firebaseFireStore } from '../firebaseConfig';
 
 const DetailContainer = styled.div`
   width: 100%;
@@ -40,27 +42,53 @@ const DetailInfoWrap = styled.div`
   height: 100%;
 `;
 
-const PostDetail = ({ match, location }) => {
-  const postObj = location.state.post;
-  const pathName = location.pathname;
+const PostDetail = ({ match }) => {
+  const [postObj, setPostObj] = useState(null);
+  const { userObj } = useContext(UserContext);
+  const postId = match.params.postId;
+  const pathName = match.url;
+
+  const fetchPosts = useCallback(async () => {
+    try {
+      const postsRef = await firebaseFireStore
+        .collection('records')
+        .doc(postId);
+      postsRef.get().then((doc) => {
+        const postData = {
+          postId,
+          ...doc.data(),
+        };
+        setPostObj(postData);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [postId]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
   return (
     <>
       <Navigation show={true} sideBar={false}></Navigation>
-      <DetailContainer>
-        <DetailWrap>
-          <DetailInfoContainer>
-            <DetailHeader>
-              <PostTitle>{postObj.postTitle}</PostTitle>
-              <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-            </DetailHeader>
-            <DetailInfoWrap>
-              <Preview postObj={postObj} pathName={pathName} />
-              <PostInfo postObj={postObj} />
-              <Comment />
-            </DetailInfoWrap>
-          </DetailInfoContainer>
-        </DetailWrap>
-      </DetailContainer>
+      {postObj && (
+        <DetailContainer>
+          <DetailWrap>
+            <DetailInfoContainer>
+              <DetailHeader>
+                <PostTitle>{postObj.postTitle}</PostTitle>
+                <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
+              </DetailHeader>
+              <DetailInfoWrap>
+                <Preview postObj={postObj} pathName={pathName} />
+                <PostInfo postObj={postObj} userObj={userObj} />
+                <Comment />
+              </DetailInfoWrap>
+            </DetailInfoContainer>
+          </DetailWrap>
+        </DetailContainer>
+      )}
     </>
   );
 };

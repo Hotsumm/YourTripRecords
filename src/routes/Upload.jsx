@@ -287,6 +287,7 @@ const Upload = () => {
         createdAt: getCreatedDay(),
         city,
         season,
+        likes: [],
         creator: {
           userObj,
         },

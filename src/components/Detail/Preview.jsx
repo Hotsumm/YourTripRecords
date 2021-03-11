@@ -27,34 +27,31 @@ const PreviewImgWrap = styled.div`
   :nth-child(4) {
     grid-area: 1 / 4 / 2 / 5;
   }
+  :last-child {
+    position: relative;
+    grid-area: 2 / 4 / 3 / 5;
+    button {
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      width: 130px;
+      height: 40px;
+      background: white;
+      border: 1px solid #16a085;
+      border-radius: 5px;
+      font-size: 12 px;
+      :hover {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
 `;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
-const LastPreviewImg = styled.div`
-  position: relative;
-  grid-area: 2 / 4 / 3 / 5;
-  button {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    width: 130px;
-    height: 40px;
-    background: white;
-    border: 1px solid #16a085;
-    border-radius: 5px;
-    font-size: 12 px;
-    :hover {
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    }
-  }
-`;
-
 const Preview = ({ postObj, pathName }) => {
-  console.log(pathName);
   return (
     <PreviewContainer>
       <PreviewWrap>
@@ -63,7 +60,7 @@ const Preview = ({ postObj, pathName }) => {
           postObj.pictureList.map(
             (picture, index) =>
               index < 4 && (
-                <PreviewImgWrap>
+                <PreviewImgWrap key={picture.pictureId}>
                   <Link
                     to={{
                       pathname: `${pathName}/${postObj.pictureList[index].pictureId}`,
@@ -73,15 +70,12 @@ const Preview = ({ postObj, pathName }) => {
                       },
                     }}
                   >
-                    <PreviewImg
-                      key={picture.pictureId}
-                      src={picture.pictureURL}
-                    />
+                    <PreviewImg src={picture.pictureURL} />
                   </Link>
                 </PreviewImgWrap>
               ),
           )}
-        <LastPreviewImg>
+        <PreviewImgWrap key={postObj.pictureList[5].pictureId}>
           <Link
             to={{
               pathname: `${pathName}/${postObj.pictureList[5].pictureId}`,
@@ -91,10 +85,7 @@ const Preview = ({ postObj, pathName }) => {
               },
             }}
           >
-            <PreviewImg
-              key={postObj.pictureList[5].pictureId}
-              src={postObj.pictureList[5].pictureURL}
-            />
+            <PreviewImg src={postObj.pictureList[5].pictureURL} />
           </Link>
           <Link
             to={{
@@ -107,7 +98,7 @@ const Preview = ({ postObj, pathName }) => {
           >
             <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
           </Link>
-        </LastPreviewImg>
+        </PreviewImgWrap>
       </PreviewWrap>
     </PreviewContainer>
   );

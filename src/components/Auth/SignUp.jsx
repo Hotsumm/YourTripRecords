@@ -110,13 +110,14 @@ const InputWrap = styled.div`
   }
 `;
 const SignUp = ({ toggleSignUp }) => {
-  const closeButton = () => toggleSignUp();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [linkCode, setLinkCode] = useState('');
   const [emailConfirm, setEmailConfirm] = useState(false);
+
+  const closeButton = () => toggleSignUp();
 
   const onChange = (e) => {
     const {

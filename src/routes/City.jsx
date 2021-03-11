@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { cityArray } from '../utils/cityArray';
@@ -38,7 +38,7 @@ const City = ({ match }) => {
   const thisCityObj = cityArray.filter((city) => city.name === cityName);
   const cityImgUrl = thisCityObj[0].imgUrl;
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     let allPost = [];
     await firebaseFireStore
       .collection('records')
@@ -55,11 +55,11 @@ const City = ({ match }) => {
         setPostObj(cityFilter);
       })
       .catch((error) => error.message);
-  };
+  }, [cityName]);
 
   useEffect(() => {
     fetchPost();
-  }, []);
+  }, [fetchPost]);
 
   return (
     <>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiHeartLine } from 'react-icons/ri';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
+import { firebaseFireStore } from '../../firebaseConfig';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -20,17 +21,17 @@ const CountWrap = styled.div`
   align-items: flex-end;
   svg {
     cursor: pointer;
-    margin-right: 3px;
+    margin-right: 7px;
   }
 `;
 
 const LikeCount = styled.div`
-  font-size: 20px;
-  margin-right: 10px;
+  font-size: 18px;
+  margin-right: 20px;
 `;
 
 const CommentCount = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   color: black;
 `;
 const CreatorWrap = styled.div`
@@ -51,14 +52,72 @@ const CreatorWrap = styled.div`
   }
 `;
 
-const PostInfo = ({ postObj }) => {
+const PostInfo = ({ postObj, userObj }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(
+    postObj.likes.length ? postObj.likes.length : 0,
+  );
+  const likeList = postObj.likes;
+
+  const handleLike = async () => {
+    if (!userObj) {
+      alert('먼저 로그인을 해주세요.');
+      return;
+    }
+    const likesRef = firebaseFireStore
+      .collection('records')
+      .doc(postObj.postId);
+
+    if (isLiked) {
+      setIsLiked((isLiked) => !isLiked);
+      setLikeCount((likeCount) => likeCount - 1);
+      const likeFilter = likeList.filter((like) => like !== userObj.userId);
+      await likesRef
+        .update({
+          likes: [...likeFilter],
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      setIsLiked((isLiked) => !isLiked);
+      setLikeCount((likeCount) => likeCount + 1);
+      await likesRef
+        .update({
+          likes: [...likeList, userObj.userId],
+        })
+        .catch((error) => alert(error.message));
+    }
+  };
+
+  useEffect(() => {
+    if (userObj) {
+      const likeCheck = postObj.likes.some((like) => like === userObj.userId);
+      if (likeCheck) {
+        setIsLiked(true);
+      } else {
+        setIsLiked(false);
+      }
+    }
+  }, [postObj, userObj]);
+
   return (
     <PostInfoContainer>
       <PostInfoWrap>
         <CountWrap>
-          <RiHeartLine size={'28'} style={{ color: '#ff4757' }} />
-          <LikeCount>0</LikeCount>
-          <GoComment size={'28'} style={{ color: '#2f3542' }} />
+          {isLiked ? (
+            <BsHeartFill
+              onClick={handleLike}
+              size={'22'}
+              style={{ color: '#eb4d4b' }}
+            />
+          ) : (
+            <BsHeart
+              onClick={handleLike}
+              size={'22'}
+              style={{ color: '#2f3542' }}
+            />
+          )}
+          <LikeCount>{likeCount}</LikeCount>
+          <GoComment size={'23'} style={{ color: '#2f3542' }} />
           <CommentCount>0</CommentCount>
         </CountWrap>
         <CreatorWrap>

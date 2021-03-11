@@ -48,13 +48,19 @@ const Comment = () => {
         <div>댓글 0개</div>
       </CommentHeader>
       <CommentCreatorWrap>
-        <img src={userObj.avatar} alt="user" />
-        <CommentInput>
-          <input type="text" placeholder="댓글..." />
-          <div
-            style={{ borderTop: '1px solid #ababab80', marginTop: '5px' }}
-          ></div>
-        </CommentInput>
+        {userObj ? (
+          <>
+            <img src={userObj.avatar} alt="user" />
+            <CommentInput>
+              <input type="text" placeholder="댓글..." />
+              <div
+                style={{ borderTop: '1px solid #ababab80', marginTop: '5px' }}
+              ></div>
+            </CommentInput>
+          </>
+        ) : (
+          <div>로그인을 해주세요.</div>
+        )}
       </CommentCreatorWrap>
     </CommentContainer>
   );

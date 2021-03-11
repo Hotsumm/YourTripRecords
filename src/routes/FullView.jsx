@@ -114,11 +114,17 @@ const FullViewList = styled.div`
   height: 150px;
   display: flex;
   justify-content: center;
+  img {
+    opacity: 0.6;
+    :nth-child(${(props) => props.index + 1}) {
+      opacity: 1;
+    }
+  }
 `;
 const ListPicture = styled.img`
   cursor: pointer;
   width: 120px;
-  height: 80px;
+  height: 100px;
   margin-right: 10px;
 `;
 
@@ -179,7 +185,7 @@ const FullView = ({ match, location, history }) => {
           </SelectPictureInfoWrap>
         </SelectPictureContainer>
       </FullViewWrap>
-      <FullViewList>
+      <FullViewList index={pictureIndex}>
         {pictureList.length > 0 &&
           pictureList.map((picture, index) => (
             <ListPicture

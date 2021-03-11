@@ -40,7 +40,7 @@ const CityList = () => {
   return (
     <CityListWrap>
       {cityArray.map((city, index) => (
-        <Link to={`/city/${city.name}`} key={index}>
+        <Link key={index} to={`/city/${city.name}`}>
           <City>
             <Thumbnail src={city.imgUrl}></Thumbnail>
             <CityName>{city.name}</CityName>
