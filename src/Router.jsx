@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './routes/Home';
 import City from './routes/City';
-import MyAccount from './routes/MyAccount';
+import Profile from './routes/Profile';
 import Upload from './routes/Upload';
 import PostDetail from './routes/PostDetail';
 import FullView from './routes/FullView';
@@ -19,7 +19,7 @@ const Router = () => {
           exact
           component={FullView}
         />
-        <Route path="/myaccount" exact component={MyAccount} />
+        <Route path="/profile/:id" exact component={Profile} />
         <Route path="/upload" exact component={Upload} />
 
         <Redirect path="*" to="/" />

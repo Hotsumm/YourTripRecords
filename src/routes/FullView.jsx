@@ -17,6 +17,7 @@ const FullViewWrap = styled.div`
   padding: 0px 120px;
   margin-bottom: 30px;
 `;
+
 const FullViewHeader = styled.div`
   position: relative;
   width: 100%;
@@ -51,15 +52,15 @@ const SelectPictureSlideWrap = styled.div`
     position: absolute;
     color: white;
     cursor: pointer;
-    :hover {
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 50%;
-    }
     :first-child {
       left: 10px;
     }
     :last-child {
       right: 10px;
+    }
+    :hover {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
     }
   }
 `;
@@ -130,11 +131,14 @@ const ListPicture = styled.img`
 
 const FullView = ({ match, location, history }) => {
   const pictureList = location.state.pictureList;
+  const postId = match.params.postId;
+  const cityName = match.params.cityName;
   const [pictureIndex, setPictureIndex] = useState(location.state.pictureIndex);
   const [selectPicture, setSelectPicture] = useState(pictureList[pictureIndex]);
+  console.log(match);
 
   const onCloseBtn = () => {
-    history.goBack();
+    history.push(`/city/${cityName}/${postId}`);
   };
 
   const changePicture = (index) => {

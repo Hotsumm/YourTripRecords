@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../Context';
+import SignIn from '../Auth/SignIn';
 
 const CommentContainer = styled.div`
   width: 100%;
@@ -42,27 +43,48 @@ const CommentInput = styled.div`
 
 const Comment = () => {
   const { userObj } = useContext(UserContext);
+  const [isSignInClick, setIsSignInClick] = useState(false);
+  const toggleSignIn = () => setIsSignInClick(!isSignInClick);
+
   return (
-    <CommentContainer>
-      <CommentHeader>
-        <div>댓글 0개</div>
-      </CommentHeader>
-      <CommentCreatorWrap>
-        {userObj ? (
-          <>
-            <img src={userObj.avatar} alt="user" />
-            <CommentInput>
-              <input type="text" placeholder="댓글..." />
+    <>
+      <CommentContainer>
+        <CommentHeader>
+          <div>댓글 0개</div>
+        </CommentHeader>
+        <CommentCreatorWrap>
+          {userObj ? (
+            <>
+              <img src={userObj.avatar} alt="user" />
+              <CommentInput>
+                <input type="text" placeholder="댓글..." />
+                <div
+                  style={{ borderTop: '1px solid #ababab80', marginTop: '5px' }}
+                ></div>
+              </CommentInput>
+            </>
+          ) : (
+            <>
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004"
+                alt="user"
+              />
               <div
-                style={{ borderTop: '1px solid #ababab80', marginTop: '5px' }}
-              ></div>
-            </CommentInput>
-          </>
-        ) : (
-          <div>로그인을 해주세요.</div>
-        )}
-      </CommentCreatorWrap>
-    </CommentContainer>
+                style={{
+                  fontSize: 18,
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+                onClick={toggleSignIn}
+              >
+                로그인을 해주세요.
+              </div>
+            </>
+          )}
+        </CommentCreatorWrap>
+      </CommentContainer>
+      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
+    </>
   );
 };
 

@@ -93,14 +93,17 @@ const CreatorWrap = styled.div`
     margin-right: 5px;
   }
 `;
-const SeasonWrap = styled.div``;
+const SeasonWrap = styled.div`
+  font-size: 12px;
+`;
 
-const CityPost = ({ postObj, cityName }) => {
+const CityPost = ({ posts, cityName }) => {
+  console.log(posts);
   return (
     <CityPostContainer>
-      {postObj && postObj.length > 0 ? (
+      {posts && posts.length > 0 ? (
         <CityPostWrap>
-          {postObj.map((post) => (
+          {posts.map((post) => (
             <Link
               key={post.postId}
               to={{
@@ -115,7 +118,7 @@ const CityPost = ({ postObj, cityName }) => {
                 <PostInfo>
                   <PostCountWrap>
                     <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
-                    <LikeCount>0</LikeCount>
+                    <LikeCount>{post.likes.length}</LikeCount>
                     <CommentCount>(0)</CommentCount>
                   </PostCountWrap>
                   <PostTitle>

@@ -65,6 +65,7 @@ const Preview = ({ postObj, pathName }) => {
                     to={{
                       pathname: `${pathName}/${postObj.pictureList[index].pictureId}`,
                       state: {
+                        postId: postObj.postId,
                         pictureIndex: index,
                         pictureList: postObj.pictureList,
                       },

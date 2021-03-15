@@ -33,7 +33,7 @@ const CityName = styled.div`
 `;
 
 const City = ({ match }) => {
-  const [postObj, setPostObj] = useState(null);
+  const [posts, setPosts] = useState(null);
   const cityName = match.params.cityName;
   const thisCityObj = cityArray.filter((city) => city.name === cityName);
   const cityImgUrl = thisCityObj[0].imgUrl;
@@ -52,7 +52,7 @@ const City = ({ match }) => {
           allPost.push(postData);
         });
         const cityFilter = allPost.filter((post) => post.city === cityName);
-        setPostObj(cityFilter);
+        setPosts(cityFilter);
       })
       .catch((error) => error.message);
   }, [cityName]);
@@ -69,7 +69,7 @@ const City = ({ match }) => {
           <CityName>{cityName} 둘러보기</CityName>
           <CityImg src={cityImgUrl}></CityImg>
         </CityHeader>
-        {postObj && <CityPost postObj={postObj} cityName={cityName} />}
+        {posts && <CityPost posts={posts} cityName={cityName} />}
       </CityContainer>
     </>
   );

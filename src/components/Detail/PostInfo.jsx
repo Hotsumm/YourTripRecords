@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
 import { firebaseFireStore } from '../../firebaseConfig';
+import { Link } from 'react-router-dom';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -20,7 +21,6 @@ const CountWrap = styled.div`
   display: flex;
   align-items: flex-end;
   svg {
-    cursor: pointer;
     margin-right: 7px;
   }
 `;
@@ -39,7 +39,7 @@ const CreatorWrap = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-right: 10px;
-
+  cursor: pointer;
   div {
     font-size: 14px;
     font-weight: 700;
@@ -107,23 +107,25 @@ const PostInfo = ({ postObj, userObj }) => {
             <BsHeartFill
               onClick={handleLike}
               size={'22'}
-              style={{ color: '#eb4d4b' }}
+              style={{ color: '#eb4d4b', cursor: 'pointer' }}
             />
           ) : (
             <BsHeart
               onClick={handleLike}
               size={'22'}
-              style={{ color: '#2f3542' }}
+              style={{ color: '#2f3542', cursor: 'pointer' }}
             />
           )}
           <LikeCount>{likeCount}</LikeCount>
           <GoComment size={'23'} style={{ color: '#2f3542' }} />
           <CommentCount>0</CommentCount>
         </CountWrap>
-        <CreatorWrap>
-          <img src={postObj.creator.userObj.avatar} alt="Avatar" />
-          <div>{postObj.creator.userObj.nickname}</div>
-        </CreatorWrap>
+        <Link to={`/profile/${postObj.creator.userObj.id}`}>
+          <CreatorWrap>
+            <img src={postObj.creator.userObj.avatar} alt="Avatar" />
+            <div>{postObj.creator.userObj.nickname}</div>
+          </CreatorWrap>
+        </Link>
       </PostInfoWrap>
     </PostInfoContainer>
   );
