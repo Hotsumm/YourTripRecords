@@ -101,7 +101,7 @@ const MyAccount = () => {
             </UserInfoWrap>
           </UserWrap>
           <MenuWrap>
-            <Link to={`/profile/${userObj.id}`}>
+            <Link to={`/profile/${userObj.userId}`}>
               <Menu>
                 <BsBoxArrowInUpRight size={25} style={{ color: '#00b894' }} />
                 <Title>프로필로 이동</Title>

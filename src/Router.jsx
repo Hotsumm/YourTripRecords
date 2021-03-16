@@ -14,10 +14,10 @@ const Router = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/city/:cityName" exact component={City} />
-        <Route path="/profile/:id" exact component={Profile} />
+        <Route path="/profile/:userId" exact component={Profile} />
         <Route path="/myAccount/:userId" exact component={MyAccount} />
         <Route path="/upload" exact component={Upload} />
-        <Route path="/city/:city/:postId" exact component={PostDetail} />
+        <Route path="/city/:cityName/:postId" exact component={PostDetail} />
         <Route
           path="/city/:cityName/:postId/:pictureId"
           exact

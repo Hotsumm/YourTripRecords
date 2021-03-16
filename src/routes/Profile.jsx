@@ -147,7 +147,7 @@ const Profile = ({ match }) => {
   const [isEditClick, setIsEditClick] = useState(false);
   const [thisUser, setThisUser] = useState(null);
   const userCheck =
-    userObj && thisUser && userObj ? thisUser.userId === userObj.userId : false;
+    userObj && thisUser ? thisUser.userId === userObj.userId : false;
 
   const toggleProfileEdit = () => setIsEditClick(!isEditClick);
 
@@ -157,7 +157,7 @@ const Profile = ({ match }) => {
   const fetchUser = useCallback(async () => {
     const userRef = await firebaseFireStore
       .collection('users')
-      .doc(match.params.id);
+      .doc(match.params.userId);
     userRef
       .get()
       .then((doc) => {
@@ -170,7 +170,7 @@ const Profile = ({ match }) => {
       .catch((error) => {
         console.log('Error getting document:', error);
       });
-  }, [match.params.id]);
+  }, [match.params.userId]);
 
   useEffect(() => {
     fetchUser();

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { CreateUser } from '../User/CreateUser';
-import { firebaseAuth } from '../../firebaseConfig';
+import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
 
 const SignUpContainer = styled.div`
   width: 100vw;
@@ -155,7 +155,6 @@ const SignUp = ({ toggleSignUp }) => {
         .then(() => CreateUser(email, nickname));
       //  setEmailConfirm((emailConfrim) => !emailConfirm);
       alert('회원가입이 완료되었습니다.');
-      window.location.reload();
     } catch (error) {
       if (error.code === 'auth/weak-password') {
         alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
@@ -168,6 +167,19 @@ const SignUp = ({ toggleSignUp }) => {
         alert(error.code);
       }
     }
+  };
+
+  const googleSignIn = async () => {
+    const provider = new firebaseInstance.auth.GoogleAuthProvider();
+    await firebaseAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        const googleUser = result.user;
+        CreateUser(googleUser.email, googleUser.displayName);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -219,9 +231,9 @@ const SignUp = ({ toggleSignUp }) => {
             </InputContainer>
             <ButtonWrap>
               <button onClick={validCheck}>회원가입</button>
-              <button>
+              <button onClick={googleSignIn}>
                 <FcGoogle size={25} />
-                Google로 회원가입
+                Google로 로그인 하기
               </button>
             </ButtonWrap>
           </>

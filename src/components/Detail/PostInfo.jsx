@@ -120,7 +120,7 @@ const PostInfo = ({ postObj, userObj }) => {
           <GoComment size={'23'} style={{ color: '#2f3542' }} />
           <CommentCount>0</CommentCount>
         </CountWrap>
-        <Link to={`/profile/${postObj.creator.userObj.id}`}>
+        <Link to={`/profile/${postObj.creator.userObj.userId}`}>
           <CreatorWrap>
             <img src={postObj.creator.userObj.avatar} alt="Avatar" />
             <div>{postObj.creator.userObj.nickname}</div>

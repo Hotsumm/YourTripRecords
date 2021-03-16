@@ -119,7 +119,7 @@ const NavProfile = () => {
                 <Link to={`/myAccount/${userObj.userId}`}>
                   <li style={{ fontWeight: '700' }}>내 계정</li>
                 </Link>
-                <Link to={`/profile/${userObj.id}`}>
+                <Link to={`/profile/${userObj.userId}`}>
                   <li>프로필 보기</li>
                 </Link>
                 <Link to={'/city/서울'}>

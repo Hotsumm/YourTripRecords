@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
-import { firebaseAuth } from '../../firebaseConfig';
+import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
+
+import { CreateUser } from '../User/CreateUser';
 
 const SignInContainer = styled.div`
   width: 100vw;
@@ -141,6 +143,19 @@ const SignIn = ({ toggleSignIn }) => {
       });
   };
 
+  const googleSignIn = async () => {
+    const provider = new firebaseInstance.auth.GoogleAuthProvider();
+    await firebaseAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        const googleUser = result.user;
+        CreateUser(googleUser.email, googleUser.displayName);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSignIn();
@@ -177,7 +192,7 @@ const SignIn = ({ toggleSignIn }) => {
         </InputContainer>
         <ButtonWrap>
           <button onClick={handleSignIn}>로그인</button>
-          <button>
+          <button onClick={googleSignIn}>
             <FcGoogle size={25} />
             Google로 로그인하기
           </button>

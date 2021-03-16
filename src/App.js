@@ -11,21 +11,21 @@ const App = () => {
 
   useEffect(() => {
     try {
-      let allUser = [];
       firebaseAuth.onAuthStateChanged(async (user) => {
         if (user) {
-          const usersRef = await firebaseFireStore.collection('users').get();
-          usersRef.forEach((doc) => {
-            const userData = {
-              id: doc.id,
-              ...doc.data(),
-            };
-            allUser.push(userData);
+          const userRef = await firebaseFireStore
+            .collection('users')
+            .doc(user.uid);
+          userRef.get().then((doc) => {
+            if (doc.exists) {
+              const userData = {
+                ...doc.data(),
+              };
+              setUserObj(userData);
+            } else {
+              console.log('No such document!');
+            }
           });
-          const currentUser = allUser.filter(
-            (data) => data.userId === user.uid,
-          );
-          setUserObj(...currentUser);
         }
         setInit(true);
       });
