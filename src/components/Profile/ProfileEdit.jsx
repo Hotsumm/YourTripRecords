@@ -201,8 +201,8 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
   };
 
   const onSubmit = async () => {
+    const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
     if (avatar === defaultAvatar) {
-      const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
       await usersRef
         .update({
           email,
@@ -213,21 +213,31 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
         })
         .catch((error) => alert(error.message));
     } else {
-      const fileRef = firebaseStorage
-        .ref('UserProfle')
-        .child(`${userObj.userId}/${uuidv4()}`);
-      const res = await fileRef.putString(avatar, 'data_url');
-      const avatarURL = await res.ref.getDownloadURL();
-      const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
-      await usersRef
-        .update({
-          email,
-          nickname,
-          avatar: avatarURL,
-          instagram: instagram,
-          intro: intro,
-        })
-        .catch((error) => alert(error.message));
+      if (avatarPreview) {
+        const fileRef = firebaseStorage
+          .ref('UserProfle')
+          .child(`${userObj.userId}/${uuidv4()}`);
+        const res = await fileRef.putString(avatar, 'data_url');
+        const avatarURL = await res.ref.getDownloadURL();
+        await usersRef
+          .update({
+            email,
+            nickname,
+            avatar: avatarURL,
+            instagram,
+            intro,
+          })
+          .catch((error) => alert(error.message));
+      } else {
+        await usersRef
+          .update({
+            email,
+            nickname,
+            instagram,
+            intro,
+          })
+          .catch((error) => alert(error.message));
+      }
     }
     window.location.reload();
   };

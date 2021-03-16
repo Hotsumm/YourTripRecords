@@ -234,6 +234,9 @@ const Upload = () => {
     if (fileArr.length > 15) {
       alert('사진을 15장 이하로 업로드 해주세요.');
       return;
+    } else if (fileArr.length < 5) {
+      alert('사진을 최소 5장 이상 업로드 해주세요.');
+      return;
     }
 
     let fileURLs = [];
@@ -372,7 +375,7 @@ const Upload = () => {
             </>
           ) : (
             <FileContainer>
-              <label for="input-file">사진 올리기 (최대 15장)</label>
+              <label for="input-file">사진 올리기 (최소 5장 최대 15장)</label>
               <input
                 type="file"
                 id="input-file"
@@ -390,7 +393,9 @@ const Upload = () => {
               *자신이 다녀왔던 여행지의 여행사진들을 업로드 해주세요.
             </Guide>
             <Guide>*여행사진별로 설명글을 작성해주세요.</Guide>
-            <Guide>*사진은 최대 15장까지 업로드할 수 있습니다.</Guide>
+            <Guide>
+              *사진은 최소 5장에서 최대 15장까지 업로드할 수 있습니다.
+            </Guide>
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>

@@ -49,7 +49,6 @@ const AvatarWrap = styled.div`
 const ProfileMenu = styled.div`
   position: absolute;
   width: 230px;
-  height: 250px;
   padding: 10px 0;
   background: white;
   border-radius: 10px;
@@ -117,8 +116,11 @@ const NavProfile = () => {
           <ProfileMenu>
             {userObj ? (
               <ul>
+                <Link to={`/myAccount/${userObj.userId}`}>
+                  <li style={{ fontWeight: '700' }}>내 계정</li>
+                </Link>
                 <Link to={`/profile/${userObj.id}`}>
-                  <li style={{ fontWeight: '700' }}>프로필 보기</li>
+                  <li>프로필 보기</li>
                 </Link>
                 <Link to={'/city/서울'}>
                   <li>여행기록 둘러보기</li>
@@ -138,6 +140,11 @@ const NavProfile = () => {
               <ul>
                 <li onClick={toggleSignIn}>로그인</li>
                 <li onClick={toggleSignUp}>회원가입</li>
+                <Link to={'/city/서울'}>
+                  <li style={{ borderTop: '1px solid #ababab80' }}>
+                    여행기록 둘러보기
+                  </li>
+                </Link>
               </ul>
             )}
           </ProfileMenu>

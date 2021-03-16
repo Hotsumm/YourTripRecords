@@ -6,6 +6,7 @@ import Profile from './routes/Profile';
 import Upload from './routes/Upload';
 import PostDetail from './routes/PostDetail';
 import FullView from './routes/FullView';
+import MyAccount from './routes/MyAccount';
 
 const Router = () => {
   return (
@@ -13,15 +14,15 @@ const Router = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/city/:cityName" exact component={City} />
+        <Route path="/profile/:id" exact component={Profile} />
+        <Route path="/myAccount/:userId" exact component={MyAccount} />
+        <Route path="/upload" exact component={Upload} />
         <Route path="/city/:city/:postId" exact component={PostDetail} />
         <Route
           path="/city/:cityName/:postId/:pictureId"
           exact
           component={FullView}
         />
-        <Route path="/profile/:id" exact component={Profile} />
-        <Route path="/upload" exact component={Upload} />
-
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>

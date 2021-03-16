@@ -5,11 +5,12 @@ import ProfileEdit from '../components/Profile/ProfileEdit';
 import { UserContext } from '../Context';
 import { IoLogoInstagram } from 'react-icons/io';
 import { firebaseFireStore } from '../firebaseConfig';
+import { Link } from 'react-router-dom';
 
 const ProfileContainer = styled.div`
-  padding-top: 140px;
+  padding-top: 130px;
   width: 100%;
-  height: 150vh;
+  height: 100%;
   background: #f1f2f6;
   text-align: center;
 `;
@@ -17,7 +18,7 @@ const ProfileContainer = styled.div`
 const ProfileWrap = styled.div`
   width: 100%;
   height: 250px;
-  padding: 0px 130px;
+  padding: 10px 130px;
 `;
 const ProfileIntroWrap = styled.div`
   margin-top: 20px;
@@ -128,6 +129,7 @@ const ProfileMenu = styled.div`
   border: 1px solid #ababab80;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
+  margin-right: 50px;
   cursor: pointer;
   span {
     color: black;
@@ -137,9 +139,6 @@ const ProfileMenu = styled.div`
       color: gray;
       margin-top: 10px;
     }
-  }
-  :not(:last-child) {
-    margin-right: 50px;
   }
 `;
 
@@ -179,69 +178,69 @@ const Profile = ({ match }) => {
 
   return (
     <>
+      <Navigation show={true} sideBar={false}></Navigation>
       {thisUser && (
-        <>
-          <Navigation show={true} sideBar={false}></Navigation>
-          <ProfileContainer>
-            <ProfileWrap>
-              <AvatarContainer>
-                <AvatarWrap>
-                  <Avatar src={thisUser.avatar}></Avatar>
-                  <AvatarInfo>
+        <ProfileContainer>
+          <ProfileWrap>
+            <AvatarContainer>
+              <AvatarWrap>
+                <Avatar src={thisUser.avatar}></Avatar>
+                <AvatarInfo>
+                  <AvatarInfoContent>
+                    <ContentTitle>닉네임</ContentTitle>
+                    <Nickname>{thisUser.nickname}</Nickname>
+                  </AvatarInfoContent>
+                  {thisUser.instagram && (
                     <AvatarInfoContent>
-                      <ContentTitle>닉네임</ContentTitle>
-                      <Nickname>{thisUser.nickname}</Nickname>
+                      <IconWrap>
+                        <ContentTitle>인스타그램</ContentTitle>
+                        <IoLogoInstagram
+                          size={18}
+                          style={{ color: '#fd79a8' }}
+                        />
+                      </IconWrap>
+                      <Instagram onClick={handleInstagram}>
+                        @{thisUser.instagram}
+                      </Instagram>
                     </AvatarInfoContent>
-                    {thisUser.instagram && (
-                      <AvatarInfoContent>
-                        <IconWrap>
-                          <ContentTitle>인스타그램</ContentTitle>
-                          <IoLogoInstagram
-                            size={18}
-                            style={{ color: '#fd79a8' }}
-                          />
-                        </IconWrap>
-                        <Instagram onClick={handleInstagram}>
-                          @{thisUser.instagram}
-                        </Instagram>
-                      </AvatarInfoContent>
-                    )}
-                    <AvatarInfoContent>
-                      <ContentTitle>포스팅</ContentTitle>
-                      <PostConunt>0</PostConunt>
-                    </AvatarInfoContent>
-                  </AvatarInfo>
-                </AvatarWrap>
-
-                {userCheck && (
-                  <ProfileMenuWrap>
+                  )}
+                  <AvatarInfoContent>
+                    <ContentTitle>포스팅</ContentTitle>
+                    <PostConunt>0</PostConunt>
+                  </AvatarInfoContent>
+                </AvatarInfo>
+              </AvatarWrap>
+              {userCheck && (
+                <ProfileMenuWrap>
+                  <Link to={'/upload'}>
                     <ProfileMenu>
                       <span>여행기록 올리기</span>
                       <span>여행기록을 올리고 싶어요.</span>
                     </ProfileMenu>
-
-                    <ProfileMenu onClick={toggleProfileEdit}>
-                      <span>프로필 변경</span>
-                      <span>프로필을 변경하고 싶어요.</span>
-                    </ProfileMenu>
+                  </Link>
+                  <ProfileMenu onClick={toggleProfileEdit}>
+                    <span>프로필 변경</span>
+                    <span>프로필을 변경하고 싶어요.</span>
+                  </ProfileMenu>
+                  <Link to={`/myAccount/${userObj.userId}`}>
                     <ProfileMenu>
                       <span>계정정보 변경</span>
                       <span>계정정보를 변경하고 싶어요.</span>
                     </ProfileMenu>
-                  </ProfileMenuWrap>
-                )}
-              </AvatarContainer>
-            </ProfileWrap>
-            <ProfileIntroWrap>
-              <ProfileIntro>
-                <IntroHeader>소개</IntroHeader>
-                <Intro>
-                  {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
-                </Intro>
-              </ProfileIntro>
-            </ProfileIntroWrap>
-          </ProfileContainer>
-        </>
+                  </Link>
+                </ProfileMenuWrap>
+              )}
+            </AvatarContainer>
+          </ProfileWrap>
+          <ProfileIntroWrap>
+            <ProfileIntro>
+              <IntroHeader>소개</IntroHeader>
+              <Intro>
+                {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
+              </Intro>
+            </ProfileIntro>
+          </ProfileIntroWrap>
+        </ProfileContainer>
       )}
       {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
     </>

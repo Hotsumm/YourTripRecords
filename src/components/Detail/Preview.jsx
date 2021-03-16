@@ -76,17 +76,17 @@ const Preview = ({ postObj, pathName }) => {
                 </PreviewImgWrap>
               ),
           )}
-        <PreviewImgWrap key={postObj.pictureList[5].pictureId}>
+        <PreviewImgWrap key={postObj.pictureList[4].pictureId}>
           <Link
             to={{
-              pathname: `${pathName}/${postObj.pictureList[5].pictureId}`,
+              pathname: `${pathName}/${postObj.pictureList[4].pictureId}`,
               state: {
                 pictureIndex: 5,
                 pictureList: postObj.pictureList,
               },
             }}
           >
-            <PreviewImg src={postObj.pictureList[5].pictureURL} />
+            <PreviewImg src={postObj.pictureList[4].pictureURL} />
           </Link>
           <Link
             to={{
