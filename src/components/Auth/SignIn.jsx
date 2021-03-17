@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-
 import { CreateUser } from '../User/CreateUser';
+import Loading from '../Load/Loading';
 
 const SignInContainer = styled.div`
   width: 100vw;
@@ -27,11 +27,11 @@ const SignInWrap = styled.div`
 `;
 const SignInHeader = styled.div`
   width: 100%;
-  height: 60px;
+  height: 15%;
+  padding: 15px 0;
   display: flex;
   position: relative;
   border-bottom: 1px solid #ababab80;
-  margin-bottom: 15px;
   justify-content: center;
   align-items: center;
   & svg {
@@ -47,10 +47,19 @@ const HeaderTitle = styled.span`
   font-size: 20px;
 `;
 
+const SignInContentWrap = styled.div`
+  width: 100%;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
-  padding: 40px 50px;
+  padding: 10px 50px 30px 50px;
   flex-direction: column;
   align-items: center;
 `;
@@ -80,6 +89,7 @@ const InputWrap = styled.div`
 `;
 
 const ButtonWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,6 +123,7 @@ const ButtonWrap = styled.div`
 const SignIn = ({ toggleSignIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const closeButton = () => toggleSignIn();
 
@@ -129,6 +140,7 @@ const SignIn = ({ toggleSignIn }) => {
   };
 
   const handleSignIn = async () => {
+    setLoading(true);
     await firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then(() => window.location.reload())
@@ -140,7 +152,8 @@ const SignIn = ({ toggleSignIn }) => {
         } else {
           alert(error.code);
         }
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const googleSignIn = async () => {
@@ -168,35 +181,43 @@ const SignIn = ({ toggleSignIn }) => {
           <BsBoxArrowInLeft onClick={closeButton} size={26} />
           <HeaderTitle>로그인</HeaderTitle>
         </SignInHeader>
-        <InputContainer>
-          <InputWrap>
-            <input
-              type="email"
-              name="email"
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-              placeholder="이메일"
-              required
-            />
-          </InputWrap>
-          <InputWrap>
-            <input
-              type="password"
-              name="password"
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-              placeholder="비밀번호"
-              required
-            />
-          </InputWrap>
-        </InputContainer>
-        <ButtonWrap>
-          <button onClick={handleSignIn}>로그인</button>
-          <button onClick={googleSignIn}>
-            <FcGoogle size={25} />
-            Google로 로그인하기
-          </button>
-        </ButtonWrap>
+        <SignInContentWrap>
+          {loading ? (
+            <Loading />
+          ) : (
+            <>
+              <InputContainer>
+                <InputWrap>
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}
+                    placeholder="이메일"
+                    required
+                  />
+                </InputWrap>
+                <InputWrap>
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}
+                    placeholder="비밀번호"
+                    required
+                  />
+                </InputWrap>
+              </InputContainer>
+              <ButtonWrap>
+                <button onClick={handleSignIn}>로그인</button>
+                <button onClick={googleSignIn}>
+                  <FcGoogle size={25} />
+                  Google로 로그인하기
+                </button>
+              </ButtonWrap>
+            </>
+          )}
+        </SignInContentWrap>
       </SignInWrap>
     </SignInContainer>
   );

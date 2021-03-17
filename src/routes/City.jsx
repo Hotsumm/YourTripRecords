@@ -45,11 +45,7 @@ const City = ({ match }) => {
       .get()
       .then((postsRef) => {
         postsRef.forEach((doc) => {
-          const postData = {
-            postId: doc.id,
-            ...doc.data(),
-          };
-          allPost.push(postData);
+          allPost.push(doc.data());
         });
         const cityFilter = allPost.filter((post) => post.city === cityName);
         setPosts(cityFilter);

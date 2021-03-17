@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Loading from '../Load/Loading';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { CreateUser } from '../User/CreateUser';
@@ -26,13 +27,13 @@ const SignUpWrap = styled.div`
 `;
 const SignUpHeader = styled.div`
   width: 100%;
-  height: 60px;
+  height: 10%;
   display: flex;
   position: relative;
   border-bottom: 1px solid #ababab80;
-  margin-bottom: 15px;
   justify-content: center;
   align-items: center;
+  padding: 20px 0;
   & svg {
     position: absolute;
     left: 40px;
@@ -44,15 +45,27 @@ const HeaderTitle = styled.span`
   color: black;
   font-size: 20px;
 `;
+
+const SignUpContentWrap = styled.div`
+  width: 100%;
+  height: 90%;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
-  padding: 30px 50px 10px 50px;
+  padding: 0px 50px 10px 50px;
   flex-direction: column;
   align-items: center;
 `;
 
 const ButtonWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,6 +123,7 @@ const InputWrap = styled.div`
   }
 `;
 const SignUp = ({ toggleSignUp }) => {
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
@@ -187,56 +201,64 @@ const SignUp = ({ toggleSignUp }) => {
       <SignUpWrap>
         <SignUpHeader>
           <BsBoxArrowInLeft onClick={closeButton} size={26} />
-          <HeaderTitle>회원가입</HeaderTitle>
+          <HeaderTitle onClick={() => setLoading((loading) => !loading)}>
+            회원가입
+          </HeaderTitle>
         </SignUpHeader>
         {!emailConfirm ? (
-          <>
-            <InputContainer>
-              <InputWrap>
-                <input
-                  type="email"
-                  placeholder="이메일"
-                  name="email"
-                  onChange={onChange}
-                  required
-                />
-              </InputWrap>
-              <InputWrap>
-                <input
-                  type="text"
-                  placeholder="닉네임"
-                  name="nickname"
-                  onChange={onChange}
-                  required
-                />
-              </InputWrap>
-              <InputWrap>
-                <input
-                  type="password"
-                  placeholder="비밀번호"
-                  name="password"
-                  onChange={onChange}
-                  required
-                />
-              </InputWrap>
-              <InputWrap>
-                <input
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  name="passwordConfirm"
-                  onChange={onChange}
-                  required
-                />
-              </InputWrap>
-            </InputContainer>
-            <ButtonWrap>
-              <button onClick={validCheck}>회원가입</button>
-              <button onClick={googleSignIn}>
-                <FcGoogle size={25} />
-                Google로 로그인 하기
-              </button>
-            </ButtonWrap>
-          </>
+          <SignUpContentWrap>
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                <InputContainer>
+                  <InputWrap>
+                    <input
+                      type="email"
+                      placeholder="이메일"
+                      name="email"
+                      onChange={onChange}
+                      required
+                    />
+                  </InputWrap>
+                  <InputWrap>
+                    <input
+                      type="text"
+                      placeholder="닉네임"
+                      name="nickname"
+                      onChange={onChange}
+                      required
+                    />
+                  </InputWrap>
+                  <InputWrap>
+                    <input
+                      type="password"
+                      placeholder="비밀번호"
+                      name="password"
+                      onChange={onChange}
+                      required
+                    />
+                  </InputWrap>
+                  <InputWrap>
+                    <input
+                      type="password"
+                      placeholder="비밀번호 확인"
+                      name="passwordConfirm"
+                      onChange={onChange}
+                      required
+                    />
+                  </InputWrap>
+                </InputContainer>
+                <ButtonWrap>
+                  <button onClick={validCheck}>회원가입</button>
+                  <button onClick={googleSignIn}>
+                    <FcGoogle size={25} />
+                    Google로 로그인 하기
+                  </button>
+                </ButtonWrap>
+              </>
+            )}
+          </SignUpContentWrap>
         ) : (
           <>
             <InputContainer>

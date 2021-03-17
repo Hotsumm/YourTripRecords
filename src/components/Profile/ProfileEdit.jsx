@@ -27,7 +27,7 @@ const ProfileEditWrap = styled.div`
 
 const ProfileEditHeader = styled.div`
   width: 100%;
-  height: 50px;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;

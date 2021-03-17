@@ -7,22 +7,24 @@ import { UserContext } from '../Context';
 import { cityArray } from '../utils/cityArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
+import Loading from '../components/Load/Loading';
 
 const UploadContainer = styled.div`
-  padding-top: 80px;
+  padding: 80px 0;
   width: 100%;
-  height: 150vh;
   background: #f1f2f6;
   text-align: center;
+  filter: ${(props) => (props.loading ? 'brightness(%)' : 'brightness(100%)')};
 `;
 const UploadHeader = styled.div`
-  margin: 60px 0;
+  margin: 50px 0;
   font-size: 40px;
 `;
 
 const UploadWrap = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -200,6 +202,7 @@ const ButtonWrap = styled.div`
 const Upload = () => {
   const { userObj } = useContext(UserContext);
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [city, setCity] = useState('서울');
@@ -268,6 +271,8 @@ const Upload = () => {
   };
 
   const onUpload = async () => {
+    setLoading(true);
+    const postId = uuidv4();
     const postRefId = uuidv4();
     let pictureInfo = [];
     for (let i = 0; i < posts.length; i++) {
@@ -282,109 +287,124 @@ const Upload = () => {
         pictureURL: pictureURL,
       });
     }
-
-    const postsRef = firebaseFireStore.collection('records');
-    await postsRef
-      .add({
-        postTitle,
-        createdAt: getCreatedDay(),
-        city,
-        season,
-        likes: [],
-        creator: {
-          userObj,
-        },
-        pictureList: [...pictureInfo],
-      })
+    const docData = {
+      postId,
+      postTitle,
+      createdAt: getCreatedDay(),
+      city,
+      season,
+      likes: [],
+      creator: {
+        userObj,
+      },
+      pictureList: [...pictureInfo],
+    };
+    await firebaseFireStore
+      .collection('records')
+      .doc(postId)
+      .set(docData)
       .then(() => alert('업로드가 완료 되었습니다.'))
       .then(() => history.push('/'))
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.message))
+      .finally(() => setLoading(false));
   };
 
   return (
     <>
       <Navigation show={true} sideBar={false}></Navigation>
-      <UploadContainer>
+      <UploadContainer loading={loading}>
         <UploadHeader>여행기록 올리기</UploadHeader>
         <UploadWrap>
-          {posts ? (
-            <>
-              <RecordContainer>
-                <RecordWrap>
-                  <span>여행 제목</span>
-                  <input type="title" name="recordTitle" onChange={onChange} />
-                </RecordWrap>
-                <RecordWrap>
-                  <span>도시</span>
-                  <select name="city" onChange={onChange}>
-                    {cityArray &&
-                      cityArray.length > 0 &&
-                      cityArray.map((city, index) => (
-                        <option key={index} value={city.name}>
-                          {city.name}
-                        </option>
-                      ))}
-                  </select>
-                </RecordWrap>
-                <RecordWrap>
-                  <span>여행 계절</span>
-                  <select name="season" onChange={onChange}>
-                    <option value="봄">봄</option>
-                    <option value="여름">여름</option>
-                    <option value="가을">가을</option>
-                    <option value="겨울">겨울</option>
-                  </select>
-                </RecordWrap>
-              </RecordContainer>
-              {posts.map((post, index) => (
-                <>
-                  <PostContainer>
-                    <Post src={post.picturePreview} alt="post" />
-                    <PostInputWrap>
-                      <PostInfo>
-                        <span>위치</span>
-                        <input
-                          type="text"
-                          placeholder="위치"
-                          id={index}
-                          name="location"
-                          onChange={onChange}
-                          required
-                        />
-                      </PostInfo>
-                      <PostInfo>
-                        <span>설명</span>
-                        <TextAreaWrap>
-                          <textarea
-                            type="text"
-                            placeholder="최대 300자로 사진을 설명해보세요."
-                            rows="7"
-                            maxLength="300"
-                            id={index}
-                            name="description"
-                            onChange={onChange}
-                            required
-                          />
-                          <div>{posts[index].description.length}/300자</div>
-                        </TextAreaWrap>
-                      </PostInfo>
-                    </PostInputWrap>
-                  </PostContainer>
-                </>
-              ))}
-            </>
+          {loading ? (
+            <Loading />
           ) : (
-            <FileContainer>
-              <label for="input-file">사진 올리기 (최소 5장 최대 15장)</label>
-              <input
-                type="file"
-                id="input-file"
-                style={{ display: 'none' }}
-                accept="image/*"
-                multiple="multiple"
-                onChange={onFileChange}
-              />
-            </FileContainer>
+            <>
+              {posts ? (
+                <>
+                  <RecordContainer>
+                    <RecordWrap>
+                      <span>여행 제목</span>
+                      <input
+                        type="title"
+                        name="recordTitle"
+                        onChange={onChange}
+                      />
+                    </RecordWrap>
+                    <RecordWrap>
+                      <span>도시</span>
+                      <select name="city" onChange={onChange}>
+                        {cityArray &&
+                          cityArray.length > 0 &&
+                          cityArray.map((city, index) => (
+                            <option key={index} value={city.name}>
+                              {city.name}
+                            </option>
+                          ))}
+                      </select>
+                    </RecordWrap>
+                    <RecordWrap>
+                      <span>여행 계절</span>
+                      <select name="season" onChange={onChange}>
+                        <option value="봄">봄</option>
+                        <option value="여름">여름</option>
+                        <option value="가을">가을</option>
+                        <option value="겨울">겨울</option>
+                      </select>
+                    </RecordWrap>
+                  </RecordContainer>
+                  {posts.map((post, index) => (
+                    <>
+                      <PostContainer>
+                        <Post src={post.picturePreview} alt="post" />
+                        <PostInputWrap>
+                          <PostInfo>
+                            <span>위치</span>
+                            <input
+                              type="text"
+                              placeholder="위치"
+                              id={index}
+                              name="location"
+                              onChange={onChange}
+                              required
+                            />
+                          </PostInfo>
+                          <PostInfo>
+                            <span>설명</span>
+                            <TextAreaWrap>
+                              <textarea
+                                type="text"
+                                placeholder="최대 300자로 사진을 설명해보세요."
+                                rows="7"
+                                maxLength="300"
+                                id={index}
+                                name="description"
+                                onChange={onChange}
+                                required
+                              />
+                              <div>{posts[index].description.length}/300자</div>
+                            </TextAreaWrap>
+                          </PostInfo>
+                        </PostInputWrap>
+                      </PostContainer>
+                    </>
+                  ))}
+                </>
+              ) : (
+                <FileContainer>
+                  <label for="input-file">
+                    사진 올리기 (최소 5장 최대 15장)
+                  </label>
+                  <input
+                    type="file"
+                    id="input-file"
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    multiple="multiple"
+                    onChange={onFileChange}
+                  />
+                </FileContainer>
+              )}
+            </>
           )}
           <GuideContainer>
             <GuideHeader>가이드 라인</GuideHeader>
