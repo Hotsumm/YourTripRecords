@@ -10,8 +10,8 @@ import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
 
 const UploadContainer = styled.div`
-  padding: 80px 0;
   width: 100%;
+  padding: 80px 0;
   background: #f1f2f6;
   text-align: center;
   filter: ${(props) => (props.loading ? 'brightness(%)' : 'brightness(100%)')};
@@ -272,6 +272,7 @@ const Upload = () => {
 
   const onUpload = async () => {
     setLoading(true);
+    let userPostList = userObj.records;
     const postId = uuidv4();
     const postRefId = uuidv4();
     let pictureInfo = [];
@@ -287,6 +288,7 @@ const Upload = () => {
         pictureURL: pictureURL,
       });
     }
+
     const docData = {
       postId,
       postTitle,
@@ -300,6 +302,12 @@ const Upload = () => {
       pictureList: [...pictureInfo],
     };
     await firebaseFireStore
+      .collection('users')
+      .doc(userObj.userId)
+      .update({
+        records: [...userPostList, postId],
+      });
+    await firebaseFireStore
       .collection('records')
       .doc(postId)
       .set(docData)
@@ -311,7 +319,7 @@ const Upload = () => {
 
   return (
     <>
-      <Navigation show={true} sideBar={false}></Navigation>
+      <Navigation show={true} />
       <UploadContainer loading={loading}>
         <UploadHeader>여행기록 올리기</UploadHeader>
         <UploadWrap>

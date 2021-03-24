@@ -33,12 +33,15 @@ const CityName = styled.div`
 `;
 
 const City = ({ match }) => {
+  const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
+
   const cityName = match.params.cityName;
   const thisCityObj = cityArray.filter((city) => city.name === cityName);
   const cityImgUrl = thisCityObj[0].imgUrl;
 
   const fetchPost = useCallback(async () => {
+    setLoading(true);
     let allPost = [];
     await firebaseFireStore
       .collection('records')
@@ -50,7 +53,8 @@ const City = ({ match }) => {
         const cityFilter = allPost.filter((post) => post.city === cityName);
         setPosts(cityFilter);
       })
-      .catch((error) => error.message);
+      .catch((error) => error.message)
+      .finally(() => setLoading(false));
   }, [cityName]);
 
   useEffect(() => {
@@ -59,13 +63,15 @@ const City = ({ match }) => {
 
   return (
     <>
-      <Navigation show={true} sideBar={false}></Navigation>
+      <Navigation show={true} />
       <CityContainer>
         <CityHeader>
           <CityName>{cityName} 둘러보기</CityName>
           <CityImg src={cityImgUrl}></CityImg>
         </CityHeader>
-        {posts && <CityPost posts={posts} cityName={cityName} />}
+        {posts && (
+          <CityPost loading={loading} posts={posts} cityName={cityName} />
+        )}
       </CityContainer>
     </>
   );

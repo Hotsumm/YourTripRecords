@@ -12,6 +12,7 @@ export const CreateUser = async (email, nickname) => {
     email,
     nickname,
     avatar: defaultAvatar,
+    records: [],
     createdAt: getCreatedDay(),
   };
   await firebaseFireStore.collection('users').doc(currentUser.uid).set(docData);

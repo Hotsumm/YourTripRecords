@@ -9,7 +9,8 @@ import { UserContext } from '../../Context';
 import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
-const ProfileContent = styled.div`
+const ProfileBarWrap = styled.div`
+  width: 100%;
   position: relative;
   width: ${(props) => (props.current ? '220px' : '230px')};
   height: 40px;
@@ -96,7 +97,7 @@ const NavProfile = () => {
   };
   return (
     <>
-      <ProfileContent ref={ref} current={userObj} onClick={menuClick}>
+      <ProfileBarWrap ref={ref} current={userObj} onClick={menuClick}>
         <AvatarWrap>
           {userObj ? (
             <>
@@ -149,7 +150,7 @@ const NavProfile = () => {
             )}
           </ProfileMenu>
         )}
-      </ProfileContent>
+      </ProfileBarWrap>
       {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
       {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
     </>

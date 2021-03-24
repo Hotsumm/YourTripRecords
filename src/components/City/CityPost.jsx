@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
+import Loading from '../Load/Loading';
 
 const CityPostContainer = styled.div`
   width: 100%;
@@ -97,53 +98,59 @@ const SeasonWrap = styled.div`
   font-size: 12px;
 `;
 
-const CityPost = ({ posts, cityName }) => {
+const CityPost = ({ loading, posts, cityName }) => {
   console.log(posts);
   return (
-    <CityPostContainer>
-      {posts && posts.length > 0 ? (
-        <CityPostWrap>
-          {posts.map((post) => (
-            <Link
-              key={post.postId}
-              to={{
-                pathname: `/city/${post.city}/${post.postId}`,
-                state: { cityName: post.city, post: post },
-              }}
-            >
-              <PostIntro>
-                <PostThumbnail
-                  src={post.pictureList[0].pictureURL}
-                ></PostThumbnail>
-                <PostInfo>
-                  <PostCountWrap>
-                    <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
-                    <LikeCount>{post.likes.length}</LikeCount>
-                    <CommentCount>(0)</CommentCount>
-                  </PostCountWrap>
-                  <PostTitle>
-                    {post.postTitle.length > 15
-                      ? `${post.postTitle.substring(0, 15)}...`
-                      : post.postTitle}
-                  </PostTitle>
-                  <InfoContent>
-                    <SeasonWrap>
-                      <span>여행계절: {post.season}</span>
-                    </SeasonWrap>
-                    <CreatorWrap>
-                      <img src={post.creator.userObj.avatar} alt="Avatar" />
-                      <div>{post.creator.userObj.nickname}</div>
-                    </CreatorWrap>
-                  </InfoContent>
-                </PostInfo>
-              </PostIntro>
-            </Link>
-          ))}
-        </CityPostWrap>
+    <>
+      {loading ? (
+        <Loading />
       ) : (
-        <NoPost>'{cityName}'의 첫 게시물을 올려주세요.</NoPost>
+        <CityPostContainer>
+          {posts && posts.length > 0 ? (
+            <CityPostWrap>
+              {posts.map((post) => (
+                <Link
+                  key={post.postId}
+                  to={{
+                    pathname: `/city/${post.city}/${post.postId}`,
+                    state: { cityName: post.city, post: post },
+                  }}
+                >
+                  <PostIntro>
+                    <PostThumbnail
+                      src={post.pictureList[0].pictureURL}
+                    ></PostThumbnail>
+                    <PostInfo>
+                      <PostCountWrap>
+                        <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
+                        <LikeCount>{post.likes.length}</LikeCount>
+                        <CommentCount>(0)</CommentCount>
+                      </PostCountWrap>
+                      <PostTitle>
+                        {post.postTitle.length > 15
+                          ? `${post.postTitle.substring(0, 15)}...`
+                          : post.postTitle}
+                      </PostTitle>
+                      <InfoContent>
+                        <SeasonWrap>
+                          <span>여행계절: {post.season}</span>
+                        </SeasonWrap>
+                        <CreatorWrap>
+                          <img src={post.creator.userObj.avatar} alt="Avatar" />
+                          <div>{post.creator.userObj.nickname}</div>
+                        </CreatorWrap>
+                      </InfoContent>
+                    </PostInfo>
+                  </PostIntro>
+                </Link>
+              ))}
+            </CityPostWrap>
+          ) : (
+            <NoPost>'{cityName}'의 첫 게시물을 올려주세요.</NoPost>
+          )}
+        </CityPostContainer>
       )}
-    </CityPostContainer>
+    </>
   );
 };
 

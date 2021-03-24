@@ -9,17 +9,14 @@ import { firebaseFireStore } from '../firebaseConfig';
 
 const DetailContainer = styled.div`
   width: 100%;
-  height: 150vh;
-  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 const DetailWrap = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 50px 250px 0 250px;
-`;
-const DetailInfoContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  padding: 130px 250px 50px 250px;
 `;
 
 const DetailHeader = styled.div`
@@ -29,7 +26,9 @@ const DetailHeader = styled.div`
   align-items: center;
 `;
 
-const PostCreated = styled.div``;
+const PostCreated = styled.div`
+  color: gray;
+`;
 
 const PostTitle = styled.div`
   font-size: 24px;
@@ -39,7 +38,6 @@ const DetailInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
 `;
 
 const PostDetail = ({ match }) => {
@@ -71,21 +69,19 @@ const PostDetail = ({ match }) => {
 
   return (
     <>
-      <Navigation show={true} sideBar={false}></Navigation>
+      <Navigation show={true} />
       {postObj && (
         <DetailContainer>
           <DetailWrap>
-            <DetailInfoContainer>
-              <DetailHeader>
-                <PostTitle>{postObj.postTitle}</PostTitle>
-                <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-              </DetailHeader>
-              <DetailInfoWrap>
-                <Preview postObj={postObj} pathName={pathName} />
-                <PostInfo postObj={postObj} userObj={userObj} />
-                <Comment />
-              </DetailInfoWrap>
-            </DetailInfoContainer>
+            <DetailHeader>
+              <PostTitle>{postObj.postTitle}</PostTitle>
+              <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
+            </DetailHeader>
+            <DetailInfoWrap>
+              <Preview postObj={postObj} pathName={pathName} />
+              <PostInfo postObj={postObj} userObj={userObj} />
+              <Comment />
+            </DetailInfoWrap>
           </DetailWrap>
         </DetailContainer>
       )}

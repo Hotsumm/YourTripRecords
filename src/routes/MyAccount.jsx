@@ -89,7 +89,7 @@ const MyAccount = () => {
 
   return (
     <>
-      <Navigation show={true} sideBar={false}></Navigation>
+      <Navigation show={true} />
       <MyAccountContainer>
         <MyAccountHeader>내 계정</MyAccountHeader>
         <MyAccountWrap>

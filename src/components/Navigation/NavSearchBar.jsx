@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SearchBarWrap = styled.div``;
+const SearchBarWrap = styled.div`
+  width: 100%;
+`;
 
 const SearchBar = styled.input`
   display: flex;

@@ -34,12 +34,12 @@ const App = () => {
     }
   }, []);
   return (
-    <>
-      <UserContext.Provider value={{ userObj }}>
+    <UserContext.Provider value={{ userObj }}>
+      <React.Fragment>
         <GlobalStyles />
         {init && <Router />}
-      </UserContext.Provider>
-    </>
+      </React.Fragment>
+    </UserContext.Provider>
   );
 };
 

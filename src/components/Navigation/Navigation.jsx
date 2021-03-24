@@ -1,32 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavSideBar from './NavSideBar';
 import NavSearchBar from './NavSearchBar';
 import NavProfileBar from './NavProfileBar';
 import { Link } from 'react-router-dom';
 
 const NavContainer = styled.div`
   width: 100vw;
-  display: flex;
-  flex-direction: column;
-  z-index: 99;
-  position: fixed;
-  color: white;
-`;
+  height: 80px;
 
-const NavWrap = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 0px 60px;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 99;
   box-shadow: ${(props) =>
     props.show ? '0px 0px 8px rgba(0, 0, 0, 0.2)' : '0px'};
   background: ${(props) => (props.show ? ' white' : 'transparent')};
 `;
 
+const NavWrap = styled.div`
+  max-width: 1450px;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0px 60px;
+  margin: 0 auto;
+`;
+
 const TitleContainer = styled.div`
   width: 33%;
-  height: 100%;
   display: flex;
   padding: 20px 0;
   justify-content: flex-start;
@@ -49,24 +50,21 @@ const ProfileContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const Navigation = ({ show, sideBar }) => {
+const Navigation = ({ show }) => {
   return (
-    <>
-      <NavContainer>
-        <NavWrap show={show}>
-          <TitleContainer show={show}>
-            <Link to="/">Travel</Link>
-          </TitleContainer>
-          <SearchContainer show={show}>
-            <NavSearchBar />
-          </SearchContainer>
-          <ProfileContainer show={show}>
-            <NavProfileBar />
-          </ProfileContainer>
-        </NavWrap>
-        {sideBar && <NavSideBar />}
-      </NavContainer>
-    </>
+    <NavContainer show={show}>
+      <NavWrap>
+        <TitleContainer show={show}>
+          <Link to="/">Travel</Link>
+        </TitleContainer>
+        <SearchContainer show={show}>
+          <NavSearchBar />
+        </SearchContainer>
+        <ProfileContainer show={show}>
+          <NavProfileBar />
+        </ProfileContainer>
+      </NavWrap>
+    </NavContainer>
   );
 };
 
