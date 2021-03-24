@@ -11,6 +11,7 @@ const UploadedListContainer = styled.ul`
 `;
 
 const UploadedListWrap = styled.li`
+  position: relative;
   width: 33%;
   margin: 0 0px 20px 10px;
 `;
@@ -62,6 +63,9 @@ const NickName = styled.div`
 `;
 
 const IconWrap = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
   padding: 2px 3px;
   :hover {
     background: rgba(0, 0, 0, 0.3);
@@ -79,14 +83,36 @@ const PostCreated = styled.div`
   color: gray;
 `;
 
+const EditWrap = styled.div`
+  position: absolute;
+  background: white;
+  width: 100px;
+  border-radius: 5px;
+  top: 30px;
+  right: -90px;
+  padding: 5px 0px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  ul {
+    width: 100%;
+  }
+  li {
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+    :hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+`;
+
 const UserUploadedList = ({ thisUser }) => {
   const [loading, setLoading] = useState(true);
   const [recordList, setRecordList] = useState(null);
-  const [isDotClick, setIsDotClick] = useState(false);
+  const [isEditClick, setIsEditClick] = useState(false);
 
   const userRecordsList = thisUser.records;
 
-  const handleDot = () => setIsDotClick(!isDotClick);
+  const handleEdit = () => setIsEditClick(!isEditClick);
 
   const fetchPost = useCallback(async () => {
     setLoading(true);
@@ -129,9 +155,6 @@ const UserUploadedList = ({ thisUser }) => {
                           <Avatar src={thisUser.avatar}></Avatar>
                           <NickName>{thisUser.nickname}</NickName>
                         </AvatarWrap>
-                        <IconWrap>
-                          <BsThreeDots onClick={handleDot} size={26} />
-                        </IconWrap>
                       </PostHeader>
                       <PostHeader>
                         <PostTitle>
@@ -148,6 +171,20 @@ const UserUploadedList = ({ thisUser }) => {
                     />
                   </PostContainer>
                 </Link>
+                <IconWrap>
+                  <BsThreeDots onClick={handleEdit} size={26} />
+                </IconWrap>
+                {isEditClick && (
+                  <EditWrap>
+                    <ul>
+                      <li>게시물 수정하기</li>
+                      <li>게시물 삭제하기</li>
+                      <li onClick={handleEdit} style={{ color: 'red' }}>
+                        취소
+                      </li>
+                    </ul>
+                  </EditWrap>
+                )}
               </UploadedListWrap>
             ))}
         </UploadedListContainer>
