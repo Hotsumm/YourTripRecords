@@ -15,9 +15,9 @@ const ProfileBarWrap = styled.div`
   width: ${(props) => (props.current ? '220px' : '230px')};
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   background: white;
   padding: 0 18px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;

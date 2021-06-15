@@ -41,7 +41,7 @@ const Profile = ({ match }) => {
         console.log('Error getting document:', error);
       });
   }, [match.params.userId]);
-
+  console.log(thisUser);
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
@@ -60,7 +60,7 @@ const Profile = ({ match }) => {
           </ProfileWrap>
           <ProfileWrap>
             <ProfileIntro thisUser={thisUser} />
-            <UserUploadedList thisUser={thisUser} />
+            <UserUploadedList userObj={userObj} thisUser={thisUser} />
           </ProfileWrap>
         </ProfileContainer>
       )}

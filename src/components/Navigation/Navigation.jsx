@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 const NavContainer = styled.div`
   width: 100vw;
   height: 80px;
-
   position: fixed;
   top: 0;
   z-index: 99;

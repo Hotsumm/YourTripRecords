@@ -6,6 +6,7 @@ import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
 import { UserContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
+import { BsThreeDots } from 'react-icons/bs';
 
 const DetailContainer = styled.div`
   width: 100%;
@@ -24,6 +25,45 @@ const DetailHeader = styled.div`
   padding: 10px 0;
   justify-content: space-between;
   align-items: center;
+`;
+
+const PostWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const IconWrap = styled.div`
+  position: relative;
+  padding: 2px 3px;
+  margin-left: 15px;
+  :hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+  }
+  cursor: pointer;
+`;
+
+const EditWrap = styled.div`
+  position: absolute;
+  background: white;
+  width: 100px;
+  border-radius: 5px;
+  top: 170px;
+  right: 140px;
+  padding: 5px 0px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  ul {
+    width: 100%;
+  }
+  li {
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+    :hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 const PostCreated = styled.div`
@@ -45,7 +85,9 @@ const PostDetail = ({ match }) => {
   const { userObj } = useContext(UserContext);
   const postId = match.params.postId;
   const pathName = match.url;
+  const [isEditClick, setIsEditClick] = useState(false);
 
+  const handleEdit = () => setIsEditClick(!isEditClick);
   const fetchPosts = useCallback(async () => {
     try {
       const postsRef = await firebaseFireStore
@@ -75,7 +117,25 @@ const PostDetail = ({ match }) => {
           <DetailWrap>
             <DetailHeader>
               <PostTitle>{postObj.postTitle}</PostTitle>
-              <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
+              <PostWrap>
+                <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
+                {userObj && userObj.userId === postObj.creator.userObj.userId && (
+                  <IconWrap>
+                    <BsThreeDots onClick={handleEdit} size={26} />
+                  </IconWrap>
+                )}
+                {isEditClick && (
+                  <EditWrap>
+                    <ul>
+                      <li>게시물 수정하기</li>
+                      <li>게시물 삭제하기</li>
+                      <li onClick={handleEdit} style={{ color: 'red' }}>
+                        취소
+                      </li>
+                    </ul>
+                  </EditWrap>
+                )}
+              </PostWrap>
             </DetailHeader>
             <DetailInfoWrap>
               <Preview postObj={postObj} pathName={pathName} />
