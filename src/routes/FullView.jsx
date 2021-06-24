@@ -14,7 +14,7 @@ const FullViewContainer = styled.div`
 const FullViewWrap = styled.div`
   width: 100%;
   height: 100%;
-  padding: 0px 120px;
+  padding: 0px 80px;
   margin-bottom: 30px;
 `;
 
@@ -47,7 +47,7 @@ const SelectPictureSlideWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 50%;
-  height: 500px;
+  margin: 30px 0px 30px 20px;
   svg {
     position: absolute;
     color: white;
@@ -72,7 +72,8 @@ const SelectPicture = styled.img`
 
 const SelectPictureInfoWrap = styled.div`
   width: 50%;
-  height: 500px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 30px 20px 30px 0;
 `;
 const SelectPictureInfo = styled.div``;
 
@@ -108,6 +109,7 @@ const DescriptionWrap = styled.div`
 
 const Description = styled.div`
   font-size: 16px;
+  color: ${(props) => (props.description ? 'black' : 'gray')};
 `;
 
 const FullViewList = styled.div`
@@ -183,7 +185,11 @@ const FullView = ({ match, location, history }) => {
               </LocationWrap>
               <DescriptionWrap>
                 <span>설명</span>
-                <Description>{selectPicture.description}</Description>
+                <Description description={selectPicture.description}>
+                  {selectPicture.description
+                    ? selectPicture.description
+                    : '설명 없음'}
+                </Description>
               </DescriptionWrap>
             </SelectPictureInfo>
           </SelectPictureInfoWrap>
