@@ -11,10 +11,10 @@ const BackgroundContainer = styled.div`
   span {
     position: absolute;
     width: 270px;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 45px;
-    bottom: 90px;
-    left: 100px;
+    bottom: 150px;
+    right: 120px;
     color: white;
   }
 `;

@@ -19,7 +19,7 @@ export const cityArray = [
   },
   {
     id: 4,
-    name: '고양시',
+    name: '일산',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVNfgdvbdCgMWjGdryhTttpieYAuHsff4-SA&usqp=CAU',
   },
@@ -43,12 +43,18 @@ export const cityArray = [
   },
   {
     id: 8,
-    name: '부산',
+    name: '대구',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw4aawErI4ervP3iCyq5LE8c0f3WbN-3smcg&usqp=CAU',
   },
   {
     id: 9,
+    name: '부산',
+    imgUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw4aawErI4ervP3iCyq5LE8c0f3WbN-3smcg&usqp=CAU',
+  },
+  {
+    id: 10,
     name: '제주도',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD6rg8IfF7B2KjtZDhUFmP7OiZ2CtGvxXvCQ&usqp=CAU',

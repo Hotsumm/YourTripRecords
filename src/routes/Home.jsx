@@ -8,21 +8,7 @@ const HomeContainer = styled.div`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
-`;
-
-const CityListHeader = styled.div`
-  display: flex;
-  font-size: 40px;
-  padding: 60px 0 10px 50px;
-  font-weight: 700;
-`;
-
-const CityListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 50px;
+  position: relative;
 `;
 
 const Home = () => {
@@ -47,10 +33,7 @@ const Home = () => {
       <Navigation show={navBar} />
       <HomeContainer>
         <Background />
-        <CityListHeader>여행지</CityListHeader>
-        <CityListContainer>
-          <CityList />
-        </CityListContainer>
+        <CityList />
       </HomeContainer>
     </>
   );
