@@ -4,6 +4,7 @@ import bgImg from '../../static/assets/bg2.JPG';
 
 const BackgroundContainer = styled.div`
   width: 100%;
+
   position: relative;
   img {
     object-fit: cover;
@@ -13,9 +14,10 @@ const BackgroundContainer = styled.div`
     width: 270px;
     font-weight: 600;
     font-size: 45px;
-    bottom: 150px;
-    right: 120px;
+    top: 250px;
+    left: 80px;
     color: white;
+    text-shadow: 1px 1px 2px black;
   }
 `;
 
@@ -23,7 +25,7 @@ const Background = () => {
   return (
     <BackgroundContainer>
       <img src={bgImg} alt="메인배경" />
-      <span>너의 여행들을 공유 해봐!</span>
+      <span>너의 여행들을 공유 해봐 !</span>
     </BackgroundContainer>
   );
 };

@@ -12,8 +12,8 @@ const CityListContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  padding: 50px 80px;
   margin-top: 250px;
-  padding: 20px 40px;
   z-index: 2;
 `;
 
@@ -44,11 +44,13 @@ const Menu = styled.li`
 const CityListWrap = styled.ul`
   display: grid;
   background: white;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
-  gap: 15px;
+  gap: 25px;
   padding: 40px 30px;
-  border-radius: 0 5px 5px 5px;
+  border-radius: 0 3px 3px 3px;
+  border-top: 1px solid #ababab80;
+  opacity: 0.9;
 `;
 
 const City = styled.li`
@@ -66,7 +68,7 @@ const CityName = styled.h3`
   font-size: 16px;
   color: black;
   border: 1px solid #ababab80;
-  border-radius: 5px;
+  border-radius: 3px;
   :hover {
     background: #16a085;
     color: white;
