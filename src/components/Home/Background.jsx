@@ -4,8 +4,8 @@ import bgImg from '../../static/assets/bg2.JPG';
 
 const BackgroundContainer = styled.div`
   width: 100%;
-
   position: relative;
+
   img {
     object-fit: cover;
   }
@@ -14,10 +14,10 @@ const BackgroundContainer = styled.div`
     width: 270px;
     font-weight: 600;
     font-size: 45px;
-    top: 250px;
+    top: 270px;
     left: 80px;
     color: white;
-    text-shadow: 1px 1px 2px black;
+    text-shadow: 1px 0.5px 2px black;
   }
 `;
 

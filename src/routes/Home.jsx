@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import CityList from '../components/City/CityList';
 import Background from '../components/Home/Background';
+import PopularCity from '../components/Home/PopularCity';
 
 const HomeContainer = styled.div`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
-  position: relative;
 `;
 
 const Home = () => {
@@ -34,6 +34,7 @@ const Home = () => {
       <HomeContainer>
         <Background />
         <CityList />
+        <PopularCity />
       </HomeContainer>
     </>
   );

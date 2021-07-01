@@ -13,7 +13,7 @@ const CityListContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 50px 80px;
-  margin-top: 250px;
+  margin-top: 270px;
   z-index: 2;
 `;
 
