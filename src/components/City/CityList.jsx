@@ -13,7 +13,7 @@ const CityListContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 50px 80px;
-  margin-top: 270px;
+  margin-top: 250px;
   z-index: 2;
 `;
 
@@ -44,7 +44,7 @@ const Menu = styled.li`
 const CityListWrap = styled.ul`
   display: grid;
   background: white;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   gap: 25px;
   padding: 40px 30px;

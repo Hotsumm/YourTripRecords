@@ -19,8 +19,22 @@ const PopularCityHeaderWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
-  padding: 20px 0;
+  padding: 50px 0 0 0;
+`;
+
+const Triangle = styled.div`
+  width: 0px;
+  height: 0px;
+  :first-child {
+    border-left: 200px solid #f1f2f6;
+    border-bottom: 0px solid white;
+    border-top: 100px solid white;
+  }
+  :last-child {
+    border-right: 200px solid #f1f2f6;
+    border-bottom: 0px solid white;
+    border-top: 100px solid white;
+  }
 `;
 
 const PopularCityHeader = styled.div`
@@ -31,7 +45,7 @@ const PopularCityHeader = styled.div`
 
 const PopularCityListWrap = styled.div`
   width: 100%;
-  padding: 20px 0;
+  padding: 20px 0 0;
 `;
 
 const CityNameWrap = styled.ul`
@@ -128,7 +142,9 @@ const PopularCity = () => {
     <PopularCityContainer>
       <PopularCityWrap>
         <PopularCityHeaderWrap>
+          <Triangle />
           <PopularCityHeader>이 여행지가 인기가 있어요 !</PopularCityHeader>
+          <Triangle />
         </PopularCityHeaderWrap>
         {loading ? (
           <Loading />
