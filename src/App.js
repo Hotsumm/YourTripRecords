@@ -22,17 +22,20 @@ const App = () => {
                 ...doc.data(),
               };
               setUserObj(userData);
+              setInit(true);
             } else {
               console.log('No such document!');
             }
           });
+        } else {
+          setInit(true);
         }
-        setInit(true);
       });
     } catch (error) {
       console.log(error.message);
     }
   }, []);
+
   return (
     <UserContext.Provider value={{ userObj }}>
       <React.Fragment>

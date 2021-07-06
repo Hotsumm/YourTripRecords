@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../Context';
 import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
-import { UserContext } from '../Context';
+import ChangePassword from '../components/Account/ChangePassword';
 import { FcLock } from 'react-icons/fc';
 import { BsBoxArrowInUpRight } from 'react-icons/bs';
 import { RiToolsLine } from 'react-icons/ri';
@@ -73,51 +74,59 @@ const Menu = styled.div`
   border-radius: 10px;
   color: black;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
-  svg {
-    margin-bottom: 15px;
-  }
+  cursor: pointer;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  margin-top: 15px;
+`;
 
-const MyAccount = () => {
+const MyAccount = ({ match }) => {
+  const [isChangePassword, setIsChangePassword] = useState(false);
   const { userObj } = useContext(UserContext);
 
-  if (userObj === null) {
-    return <Redirect path="/" />;
+  const toggleChangePassword = () => setIsChangePassword(!isChangePassword);
+
+  if (userObj === null || userObj.userId !== match.params.userId) {
+    return <Redirect to="/" />;
   }
 
   return (
     <>
       <Navigation show={true} />
-      <MyAccountContainer>
-        <MyAccountHeader>내 계정</MyAccountHeader>
-        <MyAccountWrap>
-          <UserWrap>
-            <UserInfoWrap>
-              <img src={userObj.avatar} alt="Avatar" />
-              <div>{userObj.nickname}님,</div>
-              <div>{userObj.email}</div>
-            </UserInfoWrap>
-          </UserWrap>
-          <MenuWrap>
-            <Link to={`/profile/${userObj.userId}`}>
-              <Menu>
-                <BsBoxArrowInUpRight size={25} style={{ color: '#00b894' }} />
-                <Title>프로필로 이동</Title>
+      {userObj && (
+        <MyAccountContainer>
+          <MyAccountHeader>내 계정</MyAccountHeader>
+          <MyAccountWrap>
+            <UserWrap>
+              <UserInfoWrap>
+                <img src={userObj.avatar} alt="Avatar" />
+                <div>{userObj.nickname}님,</div>
+                <div>{userObj.email}</div>
+              </UserInfoWrap>
+            </UserWrap>
+            <MenuWrap>
+              <Link to={`/profile/${userObj.userId}`}>
+                <Menu>
+                  <BsBoxArrowInUpRight size={25} style={{ color: '#00b894' }} />
+                  <Title>프로필로 이동</Title>
+                </Menu>
+              </Link>
+              <Menu onClick={toggleChangePassword}>
+                <FcLock size={25} />
+                <Title>비밀번호 변경</Title>
               </Menu>
-            </Link>
-            <Menu>
-              <FcLock size={25} />
-              <Title>비밀번호 변경</Title>
-            </Menu>
-            <Menu>
-              <RiToolsLine size={25} />
-              <Title>게시물 수정</Title>
-            </Menu>
-          </MenuWrap>
-        </MyAccountWrap>
-      </MyAccountContainer>
+              <Menu>
+                <RiToolsLine size={25} />
+                <Title>게시물 수정</Title>
+              </Menu>
+            </MenuWrap>
+          </MyAccountWrap>
+        </MyAccountContainer>
+      )}
+      {isChangePassword && (
+        <ChangePassword toggleChangePassword={toggleChangePassword} />
+      )}
     </>
   );
 };

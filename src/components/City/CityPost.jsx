@@ -99,7 +99,6 @@ const SeasonWrap = styled.div`
 `;
 
 const CityPost = ({ loading, posts, cityName }) => {
-  console.log(posts);
   return (
     <>
       {loading ? (

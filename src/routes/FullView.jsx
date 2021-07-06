@@ -137,7 +137,6 @@ const FullView = ({ match, location, history }) => {
   const cityName = match.params.cityName;
   const [pictureIndex, setPictureIndex] = useState(location.state.pictureIndex);
   const [selectPicture, setSelectPicture] = useState(pictureList[pictureIndex]);
-  console.log(match);
 
   const onCloseBtn = () => {
     history.push(`/city/${cityName}/${postId}`);

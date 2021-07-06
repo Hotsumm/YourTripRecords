@@ -75,8 +75,8 @@ const NavProfile = () => {
   const [isMenu, setIsMenu] = useState(false);
   const [isSignUpClick, setIsSignUpClick] = useState(false);
   const [isSignInClick, setIsSignInClick] = useState(false);
-  const ref = useRef();
   const { userObj } = useContext(UserContext);
+  const ref = useRef();
 
   useOutsideClick(ref, () => setIsMenu(false));
 

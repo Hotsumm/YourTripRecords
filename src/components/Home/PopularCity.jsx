@@ -133,7 +133,7 @@ const PopularCity = () => {
       .catch((error) => error.message)
       .finally(() => setLoading(false));
   }, []);
-  console.log(selectCityObj);
+
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
@@ -152,8 +152,9 @@ const PopularCity = () => {
           <PopularCityListWrap>
             <CityNameWrap>
               {popularCityName && popularCityName.length > 0 ? (
-                popularCityName.map((city) => (
+                popularCityName.map((city, index) => (
                   <CityName
+                    key={index}
                     style={
                       selected === city
                         ? {

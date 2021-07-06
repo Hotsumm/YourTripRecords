@@ -41,7 +41,7 @@ const Profile = ({ match }) => {
         console.log('Error getting document:', error);
       });
   }, [match.params.userId]);
-  console.log(thisUser);
+
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);

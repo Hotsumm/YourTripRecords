@@ -186,7 +186,6 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       target: { files },
     } = e;
     const theFile = files[0];
-    console.log(theFile);
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
       const {
@@ -197,7 +196,6 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       setAvatarPreview(true);
     };
     reader.readAsDataURL(theFile);
-    console.log(avatar);
   };
 
   const onSubmit = async () => {
