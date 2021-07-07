@@ -10,9 +10,7 @@ import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const ProfileBarWrap = styled.div`
-  width: 100%;
   position: relative;
-  width: ${(props) => (props.current ? '220px' : '230px')};
   height: 40px;
   border-radius: 20px;
   background: white;
@@ -32,18 +30,16 @@ const AvatarWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   & span {
-    width: 60%;
     font-weight: 700;
     font-size: 15px;
     text-align: right;
-    margin-left: 10px;
+    margin: 0 10px 0 10px;
     color: #2c3e50;
   }
   & img {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    margin-left: 5px;
   }
 `;
 
@@ -97,7 +93,7 @@ const NavProfile = () => {
   };
   return (
     <>
-      <ProfileBarWrap ref={ref} current={userObj} onClick={menuClick}>
+      <ProfileBarWrap ref={ref} onClick={menuClick}>
         <AvatarWrap>
           {userObj ? (
             <>
@@ -108,7 +104,7 @@ const NavProfile = () => {
           ) : (
             <>
               <VscTriangleDown size={15} color={'grey'} />
-              <span>로그인을 해주세요.</span>
+              <span>로그인을 해주세요</span>
               <HiUserCircle size={35} color={'grey'} />
             </>
           )}
