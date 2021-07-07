@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
 
 const ChangePasswordContainer = styled.div`
   width: 100vw;
@@ -37,7 +38,7 @@ const ChangePasswordHeader = styled.div`
 
 const InputContainer = styled.div`
   width: 100%;
-  padding: 30px 0;
+  padding: 25px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,9 +50,6 @@ const InputWrap = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
-  :first-child {
-    margin-bottom: 30px;
-  }
 
   & input {
     width: 250px;
@@ -97,53 +95,110 @@ const ChangePassword = ({ toggleChangePassword }) => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'oldPassword') {
-      setOldPassword(value);
-    } else if (name === 'newPassword') {
+    if (name === 'newPassword') {
       setNewPassword(value);
     } else if (name === 'newPasswordConfirm') {
       setNewPasswordConfirm(value);
+    } else if (name === 'oldPassword') {
+      setOldPassword(value);
     }
+  };
+  const validCheck = () => {
+    const passwordRules = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
+    if (
+      !passwordRules.test(newPassword) ||
+      !passwordRules.test(newPasswordConfirm)
+    ) {
+      alert('비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.');
+      return;
+    }
+    onSubmit();
+  };
+
+  const onSubmit = () => {
+    if (newPassword !== newPasswordConfirm) {
+      alert('새 비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    const currentUser = firebaseAuth.currentUser;
+    const credential = firebaseInstance.auth.EmailAuthProvider.credential(
+      currentUser.email,
+      oldPassword,
+    );
+
+    currentUser
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        currentUser
+          .updatePassword(newPassword)
+          .then(() => {
+            firebaseAuth
+              .signOut()
+              .then(() => {
+                alert(
+                  '비밀번호가 정상적으로 변경되었습니다.\n다시 로그인 해주세요.',
+                );
+                window.location.reload();
+              })
+              .catch((error) => console.log(error));
+          })
+          .catch((error) => {
+            if (error.code === 'auth/weak-password') {
+              alert('새 비밀번호를 6자 이상으로 입력해주세요.');
+            }
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        if (error.code === 'auth/weak-password') {
+          alert(
+            '비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.',
+          );
+        } else if (error.code === 'auth/wrong-password') {
+          alert('현재 비밀번호를 확인 해주세요.');
+        } else {
+          alert(error.code);
+        }
+        console.log(error);
+      });
   };
 
   return (
-    <>
-      <ChangePasswordContainer>
-        <ChangePasswordWrap>
-          <ChangePasswordHeader>비밀번호 변경</ChangePasswordHeader>
-          <InputContainer>
-            <InputWrap>
-              <input
-                type="oldPassword"
-                onChange={onChange}
-                name="oldPassword"
-                placeholder="현재 비밀번호"
-              ></input>
-            </InputWrap>
-            <InputWrap>
-              <input
-                type="password"
-                onChange={onChange}
-                name="newPassword"
-                placeholder="새 비밀번호"
-              ></input>
-            </InputWrap>
-            <InputWrap>
-              <input
-                type="password"
-                onChange={onChange}
-                name="newPasswordConfirm"
-                placeholder="새 비밀번호 확인"
-              ></input>
-            </InputWrap>
-          </InputContainer>
-          <ButtonWrap>
-            <button>변경</button>
-            <button onClick={() => toggleChangePassword()}>취소</button>
-          </ButtonWrap>
-        </ChangePasswordWrap>
-      </ChangePasswordContainer>
-    </>
+    <ChangePasswordContainer>
+      <ChangePasswordWrap>
+        <ChangePasswordHeader>비밀번호 변경</ChangePasswordHeader>
+        <InputContainer>
+          <InputWrap>
+            <input
+              type="Password"
+              onChange={onChange}
+              name="oldPassword"
+              placeholder="현재 비밀번호"
+            />
+          </InputWrap>
+          <InputWrap>
+            <input
+              type="password"
+              onChange={onChange}
+              name="newPassword"
+              placeholder="새 비밀번호"
+            />
+          </InputWrap>
+          <InputWrap>
+            <input
+              type="password"
+              onChange={onChange}
+              name="newPasswordConfirm"
+              placeholder="새 비밀번호 확인"
+            />
+          </InputWrap>
+        </InputContainer>
+        <ButtonWrap>
+          <button onClick={() => validCheck()}>변경</button>
+          <button onClick={() => toggleChangePassword()}>취소</button>
+        </ButtonWrap>
+      </ChangePasswordWrap>
+    </ChangePasswordContainer>
   );
 };
 
