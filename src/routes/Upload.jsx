@@ -187,7 +187,7 @@ const Guide = styled.div`
 const ButtonWrap = styled.div`
   width: 100%;
 `;
-const Button = styled.div`
+const Button = styled.button`
   width: 100px;
   height: 50px;
   background: white;
