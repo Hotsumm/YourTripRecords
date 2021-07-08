@@ -2,26 +2,21 @@ import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
-import { v4 as uuidv4 } from 'uuid';
-import { UserContext } from '../Context';
-import { cityArray } from '../utils/cityArray';
-import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
-import { getCreatedDay } from '../utils/getCreatedDay';
+import { firebaseFireStore } from '../firebaseConfig';
 import Loading from '../components/Load/Loading';
+import { UserContext } from '../Context';
 
-const UploadContainer = styled.div`
+const PostEditContainer = styled.div`
   width: 100%;
   padding: 80px 0;
   background: #f1f2f6;
   text-align: center;
-  filter: ${(props) => (props.loading ? 'brightness(%)' : 'brightness(100%)')};
 `;
-const UploadHeader = styled.div`
+const PostEditHeader = styled.div`
   margin: 50px 0;
   font-size: 40px;
 `;
-
-const UploadWrap = styled.div`
+const PostEditWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,10 +83,7 @@ const Post = styled.img`
   width: 35%;
   height: 80%;
   margin-right: 50px;
-  cursor: pointer;
-  :hover {
-    opacity: 0.8;
-  }
+  cursor: default;
 `;
 const PostInputWrap = styled.div`
   display: flex;
@@ -145,31 +137,6 @@ const TextAreaWrap = styled.div`
   }
 `;
 
-const FileContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-
-  label {
-    width: 450px;
-    height: 100%;
-    position: absolute;
-    display: flex;
-    background: white;
-    border: 2px dashed gray;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    color: black;
-    cursor: pointer;
-    :hover {
-      opacity: 0.7;
-    }
-  }
-`;
-
 const GuideContainer = styled.div`
   margin: 35px 0 25px 0;
 `;
@@ -187,7 +154,8 @@ const Guide = styled.div`
 const ButtonWrap = styled.div`
   width: 100%;
 `;
-const Button = styled.div`
+
+const Button = styled.button`
   width: 100px;
   height: 50px;
   background: white;
@@ -201,14 +169,16 @@ const Button = styled.div`
   pointer-events: ${(props) => props.loading && 'none'};
 `;
 
-const Upload = () => {
-  const { userObj } = useContext(UserContext);
+const PostEdit = ({ match, location }) => {
+  const postObj = location.state.postObj;
   const history = useHistory();
+  const { userObj } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState(null);
-  const [postTitle, setPostTitle] = useState('');
-  const [city, setCity] = useState('서울');
-  const [season, setSeason] = useState('봄');
+  const [posts, setPosts] = useState(
+    location ? location.state.postObj.pictureList : null,
+  );
+  const [postTitle, setPostTitle] = useState(postObj.postTitle);
+  const [season, setSeason] = useState(postObj.season);
 
   const onChange = (e) => {
     const {
@@ -218,8 +188,6 @@ const Upload = () => {
 
     if (name === 'recordTitle') {
       setPostTitle(value);
-    } else if (name === 'city') {
-      setCity(value);
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
@@ -231,105 +199,40 @@ const Upload = () => {
     }
   };
 
-  const onFileChange = (e) => {
-    const {
-      target: { files: fileArr },
-    } = e;
-
-    if (fileArr.length > 15) {
-      alert('사진을 15장 이하로 업로드 해주세요.');
-      return;
-    } else if (fileArr.length < 5) {
-      alert('사진을 최소 5장 이상 업로드 해주세요.');
-      return;
-    }
-
-    let fileURLs = [];
-    let pictureFiles = [];
-
-    for (let i = 0; i < fileArr.length; i++) {
-      let file = fileArr[i];
-
-      pictureFiles.push({
-        picturePreview: URL.createObjectURL(fileArr[i]),
-        fileName: fileArr[i].name,
-        picture: '',
-        location: '',
-        description: '',
-      });
-
-      const reader = new FileReader();
-
-      reader.onloadend = (finishedEvent) => {
-        const {
-          currentTarget: { result },
-        } = finishedEvent;
-        fileURLs[i] = result;
-        pictureFiles[i].picture = fileURLs[i];
-      };
-      reader.readAsDataURL(file);
-    }
-    setPosts(pictureFiles);
-  };
-
-  const onUpload = async () => {
+  const onPostEdit = async () => {
     setLoading(true);
-    let userPostList = userObj.records;
-    const postId = uuidv4();
-    const postRefId = uuidv4();
-    let pictureInfo = [];
-    for (let i = 0; i < posts.length; i++) {
-      const fileRef = firebaseStorage.ref(postRefId).child(posts[i].fileName);
-      const res = await fileRef.putString(posts[i].picture, 'data_url');
-      const pictureURL = await res.ref.getDownloadURL();
-      pictureInfo.push({
-        pictureId: uuidv4(),
-        location: posts[i].location,
-        description: posts[i].description,
-        fileName: posts[i].fileName,
-        pictureURL: pictureURL,
-      });
-    }
-
-    const docData = {
-      postId,
-      postTitle,
-      createdAt: getCreatedDay(),
-      city,
-      season,
-      likes: [],
-      creator: {
-        userObj,
-      },
-      pictureList: [...pictureInfo],
-    };
-    await firebaseFireStore
-      .collection('users')
-      .doc(userObj.userId)
-      .update({
-        records: [...userPostList, postId],
-      });
-    await firebaseFireStore
+    const recordsRef = firebaseFireStore
       .collection('records')
-      .doc(postId)
-      .set(docData)
-      .then(() => alert('업로드가 완료 되었습니다.'))
+      .doc(postObj.postId);
+
+    await recordsRef
+      .update({
+        postId: postObj.postId,
+        postTitle,
+        createdAt: postObj.createdAt,
+        city: postObj.city,
+        season,
+        likes: postObj.likes,
+        creator: { userObj },
+        pictureList: [...posts],
+      })
+      .then(() => alert('여행기록 수정이 완료 되었습니다.'))
       .then(() => history.push('/'))
-      .catch((error) => console.log(error.message))
+      .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   };
 
   return (
     <>
       <Navigation show={true} />
-      <UploadContainer loading={loading}>
-        <UploadHeader>여행기록 올리기</UploadHeader>
-        <UploadWrap>
+      <PostEditContainer>
+        <PostEditHeader>여행기록 수정</PostEditHeader>
+        <PostEditWrap>
           {loading ? (
             <Loading />
           ) : (
             <>
-              {posts ? (
+              {postObj && (
                 <>
                   <RecordContainer>
                     <RecordWrap>
@@ -337,24 +240,19 @@ const Upload = () => {
                       <input
                         type="title"
                         name="recordTitle"
+                        value={postTitle}
                         onChange={onChange}
                       />
                     </RecordWrap>
                     <RecordWrap>
                       <span>도시</span>
-                      <select name="city" onChange={onChange}>
-                        {cityArray &&
-                          cityArray.length > 0 &&
-                          cityArray.map((city, index) => (
-                            <option key={index} value={city.name}>
-                              {city.name}
-                            </option>
-                          ))}
-                      </select>
+                      <span style={{ textAlign: 'left', fontWeight: 700 }}>
+                        {postObj.city}
+                      </span>
                     </RecordWrap>
                     <RecordWrap>
                       <span>여행 계절</span>
-                      <select name="season" onChange={onChange}>
+                      <select name="season" value={season} onChange={onChange}>
                         <option value="봄">봄</option>
                         <option value="여름">여름</option>
                         <option value="가을">가을</option>
@@ -365,7 +263,7 @@ const Upload = () => {
                   {posts.map((post, index) => (
                     <>
                       <PostContainer>
-                        <Post src={post.picturePreview} alt="post" />
+                        <Post src={post.pictureURL} alt="post" />
                         <PostInputWrap>
                           <PostInfo>
                             <span>위치</span>
@@ -374,6 +272,7 @@ const Upload = () => {
                               placeholder="위치"
                               id={index}
                               name="location"
+                              value={post.location}
                               onChange={onChange}
                               required
                             />
@@ -388,6 +287,7 @@ const Upload = () => {
                                 maxLength="300"
                                 id={index}
                                 name="description"
+                                value={post.description}
                                 onChange={onChange}
                                 required
                               />
@@ -399,23 +299,10 @@ const Upload = () => {
                     </>
                   ))}
                 </>
-              ) : (
-                <FileContainer>
-                  <label for="input-file">
-                    사진 올리기 (최소 5장 최대 15장)
-                  </label>
-                  <input
-                    type="file"
-                    id="input-file"
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    multiple="multiple"
-                    onChange={onFileChange}
-                  />
-                </FileContainer>
               )}
             </>
           )}
+
           <GuideContainer>
             <GuideHeader>가이드 라인</GuideHeader>
             <Guide>*여행기록의 제목을 지어주세요.</Guide>
@@ -428,18 +315,18 @@ const Upload = () => {
             </Guide>
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
-          <ButtonWrap>
-            <Button loading={loading} onClick={onUpload}>
-              업로드하기
+          <ButtonWrap loading={loading}>
+            <Button loading={loading} onClick={onPostEdit}>
+              수정하기
             </Button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>
-              <Button>취소</Button>
+              <Button loading={loading}>취소</Button>
             </Link>
           </ButtonWrap>
-        </UploadWrap>
-      </UploadContainer>
+        </PostEditWrap>
+      </PostEditContainer>
     </>
   );
 };
 
-export default Upload;
+export default PostEdit;

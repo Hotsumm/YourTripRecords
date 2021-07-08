@@ -7,6 +7,7 @@ import Upload from './routes/Upload';
 import PostDetail from './routes/PostDetail';
 import FullView from './routes/FullView';
 import MyAccount from './routes/MyAccount';
+import PostEdit from './routes/PostEdit';
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         <Route path="/profile/:userId" exact component={Profile} />
         <Route path="/myAccount/:userId" exact component={MyAccount} />
         <Route path="/upload" exact component={Upload} />
+        <Route path="/postEdit/:postId" exact component={PostEdit} />
         <Route path="/city/:cityName/:postId" exact component={PostDetail} />
         <Route
           path="/city/:cityName/:postId/:pictureId"

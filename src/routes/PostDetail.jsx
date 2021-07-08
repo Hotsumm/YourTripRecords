@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
@@ -83,11 +84,13 @@ const DetailInfoWrap = styled.div`
 const PostDetail = ({ match }) => {
   const [postObj, setPostObj] = useState(null);
   const { userObj } = useContext(UserContext);
-  const postId = match.params.postId;
-  const pathName = match.url;
   const [isEditClick, setIsEditClick] = useState(false);
 
+  const postId = match.params.postId;
+  const pathName = match.url;
+
   const handleEdit = () => setIsEditClick(!isEditClick);
+
   const fetchPosts = useCallback(async () => {
     try {
       const postsRef = await firebaseFireStore
@@ -127,7 +130,14 @@ const PostDetail = ({ match }) => {
                 {isEditClick && (
                   <EditWrap>
                     <ul>
-                      <li>게시물 수정하기</li>
+                      <Link
+                        to={{
+                          pathname: `/postEdit/${postObj.postId}`,
+                          state: { postObj: postObj },
+                        }}
+                      >
+                        <li>게시물 수정하기</li>
+                      </Link>
                       <li>게시물 삭제하기</li>
                       <li onClick={handleEdit} style={{ color: 'red' }}>
                         취소
