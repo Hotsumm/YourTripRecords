@@ -43,7 +43,7 @@ const City = ({ match }) => {
   const fetchPost = useCallback(async () => {
     setLoading(true);
     let allPost = [];
-    await firebaseFireStore
+    firebaseFireStore
       .collection('records')
       .get()
       .then((postsRef) => {

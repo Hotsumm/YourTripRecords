@@ -141,7 +141,7 @@ const SignIn = ({ toggleSignIn }) => {
 
   const handleSignIn = async () => {
     setLoading(true);
-    await firebaseAuth
+    firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then(() => window.location.reload())
       .catch((error) => {
@@ -158,7 +158,7 @@ const SignIn = ({ toggleSignIn }) => {
 
   const googleSignIn = async () => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
-    await firebaseAuth
+    firebaseAuth
       .signInWithPopup(provider)
       .then((result) => {
         const googleUser = result.user;

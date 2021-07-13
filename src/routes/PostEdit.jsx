@@ -205,7 +205,7 @@ const PostEdit = ({ match, location }) => {
       .collection('records')
       .doc(postObj.postId);
 
-    await recordsRef
+    recordsRef
       .update({
         postId: postObj.postId,
         postTitle,

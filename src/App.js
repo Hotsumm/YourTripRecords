@@ -10,13 +10,12 @@ const App = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
-    try {
-      firebaseAuth.onAuthStateChanged(async (user) => {
-        if (user) {
-          const userRef = await firebaseFireStore
-            .collection('users')
-            .doc(user.uid);
-          userRef.get().then((doc) => {
+    firebaseAuth.onAuthStateChanged((user) => {
+      if (user) {
+        const userRef = firebaseFireStore.collection('users').doc(user.uid);
+        userRef
+          .get()
+          .then((doc) => {
             if (doc.exists) {
               const userData = {
                 ...doc.data(),
@@ -26,14 +25,12 @@ const App = () => {
             } else {
               console.log('No such document!');
             }
-          });
-        } else {
-          setInit(true);
-        }
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
+          })
+          .catch((error) => console.log(error));
+      } else {
+        setInit(true);
+      }
+    });
   }, []);
 
   return (

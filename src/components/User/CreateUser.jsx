@@ -14,6 +14,10 @@ export const CreateUser = async (email, nickname) => {
     records: [],
     createdAt: getCreatedDay(),
   };
-  await firebaseFireStore.collection('users').doc(currentUser.uid).set(docData);
-  window.location.reload();
+  firebaseFireStore
+    .collection('users')
+    .doc(currentUser.uid)
+    .set(docData)
+    .then(() => window.location.reload())
+    .catch((error) => console.log(error));
 };

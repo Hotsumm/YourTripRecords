@@ -201,7 +201,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
   const onSubmit = async () => {
     const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
     if (avatar === defaultAvatar) {
-      await usersRef
+      usersRef
         .update({
           email,
           nickname,
@@ -215,9 +215,9 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
         const fileRef = firebaseStorage
           .ref('UserProfle')
           .child(`${userObj.userId}/${uuidv4()}`);
-        const res = await fileRef.putString(avatar, 'data_url');
-        const avatarURL = await res.ref.getDownloadURL();
-        await usersRef
+        const res = fileRef.putString(avatar, 'data_url');
+        const avatarURL = res.ref.getDownloadURL();
+        usersRef
           .update({
             email,
             nickname,
@@ -227,7 +227,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
           })
           .catch((error) => alert(error.message));
       } else {
-        await usersRef
+        usersRef
           .update({
             email,
             nickname,

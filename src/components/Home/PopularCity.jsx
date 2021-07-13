@@ -104,7 +104,7 @@ const PopularCity = () => {
     setLoading(true);
     let allRecord = [];
     let popularCityArr = [];
-    await firebaseFireStore
+    firebaseFireStore
       .collection('records')
       .get()
       .then((postsRef) => {

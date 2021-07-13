@@ -93,9 +93,7 @@ const PostDetail = ({ match }) => {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const postsRef = await firebaseFireStore
-        .collection('records')
-        .doc(postId);
+      const postsRef = firebaseFireStore.collection('records').doc(postId);
       postsRef.get().then((doc) => {
         const postData = {
           postId,

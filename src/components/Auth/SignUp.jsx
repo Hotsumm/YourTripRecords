@@ -160,30 +160,31 @@ const SignUp = ({ toggleSignUp }) => {
       return;
     }
     setLoading(true);
-    try {
-      await firebaseAuth
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => CreateUser(email, nickname));
-      alert('회원가입이 완료되었습니다.');
-    } catch (error) {
-      if (error.code === 'auth/weak-password') {
-        alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
-        console.log(error.code);
-      } else if (error.code === 'auth/email-already-in-use') {
-        alert('이미 사용중인 이메일 입니다.');
-      } else if (error.code === 'auth/invalid-email') {
-        alert('이메일을 정확하게 입력해주세요.');
-      } else {
-        alert(error.code);
-      }
-    } finally {
-      setLoading(false);
-    }
+
+    firebaseAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => CreateUser(email, nickname))
+      .then(() => alert('회원가입이 완료되었습니다.'))
+      .catch((error) => {
+        if (error.code === 'auth/weak-password') {
+          alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
+          console.log(error.code);
+        } else if (error.code === 'auth/email-already-in-use') {
+          alert('이미 사용중인 이메일 입니다.');
+        } else if (error.code === 'auth/invalid-email') {
+          alert('이메일을 정확하게 입력해주세요.');
+        } else {
+          alert(error.code);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const googleSignIn = async () => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
-    await firebaseAuth
+    firebaseAuth
       .signInWithPopup(provider)
       .then((result) => {
         const googleUser = result.user;

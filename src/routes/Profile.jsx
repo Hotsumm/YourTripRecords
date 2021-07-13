@@ -25,7 +25,7 @@ const Profile = ({ match }) => {
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
 
   const fetchUser = useCallback(async () => {
-    const userRef = await firebaseFireStore
+    const userRef = firebaseFireStore
       .collection('users')
       .doc(match.params.userId);
     userRef

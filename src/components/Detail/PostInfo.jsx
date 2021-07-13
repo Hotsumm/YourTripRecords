@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../Context';
 import styled from 'styled-components';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
@@ -52,11 +53,12 @@ const CreatorWrap = styled.div`
   }
 `;
 
-const PostInfo = ({ postObj, userObj }) => {
+const PostInfo = ({ postObj }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(
     postObj.likes.length ? postObj.likes.length : 0,
   );
+  const { userObj } = useContext(UserContext);
   const likeList = postObj.likes;
 
   const handleLike = async () => {
@@ -72,7 +74,7 @@ const PostInfo = ({ postObj, userObj }) => {
       setIsLiked((isLiked) => !isLiked);
       setLikeCount((likeCount) => likeCount - 1);
       const likeFilter = likeList.filter((like) => like !== userObj.userId);
-      await likesRef
+      likesRef
         .update({
           likes: [...likeFilter],
         })
@@ -80,7 +82,7 @@ const PostInfo = ({ postObj, userObj }) => {
     } else {
       setIsLiked((isLiked) => !isLiked);
       setLikeCount((likeCount) => likeCount + 1);
-      await likesRef
+      likesRef
         .update({
           likes: [...likeList, userObj.userId],
         })
@@ -89,13 +91,11 @@ const PostInfo = ({ postObj, userObj }) => {
   };
 
   useEffect(() => {
-    if (userObj) {
-      const likeCheck = postObj.likes.some((like) => like === userObj.userId);
-      if (likeCheck) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
-      }
+    const likeCheck = postObj.likes.some((like) => like === userObj.userId);
+    if (likeCheck) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
     }
   }, [postObj, userObj]);
 
