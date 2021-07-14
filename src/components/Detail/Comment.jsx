@@ -5,6 +5,8 @@ import { firebaseFireStore } from '../../firebaseConfig';
 import { UserContext } from '../../Context';
 import { getCreatedDay } from '../../utils/getCreatedDay';
 import SignIn from '../Auth/SignIn';
+import { HiX } from 'react-icons/hi';
+import { v4 as uuidv4 } from 'uuid';
 
 const CommentContainer = styled.div`
   width: 100%;
@@ -113,6 +115,7 @@ const Author = styled.span`
 const CreatedAt = styled.span`
   font-size: 10px;
   color: #636e72;
+  margin-right: 10px;
 `;
 
 const Content = styled.div`
@@ -133,6 +136,30 @@ const Comment = ({ postId }) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleComments();
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    const answer = window.confirm('작성한 댓글을 삭제하시겠습니까?');
+    if (answer) {
+      const newComments = comments.filter(
+        (comment) => comment.commentId !== commentId,
+      );
+      firebaseFireStore
+        .collection('records')
+        .doc(postId)
+        .update({
+          comments: newComments,
+        })
+        .then(() => {
+          setComments(newComments);
+          setCommentCount(commentCount - 1);
+        })
+        .then(() => alert('댓글이 삭제되었습니다.'))
+        .catch((error) => {
+          console.log(error);
+          alert('오류가 발생했습니다.');
+        });
     }
   };
 
@@ -158,7 +185,7 @@ const Comment = ({ postId }) => {
       alert('댓글을 작성해주세요 !');
       return;
     }
-
+    const commentId = uuidv4();
     firebaseFireStore
       .collection('records')
       .doc(postId)
@@ -166,6 +193,7 @@ const Comment = ({ postId }) => {
         comments: [
           ...comments,
           {
+            commentId,
             authorId: userObj.userId,
             avatar: userObj.avatar,
             nickname: userObj.nickname,
@@ -179,6 +207,7 @@ const Comment = ({ postId }) => {
         setComments([
           ...comments,
           {
+            commentId,
             authorId: userObj.userId,
             avatar: userObj.avatar,
             nickname: userObj.nickname,
@@ -243,7 +272,7 @@ const Comment = ({ postId }) => {
                 color: 'gray',
                 textAlign: 'center',
                 fontSize: '24px',
-                marginTop: '20px;',
+                marginTop: '20px',
               }}
             >
               "아직 댓글이 없습니다."
@@ -259,6 +288,15 @@ const Comment = ({ postId }) => {
                         <ContentInfo>
                           <Author>{comment.nickname}</Author>
                           <CreatedAt>{comment.createdAt}</CreatedAt>
+                          {userObj && userObj.userId === comment.authorId && (
+                            <HiX
+                              size={'14px'}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() =>
+                                handleDeleteComment(comment.commentId)
+                              }
+                            />
+                          )}
                         </ContentInfo>
                         <Content>{comment.content}</Content>
                       </ContentInfoWrap>
