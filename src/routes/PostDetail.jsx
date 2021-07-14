@@ -148,7 +148,7 @@ const PostDetail = ({ match }) => {
             <DetailInfoWrap>
               <Preview postObj={postObj} pathName={pathName} />
               <PostInfo postObj={postObj} userObj={userObj} />
-              <Comment />
+              <Comment postId={postObj.postId} />
             </DetailInfoWrap>
           </DetailWrap>
         </DetailContainer>

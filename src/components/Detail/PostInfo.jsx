@@ -91,6 +91,9 @@ const PostInfo = ({ postObj }) => {
   };
 
   useEffect(() => {
+    if (!userObj) {
+      return;
+    }
     const likeCheck = postObj.likes.some((like) => like === userObj.userId);
     if (likeCheck) {
       setIsLiked(true);
@@ -100,34 +103,38 @@ const PostInfo = ({ postObj }) => {
   }, [postObj, userObj]);
 
   return (
-    <PostInfoContainer>
-      <PostInfoWrap>
-        <CountWrap>
-          {isLiked ? (
-            <BsHeartFill
-              onClick={handleLike}
-              size={'22'}
-              style={{ color: '#eb4d4b', cursor: 'pointer' }}
-            />
-          ) : (
-            <BsHeart
-              onClick={handleLike}
-              size={'22'}
-              style={{ color: '#2f3542', cursor: 'pointer' }}
-            />
-          )}
-          <LikeCount>{likeCount}</LikeCount>
-          <GoComment size={'23'} style={{ color: '#2f3542' }} />
-          <CommentCount>0</CommentCount>
-        </CountWrap>
-        <Link to={`/profile/${postObj.creator.userObj.userId}`}>
-          <CreatorWrap>
-            <img src={postObj.creator.userObj.avatar} alt="Avatar" />
-            <div>{postObj.creator.userObj.nickname}</div>
-          </CreatorWrap>
-        </Link>
-      </PostInfoWrap>
-    </PostInfoContainer>
+    <>
+      {postObj && (
+        <PostInfoContainer>
+          <PostInfoWrap>
+            <CountWrap>
+              {isLiked ? (
+                <BsHeartFill
+                  onClick={handleLike}
+                  size={'22'}
+                  style={{ color: '#eb4d4b', cursor: 'pointer' }}
+                />
+              ) : (
+                <BsHeart
+                  onClick={handleLike}
+                  size={'22'}
+                  style={{ color: '#2f3542', cursor: 'pointer' }}
+                />
+              )}
+              <LikeCount>{likeCount}</LikeCount>
+              <GoComment size={'23'} style={{ color: '#2f3542' }} />
+              <CommentCount>{postObj.comments.length}</CommentCount>
+            </CountWrap>
+            <Link to={`/profile/${postObj.creator.userObj.userId}`}>
+              <CreatorWrap>
+                <img src={postObj.creator.userObj.avatar} alt="Avatar" />
+                <div>{postObj.creator.userObj.nickname}</div>
+              </CreatorWrap>
+            </Link>
+          </PostInfoWrap>
+        </PostInfoContainer>
+      )}
+    </>
   );
 };
 
