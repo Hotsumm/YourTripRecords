@@ -130,6 +130,12 @@ const Comment = ({ postId }) => {
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleComments();
+    }
+  };
+
   const fetchComments = useCallback(async () => {
     setIsLoading(true);
     const commentsRef = firebaseFireStore.collection('records').doc(postId);
@@ -193,67 +199,73 @@ const Comment = ({ postId }) => {
         <Loading />
       ) : (
         <CommentContainer>
-          {commentCount === 0 ? (
-            <CommentHeader>
-              <span style={{ color: 'gray' }}>"아직 댓글이 없습니다."</span>
-            </CommentHeader>
-          ) : (
-            <>
-              <CommentHeader>
-                <span>댓글 {commentCount}개</span>
-              </CommentHeader>
-              <CommentCreatorWrap>
-                {userObj ? (
-                  <>
-                    <img src={userObj.avatar} alt="user" />
-                    <CommentInput
-                      type="text"
-                      name="content"
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      placeholder="댓글..."
-                      required
-                    />
+          <CommentHeader>
+            <span>댓글 {commentCount}개</span>
+          </CommentHeader>
+          <CommentCreatorWrap>
+            {userObj ? (
+              <>
+                <img src={userObj.avatar} alt="user" />
+                <CommentInput
+                  type="text"
+                  name="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="댓글..."
+                  onKeyPress={handleKeyPress}
+                  required
+                />
 
-                    <button onClick={handleComments}>작성</button>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src="https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004"
-                      alt="user"
-                    />
-                    <div
-                      style={{
-                        fontSize: 18,
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                      }}
-                      onClick={toggleSignIn}
-                    >
-                      로그인을 해주세요.
-                    </div>
-                  </>
-                )}
-              </CommentCreatorWrap>
-              <CommentWrap>
-                <CommentList>
-                  {comments &&
-                    comments.map((comment, index) => (
-                      <CommentContent key={index}>
-                        <Avatar src={comment.avatar}></Avatar>
-                        <ContentInfoWrap>
-                          <ContentInfo>
-                            <Author>{comment.nickname}</Author>
-                            <CreatedAt>{comment.createdAt}</CreatedAt>
-                          </ContentInfo>
-                          <Content>{comment.content}</Content>
-                        </ContentInfoWrap>
-                      </CommentContent>
-                    ))}
-                </CommentList>
-              </CommentWrap>
-            </>
+                <button onClick={handleComments}>작성</button>
+              </>
+            ) : (
+              <>
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004"
+                  alt="user"
+                />
+                <div
+                  style={{
+                    fontSize: 18,
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                  }}
+                  onClick={toggleSignIn}
+                >
+                  로그인을 해주세요.
+                </div>
+              </>
+            )}
+          </CommentCreatorWrap>
+          {commentCount === 0 ? (
+            <span
+              style={{
+                color: 'gray',
+                textAlign: 'center',
+                fontSize: '24px',
+                marginTop: '20px;',
+              }}
+            >
+              "아직 댓글이 없습니다."
+            </span>
+          ) : (
+            <CommentWrap>
+              <CommentList>
+                {comments &&
+                  comments.map((comment, index) => (
+                    <CommentContent key={index}>
+                      <Avatar src={comment.avatar}></Avatar>
+                      <ContentInfoWrap>
+                        <ContentInfo>
+                          <Author>{comment.nickname}</Author>
+                          <CreatedAt>{comment.createdAt}</CreatedAt>
+                        </ContentInfo>
+                        <Content>{comment.content}</Content>
+                      </ContentInfoWrap>
+                    </CommentContent>
+                  ))}
+              </CommentList>
+            </CommentWrap>
           )}
         </CommentContainer>
       )}

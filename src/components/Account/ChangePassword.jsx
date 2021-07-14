@@ -91,6 +91,12 @@ const ChangePassword = ({ toggleChangePassword }) => {
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      validCheck();
+    }
+  };
+
   const onChange = (e) => {
     const {
       target: { name, value },
@@ -174,6 +180,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
               onChange={onChange}
               name="oldPassword"
               placeholder="현재 비밀번호"
+              onKeyPress={handleKeyPress}
             />
           </InputWrap>
           <InputWrap>
@@ -182,6 +189,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
               onChange={onChange}
               name="newPassword"
               placeholder="새 비밀번호"
+              onKeyPress={handleKeyPress}
             />
           </InputWrap>
           <InputWrap>
@@ -190,6 +198,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
               onChange={onChange}
               name="newPasswordConfirm"
               placeholder="새 비밀번호 확인"
+              onKeyPress={handleKeyPress}
             />
           </InputWrap>
         </InputContainer>
