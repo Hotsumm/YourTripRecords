@@ -1,4 +1,5 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Loading from '../Load/Loading';
 import styled from 'styled-components';
 import { firebaseFireStore } from '../../firebaseConfig';
@@ -110,6 +111,9 @@ const Author = styled.span`
   font-size: 14px;
   font-weight: 700;
   margin-right: 10px;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const CreatedAt = styled.span`
@@ -286,7 +290,9 @@ const Comment = ({ postId }) => {
                       <Avatar src={comment.avatar}></Avatar>
                       <ContentInfoWrap>
                         <ContentInfo>
-                          <Author>{comment.nickname}</Author>
+                          <Link to={`/profile/${comment.authorId}`}>
+                            <Author>{comment.nickname}</Author>
+                          </Link>
                           <CreatedAt>{comment.createdAt}</CreatedAt>
                           {userObj && userObj.userId === comment.authorId && (
                             <HiX
