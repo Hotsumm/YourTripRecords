@@ -6,6 +6,7 @@ import { UserContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import ProfileMenu from '../components/Profile/ProfileMenu';
 import ProfileIntro from '../components/Profile/ProfileIntro';
+import Loading from '../components/Load/Loading';
 
 const ProfileContainer = styled.div`
   width: 100%;
@@ -20,11 +21,13 @@ const ProfileWrap = styled.div`
 
 const Profile = ({ match }) => {
   const { userObj } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [thisUser, setThisUser] = useState(null);
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
 
   const fetchUser = useCallback(async () => {
+    setIsLoading(true);
     const userRef = firebaseFireStore
       .collection('users')
       .doc(match.params.userId);
@@ -39,7 +42,8 @@ const Profile = ({ match }) => {
       })
       .catch((error) => {
         console.log('Error getting document:', error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [match.params.userId]);
 
   useEffect(() => {
@@ -49,20 +53,26 @@ const Profile = ({ match }) => {
   return (
     <>
       <Navigation show={true} />
-      {thisUser && (
-        <ProfileContainer>
-          <ProfileWrap>
-            <ProfileMenu
-              userCheck={userCheck}
-              thisUser={thisUser}
-              userObj={userObj}
-            />
-          </ProfileWrap>
-          <ProfileWrap>
-            <ProfileIntro thisUser={thisUser} />
-            <UserUploadedList userObj={userObj} thisUser={thisUser} />
-          </ProfileWrap>
-        </ProfileContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {thisUser && (
+            <ProfileContainer>
+              <ProfileWrap>
+                <ProfileMenu
+                  userCheck={userCheck}
+                  thisUser={thisUser}
+                  userObj={userObj}
+                />
+              </ProfileWrap>
+              <ProfileWrap>
+                <ProfileIntro thisUser={thisUser} />
+                <UserUploadedList userObj={userObj} thisUser={thisUser} />
+              </ProfileWrap>
+            </ProfileContainer>
+          )}
+        </>
       )}
     </>
   );

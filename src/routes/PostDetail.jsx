@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
@@ -86,24 +86,53 @@ const PostDetail = ({ match }) => {
   const { userObj } = useContext(UserContext);
   const [isEditClick, setIsEditClick] = useState(false);
 
+  const history = useHistory();
   const postId = match.params.postId;
   const pathName = match.url;
+
+  const handleDeletePost = async () => {
+    const answer = window.confirm(
+      '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
+    );
+    if (answer) {
+      firebaseFireStore
+        .collection('records')
+        .doc(postId)
+        .delete()
+        .then(() => userPostDelete(userObj.userId, postId, postObj.city))
+        .catch((error) => {
+          console.log(error);
+          alert('게시물 삭제에 실패하였습니다.');
+        });
+    }
+  };
+  const userPostDelete = async (userId, postId, city) => {
+    const newRecords = userObj.records.filter((record) => record !== postId);
+    firebaseFireStore
+      .collection('users')
+      .doc(userId)
+      .update({
+        records: newRecords,
+      })
+      .then(() => alert('게시물이 정상적으로 삭제되었습니다.'))
+      .then(() => history.push(`/city/${city}`))
+      .catch((error) => console.log(error));
+  };
 
   const handleEdit = () => setIsEditClick(!isEditClick);
 
   const fetchPosts = useCallback(async () => {
-    try {
-      const postsRef = firebaseFireStore.collection('records').doc(postId);
-      postsRef.get().then((doc) => {
+    const postsRef = firebaseFireStore.collection('records').doc(postId);
+    postsRef
+      .get()
+      .then((doc) => {
         const postData = {
           postId,
           ...doc.data(),
         };
         setPostObj(postData);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
+      })
+      .catch((error) => console.log(error));
   }, [postId]);
 
   useEffect(() => {
@@ -136,7 +165,7 @@ const PostDetail = ({ match }) => {
                       >
                         <li>게시물 수정하기</li>
                       </Link>
-                      <li>게시물 삭제하기</li>
+                      <li onClick={handleDeletePost}>게시물 삭제하기</li>
                       <li onClick={handleEdit} style={{ color: 'red' }}>
                         취소
                       </li>
