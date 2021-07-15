@@ -5,6 +5,7 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
+import LikesUser from './LikesUser';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -29,6 +30,10 @@ const CountWrap = styled.div`
 const LikeCount = styled.div`
   font-size: 18px;
   margin-right: 20px;
+  :hover {
+    text-decoration: underline;
+  }
+  cursor: pointer;
 `;
 
 const CommentCount = styled.div`
@@ -55,11 +60,18 @@ const CreatorWrap = styled.div`
 
 const PostInfo = ({ postObj }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isLikesUser, setIsLikesUser] = useState(false);
   const [likeCount, setLikeCount] = useState(
     postObj.likes.length ? postObj.likes.length : 0,
   );
+
   const { userObj } = useContext(UserContext);
   const likeList = postObj.likes;
+
+  const toggleLikesUser = () => {
+    if (likeCount === 0) return;
+    setIsLikesUser(!isLikesUser);
+  };
 
   const handleLike = async () => {
     if (!userObj) {
@@ -121,7 +133,7 @@ const PostInfo = ({ postObj }) => {
                   style={{ color: '#2f3542', cursor: 'pointer' }}
                 />
               )}
-              <LikeCount>{likeCount}</LikeCount>
+              <LikeCount onClick={toggleLikesUser}>{likeCount}</LikeCount>
               <GoComment size={'23'} style={{ color: '#2f3542' }} />
               <CommentCount>{postObj.comments.length}</CommentCount>
             </CountWrap>
@@ -133,6 +145,9 @@ const PostInfo = ({ postObj }) => {
             </Link>
           </PostInfoWrap>
         </PostInfoContainer>
+      )}
+      {isLikesUser && (
+        <LikesUser postObj={postObj} toggleLikesUser={toggleLikesUser} />
       )}
     </>
   );
