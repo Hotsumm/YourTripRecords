@@ -64,6 +64,7 @@ const CityName = styled.li`
   color: black;
   border-radius: 3px;
   margin-right: 20px;
+  cursor: pointer;
   :hover {
     color: '#16a085';
   }
