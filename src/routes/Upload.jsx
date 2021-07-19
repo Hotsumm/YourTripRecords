@@ -280,8 +280,8 @@ const Upload = () => {
     let pictureInfo = [];
     for (let i = 0; i < posts.length; i++) {
       const fileRef = firebaseStorage.ref(postRefId).child(posts[i].fileName);
-      const res = fileRef.putString(posts[i].picture, 'data_url');
-      const pictureURL = res.ref.getDownloadURL();
+      const res = await fileRef.putString(posts[i].picture, 'data_url');
+      const pictureURL = await res.ref.getDownloadURL();
       pictureInfo.push({
         pictureId: uuidv4(),
         location: posts[i].location,
@@ -315,7 +315,7 @@ const Upload = () => {
       .doc(postId)
       .set(docData)
       .then(() => alert('업로드가 완료 되었습니다.'))
-      .then(() => history.push('/'))
+      .then(() => history.push(`/city/${city}/${postId}`))
       .catch((error) => console.log(error.message))
       .finally(() => setLoading(false));
   };

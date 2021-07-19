@@ -217,7 +217,7 @@ const PostEdit = ({ match, location }) => {
         pictureList: [...posts],
       })
       .then(() => alert('여행기록 수정이 완료 되었습니다.'))
-      .then(() => history.push('/'))
+      .then(() => history.push(`/city/${postObj.city}/${postObj.postId}`))
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   };
