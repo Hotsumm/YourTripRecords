@@ -9,6 +9,8 @@ const FullViewContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
+  max-width: 1450px;
+  margin: 0 auto;
 `;
 
 const FullViewWrap = styled.div`

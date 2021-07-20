@@ -11,6 +11,8 @@ import Loading from '../components/Load/Loading';
 
 const UploadContainer = styled.div`
   width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
   padding: 80px 0;
   background: #f1f2f6;
   text-align: center;

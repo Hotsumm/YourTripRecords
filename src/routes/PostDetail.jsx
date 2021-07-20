@@ -15,6 +15,8 @@ const DetailContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 1450px;
+  margin: 0 auto;
 `;
 const DetailWrap = styled.div`
   width: 100%;

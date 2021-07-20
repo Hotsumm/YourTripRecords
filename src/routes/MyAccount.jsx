@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 const MyAccountContainer = styled.div`
   width: 100%;
   padding-top: 80px;
+  max-width: 1450px;
+  margin: 0 auto;
 `;
 
 const MyAccountHeader = styled.div`

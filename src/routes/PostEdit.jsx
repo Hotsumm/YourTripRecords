@@ -11,6 +11,8 @@ const PostEditContainer = styled.div`
   padding: 80px 0;
   background: #f1f2f6;
   text-align: center;
+  max-width: 1450px;
+  margin: 0 auto;
 `;
 const PostEditHeader = styled.div`
   margin: 50px 0;
