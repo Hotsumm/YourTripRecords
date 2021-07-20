@@ -25,6 +25,7 @@ const Profile = ({ match }) => {
   const { userObj } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [thisUser, setThisUser] = useState(null);
+
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
 

@@ -153,7 +153,6 @@ const ButtonWrap = styled.div`
 
 const ProfileEdit = ({ toggleProfileEdit }) => {
   const { userObj } = useContext(UserContext);
-  const [email, setEmail] = useState(userObj.email);
   const [nickname, setNickname] = useState(userObj.nickname);
   const [instagram, setInstagram] = useState(
     userObj.instagram ? userObj.instagram : '',
@@ -167,13 +166,16 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
 
   const closeButton = () => toggleProfileEdit();
 
+  const defaultAvatarChange = () => {
+    setAvatar(defaultAvatar);
+    setAvatarPreview(true);
+  };
+
   const onChange = (e) => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'nickname') {
+    if (name === 'nickname') {
       setNickname(value);
     } else if (name === 'instagram') {
       setInstagram(value);
@@ -199,50 +201,34 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
   };
 
   const onSubmit = async () => {
-    const usersRef = firebaseFireStore.collection('users').doc(userObj.id);
-    if (avatar === defaultAvatar) {
+    const usersRef = firebaseFireStore.collection('users').doc(userObj.userId);
+    if (!avatarPreview) {
       usersRef
         .update({
-          email,
           nickname,
-          avatar,
-          instagram: instagram,
-          intro: intro,
+          instagram,
+          intro,
         })
+        .then(() => alert('프로필이 변경되었습니다'))
+        .then(() => window.location.reload())
         .catch((error) => alert(error.message));
     } else {
-      if (avatarPreview) {
-        const fileRef = firebaseStorage
-          .ref('UserProfle')
-          .child(`${userObj.userId}/${uuidv4()}`);
-        const res = await fileRef.putString(avatar, 'data_url');
-        const avatarURL = await res.ref.getDownloadURL();
-        usersRef
-          .update({
-            email,
-            nickname,
-            avatar: avatarURL,
-            instagram,
-            intro,
-          })
-          .catch((error) => alert(error.message));
-      } else {
-        usersRef
-          .update({
-            email,
-            nickname,
-            instagram,
-            intro,
-          })
-          .catch((error) => alert(error.message));
-      }
+      const fileRef = firebaseStorage
+        .ref('UserProfle')
+        .child(`${userObj.userId}/${uuidv4()}`);
+      const res = await fileRef.putString(avatar, 'data_url');
+      const avatarURL = await res.ref.getDownloadURL();
+      usersRef
+        .update({
+          nickname,
+          avatar: avatar === defaultAvatar ? avatar : avatarURL,
+          instagram,
+          intro,
+        })
+        .then(() => alert('프로필이 변경되었습니다'))
+        .then(() => window.location.reload())
+        .catch((error) => alert(error.message));
     }
-    window.location.reload();
-  };
-
-  const defaultAvatarChange = () => {
-    setAvatar(defaultAvatar);
-    setAvatarPreview(true);
   };
 
   return (
@@ -259,7 +245,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
               ) : (
                 <Avatar src={userObj.avatar} />
               )}
-              <label for="input-file">프로필사진 변경</label>
+              <label htmlFor="input-file">프로필사진 변경</label>
               <input
                 type="file"
                 id="input-file"
@@ -273,14 +259,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
           <InputContainer>
             <InputWrap>
               <span>*이메일</span>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={onChange}
-                placeholder="이메일"
-                readOnly
-              />
+              <input type="email" value={userObj.email} readOnly />
             </InputWrap>
             <InputWrap>
               <span>*닉네임</span>

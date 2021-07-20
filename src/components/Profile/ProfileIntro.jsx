@@ -7,23 +7,24 @@ const ProfileIntroContainer = styled.div`
 `;
 
 const ProfileIntroWrap = styled.div`
+  width: 100%;
   display: flex;
   background: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px 20px 70px 20px;
-  width: 100%;
+  padding: 20px 20px 50px 20px;
   flex-direction: column;
 `;
 
 const IntroHeader = styled.div`
   text-align: left;
   width: 100%;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 20px;
 `;
 
-const Intro = styled.div`
+const Intro = styled.span`
   width: 100%;
+  font-size: 13px;
   text-align: left;
 `;
 
