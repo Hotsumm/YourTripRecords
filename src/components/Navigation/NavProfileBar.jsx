@@ -119,7 +119,7 @@ const NavProfile = () => {
                 <Link to={`/profile/${userObj.userId}`}>
                   <li>프로필 보기</li>
                 </Link>
-                <Link to={'/city/서울'}>
+                <Link to={'/city/전체'}>
                   <li>여행기록 둘러보기</li>
                 </Link>
                 <Link to={'/upload'}>

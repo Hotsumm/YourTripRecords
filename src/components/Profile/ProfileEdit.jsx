@@ -215,8 +215,8 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
         const fileRef = firebaseStorage
           .ref('UserProfle')
           .child(`${userObj.userId}/${uuidv4()}`);
-        const res = fileRef.putString(avatar, 'data_url');
-        const avatarURL = res.ref.getDownloadURL();
+        const res = await fileRef.putString(avatar, 'data_url');
+        const avatarURL = await res.ref.getDownloadURL();
         usersRef
           .update({
             email,

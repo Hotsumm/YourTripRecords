@@ -3,17 +3,33 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
 import Loading from '../Load/Loading';
+import noPostImg from '../../static/assets/NoPost.jpeg';
 
 const CityPostContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px 40px;
+  padding: 60px;
 `;
 
-const NoPost = styled.div`
-  font-size: 60px;
+const NoPostWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const NoPostImg = styled.img`
+  width: 750px;
+  height: 400px;
+  border-radius: 10px;
+`;
+
+const NoPost = styled.p`
+  font-size: 30px;
+  margin-bottom: 10px;
   color: black;
 `;
 
@@ -83,19 +99,27 @@ const InfoContent = styled.div`
 const CreatorWrap = styled.div`
   display: flex;
   align-items: center;
-  div {
-    font-size: 14px;
-    font-weight: 700;
-  }
-  img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 5px;
-  }
 `;
-const SeasonWrap = styled.div`
+const InfoWrap = styled.span`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Info = styled.span`
   font-size: 12px;
+  margin-top: 5px;
+`;
+
+const Avatar = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+`;
+
+const Nickname = styled.span`
+  font-size: 14px;
+  font-weight: 700;
 `;
 
 const CityPost = ({ loading, posts, cityName }) => {
@@ -131,12 +155,16 @@ const CityPost = ({ loading, posts, cityName }) => {
                           : post.postTitle}
                       </PostTitle>
                       <InfoContent>
-                        <SeasonWrap>
-                          <span>여행계절: {post.season}</span>
-                        </SeasonWrap>
+                        <InfoWrap>
+                          <Info>도시: {post.city}</Info>
+                          <Info>여행계절: {post.season}</Info>
+                        </InfoWrap>
                         <CreatorWrap>
-                          <img src={post.creator.userObj.avatar} alt="Avatar" />
-                          <div>{post.creator.userObj.nickname}</div>
+                          <Avatar
+                            src={post.creator.userObj.avatar}
+                            alt="Avatar"
+                          />
+                          <Nickname>{post.creator.userObj.nickname}</Nickname>
                         </CreatorWrap>
                       </InfoContent>
                     </PostInfo>
@@ -145,7 +173,13 @@ const CityPost = ({ loading, posts, cityName }) => {
               ))}
             </CityPostWrap>
           ) : (
-            <NoPost>'{cityName}'의 첫 게시물을 올려주세요.</NoPost>
+            <NoPostWrap>
+              <NoPost>아직 등록 된 게시물이 없습니다.</NoPost>
+              <NoPost style={{ marginBottom: '40px' }}>
+                첫 게시물을 등록 해보세요 !
+              </NoPost>
+              <NoPostImg src={noPostImg} />
+            </NoPostWrap>
           )}
         </CityPostContainer>
       )}

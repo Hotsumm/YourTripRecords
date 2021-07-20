@@ -87,6 +87,11 @@ const CityList = () => {
         </CityMenu>
       </CityListHeader>
       <CityListWrap>
+        <Link to={'/city/전체'}>
+          <City>
+            <CityName>전체</CityName>
+          </City>
+        </Link>
         {cityArray.map((city, index) => (
           <Link key={index} to={`/city/${city.name}`}>
             <City>

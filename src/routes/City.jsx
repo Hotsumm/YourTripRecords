@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
-import { cityArray } from '../utils/cityArray';
 import CityPost from '../components/City/CityPost';
+import CityCategory from '../components/City/CityCategory';
 import { firebaseFireStore } from '../firebaseConfig';
 
 const CityContainer = styled.div`
@@ -12,50 +12,53 @@ const CityContainer = styled.div`
 
 const CityHeader = styled.div`
   width: 100%;
-  padding: 60px 0px 30px 0px;
+  padding: 60px 0px 40px 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
-const CityImg = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 30px 0;
-`;
-
-const CityName = styled.div`
+const CityName = styled.span`
   color: black;
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 600;
 `;
 
 const City = ({ match }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
-
+  const [selectedSeason, setSelectedSeason] = useState('전체');
   const cityName = match.params.cityName;
-  const thisCityObj = cityArray.filter((city) => city.name === cityName);
-  const cityImgUrl = thisCityObj[0].imgUrl;
+
+  const handleSeasonSelect = (season) => {
+    setSelectedSeason(season);
+  };
 
   const fetchPost = useCallback(async () => {
     setLoading(true);
-    let allPost = [];
+    let postArr = [];
     firebaseFireStore
       .collection('records')
       .get()
       .then((postsRef) => {
         postsRef.forEach((doc) => {
-          allPost.push(doc.data());
+          postArr.push(doc.data());
         });
-        const cityFilter = allPost.filter((post) => post.city === cityName);
-        setPosts(cityFilter);
+
+        if (cityName !== '전체') {
+          postArr = postArr.filter((post) => post.city === cityName);
+        }
+
+        if (selectedSeason !== '전체') {
+          postArr = postArr.filter((post) => post.season === selectedSeason);
+        }
+
+        setPosts(postArr);
       })
       .catch((error) => error.message)
       .finally(() => setLoading(false));
-  }, [cityName]);
+  }, [cityName, selectedSeason]);
 
   useEffect(() => {
     fetchPost();
@@ -66,9 +69,12 @@ const City = ({ match }) => {
       <Navigation show={true} />
       <CityContainer>
         <CityHeader>
-          <CityName>{cityName} 둘러보기</CityName>
-          <CityImg src={cityImgUrl}></CityImg>
+          <CityName>{cityName} 여행기록</CityName>
         </CityHeader>
+        <CityCategory
+          cityName={cityName}
+          handleSeasonSelect={handleSeasonSelect}
+        />
         {posts && (
           <CityPost loading={loading} posts={posts} cityName={cityName} />
         )}
