@@ -5,7 +5,7 @@ import City from './routes/City';
 import Profile from './routes/Profile';
 import Upload from './routes/Upload';
 import PostDetail from './routes/PostDetail';
-import FullView from './routes/FullView';
+import AllPictures from './routes/AllPictures';
 import MyAccount from './routes/MyAccount';
 import PostEdit from './routes/PostEdit';
 
@@ -23,7 +23,7 @@ const Router = () => {
         <Route
           path="/city/:cityName/:postId/:pictureId"
           exact
-          component={FullView}
+          component={AllPictures}
         />
         <Redirect path="*" to="/" />
       </Switch>
