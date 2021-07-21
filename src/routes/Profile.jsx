@@ -7,18 +7,38 @@ import { firebaseFireStore } from '../firebaseConfig';
 import ProfileMenu from '../components/Profile/ProfileMenu';
 import ProfileIntro from '../components/Profile/ProfileIntro';
 import Loading from '../components/Load/Loading';
+import bgProfile from '../static/assets/bgProfile.jpg';
 
 const ProfileContainer = styled.div`
   width: 100%;
-  background: #f1f2f6;
+  background: white;
   max-width: 1450px;
   margin: 0 auto;
+`;
+const ProfileBackground = styled.img`
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  height: 350px;
 `;
 
 const ProfileWrap = styled.div`
   width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  position: absolute;
+  padding: 50px 100px;
+  top: 100px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+`;
+
+const ProfileRow = styled.div`
+  width: 100%;
   display: flex;
-  padding: 20px 100px;
+  margin-bottom: 50px;
 `;
 
 const Profile = ({ match }) => {
@@ -56,27 +76,30 @@ const Profile = ({ match }) => {
   return (
     <>
       <Navigation show={true} />
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {thisUser && (
-            <ProfileContainer>
+      <ProfileContainer>
+        <ProfileBackground src={bgProfile} alt="프로필배경" />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {thisUser && (
               <ProfileWrap>
-                <ProfileMenu
-                  userCheck={userCheck}
-                  thisUser={thisUser}
-                  userObj={userObj}
-                />
+                <ProfileRow>
+                  <ProfileMenu
+                    userCheck={userCheck}
+                    thisUser={thisUser}
+                    userObj={userObj}
+                  />
+                </ProfileRow>
+                <ProfileRow>
+                  <ProfileIntro thisUser={thisUser} />
+                  <UserUploadedList userObj={userObj} thisUser={thisUser} />
+                </ProfileRow>
               </ProfileWrap>
-              <ProfileWrap>
-                <ProfileIntro thisUser={thisUser} />
-                <UserUploadedList userObj={userObj} thisUser={thisUser} />
-              </ProfileWrap>
-            </ProfileContainer>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+      </ProfileContainer>
     </>
   );
 };

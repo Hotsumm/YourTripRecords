@@ -7,11 +7,26 @@ import Loading from '../Load/Loading';
 
 const UploadedListContainer = styled.div`
   width: 75%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const UploadedListHeader = styled.span`
+  margin-bottom: 40px;
+  font-size: 26px;
+  font-weight: 600;
+`;
+
+const NoUploadedList = styled.span`
+  color: gray;
+  font-size: 20px;
+  text-decoration: underline;
 `;
 
 const UploadedListWrap = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+
   gap: 20px;
   width: 100%;
 `;
@@ -25,6 +40,7 @@ const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 `;
 
 const PostThumbnail = styled.img`
@@ -111,7 +127,12 @@ const UserUploadedList = ({ userObj, thisUser }) => {
         <Loading />
       ) : (
         <UploadedListContainer>
-          {recordList && (
+          <UploadedListHeader>
+            {thisUser.nickname}의 여행기록
+          </UploadedListHeader>
+          {!recordList ? (
+            <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
+          ) : (
             <UploadedListWrap>
               {recordList.map((record, index) => (
                 <UploadedList key={index}>

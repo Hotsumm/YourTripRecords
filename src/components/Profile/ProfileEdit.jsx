@@ -18,11 +18,21 @@ const ProfileEditContainer = styled.div`
 `;
 
 const ProfileEditWrap = styled.div`
-  width: 570px;
-  height: 630px;
+  width: 650px;
+  max-height: 550px;
+  overflow: auto;
   background: white;
+  margin-top: 100px;
   z-index: 1;
+  padding: 0 0 30px 0;
   border-radius: 20px;
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #bdc3c7;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
 `;
 
 const ProfileEditHeader = styled.div`

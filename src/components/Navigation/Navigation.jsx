@@ -9,7 +9,7 @@ const NavContainer = styled.div`
   height: 80px;
   position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 999;
   box-shadow: ${(props) =>
     props.show ? '0px 0px 8px rgba(0, 0, 0, 0.2)' : '0px'};
   background: ${(props) => (props.show ? ' white' : 'transparent')};

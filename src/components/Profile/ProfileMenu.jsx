@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import ProfileEdit from './ProfileEdit';
 import { IoLogoInstagram } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { FaExchangeAlt } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
+import SignIn from '../Auth/SignIn';
 
 const ProfileMenuContainer = styled.div`
   width: 100%;
@@ -11,12 +15,13 @@ const ProfileMenuContainer = styled.div`
 
 const ProfileMenuWrap = styled.div`
   width: 100%;
+  height: 220px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: white;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  padding: 30px 30px;
 `;
 
 const AvatarWrap = styled.div`
@@ -26,43 +31,41 @@ const AvatarWrap = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
+  margin-right: 20px;
 `;
 
-const AvatarInfo = styled.div`
+const AvatarInfoWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 30px 0 20px;
+  padding: 0px 20px;
 `;
 
-const AvatarInfoContent = styled.div`
+const InfoContent = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  padding: 10px 0;
+  flex-direction: column;
+  padding: 7px 0;
 `;
 const ContentTitle = styled.div`
   color: gray;
+  margin-right: 10px;
 `;
 
 const Nickname = styled.div`
-  font-size: 28px;
+  font-size: 18px;
+  font-weight: 600;
   color: black;
   margin-top: 5px;
 `;
 
-const IconWrap = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const Instagram = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   color: black;
   cursor: pointer;
   :hover {
@@ -72,41 +75,51 @@ const Instagram = styled.div`
 `;
 
 const PostConunt = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 5px;
   color: black;
 `;
 
+const OtherUser = styled.span`
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-align: center;
+  cursor: pointer;
+`;
+
 const MenuWrap = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
 `;
 
 const Menu = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  width: 170px;
-  height: 170px;
-  border: 1px solid #ababab80;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin-right: 50px;
+  padding: 15px 25px;
+  border: 1px solid #16a085;
+  border-radius: 5px;
+  background: white;
+  margin-right: 30px;
   cursor: pointer;
   span {
     color: black;
-    font-size: 18px;
-    :last-child {
-      font-size: 12px;
-      color: gray;
-      margin-top: 10px;
-    }
+    font-size: 14px;
+    margin-left: 10px;
   }
 `;
 
 const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
   const [isEditClick, setIsEditClick] = useState(false);
-
+  const [isSignInClick, setIsSignInClick] = useState(false);
   const toggleProfileEdit = () => setIsEditClick(!isEditClick);
+
+  const toggleSignIn = () => setIsSignInClick(!isSignInClick);
 
   const handleInstagram = () =>
     window.open(`https://www.instagram.com/${thisUser.instagram}/`);
@@ -117,44 +130,45 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
         <ProfileMenuWrap>
           <AvatarWrap>
             <Avatar src={thisUser.avatar}></Avatar>
-            <AvatarInfo>
-              <AvatarInfoContent>
+            <AvatarInfoWrap>
+              <InfoContent>
                 <ContentTitle>닉네임</ContentTitle>
                 <Nickname>{thisUser.nickname}</Nickname>
-              </AvatarInfoContent>
+              </InfoContent>
+              <InfoContent>
+                <ContentTitle>포스팅</ContentTitle>
+                <PostConunt>{thisUser.records.length}</PostConunt>
+              </InfoContent>
               {thisUser.instagram && (
-                <AvatarInfoContent>
-                  <IconWrap>
-                    <ContentTitle>인스타그램</ContentTitle>
-                    <IoLogoInstagram size={18} style={{ color: '#fd79a8' }} />
-                  </IconWrap>
+                <InfoContent>
+                  <IoLogoInstagram size={18} style={{ color: 'black' }} />
                   <Instagram onClick={handleInstagram}>
                     @{thisUser.instagram}
                   </Instagram>
-                </AvatarInfoContent>
+                </InfoContent>
               )}
-              <AvatarInfoContent>
-                <ContentTitle>포스팅</ContentTitle>
-                <PostConunt>{thisUser.records.length}</PostConunt>
-              </AvatarInfoContent>
-            </AvatarInfo>
+            </AvatarInfoWrap>
           </AvatarWrap>
-          {userCheck && (
+          {!userCheck ? (
+            <OtherUser onClick={toggleSignIn}>
+              로그인을 하여 더 많은 서비스를 이용해보세요 !
+            </OtherUser>
+          ) : (
             <MenuWrap>
               <Link to={'/upload'}>
                 <Menu>
+                  <AiOutlinePlusCircle size={'18'} />
                   <span>여행기록 올리기</span>
-                  <span>여행기록을 올리고 싶어요.</span>
                 </Menu>
               </Link>
               <Menu onClick={toggleProfileEdit}>
+                <CgProfile size={'18'} />
                 <span>프로필 변경</span>
-                <span>프로필을 변경하고 싶어요.</span>
               </Menu>
               <Link to={`/myAccount/${userObj.userId}`}>
                 <Menu>
+                  <FaExchangeAlt size={'18'} />
                   <span>계정정보 변경</span>
-                  <span>계정정보를 변경하고 싶어요.</span>
                 </Menu>
               </Link>
             </MenuWrap>
@@ -162,6 +176,7 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
         </ProfileMenuWrap>
       </ProfileMenuContainer>
       {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
+      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
     </>
   );
 };
