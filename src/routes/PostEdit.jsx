@@ -263,42 +263,40 @@ const PostEdit = ({ match, location }) => {
                     </RecordWrap>
                   </RecordContainer>
                   {posts.map((post, index) => (
-                    <>
-                      <PostContainer>
-                        <Post src={post.pictureURL} alt="post" />
-                        <PostInputWrap>
-                          <PostInfo>
-                            <span>위치</span>
-                            <input
+                    <PostContainer key={index}>
+                      <Post src={post.pictureURL} alt="post" />
+                      <PostInputWrap>
+                        <PostInfo>
+                          <span>위치</span>
+                          <input
+                            type="text"
+                            placeholder="위치"
+                            id={index}
+                            name="location"
+                            value={post.location}
+                            onChange={onChange}
+                            required
+                          />
+                        </PostInfo>
+                        <PostInfo>
+                          <span>설명</span>
+                          <TextAreaWrap>
+                            <textarea
                               type="text"
-                              placeholder="위치"
+                              placeholder="최대 300자로 사진을 설명해보세요."
+                              rows="7"
+                              maxLength="300"
                               id={index}
-                              name="location"
-                              value={post.location}
+                              name="description"
+                              value={post.description}
                               onChange={onChange}
                               required
                             />
-                          </PostInfo>
-                          <PostInfo>
-                            <span>설명</span>
-                            <TextAreaWrap>
-                              <textarea
-                                type="text"
-                                placeholder="최대 300자로 사진을 설명해보세요."
-                                rows="7"
-                                maxLength="300"
-                                id={index}
-                                name="description"
-                                value={post.description}
-                                onChange={onChange}
-                                required
-                              />
-                              <div>{posts[index].description.length}/300자</div>
-                            </TextAreaWrap>
-                          </PostInfo>
-                        </PostInputWrap>
-                      </PostContainer>
-                    </>
+                            <div>{posts[index].description.length}/300자</div>
+                          </TextAreaWrap>
+                        </PostInfo>
+                      </PostInputWrap>
+                    </PostContainer>
                   ))}
                 </>
               )}
@@ -317,12 +315,12 @@ const PostEdit = ({ match, location }) => {
             </Guide>
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
-          <ButtonWrap loading={loading}>
-            <Button loading={loading} onClick={onPostEdit}>
+          <ButtonWrap loading={loading ? 1 : 0}>
+            <Button loading={loading ? 1 : 0} onClick={onPostEdit}>
               수정하기
             </Button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>
-              <Button loading={loading}>취소</Button>
+              <Button loading={loading ? 1 : 0}>취소</Button>
             </Link>
           </ButtonWrap>
         </PostEditWrap>

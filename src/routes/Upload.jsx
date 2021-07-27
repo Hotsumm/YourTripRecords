@@ -14,9 +14,11 @@ const UploadContainer = styled.div`
   max-width: 1450px;
   margin: 0 auto;
   padding: 80px 0;
-  background: #f1f2f6;
+  background: white;
   text-align: center;
-  filter: ${(props) => (props.loading ? 'brightness(%)' : 'brightness(100%)')};
+  filter: ${(props) =>
+    props.loading ? 'brightness(30%)' : 'brightness(100%)'};
+  height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeader = styled.div`
   margin: 50px 0;
@@ -24,12 +26,11 @@ const UploadHeader = styled.div`
 `;
 
 const UploadWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   padding: 0px 250px;
 `;
 
@@ -325,7 +326,7 @@ const Upload = () => {
   return (
     <>
       <Navigation show={true} />
-      <UploadContainer loading={loading}>
+      <UploadContainer loading={loading ? 1 : 0}>
         <UploadHeader>여행기록 올리기</UploadHeader>
         <UploadWrap>
           {loading ? (
@@ -404,7 +405,7 @@ const Upload = () => {
                 </>
               ) : (
                 <FileContainer>
-                  <label for="input-file">
+                  <label htmlFor="input-file">
                     사진 올리기 (최소 5장 최대 15장)
                   </label>
                   <input
@@ -432,7 +433,7 @@ const Upload = () => {
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>
-            <Button loading={loading} onClick={onUpload}>
+            <Button loading={loading ? 1 : 0} onClick={onUpload}>
               업로드하기
             </Button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>
