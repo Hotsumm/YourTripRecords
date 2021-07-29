@@ -8,6 +8,7 @@ import { cityArray } from '../utils/cityArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
+import Pagination from '../components/Detail/KakaoMap/Pagination';
 
 const UploadContainer = styled.div`
   width: 100%;
@@ -21,7 +22,7 @@ const UploadContainer = styled.div`
   height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeader = styled.div`
-  margin: 50px 0;
+  margin-top: 50px;
   font-size: 40px;
 `;
 
@@ -31,7 +32,7 @@ const UploadWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 250px;
+  padding: 30px 250px;
 `;
 
 const RecordContainer = styled.div`
@@ -40,7 +41,7 @@ const RecordContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  padding: 30px 0;
 `;
 
 const RecordWrap = styled.div`
@@ -81,13 +82,18 @@ const RecordWrap = styled.div`
   }
 `;
 
-const PostContainer = styled.div`
+const PictureInfoContainer = styled.div`
+  width: 100%;
+  padding: 20px 0;
+`;
+
+const PictureInfoWrap = styled.div`
   width: 100%;
   height: 300px;
   display: flex;
 `;
 
-const Post = styled.img`
+const Picture = styled.img`
   width: 35%;
   height: 80%;
   margin-right: 50px;
@@ -96,17 +102,21 @@ const Post = styled.img`
     opacity: 0.8;
   }
 `;
-const PostInputWrap = styled.div`
+
+const PictureInputWrap = styled.div`
   display: flex;
   width: 45%;
   flex-direction: column;
 `;
 
-const PostInfo = styled.div`
+const PictureInfo = styled.div`
   display: flex;
   padding: 5px 0;
   align-items: flex-start;
-  input {
+  :first-child {
+    position: relative;
+  }
+  & input {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px 5px;
@@ -174,7 +184,7 @@ const FileContainer = styled.div`
 `;
 
 const GuideContainer = styled.div`
-  margin: 35px 0 25px 0;
+  margin: 25px 0;
 `;
 
 const GuideHeader = styled.div`
@@ -189,6 +199,7 @@ const Guide = styled.div`
 
 const ButtonWrap = styled.div`
   width: 100%;
+  margin-bottom: 20px;
 `;
 const Button = styled.button`
   width: 100px;
@@ -212,12 +223,28 @@ const Upload = () => {
   const [postTitle, setPostTitle] = useState('');
   const [city, setCity] = useState('서울');
   const [season, setSeason] = useState('봄');
+  const [searchPlace, setSearchPlace] = useState(null);
+  const [searchPlaceSelect, setSearchPlaceSelect] = useState(null);
 
+  const locationSelect = (locationId, longitude, latitude, place_name, id) => {
+    searchPlace[id] = place_name;
+    searchPlaceSelect[id] = true;
+    posts[id].location = {
+      coords: { longitude, latitude },
+      placeName: place_name,
+      locationId,
+    };
+    setSearchPlace([...searchPlace]);
+    setSearchPlaceSelect([...searchPlaceSelect]);
+    setPosts([...posts]);
+  };
+  console.log(posts);
   const onChange = (e) => {
+    let newArray = [...posts];
+
     const {
       target: { id, name, value },
     } = e;
-    let newArray = [...posts];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
@@ -226,7 +253,11 @@ const Upload = () => {
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      newArray[id].location = value;
+      newArray[id].location = {};
+      searchPlaceSelect[id] = false;
+      searchPlace[id] = value;
+      setSearchPlace([...searchPlace]);
+      setSearchPlaceSelect([...searchPlaceSelect]);
       setPosts(newArray);
     } else if (name === 'description') {
       newArray[id].description = value;
@@ -249,15 +280,20 @@ const Upload = () => {
 
     let fileURLs = [];
     let pictureFiles = [];
+    let searchPlaceList = [];
+    let searchPlaceSelectList = [];
 
     for (let i = 0; i < fileArr.length; i++) {
       let file = fileArr[i];
+
+      searchPlaceList.push('');
+      searchPlaceSelectList.push(false);
 
       pictureFiles.push({
         picturePreview: URL.createObjectURL(fileArr[i]),
         fileName: fileArr[i].name,
         picture: '',
-        location: '',
+        location: null,
         description: '',
       });
 
@@ -273,6 +309,8 @@ const Upload = () => {
       reader.readAsDataURL(file);
     }
     setPosts(pictureFiles);
+    setSearchPlace(searchPlaceList);
+    setSearchPlaceSelect(searchPlaceSelectList);
   };
 
   const onUpload = async () => {
@@ -307,12 +345,14 @@ const Upload = () => {
       },
       pictureList: [...pictureInfo],
     };
+
     firebaseFireStore
       .collection('users')
       .doc(userObj.userId)
       .update({
         records: [...userPostList, postId],
       });
+
     firebaseFireStore
       .collection('records')
       .doc(postId)
@@ -366,12 +406,12 @@ const Upload = () => {
                       </select>
                     </RecordWrap>
                   </RecordContainer>
-                  {posts.map((post, index) => (
-                    <>
-                      <PostContainer>
-                        <Post src={post.picturePreview} alt="post" />
-                        <PostInputWrap>
-                          <PostInfo>
+                  <PictureInfoContainer>
+                    {posts.map((post, index) => (
+                      <PictureInfoWrap key={index}>
+                        <Picture src={post.picturePreview} alt="post" />
+                        <PictureInputWrap>
+                          <PictureInfo>
                             <span>위치</span>
                             <input
                               type="text"
@@ -379,10 +419,18 @@ const Upload = () => {
                               id={index}
                               name="location"
                               onChange={onChange}
-                              required
+                              value={searchPlace[index]}
                             />
-                          </PostInfo>
-                          <PostInfo>
+                            {searchPlace[index] &&
+                              !searchPlaceSelect[index] && (
+                                <Pagination
+                                  searchPlace={searchPlace[index]}
+                                  locationSelect={locationSelect}
+                                  id={index}
+                                />
+                              )}
+                          </PictureInfo>
+                          <PictureInfo>
                             <span>설명</span>
                             <TextAreaWrap>
                               <textarea
@@ -393,15 +441,14 @@ const Upload = () => {
                                 id={index}
                                 name="description"
                                 onChange={onChange}
-                                required
                               />
                               <div>{posts[index].description.length}/300자</div>
                             </TextAreaWrap>
-                          </PostInfo>
-                        </PostInputWrap>
-                      </PostContainer>
-                    </>
-                  ))}
+                          </PictureInfo>
+                        </PictureInputWrap>
+                      </PictureInfoWrap>
+                    ))}
+                  </PictureInfoContainer>
                 </>
               ) : (
                 <FileContainer>
@@ -422,18 +469,26 @@ const Upload = () => {
           )}
           <GuideContainer>
             <GuideHeader>가이드 라인</GuideHeader>
-            <Guide>*여행기록의 제목을 지어주세요.</Guide>
             <Guide>
               *자신이 다녀왔던 여행지의 여행사진들을 업로드 해주세요.
             </Guide>
-            <Guide>*여행사진별로 설명글을 작성해주세요.</Guide>
+            <Guide>*여행기록의 제목을 지어주세요.</Guide>
+            <Guide>*여행기록의 도시, 계절을 선택해주세요.</Guide>
+            <Guide>
+              *여행사진의 위치, 사진에 대한 간단한 설명을 적어주세요.
+            </Guide>
+            <Guide>
+              (작성한 위치는 게시물에 지도로 표시되니, 정확한 위치를
+              입력해주세요.)
+            </Guide>
+
             <Guide>
               *사진은 최소 5장에서 최대 15장까지 업로드할 수 있습니다.
             </Guide>
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>
-            <Button loading={loading ? 1 : 0} onClick={onUpload}>
+            <Button type="submit" loading={loading ? 1 : 0} onClick={onUpload}>
               업로드하기
             </Button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>

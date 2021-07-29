@@ -4,11 +4,13 @@ import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { BsArrowLeftShort } from 'react-icons/bs';
 import { BsArrowRightShort } from 'react-icons/bs';
 import { useHistory } from 'react-router-dom';
+import Marker from '../components/Detail/KakaoMap/Marker';
 
 const AllPicturesContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background: white;
   max-width: 1450px;
   margin: 0 auto;
@@ -16,9 +18,10 @@ const AllPicturesContainer = styled.div`
 
 const AllPicturesWrap = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 0px 80px;
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 60px 30px 60px;
 `;
 
 const AllPicturesHeader = styled.div`
@@ -27,7 +30,7 @@ const AllPicturesHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 30px;
   svg {
     cursor: pointer;
     position: absolute;
@@ -42,16 +45,17 @@ const SelectPictureContainer = styled.div`
   width: 100%;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 30px 20px;
 `;
 
 const SelectPictureSlideWrap = styled.div`
+  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 50%;
-  margin: 30px 0px 30px 20px;
-  svg {
+
+  & svg {
     position: absolute;
     color: white;
     cursor: pointer;
@@ -71,55 +75,93 @@ const SelectPictureSlideWrap = styled.div`
 const SelectPicture = styled.img`
   width: 100%;
   height: 100%;
+  min-width: 800px;
+  min-height: 400px;
+  max-width: 1000px;
+  max-height: 600px;
 `;
 
 const SelectPictureInfoWrap = styled.div`
-  width: 50%;
+  width: 1000%;
+  height: auto;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 30px 20px 30px 0;
 `;
-const SelectPictureInfo = styled.div``;
-
-const LocationWrap = styled.div`
-  width: 100%;
+const SelectPictureInfo = styled.div`
+  height: 100%;
   display: flex;
-  align-items: center;
-  height: 60px;
-  padding: 20px 30px;
-  border-bottom: 1px solid #f1f2f6;
-  span {
-    font-size: 18px;
-    font-weight: 700;
-    margin-right: 20px;
-  }
-`;
-
-const Location = styled.div`
-  font-size: 16px;
+  flex-direction: column;
 `;
 
 const DescriptionWrap = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 30px;
-  span {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 30px;
-  }
+  padding: 20px;
+  border-bottom: 1px solid #f1f2f6;
 `;
 
 const Description = styled.div`
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 2;
   color: ${(props) => (props.description ? 'black' : 'gray')};
+`;
+
+const LocationWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+`;
+
+const Header = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 15px;
+`;
+
+const KakaoMapWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Location = styled.div`
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+`;
+
+const NoLocationWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const NoLocation = styled.span`
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  color: black;
+  text-decoration: underline;
 `;
 
 const AllPicturesList = styled.div`
   width: 100%;
+  max-width: 1200px;
+  overflow: auto;
   height: 150px;
   display: flex;
-  justify-content: center;
+  padding: 20px 30px;
+
   img {
     opacity: 0.6;
     :nth-child(${(props) => props.index + 1}) {
@@ -129,8 +171,8 @@ const AllPicturesList = styled.div`
 `;
 const ListPicture = styled.img`
   cursor: pointer;
-  width: 120px;
-  height: 100px;
+  width: 130px;
+  height: 100%;
   margin-right: 10px;
 `;
 
@@ -212,32 +254,52 @@ const AllPictures = ({ match, location }) => {
               </SelectPictureSlideWrap>
               <SelectPictureInfoWrap>
                 <SelectPictureInfo>
-                  <LocationWrap>
-                    <span>위치</span>
-                    <Location>{selectPicture.location}</Location>
-                  </LocationWrap>
                   <DescriptionWrap>
-                    <span>설명</span>
+                    <Header>설명</Header>
                     <Description description={selectPicture.description}>
                       {selectPicture.description
                         ? selectPicture.description
                         : '설명 없음'}
                     </Description>
                   </DescriptionWrap>
+                  {selectPicture.location ? (
+                    <LocationWrap>
+                      <Header>위치</Header>
+                      <KakaoMapWrap>
+                        <Location
+                          onClick={() =>
+                            window.open(
+                              `https://map.kakao.com/link/map/${selectPicture.location.locationId}`,
+                            )
+                          }
+                        >
+                          {selectPicture.location.placeName}
+                        </Location>
+                        <Marker coords={selectPicture.location.coords} />
+                      </KakaoMapWrap>
+                    </LocationWrap>
+                  ) : (
+                    <LocationWrap>
+                      <Header style={{ marginBottom: 0 }}>위치</Header>
+                      <NoLocationWrap>
+                        <NoLocation>위치 정보가 없습니다.</NoLocation>
+                      </NoLocationWrap>
+                    </LocationWrap>
+                  )}
                 </SelectPictureInfo>
               </SelectPictureInfoWrap>
             </SelectPictureContainer>
+            <AllPicturesList index={pictureIndex}>
+              {pictureList.length > 0 &&
+                pictureList.map((picture, index) => (
+                  <ListPicture
+                    key={index}
+                    src={picture.pictureURL}
+                    onClick={() => changePicture(index)}
+                  />
+                ))}
+            </AllPicturesList>
           </AllPicturesWrap>
-          <AllPicturesList index={pictureIndex}>
-            {pictureList.length > 0 &&
-              pictureList.map((picture, index) => (
-                <ListPicture
-                  key={index}
-                  src={picture.pictureURL}
-                  onClick={() => changePicture(index)}
-                />
-              ))}
-          </AllPicturesList>
         </>
       )}
     </AllPicturesContainer>
