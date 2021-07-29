@@ -262,7 +262,7 @@ const AllPictures = ({ match, location }) => {
                         : '설명 없음'}
                     </Description>
                   </DescriptionWrap>
-                  {selectPicture.location ? (
+                  {Object.keys(selectPicture.location).length ? (
                     <LocationWrap>
                       <Header>위치</Header>
                       <KakaoMapWrap>

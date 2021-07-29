@@ -16,6 +16,7 @@ const PaginationContainer = styled.ul`
   border: 1px solid gray;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  z-index: 1;
 `;
 
 const PaginationWrap = styled.li`
@@ -52,7 +53,7 @@ const Pagination = ({ searchPlace, locationSelect, id }) => {
   const handleLocation = (locationId, longitude, latitude, place_name) => {
     locationSelect(locationId, longitude, latitude, place_name, id);
   };
-  console.log(Places);
+
   useEffect(() => {
     const places = new kakao.maps.services.Places();
     const placesSearchCB = (data, status) => {

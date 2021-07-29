@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { firebaseFireStore } from '../firebaseConfig';
 import Loading from '../components/Load/Loading';
 import { UserContext } from '../Context';
+import Pagination from '../components/Detail/KakaoMap/Pagination';
 
 const PostEditContainer = styled.div`
   width: 100%;
@@ -75,25 +76,26 @@ const RecordWrap = styled.div`
   }
 `;
 
-const PostContainer = styled.div`
+const PictureContainer = styled.div`
   width: 100%;
   height: 300px;
   display: flex;
 `;
 
-const Post = styled.img`
+const Picture = styled.img`
   width: 35%;
   height: 80%;
   margin-right: 50px;
   cursor: default;
 `;
-const PostInputWrap = styled.div`
+const PictureInputWrap = styled.div`
   display: flex;
   width: 45%;
   flex-direction: column;
 `;
 
-const PostInfo = styled.div`
+const PictureInfo = styled.div`
+  position: relative;
   display: flex;
   padding: 5px 0;
   align-items: flex-start;
@@ -175,29 +177,66 @@ const PostEdit = ({ match, location }) => {
   const postObj = location.state.postObj;
   const history = useHistory();
   const { userObj } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState(
+
+  const [pictureObjList, setPictureObjList] = useState(
     location ? location.state.postObj.pictureList : null,
   );
+  const [loading, setLoading] = useState(false);
   const [postTitle, setPostTitle] = useState(postObj.postTitle);
   const [season, setSeason] = useState(postObj.season);
+  const [searchPlace, setSearchPlace] = useState([]);
+  const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
+
+  useEffect(() => {
+    let placeNameList = [];
+    let searchPlaceSelectList = [];
+
+    for (let i = 0; i < postObj.pictureList.length; i++) {
+      searchPlaceSelectList.push(false);
+      placeNameList.push(
+        postObj.pictureList.location
+          ? postObj.pictureList.location.placeName
+          : '',
+      );
+    }
+
+    setSearchPlace(placeNameList);
+    setSearchPlaceSelect(searchPlaceSelectList);
+  }, [postObj.pictureList.length, postObj.pictureList.location]);
+
+  const locationSelect = (locationId, longitude, latitude, place_name, id) => {
+    searchPlace[id] = place_name;
+    searchPlaceSelect[id] = true;
+    pictureObjList[id].location = {
+      coords: { longitude, latitude },
+      placeName: place_name,
+      locationId,
+    };
+    setSearchPlace([...searchPlace]);
+    setSearchPlaceSelect([...searchPlaceSelect]);
+    setPictureObjList([...pictureObjList]);
+  };
 
   const onChange = (e) => {
     const {
       target: { id, name, value },
     } = e;
-    let newArray = [...posts];
+    let newArray = [...pictureObjList];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      newArray[id].location = value;
-      setPosts(newArray);
+      newArray[id].location = {};
+      searchPlaceSelect[id] = false;
+      searchPlace[id] = value;
+      setSearchPlace([...searchPlace]);
+      setSearchPlaceSelect([...searchPlaceSelect]);
+      setPictureObjList(newArray);
     } else if (name === 'description') {
       newArray[id].description = value;
-      setPosts(newArray);
+      setPictureObjList(newArray);
     }
   };
 
@@ -216,7 +255,7 @@ const PostEdit = ({ match, location }) => {
         season,
         likes: postObj.likes,
         creator: { userObj },
-        pictureList: [...posts],
+        pictureList: [...pictureObjList],
       })
       .then(() => alert('여행기록 수정이 완료 되었습니다.'))
       .then(() => history.push(`/city/${postObj.city}/${postObj.postId}`))
@@ -262,23 +301,33 @@ const PostEdit = ({ match, location }) => {
                       </select>
                     </RecordWrap>
                   </RecordContainer>
-                  {posts.map((post, index) => (
-                    <PostContainer key={index}>
-                      <Post src={post.pictureURL} alt="post" />
-                      <PostInputWrap>
-                        <PostInfo>
+                  {pictureObjList.map((pictureObj, index) => (
+                    <PictureContainer key={index}>
+                      <Picture src={pictureObj.pictureURL} alt="picture" />
+                      <PictureInputWrap>
+                        <PictureInfo>
                           <span>위치</span>
                           <input
                             type="text"
                             placeholder="위치"
                             id={index}
                             name="location"
-                            value={post.location}
+                            value={
+                              pictureObj.location &&
+                              pictureObj.location.placeName
+                            }
                             onChange={onChange}
                             required
                           />
-                        </PostInfo>
-                        <PostInfo>
+                          {searchPlace[index] && !searchPlaceSelect[index] && (
+                            <Pagination
+                              searchPlace={searchPlace[index]}
+                              locationSelect={locationSelect}
+                              id={index}
+                            />
+                          )}
+                        </PictureInfo>
+                        <PictureInfo>
                           <span>설명</span>
                           <TextAreaWrap>
                             <textarea
@@ -288,15 +337,17 @@ const PostEdit = ({ match, location }) => {
                               maxLength="300"
                               id={index}
                               name="description"
-                              value={post.description}
+                              value={pictureObj.description}
                               onChange={onChange}
                               required
                             />
-                            <div>{posts[index].description.length}/300자</div>
+                            <div>
+                              {pictureObjList[index].description.length}/300자
+                            </div>
                           </TextAreaWrap>
-                        </PostInfo>
-                      </PostInputWrap>
-                    </PostContainer>
+                        </PictureInfo>
+                      </PictureInputWrap>
+                    </PictureContainer>
                   ))}
                 </>
               )}

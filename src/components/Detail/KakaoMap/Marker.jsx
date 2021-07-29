@@ -28,7 +28,7 @@ const Marker = ({ coords }) => {
     });
     marker.setMap(kakaoMap);
   }, [coords]);
-  console.log(coords);
+
   return (
     <MarkerContanier>
       <MarkerWrap id="marker"></MarkerWrap>

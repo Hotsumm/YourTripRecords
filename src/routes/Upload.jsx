@@ -238,7 +238,7 @@ const Upload = () => {
     setSearchPlaceSelect([...searchPlaceSelect]);
     setPosts([...posts]);
   };
-  console.log(posts);
+
   const onChange = (e) => {
     let newArray = [...posts];
 
@@ -481,7 +481,6 @@ const Upload = () => {
               (작성한 위치는 게시물에 지도로 표시되니, 정확한 위치를
               입력해주세요.)
             </Guide>
-
             <Guide>
               *사진은 최소 5장에서 최대 15장까지 업로드할 수 있습니다.
             </Guide>
