@@ -93,17 +93,15 @@ const PostCreated = styled.div`
 
 const UserUploadedList = ({ userObj, thisUser }) => {
   const [loading, setLoading] = useState(true);
-  const [recordList, setRecordList] = useState(null);
-
-  const userRecordsList = thisUser.records;
+  const [recordList, setRecordList] = useState([]);
 
   const fetchPost = useCallback(async () => {
     setLoading(true);
     let recordArr = [];
-    for (let i = 0; i < userRecordsList.length; i++) {
+    for (let i = 0; i < thisUser.records.length; i++) {
       await firebaseFireStore
         .collection('records')
-        .doc(userRecordsList[i])
+        .doc(thisUser.records[i])
         .get()
         .then((doc) => {
           if (doc.exists) {
@@ -115,7 +113,7 @@ const UserUploadedList = ({ userObj, thisUser }) => {
     }
     setLoading(false);
     setRecordList(recordArr);
-  }, [userRecordsList]);
+  }, [thisUser.records]);
 
   useEffect(() => {
     fetchPost();
@@ -130,7 +128,7 @@ const UserUploadedList = ({ userObj, thisUser }) => {
           <UploadedListHeader>
             {thisUser.nickname}의 여행기록
           </UploadedListHeader>
-          {!recordList ? (
+          {recordList.length === 0 ? (
             <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
           ) : (
             <UploadedListWrap>

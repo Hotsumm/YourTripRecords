@@ -149,29 +149,33 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
               )}
             </AvatarInfoWrap>
           </AvatarWrap>
-          {!userCheck ? (
+          {!userObj ? (
             <OtherUser onClick={toggleSignIn}>
               로그인을 하여 더 많은 서비스를 이용해보세요 !
             </OtherUser>
           ) : (
-            <MenuWrap>
-              <Link to={'/upload'}>
-                <Menu>
-                  <AiOutlinePlusCircle size={'18'} />
-                  <span>여행기록 올리기</span>
-                </Menu>
-              </Link>
-              <Menu onClick={toggleProfileEdit}>
-                <CgProfile size={'18'} />
-                <span>프로필 변경</span>
-              </Menu>
-              <Link to={`/myAccount/${userObj.userId}`}>
-                <Menu>
-                  <FaExchangeAlt size={'18'} />
-                  <span>계정정보 변경</span>
-                </Menu>
-              </Link>
-            </MenuWrap>
+            <>
+              {userCheck && (
+                <MenuWrap>
+                  <Link to={'/upload'}>
+                    <Menu>
+                      <AiOutlinePlusCircle size={'18'} />
+                      <span>여행기록 올리기</span>
+                    </Menu>
+                  </Link>
+                  <Menu onClick={toggleProfileEdit}>
+                    <CgProfile size={'18'} />
+                    <span>프로필 변경</span>
+                  </Menu>
+                  <Link to={`/myAccount/${userObj.userId}`}>
+                    <Menu>
+                      <FaExchangeAlt size={'18'} />
+                      <span>계정정보 변경</span>
+                    </Menu>
+                  </Link>
+                </MenuWrap>
+              )}
+            </>
           )}
         </ProfileMenuWrap>
       </ProfileMenuContainer>
