@@ -6,8 +6,8 @@ import Navigation from '../components/Navigation/Navigation';
 import ChangePassword from '../components/Account/ChangePassword';
 import { FcLock } from 'react-icons/fc';
 import { BsBoxArrowInUpRight } from 'react-icons/bs';
-import { RiToolsLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { FiUserX } from 'react-icons/fi';
 
 const MyAccountContainer = styled.div`
   width: 100%;
@@ -119,8 +119,8 @@ const MyAccount = ({ match }) => {
                 <Title>비밀번호 변경</Title>
               </Menu>
               <Menu>
-                <RiToolsLine size={25} />
-                <Title>게시물 수정</Title>
+                <FiUserX size={25} />
+                <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
               </Menu>
             </MenuWrap>
           </MyAccountWrap>
