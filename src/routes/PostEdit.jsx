@@ -179,7 +179,7 @@ const PostEdit = ({ match, location }) => {
   const { userObj } = useContext(UserContext);
 
   const [pictureObjList, setPictureObjList] = useState(
-    location ? location.state.postObj.pictureList : null,
+    location ? location.state.postObj.pictureList : [],
   );
   const [loading, setLoading] = useState(false);
   const [postTitle, setPostTitle] = useState(postObj.postTitle);
@@ -192,51 +192,63 @@ const PostEdit = ({ match, location }) => {
     let searchPlaceSelectList = [];
 
     for (let i = 0; i < postObj.pictureList.length; i++) {
-      searchPlaceSelectList.push(false);
-      placeNameList.push(
-        postObj.pictureList.location
-          ? postObj.pictureList.location.placeName
-          : '',
-      );
+      if (postObj.pictureList[i].location) {
+        searchPlaceSelectList.push(true);
+        placeNameList.push(postObj.pictureList[i].location.placeName);
+      } else {
+        searchPlaceSelectList.push(false);
+        placeNameList.push('');
+      }
     }
 
     setSearchPlace(placeNameList);
     setSearchPlaceSelect(searchPlaceSelectList);
-  }, [postObj.pictureList.length, postObj.pictureList.location]);
+  }, [postObj]);
 
   const locationSelect = (locationId, longitude, latitude, place_name, id) => {
-    searchPlace[id] = place_name;
-    searchPlaceSelect[id] = true;
-    pictureObjList[id].location = {
+    let newPictureObjList = [...pictureObjList];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
+
+    newSearchPlace[id] = place_name;
+    newSearchPlaceSelect[id] = true;
+    newPictureObjList[id].location = {
       coords: { longitude, latitude },
       placeName: place_name,
       locationId,
     };
-    setSearchPlace([...searchPlace]);
-    setSearchPlaceSelect([...searchPlaceSelect]);
-    setPictureObjList([...pictureObjList]);
+
+    setSearchPlace(newSearchPlace);
+    setSearchPlaceSelect(newSearchPlaceSelect);
+    setPictureObjList(newPictureObjList);
   };
 
   const onChange = (e) => {
     const {
       target: { id, name, value },
     } = e;
-    let newArray = [...pictureObjList];
+    let newPictureObjList = [...pictureObjList];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      newArray[id].location = {};
-      searchPlaceSelect[id] = false;
-      searchPlace[id] = value;
-      setSearchPlace([...searchPlace]);
-      setSearchPlaceSelect([...searchPlaceSelect]);
-      setPictureObjList(newArray);
+      if (newSearchPlaceSelect[id]) {
+        newSearchPlaceSelect[id] = false;
+        setSearchPlaceSelect(newSearchPlaceSelect);
+      }
+
+      newPictureObjList[id].location = null;
+      newSearchPlace[id] = value;
+
+      setSearchPlace(newSearchPlace);
+      setPictureObjList(newPictureObjList);
     } else if (name === 'description') {
-      newArray[id].description = value;
-      setPictureObjList(newArray);
+      newPictureObjList[id].description = value;
+      setPictureObjList(newPictureObjList);
     }
   };
 
@@ -257,10 +269,13 @@ const PostEdit = ({ match, location }) => {
         creator: { userObj },
         pictureList: [...pictureObjList],
       })
+      .then(() => setLoading(false))
       .then(() => alert('여행기록 수정이 완료 되었습니다.'))
       .then(() => history.push(`/city/${postObj.city}/${postObj.postId}`))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -312,12 +327,8 @@ const PostEdit = ({ match, location }) => {
                             placeholder="위치"
                             id={index}
                             name="location"
-                            value={
-                              pictureObj.location &&
-                              pictureObj.location.placeName
-                            }
+                            value={searchPlace[index] ? searchPlace[index] : ''}
                             onChange={onChange}
-                            required
                           />
                           {searchPlace[index] && !searchPlaceSelect[index] && (
                             <Pagination
@@ -339,7 +350,6 @@ const PostEdit = ({ match, location }) => {
                               name="description"
                               value={pictureObj.description}
                               onChange={onChange}
-                              required
                             />
                             <div>
                               {pictureObjList[index].description.length}/300자

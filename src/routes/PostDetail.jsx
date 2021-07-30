@@ -162,7 +162,7 @@ const PostDetail = ({ match }) => {
                       <Link
                         to={{
                           pathname: `/postEdit/${postObj.postId}`,
-                          state: { postObj: postObj },
+                          state: { postObj },
                         }}
                       >
                         <li>게시물 수정하기</li>

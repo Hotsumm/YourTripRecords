@@ -219,32 +219,38 @@ const Upload = () => {
   const { userObj } = useContext(UserContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [postTitle, setPostTitle] = useState('');
   const [city, setCity] = useState('서울');
   const [season, setSeason] = useState('봄');
-  const [searchPlace, setSearchPlace] = useState(null);
-  const [searchPlaceSelect, setSearchPlaceSelect] = useState(null);
+  const [searchPlace, setSearchPlace] = useState([]);
+  const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
 
   const locationSelect = (locationId, longitude, latitude, place_name, id) => {
-    searchPlace[id] = place_name;
-    searchPlaceSelect[id] = true;
-    posts[id].location = {
+    let newPosts = [...posts];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
+
+    newSearchPlace[id] = place_name;
+    newSearchPlaceSelect[id] = true;
+    newPosts[id].location = {
       coords: { longitude, latitude },
       placeName: place_name,
       locationId,
     };
-    setSearchPlace([...searchPlace]);
-    setSearchPlaceSelect([...searchPlaceSelect]);
-    setPosts([...posts]);
+    setSearchPlace(newSearchPlace);
+    setSearchPlaceSelect(newSearchPlaceSelect);
+    setPosts(newPosts);
   };
 
   const onChange = (e) => {
-    let newArray = [...posts];
-
     const {
       target: { id, name, value },
     } = e;
+
+    let newPosts = [...posts];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
@@ -253,15 +259,19 @@ const Upload = () => {
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      newArray[id].location = {};
-      searchPlaceSelect[id] = false;
-      searchPlace[id] = value;
-      setSearchPlace([...searchPlace]);
-      setSearchPlaceSelect([...searchPlaceSelect]);
-      setPosts(newArray);
+      if (newSearchPlaceSelect[id]) {
+        newSearchPlaceSelect[id] = false;
+      }
+
+      newPosts[id].location = null;
+      newSearchPlace[id] = value;
+
+      setSearchPlace(newSearchPlace);
+      setSearchPlaceSelect(newSearchPlaceSelect);
+      setPosts(newPosts);
     } else if (name === 'description') {
-      newArray[id].description = value;
-      setPosts(newArray);
+      newPosts[id].description = value;
+      setPosts(newPosts);
     }
   };
 
@@ -332,6 +342,13 @@ const Upload = () => {
       });
     }
 
+    firebaseFireStore
+      .collection('users')
+      .doc(userObj.userId)
+      .update({
+        records: [...userPostList, postId],
+      });
+
     const docData = {
       postId,
       postTitle,
@@ -345,13 +362,6 @@ const Upload = () => {
       },
       pictureList: [...pictureInfo],
     };
-
-    firebaseFireStore
-      .collection('users')
-      .doc(userObj.userId)
-      .update({
-        records: [...userPostList, postId],
-      });
 
     firebaseFireStore
       .collection('records')
@@ -373,7 +383,7 @@ const Upload = () => {
             <Loading />
           ) : (
             <>
-              {posts ? (
+              {posts && posts.length > 0 ? (
                 <>
                   <RecordContainer>
                     <RecordWrap>
