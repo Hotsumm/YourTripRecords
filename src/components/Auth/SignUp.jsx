@@ -163,8 +163,17 @@ const SignUp = ({ toggleSignUp }) => {
 
     firebaseAuth
       .createUserWithEmailAndPassword(email, password)
-      .then(() => CreateUser(email, nickname))
-      .then(() => alert('회원가입이 완료되었습니다.'))
+      .then(() => {
+        firebaseAuth.currentUser
+          .sendEmailVerification()
+          .then(() => CreateUser(email, nickname))
+          .then(() =>
+            alert(
+              '회원가입이 완료되었습니다.\n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다. ',
+            ),
+          )
+          .catch((error) => console.log(error));
+      })
       .catch((error) => {
         if (error.code === 'auth/weak-password') {
           alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');

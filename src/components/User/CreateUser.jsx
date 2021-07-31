@@ -18,6 +18,7 @@ export const CreateUser = async (email, nickname) => {
     .collection('users')
     .doc(currentUser.uid)
     .set(docData)
+    .then(() => firebaseAuth.signOut())
     .then(() => window.location.reload())
     .catch((error) => console.log(error));
 };

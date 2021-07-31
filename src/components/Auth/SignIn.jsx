@@ -125,6 +125,9 @@ const SignIn = ({ toggleSignIn }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const resendMessage =
+    '이메일 확인링크가 인증되지 않았습니다. \n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다.\n이메일 확인링크를 재전송 하시겠습니까?';
+
   const closeButton = () => toggleSignIn();
 
   const onChange = (e) => {
@@ -143,7 +146,19 @@ const SignIn = ({ toggleSignIn }) => {
     setLoading(true);
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
-      .then(() => window.location.reload())
+      .then((userCredential) => {
+        if (!userCredential.user.emailVerified) {
+          const answer = window.confirm(resendMessage);
+          if (answer) {
+            firebaseAuth.currentUser.sendEmailVerification();
+            alert('이메일 확인링크가 재전송 되었습니다.');
+          }
+          firebaseAuth.signOut();
+          return;
+        }
+        window.location.reload();
+      })
+
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
           alert('비밀번호를 확인해주세요.');

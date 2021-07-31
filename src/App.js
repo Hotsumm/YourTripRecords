@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((user) => {
-      if (user) {
+      if (user && user.emailVerified) {
         const userRef = firebaseFireStore.collection('users').doc(user.uid);
         userRef
           .get()
