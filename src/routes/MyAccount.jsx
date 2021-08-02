@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../Context';
 import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
@@ -8,6 +7,7 @@ import { FcLock } from 'react-icons/fc';
 import { BsBoxArrowInUpRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { FiUserX } from 'react-icons/fi';
+import { UserContext, ThemeContext } from '../Context';
 
 const MyAccountContainer = styled.div`
   width: 100%;
@@ -74,9 +74,9 @@ const Menu = styled.div`
   width: 250px;
   height: 150px;
   border-radius: 10px;
-  color: black;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  border: 1px solid #16a085;
 `;
 
 const Title = styled.div`
@@ -86,6 +86,7 @@ const Title = styled.div`
 const MyAccount = ({ match }) => {
   const [isChangePassword, setIsChangePassword] = useState(false);
   const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
 
   const toggleChangePassword = () => setIsChangePassword(!isChangePassword);
 
@@ -109,17 +110,17 @@ const MyAccount = ({ match }) => {
             </UserWrap>
             <MenuWrap>
               <Link to={`/profile/${userObj.userId}`}>
-                <Menu>
+                <Menu theme={theme}>
                   <BsBoxArrowInUpRight size={25} style={{ color: '#00b894' }} />
                   <Title>프로필로 이동</Title>
                 </Menu>
               </Link>
-              <Menu onClick={toggleChangePassword}>
+              <Menu onClick={toggleChangePassword} theme={theme}>
                 <FcLock size={25} />
                 <Title>비밀번호 변경</Title>
               </Menu>
-              <Menu>
-                <FiUserX size={25} />
+              <Menu theme={theme}>
+                <FiUserX size={25} style={{ color: '#e74c3c' }} />
                 <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
               </Menu>
             </MenuWrap>

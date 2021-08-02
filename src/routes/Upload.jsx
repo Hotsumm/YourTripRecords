@@ -3,18 +3,18 @@ import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { v4 as uuidv4 } from 'uuid';
-import { UserContext } from '../Context';
 import { cityArray } from '../utils/cityArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
 import Pagination from '../components/Detail/KakaoMap/Pagination';
+import { UserContext, ThemeContext } from '../Context';
 
 const UploadContainer = styled.div`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
-  padding: 80px 0;
+  padding-top: 80px;
   background: white;
   text-align: center;
   filter: ${(props) =>
@@ -204,10 +204,8 @@ const ButtonWrap = styled.div`
 const Button = styled.button`
   width: 100px;
   height: 50px;
-  background: white;
   border: 0.1px solid #16a085;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  color: black;
   border-radius: 5px;
   :first-child {
     margin-right: 30px;
@@ -216,7 +214,6 @@ const Button = styled.button`
 `;
 
 const Upload = () => {
-  const { userObj } = useContext(UserContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -225,6 +222,8 @@ const Upload = () => {
   const [season, setSeason] = useState('봄');
   const [searchPlace, setSearchPlace] = useState([]);
   const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
+  const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
 
   const locationSelect = (locationId, longitude, latitude, place_name, id) => {
     let newPosts = [...posts];
@@ -497,7 +496,12 @@ const Upload = () => {
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>
-            <Button type="submit" loading={loading ? 1 : 0} onClick={onUpload}>
+            <Button
+              type="submit"
+              loading={loading ? 1 : 0}
+              theme={theme}
+              onClick={onUpload}
+            >
               업로드하기
             </Button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>

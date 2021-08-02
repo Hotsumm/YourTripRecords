@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { ThemeContext } from '../../Context';
 
 const ProfileIntroContainer = styled.div`
   width: 25%;
@@ -9,7 +10,7 @@ const ProfileIntroContainer = styled.div`
 const ProfileIntroWrap = styled.div`
   width: 100%;
   display: flex;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   padding: 20px 20px 50px 20px;
   flex-direction: column;
@@ -29,10 +30,12 @@ const Intro = styled.span`
 `;
 
 const ProfileIntro = ({ thisUser }) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <>
       <ProfileIntroContainer>
-        <ProfileIntroWrap>
+        <ProfileIntroWrap theme={theme}>
           <IntroHeader>소개</IntroHeader>
           <Intro>
             {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}

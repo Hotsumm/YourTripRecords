@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { UserContext } from '../../Context';
 import { v4 as uuidv4 } from 'uuid';
 import { firebaseFireStore, firebaseStorage } from '../../firebaseConfig';
+import { UserContext, ThemeContext } from '../../Context';
 
 const ProfileEditContainer = styled.div`
   width: 100vw;
@@ -21,7 +21,7 @@ const ProfileEditWrap = styled.div`
   width: 650px;
   max-height: 550px;
   overflow: auto;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   margin-top: 100px;
   z-index: 1;
   padding: 0 0 30px 0;
@@ -45,7 +45,6 @@ const ProfileEditHeader = styled.div`
   margin-bottom: 20px;
 `;
 const HeaderTitle = styled.div`
-  color: black;
   font-size: 20px;
 `;
 
@@ -62,8 +61,7 @@ const AvatarContainer = styled.div`
   button {
     padding: 10px 10px;
     background: #16a085;
-    color: white;
-    border: 1px solid white;
+    border: 1px solid #16a085;
     border-radius: 5px;
   }
 `;
@@ -105,7 +103,6 @@ const InputWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 20px 10px 0px;
-
   input {
     text-align: start;
     width: 100%;
@@ -148,14 +145,11 @@ const InputWrap = styled.div`
 const ButtonWrap = styled.div`
   display: flex;
   justify-content: center;
-
   button {
     width: 100px;
     height: 50px;
-    background: white;
     border: 0.1px solid #16a085;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    color: black;
     border-radius: 5px;
     margin-right: 30px;
   }
@@ -163,6 +157,8 @@ const ButtonWrap = styled.div`
 
 const ProfileEdit = ({ toggleProfileEdit }) => {
   const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+
   const [nickname, setNickname] = useState(userObj.nickname);
   const [instagram, setInstagram] = useState(
     userObj.instagram ? userObj.instagram : '',
@@ -243,7 +239,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
 
   return (
     <ProfileEditContainer>
-      <ProfileEditWrap>
+      <ProfileEditWrap theme={theme}>
         <ProfileEditHeader>
           <HeaderTitle>프로필 수정</HeaderTitle>
         </ProfileEditHeader>
@@ -264,7 +260,9 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
                 onChange={onFileChange}
               />
             </AvatarWrap>
-            <button onClick={defaultAvatarChange}>기본이미지로 변경</button>
+            <button style={{ color: 'white' }} onClick={defaultAvatarChange}>
+              기본이미지로 변경
+            </button>
           </AvatarContainer>
           <InputContainer>
             <InputWrap>

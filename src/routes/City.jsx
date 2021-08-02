@@ -22,7 +22,6 @@ const CityHeader = styled.div`
 `;
 
 const CityName = styled.span`
-  color: black;
   font-size: 40px;
   font-weight: 600;
 `;

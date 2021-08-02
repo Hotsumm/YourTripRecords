@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import ProfileEdit from './ProfileEdit';
 import { IoLogoInstagram } from 'react-icons/io';
@@ -7,6 +7,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { FaExchangeAlt } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import SignIn from '../Auth/SignIn';
+import { ThemeContext } from '../../Context';
 
 const ProfileMenuContainer = styled.div`
   width: 100%;
@@ -19,7 +20,7 @@ const ProfileMenuWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   padding: 30px 30px;
 `;
@@ -53,20 +54,18 @@ const InfoContent = styled.div`
   padding: 7px 0;
 `;
 const ContentTitle = styled.div`
-  color: gray;
   margin-right: 10px;
 `;
 
 const Nickname = styled.div`
   font-size: 18px;
   font-weight: 600;
-  color: black;
+
   margin-top: 5px;
 `;
 
 const Instagram = styled.div`
   font-size: 14px;
-  color: black;
   cursor: pointer;
   :hover {
     text-decoration: underline;
@@ -77,7 +76,6 @@ const Instagram = styled.div`
 const PostConunt = styled.div`
   font-size: 18px;
   margin-top: 5px;
-  color: black;
 `;
 
 const OtherUser = styled.span`
@@ -104,11 +102,10 @@ const Menu = styled.div`
   padding: 15px 25px;
   border: 1px solid #16a085;
   border-radius: 5px;
-  background: white;
+  background: ${(props) => props.theme.bgColor};
   margin-right: 30px;
   cursor: pointer;
   span {
-    color: black;
     font-size: 14px;
     margin-left: 10px;
   }
@@ -117,6 +114,9 @@ const Menu = styled.div`
 const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
   const [isEditClick, setIsEditClick] = useState(false);
   const [isSignInClick, setIsSignInClick] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
+
   const toggleProfileEdit = () => setIsEditClick(!isEditClick);
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
@@ -127,7 +127,7 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
   return (
     <>
       <ProfileMenuContainer>
-        <ProfileMenuWrap>
+        <ProfileMenuWrap theme={theme}>
           <AvatarWrap>
             <Avatar src={thisUser.avatar}></Avatar>
             <AvatarInfoWrap>
@@ -141,7 +141,7 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
               </InfoContent>
               {thisUser.instagram && (
                 <InfoContent>
-                  <IoLogoInstagram size={18} style={{ color: 'black' }} />
+                  <IoLogoInstagram size={18} />
                   <Instagram onClick={handleInstagram}>
                     @{thisUser.instagram}
                   </Instagram>
@@ -158,17 +158,17 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
               {userCheck && (
                 <MenuWrap>
                   <Link to={'/upload'}>
-                    <Menu>
+                    <Menu theme={theme}>
                       <AiOutlinePlusCircle size={'18'} />
                       <span>여행기록 올리기</span>
                     </Menu>
                   </Link>
-                  <Menu onClick={toggleProfileEdit}>
+                  <Menu theme={theme} onClick={toggleProfileEdit}>
                     <CgProfile size={'18'} />
                     <span>프로필 변경</span>
                   </Menu>
                   <Link to={`/myAccount/${userObj.userId}`}>
-                    <Menu>
+                    <Menu theme={theme}>
                       <FaExchangeAlt size={'18'} />
                       <span>계정정보 변경</span>
                     </Menu>

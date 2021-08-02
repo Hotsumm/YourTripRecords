@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { BsArrowLeftShort } from 'react-icons/bs';
 import { BsArrowRightShort } from 'react-icons/bs';
+import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs';
+import { TiLocationOutline } from 'react-icons/ti';
 import { useHistory } from 'react-router-dom';
 import Marker from '../components/Detail/KakaoMap/Marker';
+import { ThemeContext } from '../Context';
 
 const AllPicturesContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: white;
   max-width: 1450px;
   margin: 0 auto;
 `;
@@ -104,23 +106,34 @@ const DescriptionWrap = styled.div`
 const Description = styled.div`
   font-size: 14px;
   line-height: 2;
-  color: ${(props) => (props.description ? 'black' : 'gray')};
+  color: ${(props) => !props.description && 'gray'};
 `;
 
 const LocationWrap = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 15px;
 `;
 
-const Header = styled.span`
+const PictureInfoHeaderWrap = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  & svg {
+    margin-right: 5px;
+  }
+`;
+
+const PictureInfoHeader = styled.span`
+  display: inline;
+  width: 100%;
   font-size: 16px;
   font-weight: 700;
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 3px;
 `;
 
 const KakaoMapWrap = styled.div`
@@ -130,12 +143,13 @@ const KakaoMapWrap = styled.div`
   flex-direction: column;
 `;
 
-const Location = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-  text-decoration: underline;
+const Location = styled.span`
+  display: inline;
   cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
   font-weight: 600;
+  margin-bottom: 15px;
 `;
 
 const NoLocationWrap = styled.div`
@@ -150,7 +164,6 @@ const NoLocation = styled.span`
   text-align: center;
   font-weight: 600;
   font-size: 16px;
-  color: black;
   text-decoration: underline;
 `;
 
@@ -187,6 +200,8 @@ const AllPictures = ({ match, location }) => {
 
   const postId = match.params.postId;
   const cityName = match.params.cityName;
+
+  const { theme } = useContext(ThemeContext);
 
   const history = useHistory();
 
@@ -236,7 +251,7 @@ const AllPictures = ({ match, location }) => {
   };
 
   return (
-    <AllPicturesContainer>
+    <AllPicturesContainer theme={theme}>
       {pictureList && (
         <>
           <AllPicturesHeader>
@@ -255,7 +270,10 @@ const AllPictures = ({ match, location }) => {
               <SelectPictureInfoWrap>
                 <SelectPictureInfo>
                   <DescriptionWrap>
-                    <Header>설명</Header>
+                    <PictureInfoHeaderWrap>
+                      <BsReverseLayoutTextSidebarReverse size={16} />
+                      <PictureInfoHeader>설명</PictureInfoHeader>
+                    </PictureInfoHeaderWrap>
                     <Description description={selectPicture.description}>
                       {selectPicture.description
                         ? selectPicture.description
@@ -264,7 +282,13 @@ const AllPictures = ({ match, location }) => {
                   </DescriptionWrap>
                   {selectPicture.location ? (
                     <LocationWrap>
-                      <Header>위치</Header>
+                      <PictureInfoHeaderWrap>
+                        <TiLocationOutline
+                          style={{ color: theme.textColor }}
+                          size={22}
+                        />
+                        <PictureInfoHeader>위치</PictureInfoHeader>
+                      </PictureInfoHeaderWrap>
                       <KakaoMapWrap>
                         <Location
                           onClick={() =>
@@ -275,12 +299,21 @@ const AllPictures = ({ match, location }) => {
                         >
                           {selectPicture.location.placeName}
                         </Location>
+
                         <Marker coords={selectPicture.location.coords} />
                       </KakaoMapWrap>
                     </LocationWrap>
                   ) : (
                     <LocationWrap>
-                      <Header style={{ marginBottom: 0 }}>위치</Header>
+                      <PictureInfoHeaderWrap>
+                        <TiLocationOutline
+                          stlye={{ color: theme.textColor }}
+                          size={20}
+                        />
+                        <PictureInfoHeader style={{ marginBottom: 0 }}>
+                          위치
+                        </PictureInfoHeader>
+                      </PictureInfoHeaderWrap>
                       <NoLocationWrap>
                         <NoLocation>위치 정보가 없습니다.</NoLocation>
                       </NoLocationWrap>

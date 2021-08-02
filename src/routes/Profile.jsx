@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import UserUploadedList from '../components/Profile/UserUploadedList';
-import { UserContext } from '../Context';
+import { UserContext, ThemeContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import ProfileMenu from '../components/Profile/ProfileMenu';
 import ProfileIntro from '../components/Profile/ProfileIntro';
@@ -11,7 +11,6 @@ import bgProfile from '../static/assets/bgProfile.jpg';
 
 const ProfileContainer = styled.div`
   width: 100%;
-  background: white;
   max-width: 1450px;
   margin: 0 auto;
 `;
@@ -42,9 +41,11 @@ const ProfileRow = styled.div`
 `;
 
 const Profile = ({ match }) => {
-  const { userObj } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [thisUser, setThisUser] = useState(null);
+
+  const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
 
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
@@ -93,7 +94,11 @@ const Profile = ({ match }) => {
                 </ProfileRow>
                 <ProfileRow>
                   <ProfileIntro thisUser={thisUser} />
-                  <UserUploadedList userObj={userObj} thisUser={thisUser} />
+                  <UserUploadedList
+                    theme={theme}
+                    userObj={userObj}
+                    thisUser={thisUser}
+                  />
                 </ProfileRow>
               </ProfileWrap>
             )}

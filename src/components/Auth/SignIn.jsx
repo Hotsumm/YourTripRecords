@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
 import { CreateUser } from '../User/CreateUser';
+import { ThemeContext } from '../../Context';
 import Loading from '../Load/Loading';
 
 const SignInContainer = styled.div`
@@ -21,7 +22,7 @@ const SignInContainer = styled.div`
 const SignInWrap = styled.div`
   width: 450px;
   height: 450px;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
@@ -37,13 +38,11 @@ const SignInHeader = styled.div`
   & svg {
     position: absolute;
     left: 40px;
-    color: black;
     cursor: pointer;
   }
 `;
 
 const HeaderTitle = styled.span`
-  color: black;
   font-size: 20px;
 `;
 
@@ -100,8 +99,9 @@ const ButtonWrap = styled.div`
     background: transparent;
     font-size: 16px;
     border-radius: 15px;
+    border: 1px solid #16a085;
     :first-child {
-      background: #16a085;
+      background: ${(props) => props.theme.mainColor};
       color: white;
       margin-bottom: 15px;
     }
@@ -111,7 +111,7 @@ const ButtonWrap = styled.div`
       position: relative;
       align-items: center;
       margin-bottom: 10px;
-      border: 1px solid #bdc3c7;
+
       & svg {
         position: absolute;
         left: 20px;
@@ -124,6 +124,8 @@ const SignIn = ({ toggleSignIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
 
   const resendMessage =
     '이메일 확인링크가 인증되지 않았습니다. \n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다.\n이메일 확인링크를 재전송 하시겠습니까?';
@@ -191,7 +193,7 @@ const SignIn = ({ toggleSignIn }) => {
   };
   return (
     <SignInContainer>
-      <SignInWrap>
+      <SignInWrap theme={theme}>
         <SignInHeader>
           <BsBoxArrowInLeft onClick={closeButton} size={26} />
           <HeaderTitle>로그인</HeaderTitle>
@@ -223,7 +225,7 @@ const SignIn = ({ toggleSignIn }) => {
                   />
                 </InputWrap>
               </InputContainer>
-              <ButtonWrap>
+              <ButtonWrap theme={theme}>
                 <button onClick={handleSignIn}>로그인</button>
                 <button onClick={googleSignIn}>
                   <FcGoogle size={25} />

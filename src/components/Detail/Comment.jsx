@@ -38,10 +38,9 @@ const CommentCreatorWrap = styled.div`
   button {
     width: 70px;
     height: 40px;
-    border: 1px solid #ababab80;
+    border: 1px solid #16a085;
     border-radius: 5px;
     color: #16a085;
-    background: white;
     padding: 10px;
     :hover {
       background: #16a085;

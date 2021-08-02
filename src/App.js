@@ -3,11 +3,13 @@ import Router from './Router';
 import { GlobalStyles } from './global-styles';
 import { firebaseAuth } from './firebaseConfig';
 import { firebaseFireStore } from './firebaseConfig';
-import { UserContext } from './Context';
+import { UserContext, ThemeContext } from './Context';
+import { useDarkMode } from './hooks/useDarkMode';
 
 const App = () => {
   const [userObj, setUserObj] = useState(null);
   const [init, setInit] = useState(false);
+  const [theme, toggleTheme] = useDarkMode();
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((user) => {
@@ -34,12 +36,14 @@ const App = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userObj }}>
-      <React.Fragment>
-        <GlobalStyles />
-        {init && <Router />}
-      </React.Fragment>
-    </UserContext.Provider>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <UserContext.Provider value={{ userObj }}>
+        <React.Fragment>
+          <GlobalStyles theme={theme} />
+          {init && <Router />}
+        </React.Fragment>
+      </UserContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 

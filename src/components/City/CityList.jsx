@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FiMapPin } from 'react-icons/fi';
 import { cityArray } from '../../utils/cityArray';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from '../../Context';
 
 const CityListContainer = styled.div`
   width: 100%;
   position: absolute;
-  top: 100px;
+  top: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,7 +31,7 @@ const CityMenu = styled.ul`
 
 const Menu = styled.li`
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  background: white;
+  background: ${(props) => props.theme.bgColor};
   border-radius: 3px 3px 0 0;
   padding: 10px 20px;
   align-items: center;
@@ -43,7 +44,7 @@ const Menu = styled.li`
 
 const CityListWrap = styled.ul`
   display: grid;
-  background: white;
+  background: ${(props) => props.theme.bgColor};
   grid-template-columns: repeat(6, 1fr);
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   gap: 25px;
@@ -55,6 +56,7 @@ const CityListWrap = styled.ul`
 
 const City = styled.li`
   display: flex;
+  background: ${(props) => props.theme.menuColor};
   justify-content: flex-start;
   width: 100%;
   cursor: pointer;
@@ -66,7 +68,7 @@ const CityName = styled.h3`
   justify-content: center;
   padding: 10px 20px;
   font-size: 16px;
-  color: black;
+  color: ${(props) => props.theme.textColor};
   border: 1px solid #ababab80;
   border-radius: 3px;
   :hover {
@@ -76,26 +78,27 @@ const CityName = styled.h3`
 `;
 
 const CityList = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <CityListContainer>
       <CityListHeader>
         <CityMenu>
-          <Menu>
+          <Menu theme={theme}>
             <FiMapPin size={'20'} />
             <span>도시</span>
           </Menu>
         </CityMenu>
       </CityListHeader>
-      <CityListWrap>
+      <CityListWrap theme={theme}>
         <Link to={'/city/전체'}>
-          <City>
-            <CityName>전체</CityName>
+          <City theme={theme}>
+            <CityName theme={theme}>전체</CityName>
           </City>
         </Link>
         {cityArray.map((city, index) => (
           <Link key={index} to={`/city/${city.name}`}>
-            <City>
-              <CityName>{city.name}</CityName>
+            <City theme={theme}>
+              <CityName theme={theme}>{city.name}</CityName>
             </City>
           </Link>
         ))}

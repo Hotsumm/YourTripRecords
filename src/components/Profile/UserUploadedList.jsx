@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { firebaseFireStore } from '../../firebaseConfig';
-
 import { Link } from 'react-router-dom';
 import Loading from '../Load/Loading';
+import { ThemeContext } from '../../Context';
 
 const UploadedListContainer = styled.div`
   width: 75%;
@@ -26,7 +26,6 @@ const NoUploadedList = styled.span`
 const UploadedListWrap = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
   gap: 20px;
   width: 100%;
 `;
@@ -39,7 +38,7 @@ const PostContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 `;
 
@@ -79,10 +78,12 @@ const Avatar = styled.img`
 `;
 
 const NickName = styled.div`
+  color: ${(props) => props.theme.textColor};
   font-size: 14px;
 `;
 
 const PostTitle = styled.div`
+  color: ${(props) => props.theme.textColor};
   font-size: 16px;
 `;
 
@@ -94,6 +95,7 @@ const PostCreated = styled.div`
 const UserUploadedList = ({ userObj, thisUser }) => {
   const [loading, setLoading] = useState(true);
   const [recordList, setRecordList] = useState([]);
+  const { theme } = useContext(ThemeContext);
 
   const fetchPost = useCallback(async () => {
     setLoading(true);
@@ -135,16 +137,18 @@ const UserUploadedList = ({ userObj, thisUser }) => {
               {recordList.map((record, index) => (
                 <UploadedList key={index}>
                   <Link to={`/city/${record.city}/${record.postId}`}>
-                    <PostContainer>
+                    <PostContainer theme={theme}>
                       <PostHeaderWrap>
                         <PostHeader>
                           <AvatarWrap>
                             <Avatar src={thisUser.avatar}></Avatar>
-                            <NickName>{thisUser.nickname}</NickName>
+                            <NickName theme={theme}>
+                              {thisUser.nickname}
+                            </NickName>
                           </AvatarWrap>
                         </PostHeader>
                         <PostHeader>
-                          <PostTitle>
+                          <PostTitle theme={theme}>
                             {record.postTitle.length > 14
                               ? `${record.postTitle.substring(0, 14)}...`
                               : record.postTitle}

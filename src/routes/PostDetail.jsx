@@ -49,7 +49,6 @@ const IconWrap = styled.div`
 
 const EditWrap = styled.div`
   position: absolute;
-  background: white;
   width: 100px;
   border-radius: 5px;
   top: 170px;

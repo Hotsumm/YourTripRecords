@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const SearchBarWrap = styled.div`
   width: 100%;
+  display: none;
 `;
 
 const SearchBar = styled.input`

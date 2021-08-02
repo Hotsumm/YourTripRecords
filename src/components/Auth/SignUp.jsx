@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Loading from '../Load/Loading';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { CreateUser } from '../User/CreateUser';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
+import { ThemeContext } from '../../Context';
 
 const SignUpContainer = styled.div`
   width: 100vw;
@@ -21,7 +22,7 @@ const SignUpContainer = styled.div`
 const SignUpWrap = styled.div`
   width: 450px;
   height: 600px;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
@@ -37,12 +38,10 @@ const SignUpHeader = styled.div`
   & svg {
     position: absolute;
     left: 40px;
-    color: black;
     cursor: pointer;
   }
 `;
 const HeaderTitle = styled.span`
-  color: black;
   font-size: 20px;
 `;
 
@@ -75,18 +74,18 @@ const ButtonWrap = styled.div`
     height: 50px;
     border-radius: 15px;
     font-size: 16px;
-    background: #16a085;
-    color: white;
-    margin-bottom: 15px;
+    border: 1px solid #16a085;
+    :first-child {
+      background: ${(props) => props.theme.mainColor};
+      color: white;
+      margin-bottom: 15px;
+    }
 
     :last-child {
       display: flex;
       justify-content: center;
       position: relative;
       align-items: center;
-      color: black;
-      border: 1px solid #bdc3c7;
-      background: white;
       & svg {
         position: absolute;
         left: 20px;
@@ -128,6 +127,8 @@ const SignUp = ({ toggleSignUp }) => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const { theme } = useContext(ThemeContext);
 
   const closeButton = () => toggleSignUp();
 
@@ -206,7 +207,7 @@ const SignUp = ({ toggleSignUp }) => {
 
   return (
     <SignUpContainer>
-      <SignUpWrap>
+      <SignUpWrap theme={theme}>
         <SignUpHeader>
           <BsBoxArrowInLeft onClick={closeButton} size={26} />
           <HeaderTitle>회원가입</HeaderTitle>
@@ -254,7 +255,7 @@ const SignUp = ({ toggleSignUp }) => {
                   />
                 </InputWrap>
               </InputContainer>
-              <ButtonWrap>
+              <ButtonWrap theme={theme}>
                 <button onClick={validCheck}>회원가입</button>
                 <button onClick={googleSignIn}>
                   <FcGoogle size={25} />

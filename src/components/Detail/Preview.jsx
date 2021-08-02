@@ -36,7 +36,7 @@ const PreviewImgWrap = styled.div`
       right: 10px;
       width: 130px;
       height: 40px;
-      background: white;
+
       border: 1px solid #16a085;
       border-radius: 5px;
       font-size: 12 px;

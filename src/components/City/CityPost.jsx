@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
 import Loading from '../Load/Loading';
-import noPostImg from '../../static/assets/NoPost.jpeg';
+import noPostImg from '../../static/assets/NoPost1.jpeg';
 
 const CityPostContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   padding: 60px;
@@ -15,7 +14,6 @@ const CityPostContainer = styled.div`
 
 const NoPostWrap = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,13 +36,13 @@ const CityPostWrap = styled.div`
   display: grid;
   grid-gap: 50px;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 280px);
 `;
 const PostIntro = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid #16a085;
+  border-radius: 5px;
   cursor: pointer;
   &:hover {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
@@ -54,7 +52,6 @@ const PostIntro = styled.div`
 const PostThumbnail = styled.img`
   width: 100%;
   height: 180px;
-  border-radius: 5px;
 `;
 
 const PostInfo = styled.div`
@@ -107,7 +104,10 @@ const InfoWrap = styled.span`
 
 const Info = styled.span`
   font-size: 12px;
-  margin-top: 5px;
+  :first-child {
+    margin-top: 5px;
+  }
+  margin-bottom: 5px;
 `;
 
 const Avatar = styled.img`

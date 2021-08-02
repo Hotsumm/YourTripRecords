@@ -10,7 +10,6 @@ import Pagination from '../components/Detail/KakaoMap/Pagination';
 const PostEditContainer = styled.div`
   width: 100%;
   padding: 80px 0;
-  background: #f1f2f6;
   text-align: center;
   max-width: 1450px;
   margin: 0 auto;
@@ -141,20 +140,6 @@ const TextAreaWrap = styled.div`
   }
 `;
 
-const GuideContainer = styled.div`
-  margin: 35px 0 25px 0;
-`;
-
-const GuideHeader = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`;
-const Guide = styled.div`
-  font-size: 14px;
-  padding: 5px 0;
-`;
-
 const ButtonWrap = styled.div`
   width: 100%;
 `;
@@ -162,10 +147,8 @@ const ButtonWrap = styled.div`
 const Button = styled.button`
   width: 100px;
   height: 50px;
-  background: white;
-  border: 0.1px solid #16a085;
+  border: 1px solid #16a085;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  color: black;
   border-radius: 5px;
   :first-child {
     margin-right: 30px;
@@ -363,19 +346,6 @@ const PostEdit = ({ match, location }) => {
               )}
             </>
           )}
-
-          <GuideContainer>
-            <GuideHeader>가이드 라인</GuideHeader>
-            <Guide>*여행기록의 제목을 지어주세요.</Guide>
-            <Guide>
-              *자신이 다녀왔던 여행지의 여행사진들을 업로드 해주세요.
-            </Guide>
-            <Guide>*여행사진별로 설명글을 작성해주세요.</Guide>
-            <Guide>
-              *사진은 최소 5장에서 최대 15장까지 업로드할 수 있습니다.
-            </Guide>
-            <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
-          </GuideContainer>
           <ButtonWrap loading={loading ? 1 : 0}>
             <Button loading={loading ? 1 : 0} onClick={onPostEdit}>
               수정하기

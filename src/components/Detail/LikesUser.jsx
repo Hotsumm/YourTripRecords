@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { HiX } from 'react-icons/hi';
 import Loading from '../Load/Loading';
+import { ThemeContext } from '../../Context';
 
 const LikesUserListContainer = styled.div`
   width: 100vw;
@@ -24,7 +25,7 @@ const LikesUserListWrap = styled.div`
   border-radius: 10px;
   overflow: auto;
   flex-direction: column;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
 `;
 
 const LikesUserListHeader = styled.div`
@@ -86,7 +87,6 @@ const UserInfo = styled.div`
 
 const UserNickname = styled.span`
   font-size: 16px;
-  color: black;
   margin-bottom: 5px;
 `;
 
@@ -96,11 +96,9 @@ const PostingCount = styled.span`
 `;
 
 const UserProfileButton = styled.button`
-  color: black;
   text-align: right;
   padding: 10px 15px;
   border-radius: 5px;
-  background: white;
   border: 1px solid #ababab80;
   :hover {
     color: white;
@@ -111,6 +109,8 @@ const UserProfileButton = styled.button`
 const LikesUser = ({ postObj, toggleLikesUser }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [likesUserList, setLikesUserList] = useState([]);
+
+  const { theme } = useContext(ThemeContext);
 
   const closeButton = () => toggleLikesUser();
 
@@ -139,7 +139,7 @@ const LikesUser = ({ postObj, toggleLikesUser }) => {
 
   return (
     <LikesUserListContainer>
-      <LikesUserListWrap>
+      <LikesUserListWrap theme={theme}>
         {isLoading ? (
           <Loading />
         ) : (

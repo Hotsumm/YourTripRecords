@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import { sortByPopular } from '../../utils/sortBy';
 import Loading from '../Load/Loading';
+import { ThemeContext } from '../../Context';
 
 const PopularCityContainer = styled.div`
   width: 100%;
@@ -19,26 +20,11 @@ const PopularCityHeaderWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 0 0 0;
-`;
-
-const Triangle = styled.div`
-  width: 0px;
-  height: 0px;
-  :first-child {
-    border-left: 200px solid #f1f2f6;
-    border-bottom: 0px solid white;
-    border-top: 100px solid white;
-  }
-  :last-child {
-    border-right: 200px solid #f1f2f6;
-    border-bottom: 0px solid white;
-    border-top: 100px solid white;
-  }
+  padding: 60px 0 20px 0;
 `;
 
 const PopularCityHeader = styled.div`
-  color: black;
+  color: ${(props) => props.theme.textColor};
   font-size: 28px;
   font-weight: 600;
 `;
@@ -88,6 +74,8 @@ const PopularCity = () => {
   const [popularCityName, setPopularCityName] = useState(null);
   const [selectCityObj, setSelectCityObj] = useState(null);
   const [selected, setSelected] = useState('');
+
+  const { theme } = useContext(ThemeContext);
 
   const linkStyle = {
     width: '25%',
@@ -143,9 +131,9 @@ const PopularCity = () => {
     <PopularCityContainer>
       <PopularCityWrap>
         <PopularCityHeaderWrap>
-          <Triangle />
-          <PopularCityHeader>이 여행지가 인기가 있어요 !</PopularCityHeader>
-          <Triangle />
+          <PopularCityHeader theme={theme}>
+            이 여행지가 인기가 있어요 !
+          </PopularCityHeader>
         </PopularCityHeaderWrap>
         {loading ? (
           <Loading />

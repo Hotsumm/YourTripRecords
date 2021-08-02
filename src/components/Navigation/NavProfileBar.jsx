@@ -5,7 +5,7 @@ import { VscTriangleDown } from 'react-icons/vsc';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { firebaseAuth } from '../../firebaseConfig';
-import { UserContext } from '../../Context';
+import { UserContext, ThemeContext } from '../../Context';
 import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
@@ -13,11 +13,10 @@ const ProfileBarWrap = styled.div`
   position: relative;
   height: 40px;
   border-radius: 20px;
-  background: white;
+  background: ${(props) => props.theme.bgColor};
   padding: 0 18px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   color: black;
   cursor: pointer;
@@ -34,12 +33,15 @@ const AvatarWrap = styled.div`
     font-size: 15px;
     text-align: right;
     margin: 0 10px 0 10px;
-    color: #2c3e50;
+    color: ${(props) => props.theme.textColor};
   }
   & img {
     width: 35px;
     height: 35px;
     border-radius: 50%;
+  }
+  & svg {
+    color: ${(props) => props.theme.textColor};
   }
 `;
 
@@ -47,17 +49,18 @@ const ProfileMenu = styled.div`
   position: absolute;
   width: 230px;
   padding: 10px 0;
-  background: white;
+  background: ${(props) => props.theme.menuColor};
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  top: 60px;
-  left: -50px;
+  top: 50px;
+  right: 0px;
 
   &ul {
     width: 100%;
     height: 100%;
   }
   & li {
+    color: ${(props) => props.theme.textColor};
     font-size: 15px;
     padding: 15px 20px;
     cursor: pointer;
@@ -72,6 +75,8 @@ const NavProfile = () => {
   const [isSignUpClick, setIsSignUpClick] = useState(false);
   const [isSignInClick, setIsSignInClick] = useState(false);
   const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+
   const ref = useRef();
 
   useOutsideClick(ref, () => setIsMenu(false));
@@ -93,24 +98,22 @@ const NavProfile = () => {
   };
   return (
     <>
-      <ProfileBarWrap ref={ref} onClick={menuClick}>
-        <AvatarWrap>
-          {userObj ? (
-            <>
-              <VscTriangleDown size={15} color={'grey'} />
-              <span>{userObj.nickname}</span>
-              <img src={userObj.avatar} alt="avatar" />
-            </>
-          ) : (
-            <>
-              <VscTriangleDown size={15} color={'grey'} />
-              <span>로그인을 해주세요</span>
-              <HiUserCircle size={35} color={'grey'} />
-            </>
-          )}
-        </AvatarWrap>
+      <ProfileBarWrap theme={theme} ref={ref} onClick={menuClick}>
+        {userObj ? (
+          <AvatarWrap theme={theme}>
+            <VscTriangleDown size={15} />
+            <span>{userObj.nickname}</span>
+            <img src={userObj.avatar} alt="avatar" />
+          </AvatarWrap>
+        ) : (
+          <AvatarWrap theme={theme}>
+            <VscTriangleDown size={15} />
+            <span>로그인을 해주세요</span>
+            <HiUserCircle size={35} color={theme.textColor} />
+          </AvatarWrap>
+        )}
         {isMenu && (
-          <ProfileMenu>
+          <ProfileMenu theme={theme}>
             {userObj ? (
               <ul>
                 <Link to={`/myAccount/${userObj.userId}`}>
@@ -125,7 +128,6 @@ const NavProfile = () => {
                 <Link to={'/upload'}>
                   <li>여행기록 올리기</li>
                 </Link>
-                <li>설정</li>
                 <li
                   onClick={SignOut}
                   style={{ borderTop: '1px solid #ababab80' }}

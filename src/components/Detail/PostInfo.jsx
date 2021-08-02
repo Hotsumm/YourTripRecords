@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../Context';
 import styled from 'styled-components';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import LikesUser from './LikesUser';
+import { UserContext, ThemeContext } from '../../Context';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -38,7 +38,6 @@ const LikeCount = styled.div`
 
 const CommentCount = styled.div`
   font-size: 18px;
-  color: black;
 `;
 const CreatorWrap = styled.div`
   display: flex;
@@ -66,6 +65,7 @@ const PostInfo = ({ postObj }) => {
   );
 
   const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
   const likeList = postObj.likes;
 
   const toggleLikesUser = () => {
@@ -130,11 +130,11 @@ const PostInfo = ({ postObj }) => {
                 <BsHeart
                   onClick={handleLike}
                   size={'22'}
-                  style={{ color: '#2f3542', cursor: 'pointer' }}
+                  style={{ color: theme.textColor, cursor: 'pointer' }}
                 />
               )}
               <LikeCount onClick={toggleLikesUser}>{likeCount}</LikeCount>
-              <GoComment size={'23'} style={{ color: '#2f3542' }} />
+              <GoComment size={'23'} style={{ color: theme.textColor }} />
               <CommentCount>{postObj.comments.length}</CommentCount>
             </CountWrap>
             <Link to={`/profile/${postObj.creator.userObj.userId}`}>

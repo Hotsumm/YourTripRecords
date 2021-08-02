@@ -34,8 +34,10 @@ const Category = styled.select`
   width: 120px;
   font-size: 16px;
   padding: 10px 20px;
-  border: 1px solid #999;
+  border: 1px solid #16a085;
   background: url(${arrowImg}) no-repeat 95% 50%;
+  background-color: white;
+  color: black;
   -moz-appearance: none;
   -webkit-appearance: none;
   border-radius: 5px;

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import NavSearchBar from './NavSearchBar';
 import NavProfileBar from './NavProfileBar';
 import { Link } from 'react-router-dom';
+import NavThemeSwitch from './NavThemeSwitch';
+import { ThemeContext } from '../../Context';
+import { darkTheme } from '../../theme';
 
 const NavContainer = styled.div`
   width: 100vw;
@@ -12,54 +14,64 @@ const NavContainer = styled.div`
   z-index: 999;
   box-shadow: ${(props) =>
     props.show ? '0px 0px 8px rgba(0, 0, 0, 0.2)' : '0px'};
-  background: ${(props) => (props.show ? ' white' : 'transparent')};
+  background: ${(props) =>
+    props.show ? `${props.theme.NavColor}` : 'transparent'};
 `;
 
 const NavWrap = styled.div`
-  max-width: 1450px;
   width: 100%;
-  height: 80px;
+  max-width: 1450px;
+  margin: 0 auto;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0px 60px;
-  margin: 0 auto;
 `;
 
 const TitleContainer = styled.div`
-  width: 33%;
   display: flex;
   padding: 20px 0;
-  justify-content: flex-start;
+  align-items: flex-start;
   font-size: 30px;
   font-weight: 700;
-  color: ${(props) => (props.show ? 'black' : 'white')};
+  color: ${(props) =>
+    props.show
+      ? (props) => (props.theme === darkTheme ? 'white' : 'black')
+      : 'white'};
 `;
 
+/*
 const SearchContainer = styled.div`
   width: 33%;
   padding: 20px 0;
   display: flex;
   justify-content: center;
 `;
+*/
 
 const ProfileContainer = styled.div`
-  width: 33%;
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   padding: 20px 0;
-  justify-content: flex-end;
+`;
+
+const ThemeContainer = styled.div`
+  margin-right: 120px;
 `;
 
 const Navigation = ({ show }) => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <NavContainer show={show}>
+    <NavContainer theme={theme} show={show}>
       <NavWrap>
-        <TitleContainer show={show}>
-          <Link to="/">Travel</Link>
+        <TitleContainer show={show} theme={theme}>
+          <Link to="/">YeoGiGong</Link>
         </TitleContainer>
-        <SearchContainer show={show}>
-          <NavSearchBar />
-        </SearchContainer>
-        <ProfileContainer show={show}>
+        <ProfileContainer theme={theme}>
+          <ThemeContainer show={show}>
+            <NavThemeSwitch />
+          </ThemeContainer>
           <NavProfileBar />
         </ProfileContainer>
       </NavWrap>
