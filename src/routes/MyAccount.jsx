@@ -8,6 +8,7 @@ import { BsBoxArrowInUpRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { FiUserX } from 'react-icons/fi';
 import { UserContext, ThemeContext } from '../Context';
+import UserDelete from '../components/Account/UserDelete';
 
 const MyAccountContainer = styled.div`
   width: 100%;
@@ -85,10 +86,12 @@ const Title = styled.div`
 
 const MyAccount = ({ match }) => {
   const [isChangePassword, setIsChangePassword] = useState(false);
+  const [isUserDelete, setIsUserDelete] = useState(false);
   const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
   const toggleChangePassword = () => setIsChangePassword(!isChangePassword);
+  const toggleUserDelete = () => setIsUserDelete(!isUserDelete);
 
   if (userObj === null || userObj.userId !== match.params.userId) {
     return <Redirect to="/" />;
@@ -119,7 +122,7 @@ const MyAccount = ({ match }) => {
                 <FcLock size={25} />
                 <Title>비밀번호 변경</Title>
               </Menu>
-              <Menu theme={theme}>
+              <Menu onClick={toggleUserDelete} theme={theme}>
                 <FiUserX size={25} style={{ color: '#e74c3c' }} />
                 <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
               </Menu>
@@ -130,6 +133,7 @@ const MyAccount = ({ match }) => {
       {isChangePassword && (
         <ChangePassword toggleChangePassword={toggleChangePassword} />
       )}
+      {isUserDelete && <UserDelete toggleUserDelete={toggleUserDelete} />}
     </>
   );
 };

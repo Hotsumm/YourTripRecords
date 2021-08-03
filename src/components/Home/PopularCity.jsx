@@ -52,7 +52,7 @@ const CityName = styled.li`
   margin-right: 20px;
   cursor: pointer;
   :hover {
-    color: '#16a085';
+    color: #16a085;
   }
 `;
 

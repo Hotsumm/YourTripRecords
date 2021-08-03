@@ -107,6 +107,7 @@ const PostDetail = ({ match }) => {
         });
     }
   };
+
   const userPostDelete = async (userId, postId, city) => {
     const newRecords = userObj.records.filter((record) => record !== postId);
     firebaseFireStore
