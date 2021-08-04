@@ -50,8 +50,22 @@ const PostIntro = styled.div`
 `;
 
 const PostThumbnail = styled.img`
+  position: relative;
   width: 100%;
-  height: 180px;
+  aspect-ratio: 4/3;
+`;
+
+const HashtagWrap = styled.ul`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Hashtag = styled.li`
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid white;
+  color: white;
 `;
 
 const PostInfo = styled.div`
@@ -140,9 +154,14 @@ const CityPost = ({ loading, posts, cityName }) => {
                   }}
                 >
                   <PostIntro>
-                    <PostThumbnail
-                      src={post.pictureList[0].pictureURL}
-                    ></PostThumbnail>
+                    <PostThumbnail src={post.pictureList[0].pictureURL} />
+                    {post.hashtags && (
+                      <HashtagWrap>
+                        {post.hashtags.map((hashtag) => (
+                          <Hashtag>{hashtag}</Hashtag>
+                        ))}
+                      </HashtagWrap>
+                    )}
                     <PostInfo>
                       <PostCountWrap>
                         <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />

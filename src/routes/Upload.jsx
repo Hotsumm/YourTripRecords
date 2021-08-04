@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { cityArray } from '../utils/cityArray';
+import { hashtagArray } from '../utils/hashtagArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
@@ -35,7 +36,7 @@ const UploadWrap = styled.div`
   padding: 30px 250px;
 `;
 
-const RecordContainer = styled.div`
+const RecordInfoContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -44,22 +45,13 @@ const RecordContainer = styled.div`
   padding: 30px 0;
 `;
 
-const RecordWrap = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+const RecordInfoWrap = styled.div`
   width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
-  span {
-    width: 20%;
-    font-size: 14px;
-    margin-right: 10px;
-  }
-  :first-child {
-    span {
-      font-size: 18px;
-    }
-  }
+
   input {
     width: 80%;
     font-size: 18px;
@@ -79,6 +71,26 @@ const RecordWrap = styled.div`
     border-radius: 5px;
     border-style: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const HashtagWrap = styled.ul`
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0 20px;
+`;
+
+const Hashtag = styled.li`
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: ${(props) => props.theme.textColor};
+  background: ${(props) => props.theme.menuColor};
+  border: 1px solid #16a085;
+  :hover {
+    color: #16a085;
   }
 `;
 
@@ -217,10 +229,11 @@ const Upload = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [postTitle, setPostTitle] = useState('');
   const [city, setCity] = useState('서울');
+  const [postTitle, setPostTitle] = useState('');
   const [season, setSeason] = useState('봄');
   const [searchPlace, setSearchPlace] = useState([]);
+  const [selectedHashtag, setSelectedHashtag] = useState([]);
   const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
   const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
@@ -240,6 +253,20 @@ const Upload = () => {
     setSearchPlace(newSearchPlace);
     setSearchPlaceSelect(newSearchPlaceSelect);
     setPosts(newPosts);
+  };
+
+  const handleHashtagSelect = (name) => {
+    let newSelectedHashtag = [...selectedHashtag];
+
+    if (selectedHashtag.includes(name)) {
+      newSelectedHashtag = newSelectedHashtag.filter(
+        (element) => element !== name,
+      );
+      setSelectedHashtag([...newSelectedHashtag]);
+      return;
+    }
+    newSelectedHashtag.push(name);
+    setSelectedHashtag([...newSelectedHashtag]);
   };
 
   const onChange = (e) => {
@@ -325,9 +352,10 @@ const Upload = () => {
   const onUpload = async () => {
     setLoading(true);
     let userPostList = userObj.records;
+    let pictureInfo = [];
     const postId = uuidv4();
     const postRefId = uuidv4();
-    let pictureInfo = [];
+
     for (let i = 0; i < posts.length; i++) {
       const fileRef = firebaseStorage.ref(postRefId).child(posts[i].fileName);
       const res = await fileRef.putString(posts[i].picture, 'data_url');
@@ -346,7 +374,8 @@ const Upload = () => {
       .doc(userObj.userId)
       .update({
         records: [...userPostList, postId],
-      });
+      })
+      .catch((error) => console.log(error));
 
     const docData = {
       postId,
@@ -354,6 +383,7 @@ const Upload = () => {
       createdAt: getCreatedDay(),
       city,
       season,
+      hashtags: selectedHashtag,
       likes: [],
       comments: [],
       creator: {
@@ -387,17 +417,17 @@ const Upload = () => {
             <>
               {posts && posts.length > 0 ? (
                 <>
-                  <RecordContainer>
-                    <RecordWrap>
-                      <span>여행 제목</span>
+                  <RecordInfoContainer>
+                    <RecordInfoWrap>
+                      <span style={{ fontSize: '18px' }}>여행 제목</span>
                       <input
                         type="title"
                         name="recordTitle"
                         onChange={onChange}
                       />
-                    </RecordWrap>
-                    <RecordWrap>
-                      <span>도시</span>
+                    </RecordInfoWrap>
+                    <RecordInfoWrap>
+                      <span style={{ fontSize: '14px' }}>도시</span>
                       <select name="city" onChange={onChange}>
                         {cityArray &&
                           cityArray.length > 0 &&
@@ -407,17 +437,41 @@ const Upload = () => {
                             </option>
                           ))}
                       </select>
-                    </RecordWrap>
-                    <RecordWrap>
-                      <span>여행 계절</span>
+                    </RecordInfoWrap>
+                    <RecordInfoWrap>
+                      <span style={{ fontSize: '14px' }}>여행 계절</span>
                       <select name="season" onChange={onChange}>
                         <option value="봄">봄</option>
                         <option value="여름">여름</option>
                         <option value="가을">가을</option>
                         <option value="겨울">겨울</option>
                       </select>
-                    </RecordWrap>
-                  </RecordContainer>
+                    </RecordInfoWrap>
+                    <HashtagWrap>
+                      {hashtagArray.map((hashtag) => (
+                        <Hashtag
+                          theme={theme}
+                          key={hashtag.id}
+                          onClick={() => handleHashtagSelect(hashtag.name)}
+                          style={
+                            selectedHashtag.includes(hashtag.name)
+                              ? {
+                                  background: '#e3f4ea',
+                                  fontWeight: '600',
+                                  color: '#16a085',
+                                  cursor: 'default',
+                                  border: 'none',
+                                }
+                              : {
+                                  cursor: 'pointer',
+                                }
+                          }
+                        >
+                          {hashtag.name}
+                        </Hashtag>
+                      ))}
+                    </HashtagWrap>
+                  </RecordInfoContainer>
                   <PictureInfoContainer>
                     {posts.map((post, index) => (
                       <PictureInfoWrap key={index}>
