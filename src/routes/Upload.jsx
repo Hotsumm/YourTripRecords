@@ -366,10 +366,13 @@ const Upload = () => {
       .collection('records')
       .doc(postId)
       .set(docData)
+      .then(() => setLoading(false))
       .then(() => alert('업로드가 완료 되었습니다.'))
       .then(() => history.push(`/city/${city}/${postId}`))
-      .catch((error) => console.log(error.message))
-      .finally(() => setLoading(false));
+      .catch((error) => {
+        console.log(error.message);
+        setLoading(false);
+      });
   };
 
   return (
