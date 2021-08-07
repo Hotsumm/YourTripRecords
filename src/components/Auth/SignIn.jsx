@@ -144,7 +144,7 @@ const SignIn = ({ toggleSignIn }) => {
     }
   };
 
-  const handleSignIn = async () => {
+  const handleSignIn = () => {
     setLoading(true);
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
@@ -160,7 +160,6 @@ const SignIn = ({ toggleSignIn }) => {
         }
         window.location.reload();
       })
-
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
           alert('비밀번호를 확인해주세요.');
@@ -173,7 +172,7 @@ const SignIn = ({ toggleSignIn }) => {
       .finally(() => setLoading(false));
   };
 
-  const googleSignIn = async () => {
+  const googleSignIn = () => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)

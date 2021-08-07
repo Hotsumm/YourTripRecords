@@ -215,8 +215,10 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
           instagram,
           intro,
         })
-        .then(() => alert('프로필이 변경되었습니다'))
-        .then(() => window.location.reload())
+        .then(() => {
+          alert('프로필이 변경되었습니다');
+          window.location.reload();
+        })
         .catch((error) => alert(error.message));
     } else {
       const fileRef = firebaseStorage
@@ -231,8 +233,11 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
           instagram,
           intro,
         })
-        .then(() => alert('프로필이 변경되었습니다'))
-        .then(() => window.location.reload())
+        .then(() => {
+          alert('프로필이 변경되었습니다');
+          window.location.reload();
+        })
+
         .catch((error) => alert(error.message));
     }
   };

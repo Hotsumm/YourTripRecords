@@ -235,7 +235,7 @@ const PostEdit = ({ match, location }) => {
     }
   };
 
-  const onPostEdit = async () => {
+  const onPostEdit = () => {
     setLoading(true);
     const recordsRef = firebaseFireStore
       .collection('records')
@@ -252,9 +252,11 @@ const PostEdit = ({ match, location }) => {
         creator: { userObj },
         pictureList: [...pictureObjList],
       })
-      .then(() => setLoading(false))
-      .then(() => alert('여행기록 수정이 완료 되었습니다.'))
-      .then(() => history.push(`/city/${postObj.city}/${postObj.postId}`))
+      .then(() => {
+        setLoading(false);
+        alert('여행기록 수정이 완료 되었습니다.');
+        history.push(`/city/${postObj.city}/${postObj.postId}`);
+      })
       .catch((error) => {
         console.log(error);
         setLoading(false);

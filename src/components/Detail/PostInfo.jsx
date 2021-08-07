@@ -73,7 +73,7 @@ const PostInfo = ({ postObj }) => {
     setIsLikesUser(!isLikesUser);
   };
 
-  const handleLike = async () => {
+  const handleLike = () => {
     if (!userObj) {
       alert('먼저 로그인을 해주세요.');
       return;

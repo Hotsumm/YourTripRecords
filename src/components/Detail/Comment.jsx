@@ -142,7 +142,7 @@ const Comment = ({ postId }) => {
     }
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = (commentId) => {
     const answer = window.confirm('작성한 댓글을 삭제하시겠습니까?');
     if (answer) {
       const newComments = comments.filter(
@@ -157,8 +157,8 @@ const Comment = ({ postId }) => {
         .then(() => {
           setComments(newComments);
           setCommentCount(commentCount - 1);
+          alert('댓글이 삭제되었습니다.');
         })
-        .then(() => alert('댓글이 삭제되었습니다.'))
         .catch((error) => {
           console.log(error);
           alert('오류가 발생했습니다.');
@@ -166,7 +166,7 @@ const Comment = ({ postId }) => {
     }
   };
 
-  const fetchComments = useCallback(async () => {
+  const fetchComments = useCallback(() => {
     setIsLoading(true);
     const commentsRef = firebaseFireStore.collection('records').doc(postId);
     commentsRef
@@ -183,7 +183,7 @@ const Comment = ({ postId }) => {
       .finally(() => setIsLoading(false));
   }, [postId, setCommentCount]);
 
-  const handleComments = async () => {
+  const handleComments = () => {
     if (content === '') {
       alert('댓글을 작성해주세요 !');
       return;
@@ -205,8 +205,8 @@ const Comment = ({ postId }) => {
           },
         ],
       })
-      .then(() => setContent(''))
-      .then(() =>
+      .then(() => {
+        setContent('');
         setComments([
           ...comments,
           {
@@ -217,9 +217,9 @@ const Comment = ({ postId }) => {
             content,
             createdAt: getCreatedDay(),
           },
-        ]),
-      )
-      .then(() => setCommentCount(commentCount + 1))
+        ]);
+        setCommentCount(commentCount + 1);
+      })
       .catch((error) => console.log(error));
   };
 

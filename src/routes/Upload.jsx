@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { v4 as uuidv4 } from 'uuid';
@@ -235,13 +235,17 @@ const Upload = () => {
   const [searchPlace, setSearchPlace] = useState([]);
   const [selectedHashtag, setSelectedHashtag] = useState([]);
   const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
-  const { userObj } = useContext(UserContext);
+  const { userObj, refreshUser } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
+  let newPosts;
+  let newSearchPlace;
+  let newSearchPlaceSelect;
+
   const locationSelect = (locationId, longitude, latitude, place_name, id) => {
-    let newPosts = [...posts];
-    let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    newPosts = [...posts];
+    newSearchPlace = [...searchPlace];
+    newSearchPlaceSelect = [...searchPlaceSelect];
 
     newSearchPlace[id] = place_name;
     newSearchPlaceSelect[id] = true;
@@ -274,9 +278,9 @@ const Upload = () => {
       target: { id, name, value },
     } = e;
 
-    let newPosts = [...posts];
-    let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    newPosts = [...posts];
+    newSearchPlace = [...searchPlace];
+    newSearchPlaceSelect = [...searchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
@@ -356,15 +360,15 @@ const Upload = () => {
     const postId = uuidv4();
     const postRefId = uuidv4();
 
-    for (let i = 0; i < posts.length; i++) {
-      const fileRef = firebaseStorage.ref(postRefId).child(posts[i].fileName);
-      const res = await fileRef.putString(posts[i].picture, 'data_url');
+    for (let post of posts) {
+      const fileRef = firebaseStorage.ref(postRefId).child(post.fileName);
+      const res = await fileRef.putString(post.picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
       pictureInfo.push({
         pictureId: uuidv4(),
-        location: posts[i].location,
-        description: posts[i].description,
-        fileName: posts[i].fileName,
+        location: post.location,
+        description: post.description,
+        fileName: post.fileName,
         pictureURL: pictureURL,
       });
     }
@@ -396,13 +400,21 @@ const Upload = () => {
       .collection('records')
       .doc(postId)
       .set(docData)
-      .then(() => setLoading(false))
-      .then(() => alert('업로드가 완료 되었습니다.'))
-      .then(() => history.push(`/city/${city}/${postId}`))
+      .then(() => {
+        setLoading(false);
+        refreshUser(true);
+        alert('업로드가 완료 되었습니다.');
+        history.push(`/city/${city}/${postId}`);
+      })
       .catch((error) => {
         console.log(error.message);
         setLoading(false);
       });
+  };
+
+  const closeButton = () => {
+    const answer = window.confirm('작성을 취소 하시겠습니까?');
+    if (answer) history.goBack();
   };
 
   return (
@@ -561,9 +573,12 @@ const Upload = () => {
             >
               업로드하기
             </Button>
-            <Link to="/" style={{ pointerEvents: loading && 'none' }}>
-              <Button>취소</Button>
-            </Link>
+            <Button
+              style={{ pointerEvents: loading && 'none' }}
+              onClick={closeButton}
+            >
+              취소
+            </Button>
           </ButtonWrap>
         </UploadWrap>
       </UploadContainer>

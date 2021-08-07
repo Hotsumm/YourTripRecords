@@ -89,7 +89,7 @@ const PopularCity = () => {
     );
   };
 
-  const fetchPost = useCallback(async () => {
+  const fetchPost = useCallback(() => {
     setLoading(true);
     let allRecord = [];
     let popularCityArr = [];

@@ -11,7 +11,11 @@ const App = () => {
   const [init, setInit] = useState(false);
   const [theme, toggleTheme] = useDarkMode();
 
-  useEffect(() => {
+  useEffect(() => refreshUser(true), []);
+
+  const refreshUser = (sign) => {
+    if (!sign) return;
+
     firebaseAuth.onAuthStateChanged((user) => {
       if (user && user.emailVerified) {
         const userRef = firebaseFireStore.collection('users').doc(user.uid);
@@ -33,11 +37,11 @@ const App = () => {
         setInit(true);
       }
     });
-  }, []);
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <UserContext.Provider value={{ userObj }}>
+      <UserContext.Provider value={{ userObj, refreshUser }}>
         <React.Fragment>
           <GlobalStyles theme={theme} />
           {init && <Router />}

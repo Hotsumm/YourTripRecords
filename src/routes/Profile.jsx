@@ -50,7 +50,7 @@ const Profile = ({ match }) => {
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
 
-  const fetchUser = useCallback(async () => {
+  const fetchUser = useCallback(() => {
     setIsLoading(true);
     const userRef = firebaseFireStore
       .collection('users')

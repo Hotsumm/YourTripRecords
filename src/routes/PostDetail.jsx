@@ -91,7 +91,7 @@ const PostDetail = ({ match }) => {
   const postId = match.params.postId;
   const pathName = match.url;
 
-  const handleDeletePost = async () => {
+  const handleDeletePost = () => {
     const answer = window.confirm(
       '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
     );
@@ -108,7 +108,7 @@ const PostDetail = ({ match }) => {
     }
   };
 
-  const userPostDelete = async (userId, postId, city) => {
+  const userPostDelete = (userId, postId, city) => {
     const newRecords = userObj.records.filter((record) => record !== postId);
     firebaseFireStore
       .collection('users')
@@ -116,14 +116,17 @@ const PostDetail = ({ match }) => {
       .update({
         records: newRecords,
       })
-      .then(() => alert('게시물이 정상적으로 삭제되었습니다.'))
-      .then(() => history.push(`/city/${city}`))
+      .then(() => {
+        alert('게시물이 정상적으로 삭제되었습니다.');
+        history.push(`/city/${city}`);
+      })
+
       .catch((error) => console.log(error));
   };
 
   const handleEdit = () => setIsEditClick(!isEditClick);
 
-  const fetchPosts = useCallback(async () => {
+  const fetchPosts = useCallback(() => {
     const postsRef = firebaseFireStore.collection('records').doc(postId);
     postsRef
       .get()

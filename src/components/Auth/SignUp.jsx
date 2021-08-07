@@ -155,7 +155,7 @@ const SignUp = ({ toggleSignUp }) => {
     handleSignUp();
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = () => {
     if (password !== passwordConfirm) {
       alert('비밀번호를 확인해주세요.');
       return;
@@ -168,11 +168,6 @@ const SignUp = ({ toggleSignUp }) => {
         firebaseAuth.currentUser
           .sendEmailVerification()
           .then(() => CreateUser(email, nickname))
-          .then(() =>
-            alert(
-              '회원가입이 완료되었습니다.\n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다. ',
-            ),
-          )
           .catch((error) => console.log(error));
       })
       .catch((error) => {
@@ -192,7 +187,7 @@ const SignUp = ({ toggleSignUp }) => {
       });
   };
 
-  const googleSignIn = async () => {
+  const googleSignIn = () => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)

@@ -36,7 +36,7 @@ const City = ({ match }) => {
     setSelectedSeason(season);
   };
 
-  const fetchPost = useCallback(async () => {
+  const fetchPost = useCallback(() => {
     setLoading(true);
     let postArr = [];
     firebaseFireStore
