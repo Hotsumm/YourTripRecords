@@ -26,11 +26,25 @@ const CityName = styled.span`
   font-weight: 600;
 `;
 
-const City = ({ match }) => {
+const City = ({ match, location }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState('전체');
+  const [hashtagList, setHashtagList] = useState(
+    location.hashtag ? location.hashtag : [],
+  );
   const cityName = match.params.cityName;
+
+  const handleHashtagSelect = (hashtag) => {
+    if (hashtagList.includes(hashtag)) {
+      const hashtagFilter = hashtagList.filter(
+        (element) => element !== hashtag,
+      );
+      setHashtagList([...hashtagFilter]);
+      return;
+    }
+    setHashtagList((prev) => [...prev, hashtag]);
+  };
 
   const handleSeasonSelect = (season) => {
     setSelectedSeason(season);
@@ -39,6 +53,7 @@ const City = ({ match }) => {
   const fetchPost = useCallback(() => {
     setLoading(true);
     let postArr = [];
+
     firebaseFireStore
       .collection('records')
       .get()
@@ -55,11 +70,16 @@ const City = ({ match }) => {
           postArr = postArr.filter((post) => post.season === selectedSeason);
         }
 
+        if (hashtagList) {
+          for (let hashtag of hashtagList) {
+            postArr = postArr.filter((post) => post.hashtags.includes(hashtag));
+          }
+        }
         setPosts(postArr);
       })
       .catch((error) => error.message)
       .finally(() => setLoading(false));
-  }, [cityName, selectedSeason]);
+  }, [cityName, selectedSeason, hashtagList]);
 
   useEffect(() => {
     fetchPost();
@@ -75,6 +95,8 @@ const City = ({ match }) => {
         <CityCategory
           cityName={cityName}
           handleSeasonSelect={handleSeasonSelect}
+          hashtagList={hashtagList}
+          handleHashtagSelect={handleHashtagSelect}
         />
         {posts && (
           <CityPost loading={loading} posts={posts} cityName={cityName} />

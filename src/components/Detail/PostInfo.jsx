@@ -16,7 +16,7 @@ const PostInfoWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0 30px 0;
+  padding: 15px 0;
 `;
 
 const CountWrap = styled.div`

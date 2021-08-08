@@ -9,7 +9,8 @@ const CityPostContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 60px;
+  align-items: center;
+  padding: 50px 60px;
 `;
 
 const NoPostWrap = styled.div`
@@ -136,13 +137,13 @@ const Nickname = styled.span`
   font-weight: 700;
 `;
 
-const CityPost = ({ loading, posts, cityName }) => {
+const CityPost = ({ loading, posts }) => {
   return (
-    <>
+    <CityPostContainer>
       {loading ? (
         <Loading />
       ) : (
-        <CityPostContainer>
+        <>
           {posts && posts.length > 0 ? (
             <CityPostWrap>
               {posts.map((post) => (
@@ -157,8 +158,8 @@ const CityPost = ({ loading, posts, cityName }) => {
                     <PostThumbnail src={post.pictureList[0].pictureURL} />
                     {post.hashtags && (
                       <HashtagWrap>
-                        {post.hashtags.map((hashtag) => (
-                          <Hashtag>{hashtag}</Hashtag>
+                        {post.hashtags.map((hashtag, index) => (
+                          <Hashtag key={index}>{hashtag}</Hashtag>
                         ))}
                       </HashtagWrap>
                     )}
@@ -200,9 +201,9 @@ const CityPost = ({ loading, posts, cityName }) => {
               <NoPostImg src={noPostImg} />
             </NoPostWrap>
           )}
-        </CityPostContainer>
+        </>
       )}
-    </>
+    </CityPostContainer>
   );
 };
 

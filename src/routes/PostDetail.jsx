@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
+import Hashtag from '../components/Detail/Hashtag';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
 import { UserContext } from '../Context';
@@ -150,6 +151,7 @@ const PostDetail = ({ match }) => {
       {postObj && (
         <DetailContainer>
           <DetailWrap>
+            {postObj.hashtags && <Hashtag postObj={postObj} />}
             <DetailHeader>
               <PostTitle>{postObj.postTitle}</PostTitle>
               <PostWrap>

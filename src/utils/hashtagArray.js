@@ -23,4 +23,8 @@ export const hashtagArray = [
     id: 5,
     name: '당일치기',
   },
+  {
+    id: 6,
+    name: '쇼핑',
+  },
 ];
