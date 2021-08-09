@@ -10,15 +10,16 @@ import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const ProfileBarWrap = styled.div`
+  @media (max-width: 500px) {
+  }
   position: relative;
   height: 40px;
   border-radius: 20px;
   background: ${(props) => props.theme.bgColor};
-  padding: 0 18px;
+  padding: 0 10px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
-  color: black;
   cursor: pointer;
 `;
 
@@ -28,18 +29,27 @@ const AvatarWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0 15px;
   & span {
+    @media (max-width: 500px) {
+      display: none;
+    }
     font-weight: 700;
     font-size: 15px;
-    text-align: right;
-    margin: 0 10px 0 10px;
     color: ${(props) => props.theme.textColor};
   }
   & img {
+    @media (max-width: 500px) {
+      width: 25px;
+      height: 25px;
+    }
     width: 35px;
     height: 35px;
     border-radius: 50%;
   }
+`;
+
+const Icon = styled.div`
   & svg {
     color: ${(props) => props.theme.textColor};
   }
@@ -101,13 +111,17 @@ const NavProfile = () => {
       <ProfileBarWrap theme={theme} ref={ref} onClick={menuClick}>
         {userObj ? (
           <AvatarWrap theme={theme}>
-            <VscTriangleDown size={15} />
+            <Icon>
+              <VscTriangleDown size={15} />
+            </Icon>
             <span>{userObj.nickname}</span>
             <img src={userObj.avatar} alt="avatar" />
           </AvatarWrap>
         ) : (
           <AvatarWrap theme={theme}>
-            <VscTriangleDown size={15} />
+            <Icon>
+              <VscTriangleDown size={15} />
+            </Icon>
             <span>로그인을 해주세요</span>
             <HiUserCircle size={35} color={theme.textColor} />
           </AvatarWrap>
@@ -149,7 +163,9 @@ const NavProfile = () => {
           </ProfileMenu>
         )}
       </ProfileBarWrap>
-      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
+      {isSignInClick && (
+        <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
+      )}
       {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
     </>
   );

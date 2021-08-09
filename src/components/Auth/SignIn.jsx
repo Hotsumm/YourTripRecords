@@ -53,12 +53,13 @@ const SignInContentWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0px 50px;
 `;
 
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
-  padding: 10px 50px 30px 50px;
+  padding: 10px 0px;
   flex-direction: column;
   align-items: center;
 `;
@@ -87,12 +88,31 @@ const InputWrap = styled.div`
   }
 `;
 
+const SignUpTextWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  color: grey;
+  & span {
+    :last-child {
+      margin-left: 10px;
+      text-decoration: underline;
+      cursor: pointer;
+      :hover {
+        color: #16a085;
+      }
+    }
+  }
+`;
+
 const ButtonWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 40px;
+
   & button {
     width: 100%;
     height: 50px;
@@ -120,7 +140,7 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const SignIn = ({ toggleSignIn }) => {
+const SignIn = ({ toggleSignIn, toggleSignUp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -224,6 +244,17 @@ const SignIn = ({ toggleSignIn }) => {
                   />
                 </InputWrap>
               </InputContainer>
+              <SignUpTextWrap>
+                <span>아직 회원이 아니신가요?</span>
+                <span
+                  onClick={() => {
+                    closeButton();
+                    toggleSignUp();
+                  }}
+                >
+                  회원가입 바로가기
+                </span>
+              </SignUpTextWrap>
               <ButtonWrap theme={theme}>
                 <button onClick={handleSignIn}>로그인</button>
                 <button onClick={googleSignIn}>
