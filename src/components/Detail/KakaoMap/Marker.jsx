@@ -7,7 +7,7 @@ const MarkerContanier = styled.div`
 `;
 
 const MarkerWrap = styled.div`
-  width: 350px;
+  width: 70%;
   height: 150px;
 `;
 

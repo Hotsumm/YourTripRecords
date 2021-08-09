@@ -15,27 +15,29 @@ const ProfileMenuContainer = styled.div`
 `;
 
 const ProfileMenuWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
   width: 100%;
-  height: 220px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  padding: 30px 30px;
+  padding: 0px 20px;
 `;
 
 const AvatarWrap = styled.div`
-  width: 40%;
   display: flex;
   align-items: center;
+  padding: 20px 0;
 `;
 
 const Avatar = styled.img`
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  margin-right: 20px;
+  margin-right: 10px;
 `;
 
 const AvatarInfoWrap = styled.div`
@@ -60,7 +62,6 @@ const ContentTitle = styled.div`
 const Nickname = styled.div`
   font-size: 18px;
   font-weight: 600;
-
   margin-top: 5px;
 `;
 
@@ -88,14 +89,28 @@ const OtherUser = styled.span`
 `;
 
 const MenuWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 15px 0;
+  }
+  padding: 20px 0;
   width: 100%;
-  height: 100%;
   display: flex;
+  gap: 0 30px;
   justify-content: flex-end;
   align-items: flex-start;
 `;
 
+const MenuLink = styled(Link)`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
 const Menu = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +118,6 @@ const Menu = styled.div`
   border: 1px solid #16a085;
   border-radius: 5px;
   background: ${(props) => props.theme.bgColor};
-  margin-right: 30px;
   cursor: pointer;
   span {
     font-size: 14px;
@@ -157,22 +171,22 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
             <>
               {userCheck && (
                 <MenuWrap>
-                  <Link to={'/upload'}>
+                  <MenuLink to={'/upload'}>
                     <Menu theme={theme}>
                       <AiOutlinePlusCircle size={'18'} />
                       <span>여행기록 올리기</span>
                     </Menu>
-                  </Link>
-                  <Menu theme={theme} onClick={toggleProfileEdit}>
-                    <CgProfile size={'18'} />
-                    <span>프로필 변경</span>
-                  </Menu>
-                  <Link to={`/myAccount/${userObj.userId}`}>
+                  </MenuLink>
+                  <MenuLink to={`/myAccount/${userObj.userId}`}>
                     <Menu theme={theme}>
                       <FaExchangeAlt size={'18'} />
                       <span>계정정보 변경</span>
                     </Menu>
-                  </Link>
+                  </MenuLink>
+                  <Menu theme={theme} onClick={toggleProfileEdit}>
+                    <CgProfile size={'18'} />
+                    <span>프로필 변경</span>
+                  </Menu>
                 </MenuWrap>
               )}
             </>

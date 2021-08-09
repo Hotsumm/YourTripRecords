@@ -18,14 +18,6 @@ const AllPicturesContainer = styled.div`
   margin: 0 auto;
 `;
 
-const AllPicturesWrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 60px 30px 60px;
-`;
-
 const AllPicturesHeader = styled.div`
   position: relative;
   width: 100%;
@@ -39,13 +31,33 @@ const AllPicturesHeader = styled.div`
     left: 40px;
   }
 `;
+
+const AllPicturesWrap = styled.div`
+  @media (max-width: 500px) {
+    padding: 0px 10px;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 40px;
+  margin-bottom: 30px;
+`;
+
 const PictureNumber = styled.div`
   font-size: 18px;
 `;
 
 const SelectPictureContainer = styled.div`
+  @media (max-width: 500px) {
+    order: 3;
+  }
   width: 100%;
   display: flex;
+  @media (max-width: 500px) {
+    padding: 30px 0;
+    flex-direction: column;
+  }
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   padding: 30px 20px;
 `;
@@ -77,14 +89,13 @@ const SelectPictureSlideWrap = styled.div`
 const SelectPicture = styled.img`
   width: 100%;
   height: 100%;
-  min-width: 800px;
-  min-height: 400px;
-  max-width: 1000px;
-  max-height: 600px;
 `;
 
 const SelectPictureInfoWrap = styled.div`
-  width: 1000%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  width: 50%;
   height: auto;
   border: 1px solid rgba(0, 0, 0, 0.1);
 `;
@@ -168,13 +179,15 @@ const NoLocation = styled.span`
 `;
 
 const AllPicturesList = styled.div`
+  @media (max-width: 500px) {
+    order: 2;
+    height: 100px;
+  }
   width: 100%;
-  max-width: 1200px;
   overflow: auto;
   height: 150px;
   display: flex;
   padding: 20px 30px;
-
   img {
     opacity: 0.6;
     :nth-child(${(props) => props.index + 1}) {

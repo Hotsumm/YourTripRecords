@@ -10,21 +10,26 @@ import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
 import Pagination from '../components/Detail/KakaoMap/Pagination';
 import { UserContext, ThemeContext } from '../Context';
+import Footer from '../components/Home/Footer';
 
 const UploadContainer = styled.div`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
   padding-top: 80px;
-  background: white;
   text-align: center;
   filter: ${(props) =>
     props.loading ? 'brightness(30%)' : 'brightness(100%)'};
   height: ${(props) => props.loading && '100vh'};
 `;
-const UploadHeader = styled.div`
+const UploadHeaderWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & span {
+    font-size: 40px;
+  }
   margin-top: 50px;
-  font-size: 40px;
 `;
 
 const UploadWrap = styled.div`
@@ -33,27 +38,32 @@ const UploadWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 250px;
+  padding: 30px 0px;
 `;
 
 const RecordInfoContainer = styled.div`
-  width: 100%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 0;
+  padding: 30px 10px;
 `;
 
 const RecordInfoWrap = styled.div`
-  width: 450px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 10px 0;
-
-  input {
-    width: 80%;
+  & span {
+    width: 30%;
+  }
+  & input {
+    width: 70%;
     font-size: 18px;
     padding: 10px;
     border-radius: 5px;
@@ -64,8 +74,8 @@ const RecordInfoWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  select {
-    width: 80%;
+  & select {
+    width: 70%;
     padding: 7px;
     font-size: 14px;
     border-radius: 5px;
@@ -77,8 +87,9 @@ const RecordInfoWrap = styled.div`
 const HashtagWrap = styled.ul`
   margin-top: 30px;
   width: 100%;
+  padding: 0 20px;
   display: flex;
-  justify-content: center;
+  overflow-x: auto;
   gap: 0 20px;
 `;
 
@@ -94,36 +105,60 @@ const Hashtag = styled.li`
   }
 `;
 
-const PictureInfoContainer = styled.div`
+const PirctureInfoContainer = styled.div`
+  @media (max-width: 500px) {
+    padding: 0 10px;
+  }
   width: 100%;
-  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 100px;
 `;
 
 const PictureInfoWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+  }
   width: 100%;
-  height: 300px;
+  gap: 0 50px;
   display: flex;
+  justify-content: center;
+  padding: 20px 10px;
 `;
 
-const Picture = styled.img`
-  width: 35%;
-  height: 80%;
-  margin-right: 50px;
-  cursor: pointer;
-  :hover {
-    opacity: 0.8;
+const PictureWrap = styled.div`
+  @media (max-width: 500px) {
+    margin-bottom: 10px;
+  }
+  & img {
+    width: 330px;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    :hover {
+      opacity: 0.8;
+    }
   }
 `;
 
 const PictureInputWrap = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  width: 500px;
   display: flex;
-  width: 45%;
   flex-direction: column;
 `;
 
 const PictureInfo = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 5px 0;
+  }
   display: flex;
   padding: 5px 0;
+  gap: 0 10px;
   align-items: flex-start;
   :first-child {
     position: relative;
@@ -142,7 +177,6 @@ const PictureInfo = styled.div`
   }
   span {
     width: 10%;
-    margin-right: 10px;
     font-weight: 700;
   }
 `;
@@ -421,7 +455,9 @@ const Upload = () => {
     <>
       <Navigation show={true} />
       <UploadContainer loading={loading ? 1 : 0}>
-        <UploadHeader>여행기록 올리기</UploadHeader>
+        <UploadHeaderWrap>
+          <span>여행기록 올리기</span>
+        </UploadHeaderWrap>
         <UploadWrap>
           {loading ? (
             <Loading />
@@ -431,7 +467,7 @@ const Upload = () => {
                 <>
                   <RecordInfoContainer>
                     <RecordInfoWrap>
-                      <span style={{ fontSize: '18px' }}>여행 제목</span>
+                      <span style={{ fontSize: '16px' }}>여행 제목</span>
                       <input
                         type="title"
                         name="recordTitle"
@@ -484,10 +520,12 @@ const Upload = () => {
                       ))}
                     </HashtagWrap>
                   </RecordInfoContainer>
-                  <PictureInfoContainer>
+                  <PirctureInfoContainer>
                     {posts.map((post, index) => (
                       <PictureInfoWrap key={index}>
-                        <Picture src={post.picturePreview} alt="post" />
+                        <PictureWrap>
+                          <img src={post.picturePreview} alt="post" />
+                        </PictureWrap>
                         <PictureInputWrap>
                           <PictureInfo>
                             <span>위치</span>
@@ -526,7 +564,7 @@ const Upload = () => {
                         </PictureInputWrap>
                       </PictureInfoWrap>
                     ))}
-                  </PictureInfoContainer>
+                  </PirctureInfoContainer>
                 </>
               ) : (
                 <FileContainer>
@@ -581,6 +619,7 @@ const Upload = () => {
             </Button>
           </ButtonWrap>
         </UploadWrap>
+        <Footer />
       </UploadContainer>
     </>
   );

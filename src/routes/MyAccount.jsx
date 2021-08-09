@@ -9,37 +9,39 @@ import { Link } from 'react-router-dom';
 import { FiUserX } from 'react-icons/fi';
 import { UserContext, ThemeContext } from '../Context';
 import UserDelete from '../components/Account/UserDelete';
+import Footer from '../components/Home/Footer';
 
 const MyAccountContainer = styled.div`
-  width: 100%;
-  padding-top: 80px;
+  width: 100vw;
   max-width: 1450px;
+  padding-top: 80px;
   margin: 0 auto;
 `;
 
 const MyAccountHeader = styled.div`
   width: 100%;
   text-align: center;
-  margin: 60px 0;
+  padding-top: 60px;
   font-size: 40px;
 `;
 
 const MyAccountWrap = styled.div`
   width: 100%;
-  padding: 0 320px;
+  padding: 70px 0;
 `;
 
 const UserWrap = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: 20px 0;
 `;
 
 const UserInfoWrap = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 60px;
   img {
     width: 50px;
     height: 50px;
@@ -60,13 +62,22 @@ const UserInfoWrap = styled.div`
 `;
 
 const MenuWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px 0;
+  }
   width: 100%;
-  padding: 20px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0 20px;
+  padding-bottom: 20px;
 `;
 
 const Menu = styled.div`
+  @media (max-width: 500px) {
+    width: 95vw;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -128,6 +139,7 @@ const MyAccount = ({ match }) => {
               </Menu>
             </MenuWrap>
           </MyAccountWrap>
+          <Footer />
         </MyAccountContainer>
       )}
       {isChangePassword && (

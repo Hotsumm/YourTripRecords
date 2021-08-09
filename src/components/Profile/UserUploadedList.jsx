@@ -6,6 +6,10 @@ import Loading from '../Load/Loading';
 import { ThemeContext } from '../../Context';
 
 const UploadedListContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    align-items: center;
+  }
   width: 75%;
   display: flex;
   flex-direction: column;
@@ -24,6 +28,10 @@ const NoUploadedList = styled.span`
 `;
 
 const UploadedListWrap = styled.ul`
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -44,7 +52,7 @@ const PostContainer = styled.div`
 
 const PostThumbnail = styled.img`
   width: 100%;
-  height: 220px;
+  aspect-ratio: 1/1;
 `;
 
 const PostHeaderWrap = styled.div`

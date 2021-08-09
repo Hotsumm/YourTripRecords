@@ -7,6 +7,11 @@ import { hashtagArray } from '../../utils/hashtagArray';
 import { ThemeContext } from '../../Context';
 
 const CityCategoryContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 0;
+    align-items: center;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -14,27 +19,11 @@ const CityCategoryContainer = styled.div`
   padding: 0px 60px;
 `;
 
-const HashtagWrap = styled.ul`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 30px;
-  gap: 0 20px;
-`;
-
-const Hashtag = styled.li`
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 16px;
-  border: 1px solid #16a085;
-  color: ${(props) => props.theme.textColor};
-
-  :hover {
-    color: #16a085;
-  }
-`;
-
 const CityCategoryWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    width: 100%;
+  }
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -42,6 +31,11 @@ const CityCategoryWrap = styled.div`
 `;
 
 const CategorySelectWrap = styled.div`
+  @media (max-width: 500px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  gap: 15px;
   display: flex;
   align-items: center;
   margin-right: 70px;
@@ -49,7 +43,6 @@ const CategorySelectWrap = styled.div`
 
 const CategoryHeader = styled.span`
   font-size: 20px;
-  margin-right: 15px;
 `;
 
 const Category = styled.select`
@@ -65,6 +58,31 @@ const Category = styled.select`
   border-radius: 5px;
   :-ms-expand {
     display: none;
+  }
+`;
+
+const HashtagWrap = styled.ul`
+  @media (max-width: 500px) {
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+  width: 100vw;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+  gap: 0 20px;
+  margin-bottom: 20px;
+`;
+
+const Hashtag = styled.li`
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 1px solid #16a085;
+  color: ${(props) => props.theme.textColor};
+
+  :hover {
+    color: #16a085;
   }
 `;
 

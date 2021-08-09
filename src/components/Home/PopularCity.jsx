@@ -8,6 +8,7 @@ import { ThemeContext } from '../../Context';
 
 const PopularCityContainer = styled.div`
   width: 100%;
+  padding: 40px 0;
 `;
 
 const PopularCityWrap = styled.div`
@@ -20,10 +21,13 @@ const PopularCityHeaderWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px 0 20px 0;
+  padding: 20px 0;
 `;
 
 const PopularCityHeader = styled.div`
+  @media (max-width: 500px) {
+    font-size: 20px;
+  }
   color: ${(props) => props.theme.textColor};
   font-size: 28px;
   font-weight: 600;
@@ -59,13 +63,19 @@ const CityName = styled.li`
 const PopularPostWrap = styled.div`
   width: 100%;
   display: flex;
-  padding: 30px 60px;
   justify-content: center;
+  padding: 30px 100px;
+  overflow-x: auto;
+  margin: 0 auto;
+  gap: 0 20px;
+  @media (max-width: 500px) {
+    padding: 30px;
+  }
 `;
 
 const PopularPost = styled.img`
-  width: 100%;
-  height: 250px;
+  width: 23vw;
+  aspect-ratio: 1/1;
 `;
 
 const PopularCity = () => {
@@ -76,11 +86,6 @@ const PopularCity = () => {
   const [selected, setSelected] = useState('');
 
   const { theme } = useContext(ThemeContext);
-
-  const linkStyle = {
-    width: '25%',
-    marginRight: '20px',
-  };
 
   const handleCitySelect = (city) => {
     setSelectCityObj(
@@ -102,7 +107,7 @@ const PopularCity = () => {
         });
         allRecord.sort((next, prev) => sortByPopular(next, prev));
         for (let i = 0; i < allRecord.length; i++) {
-          if (popularCityArr > 3) break;
+          if (popularCityArr > 4) break;
           if (
             popularCityArr === null ||
             !popularCityArr.includes(allRecord[i].city)
@@ -172,11 +177,6 @@ const PopularCity = () => {
               <PopularPostWrap>
                 {selectCityObj.map((record, index) => (
                   <Link
-                    style={
-                      index === 3
-                        ? { marginRight: '0px', width: '25%' }
-                        : linkStyle
-                    }
                     key={record.postId}
                     to={{
                       pathname: `/city/${record.city}/${record.postId}`,

@@ -27,18 +27,28 @@ const NoPostImg = styled.img`
 `;
 
 const NoPost = styled.p`
-  font-size: 30px;
+  font-size: 4vw;
   margin-bottom: 10px;
   color: black;
 `;
 
 const CityPostWrap = styled.div`
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   width: 100%;
   display: grid;
-  grid-gap: 50px;
+  gap: 50px;
   grid-template-columns: repeat(4, 1fr);
 `;
 const PostIntro = styled.div`
+  position: relative;
+  @media (max-width: 500px) {
+    width: 95vw;
+    align-items: center;
+  }
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -50,14 +60,17 @@ const PostIntro = styled.div`
   }
 `;
 
-const PostThumbnail = styled.img`
-  position: relative;
+const PostThumbnail = styled.div`
   width: 100%;
-  aspect-ratio: 4/3;
+  & img {
+    aspect-ratio: 4/3;
+  }
 `;
 
 const HashtagWrap = styled.ul`
   position: absolute;
+  top: 0px;
+  left: 0px;
   display: flex;
   flex-direction: column;
 `;
@@ -155,7 +168,12 @@ const CityPost = ({ loading, posts }) => {
                   }}
                 >
                   <PostIntro>
-                    <PostThumbnail src={post.pictureList[0].pictureURL} />
+                    <PostThumbnail>
+                      <img
+                        src={post.pictureList[0].pictureURL}
+                        alt={post.postId}
+                      />
+                    </PostThumbnail>
                     {post.hashtags && (
                       <HashtagWrap>
                         {post.hashtags.map((hashtag, index) => (

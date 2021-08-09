@@ -7,14 +7,36 @@ const PreviewContainer = styled.div`
 `;
 
 const PreviewWrap = styled.div`
+  @media (max-width: 500px) {
+    display: flex;
+    gap: 0;
+  }
+  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 180px);
-  grid-gap: 5px;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
+  & button {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    padding: 10px 20px;
+    border: 1px solid #16a085;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    :hover {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
 `;
 
 const PreviewImgWrap = styled.div`
+  @media (max-width: 500px) {
+    :not(:first-child) {
+      display: none;
+    }
+  }
   :first-child {
     grid-area: 1 / 1 / 3 / 3;
   }
@@ -28,28 +50,14 @@ const PreviewImgWrap = styled.div`
     grid-area: 1 / 4 / 2 / 5;
   }
   :last-child {
-    position: relative;
     grid-area: 2 / 4 / 3 / 5;
-    button {
-      position: absolute;
-      bottom: 15px;
-      right: 10px;
-      width: 130px;
-      height: 40px;
-
-      border: 1px solid #16a085;
-      border-radius: 5px;
-      font-size: 12 px;
-      :hover {
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      }
-    }
   }
 `;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
+  aspect-ratio: 4/3;
 `;
 const Preview = ({ postObj, pathName }) => {
   return (
@@ -59,7 +67,7 @@ const Preview = ({ postObj, pathName }) => {
           postObj.pictureList.length > 0 &&
           postObj.pictureList.map(
             (picture, index) =>
-              index < 4 && (
+              index < 5 && (
                 <PreviewImgWrap key={picture.pictureId}>
                   <Link
                     to={{
@@ -76,30 +84,17 @@ const Preview = ({ postObj, pathName }) => {
                 </PreviewImgWrap>
               ),
           )}
-        <PreviewImgWrap key={postObj.pictureList[4].pictureId}>
-          <Link
-            to={{
-              pathname: `${pathName}/${postObj.pictureList[4].pictureId}`,
-              state: {
-                pictureIndex: 4,
-                pictureList: postObj.pictureList,
-              },
-            }}
-          >
-            <PreviewImg src={postObj.pictureList[4].pictureURL} />
-          </Link>
-          <Link
-            to={{
-              pathname: `${pathName}/${postObj.pictureList[0].pictureId}`,
-              state: {
-                pictureIndex: 0,
-                pictureList: postObj.pictureList,
-              },
-            }}
-          >
-            <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
-          </Link>
-        </PreviewImgWrap>
+        <Link
+          to={{
+            pathname: `${pathName}/${postObj.pictureList[0].pictureId}`,
+            state: {
+              pictureIndex: 0,
+              pictureList: postObj.pictureList,
+            },
+          }}
+        >
+          <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
+        </Link>
       </PreviewWrap>
     </PreviewContainer>
   );

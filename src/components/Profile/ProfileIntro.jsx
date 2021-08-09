@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { ThemeContext } from '../../Context';
 
 const ProfileIntroContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 40px;
+  }
   width: 25%;
   margin-right: 40px;
 `;

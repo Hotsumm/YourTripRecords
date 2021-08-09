@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import { ThemeContext } from '../../Context';
 
 const HashtagContainer = styled.div`
+  overflow-x: auto;
   width: 100%;
   padding: 10px 0;
 `;
 const HashtagWrap = styled.ul`
+  @media (max-width: 500px) {
+    justify-content: center;
+  }
   width: 100%;
   display: flex;
   justify-content: flex-start;

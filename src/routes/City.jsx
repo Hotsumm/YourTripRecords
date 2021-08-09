@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation/Navigation';
 import CityPost from '../components/City/CityPost';
 import CityCategory from '../components/City/CityCategory';
 import { firebaseFireStore } from '../firebaseConfig';
+import Footer from '../components/Home/Footer';
 
 const CityContainer = styled.div`
   width: 100%;
@@ -13,7 +14,11 @@ const CityContainer = styled.div`
 `;
 
 const CityHeader = styled.div`
-  width: 100%;
+  @media (max-width: 500px) {
+    align-items: center;
+    padding: 60px 0 40px 0;
+  }
+  width: 100vw;
   padding: 60px 0px 40px 50px;
   display: flex;
   flex-direction: column;
@@ -101,6 +106,7 @@ const City = ({ match, location }) => {
         {posts && (
           <CityPost loading={loading} posts={posts} cityName={cityName} />
         )}
+        <Footer />
       </CityContainer>
     </>
   );

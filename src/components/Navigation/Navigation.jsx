@@ -20,15 +20,21 @@ const NavContainer = styled.div`
 
 const NavWrap = styled.div`
   width: 100%;
+  display: flex;
+  padding: 0px 60px;
+  @media (max-width: 500px) {
+    padding: 0px 20px;
+  }
   max-width: 1450px;
   margin: 0 auto;
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 60px;
 `;
 
 const TitleContainer = styled.div`
+  @media (max-width: 500px) {
+    font-size: 24px;
+  }
   display: flex;
   padding: 20px 0;
   align-items: flex-start;
@@ -58,6 +64,9 @@ const ProfileContainer = styled.div`
 
 const ThemeContainer = styled.div`
   margin-right: 120px;
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const Navigation = ({ show }) => {

@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CommentContainer = styled.div`
   width: 100%;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
 `;

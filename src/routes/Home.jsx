@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation/Navigation';
 import CityList from '../components/City/CityList';
 import Background from '../components/Home/Background';
 import PopularCity from '../components/Home/PopularCity';
+import Footer from '../components/Home/Footer';
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -35,6 +36,7 @@ const Home = () => {
         <Background />
         <CityList />
         <PopularCity />
+        <Footer />
       </HomeContainer>
     </>
   );

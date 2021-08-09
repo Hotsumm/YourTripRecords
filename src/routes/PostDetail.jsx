@@ -6,10 +6,10 @@ import Comment from '../components/Detail/Comment';
 import Hashtag from '../components/Detail/Hashtag';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
-import { UserContext } from '../Context';
+import { UserContext, ThemeContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import { BsThreeDots } from 'react-icons/bs';
-
+import Footer from '../components/Home/Footer';
 const DetailContainer = styled.div`
   width: 100%;
   display: flex;
@@ -19,26 +19,40 @@ const DetailContainer = styled.div`
   max-width: 1450px;
   margin: 0 auto;
 `;
+
 const DetailWrap = styled.div`
-  width: 100%;
-  padding: 130px 250px 50px 250px;
+  z-index: 80;
+  @media (max-width: 500px) {
+    width: 95vw;
+  }
+  width: 65vw;
+  padding: 80px 0;
 `;
 
-const DetailHeader = styled.div`
+const DetailHeaderWrap = styled.div`
+  position: relative;
+  @media (max-width: 500px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+  width: 100%;
   display: flex;
-  padding: 10px 0;
+  padding: 20px 0;
   justify-content: space-between;
   align-items: center;
 `;
 
-const PostWrap = styled.div`
+const PostCreatedWrap = styled.div`
+  @media (max-width: 500px) {
+    justify-content: flex-end;
+  }
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 `;
 
 const IconWrap = styled.div`
-  position: relative;
   padding: 2px 3px;
   margin-left: 15px;
   :hover {
@@ -48,17 +62,26 @@ const IconWrap = styled.div`
   cursor: pointer;
 `;
 
-const EditWrap = styled.div`
-  position: absolute;
-  width: 100px;
-  border-radius: 5px;
-  top: 170px;
-  right: 140px;
-  padding: 5px 0px;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  ul {
-    width: 100%;
+const PostCreated = styled.div`
+  color: gray;
+`;
+
+const PostTitleWrap = styled.div`
+  width: 100%;
+  & h1 {
+    font-size: 1.2rem;
   }
+`;
+
+const EditWrap = styled.div`
+  background: ${(props) => props.theme.menuColor};
+  position: absolute;
+  z-index: 99;
+  border-radius: 5px;
+  top: 50px;
+  right: 30px;
+  padding: 5px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   li {
     font-size: 12px;
     padding: 5px 10px;
@@ -69,14 +92,6 @@ const EditWrap = styled.div`
   }
 `;
 
-const PostCreated = styled.div`
-  color: gray;
-`;
-
-const PostTitle = styled.div`
-  font-size: 24px;
-`;
-
 const DetailInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,8 +99,9 @@ const DetailInfoWrap = styled.div`
 `;
 
 const PostDetail = ({ match }) => {
-  const [postObj, setPostObj] = useState(null);
   const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+  const [postObj, setPostObj] = useState(null);
   const [isEditClick, setIsEditClick] = useState(false);
 
   const history = useHistory();
@@ -151,42 +167,45 @@ const PostDetail = ({ match }) => {
       {postObj && (
         <DetailContainer>
           <DetailWrap>
-            {postObj.hashtags && <Hashtag postObj={postObj} />}
-            <DetailHeader>
-              <PostTitle>{postObj.postTitle}</PostTitle>
-              <PostWrap>
+            <DetailHeaderWrap>
+              <PostTitleWrap>
+                <h1>{postObj.postTitle}</h1>
+              </PostTitleWrap>
+              <PostCreatedWrap>
                 <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
                 {userObj && userObj.userId === postObj.creator.userObj.userId && (
                   <IconWrap>
                     <BsThreeDots onClick={handleEdit} size={26} />
                   </IconWrap>
                 )}
-                {isEditClick && (
-                  <EditWrap>
-                    <ul>
-                      <Link
-                        to={{
-                          pathname: `/postEdit/${postObj.postId}`,
-                          state: { postObj },
-                        }}
-                      >
-                        <li>게시물 수정하기</li>
-                      </Link>
-                      <li onClick={handleDeletePost}>게시물 삭제하기</li>
-                      <li onClick={handleEdit} style={{ color: 'red' }}>
-                        취소
-                      </li>
-                    </ul>
-                  </EditWrap>
-                )}
-              </PostWrap>
-            </DetailHeader>
+              </PostCreatedWrap>
+              {isEditClick && (
+                <EditWrap theme={theme}>
+                  <ul>
+                    <Link
+                      to={{
+                        pathname: `/postEdit/${postObj.postId}`,
+                        state: { postObj },
+                      }}
+                    >
+                      <li>게시물 수정하기</li>
+                    </Link>
+                    <li onClick={handleDeletePost}>게시물 삭제하기</li>
+                    <li onClick={handleEdit} style={{ color: 'red' }}>
+                      취소
+                    </li>
+                  </ul>
+                </EditWrap>
+              )}
+            </DetailHeaderWrap>
             <DetailInfoWrap>
               <Preview postObj={postObj} pathName={pathName} />
               <PostInfo postObj={postObj} userObj={userObj} />
+              {postObj.hashtags && <Hashtag postObj={postObj} />}
               <Comment postId={postObj.postId} />
             </DetailInfoWrap>
           </DetailWrap>
+          <Footer />
         </DetailContainer>
       )}
     </>

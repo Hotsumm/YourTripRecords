@@ -6,15 +6,18 @@ import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../Context';
 
 const CityListContainer = styled.div`
+  @media (max-width: 500px) {
+    top: 220px;
+    left: 30px;
+  }
   width: 100%;
   position: absolute;
-  top: 70px;
+  top: 380px;
+  left: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 50px 80px;
-  margin-top: 250px;
   z-index: 2;
 `;
 
@@ -30,19 +33,37 @@ const CityMenu = styled.ul`
 `;
 
 const Menu = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   background: ${(props) => props.theme.bgColor};
   border-radius: 3px 3px 0 0;
-  padding: 10px 20px;
-  align-items: center;
-  font-size: 18px;
+  padding: 10px 10px;
   font-weight: 600;
-  svg {
-    margin-right: 5px;
+  & span {
+    width: 40px;
+    font-size: 18px;
+    @media (max-width: 500px) {
+      font-size: 14px;
+      width: 30px;
+    }
   }
 `;
 
+const IconWrap = styled.div`
+  font-size: 16px;
+  margin-right: 5px;
+`;
+
 const CityListWrap = styled.ul`
+  @media (max-width: 500px) {
+    display: flex;
+    overflow-x: auto;
+    padding: 15px 10px;
+    gap: 10px;
+    width: 85vw;
+  }
   display: grid;
   background: ${(props) => props.theme.bgColor};
   grid-template-columns: repeat(6, 1fr);
@@ -55,17 +76,20 @@ const CityListWrap = styled.ul`
 `;
 
 const City = styled.li`
-  display: flex;
+  @media (max-width: 500px) {
+    width: 50px;
+  }
   background: ${(props) => props.theme.menuColor};
-  justify-content: flex-start;
-  width: 100%;
+  width: 70px;
   cursor: pointer;
 `;
 
-const CityName = styled.h3`
+const CityName = styled.div`
+  @media (max-width: 500px) {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
   width: 100%;
-  display: flex;
-  justify-content: center;
   padding: 10px 20px;
   font-size: 16px;
   color: ${(props) => props.theme.textColor};
@@ -84,7 +108,9 @@ const CityList = () => {
       <CityListHeader>
         <CityMenu>
           <Menu theme={theme}>
-            <FiMapPin size={'20'} />
+            <IconWrap>
+              <FiMapPin size={'20'} />
+            </IconWrap>
             <span>도시</span>
           </Menu>
         </CityMenu>
