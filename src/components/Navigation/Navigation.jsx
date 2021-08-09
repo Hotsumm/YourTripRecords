@@ -75,7 +75,7 @@ const Navigation = ({ show }) => {
     <NavContainer theme={theme} show={show}>
       <NavWrap>
         <TitleContainer show={show} theme={theme}>
-          <Link to="/">YourTripRecord</Link>
+          <Link to="/">YourTripRecords</Link>
         </TitleContainer>
         <ProfileContainer theme={theme}>
           <ThemeContainer show={show}>

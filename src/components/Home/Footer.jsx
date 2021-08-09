@@ -46,7 +46,7 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterWrap>
-        <FooterTitle>©YourTripRecord</FooterTitle>
+        <FooterTitle>©YourTripRecords</FooterTitle>
         <FooterIconWrap>
           <FooterIcon>
             <AiFillGithub
