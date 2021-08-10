@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import bgImg from '../../static/assets/bg.jpg';
+import bgImg from '../../static/assets/backgroundImg.jpg';
 
 const BackgroundContainer = styled.div`
   width: 100%;
