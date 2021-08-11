@@ -24,10 +24,11 @@ const ProfileMenuWrap = styled.div`
   align-items: center;
   background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  padding: 0px 20px;
+  padding: 0px 40px;
 `;
 
 const AvatarWrap = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 20px 0;
@@ -51,13 +52,13 @@ const AvatarInfoWrap = styled.div`
 const InfoContent = styled.div`
   width: 100%;
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px 0;
   padding: 7px 0;
 `;
-const ContentTitle = styled.div`
-  margin-right: 10px;
-`;
+const ContentTitle = styled.div``;
 
 const Nickname = styled.div`
   font-size: 18px;
@@ -78,14 +79,17 @@ const PostConunt = styled.div`
   font-size: 18px;
   margin-top: 5px;
 `;
+const OtherUserWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+`;
 
 const OtherUser = styled.span`
-  width: 100%;
   font-size: 20px;
+  cursor: pointer;
   font-weight: 600;
   text-decoration: underline;
-  text-align: center;
-  cursor: pointer;
 `;
 
 const MenuWrap = styled.div`
@@ -119,7 +123,7 @@ const Menu = styled.div`
   border-radius: 5px;
   background: ${(props) => props.theme.bgColor};
   cursor: pointer;
-  span {
+  & span {
     font-size: 14px;
     margin-left: 10px;
   }
@@ -164,9 +168,11 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
             </AvatarInfoWrap>
           </AvatarWrap>
           {!userObj ? (
-            <OtherUser onClick={toggleSignIn}>
-              로그인을 하여 더 많은 서비스를 이용해보세요 !
-            </OtherUser>
+            <OtherUserWrap>
+              <OtherUser onClick={toggleSignIn}>
+                로그인을 하여 더 많은 서비스를 이용해보세요 !
+              </OtherUser>
+            </OtherUserWrap>
           ) : (
             <>
               {userCheck && (
