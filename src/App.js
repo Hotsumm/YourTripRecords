@@ -15,7 +15,6 @@ const App = () => {
 
   const refreshUser = (sign) => {
     if (!sign) return;
-
     firebaseAuth.onAuthStateChanged((user) => {
       if (user && user.emailVerified) {
         const userRef = firebaseFireStore.collection('users').doc(user.uid);

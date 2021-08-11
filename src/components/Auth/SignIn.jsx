@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { CreateUser } from '../User/CreateUser';
+import { CreateSocialUser } from '../User/CreateSocialUser';
 import { ThemeContext } from '../../Context';
 import Loading from '../Load/Loading';
 
@@ -193,15 +193,24 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
   };
 
   const googleSignIn = () => {
+    setLoading(true);
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)
       .then((result) => {
-        const googleUser = result.user;
-        CreateUser(googleUser.email, googleUser.displayName);
+        if (result.additionalUserInfo.isNewUser)
+          return CreateSocialUser(
+            result.user.email,
+            result.user.displayName,
+            result.user.photoURL,
+          );
       })
+      .then(() => window.location.reload())
       .catch((error) => {
-        console.log(error.message);
+        alert(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

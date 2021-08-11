@@ -4,6 +4,7 @@ import Loading from '../Load/Loading';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { CreateUser } from '../User/CreateUser';
+import { CreateSocialUser } from '../User/CreateSocialUser';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
 import { ThemeContext } from '../../Context';
 
@@ -146,33 +147,30 @@ const SignUp = ({ toggleSignUp }) => {
       setPasswordConfirm(value);
     }
   };
-  const validCheck = () => {
-    const passwordRules = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
-    if (!passwordRules.test(password)) {
-      alert('비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.');
-      return;
-    }
-    handleSignUp();
-  };
 
   const handleSignUp = () => {
-    if (password !== passwordConfirm) {
-      alert('비밀번호를 확인해주세요.');
-      return;
-    }
-    setLoading(true);
+    if (password !== passwordConfirm) alert('비밀번호를 확인해주세요.');
+    if (!nickname) alert('닉네임을 입력해주세요.');
 
+    setLoading(true);
     firebaseAuth
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         firebaseAuth.currentUser
           .sendEmailVerification()
           .then(() => CreateUser(email, nickname))
+          .then(() => firebaseAuth.signOut())
+          .then(() => {
+            alert(
+              '회원가입이 완료되었습니다.\n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다. ',
+            );
+            window.location.reload();
+          })
           .catch((error) => console.log(error));
       })
       .catch((error) => {
         if (error.code === 'auth/weak-password') {
-          alert('비밀번호는 8자리 이상의 영문 + 특수문자로 입력해주세요.');
+          alert('비밀번호는 6자리 이상의 영문 + 특수문자로 입력해주세요.');
           console.log(error.code);
         } else if (error.code === 'auth/email-already-in-use') {
           alert('이미 사용중인 이메일 입니다.');
@@ -188,15 +186,24 @@ const SignUp = ({ toggleSignUp }) => {
   };
 
   const googleSignIn = () => {
+    setLoading(true);
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)
       .then((result) => {
-        const googleUser = result.user;
-        CreateUser(googleUser.email, googleUser.displayName);
+        if (result.additionalUserInfo.isNewUser)
+          return CreateSocialUser(
+            result.user.email,
+            result.user.displayName,
+            result.user.photoURL,
+          );
       })
+      .then(() => window.location.reload())
       .catch((error) => {
-        console.log(error.message);
+        alert(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -251,7 +258,7 @@ const SignUp = ({ toggleSignUp }) => {
                 </InputWrap>
               </InputContainer>
               <ButtonWrap theme={theme}>
-                <button onClick={validCheck}>회원가입</button>
+                <button onClick={handleSignUp}>회원가입</button>
                 <button onClick={googleSignIn}>
                   <FcGoogle size={25} />
                   Google로 로그인 하기
