@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
+import { UserContext, ThemeContext } from '../../Context';
 
 const ChangePasswordContainer = styled.div`
   width: 100vw;
@@ -93,6 +93,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
 
   const { theme } = useContext(ThemeContext);
+  const { userObj } = useContext(UserContext);
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -113,24 +114,14 @@ const ChangePassword = ({ toggleChangePassword }) => {
     }
   };
   const validCheck = () => {
-    const passwordRules = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
-    if (
-      !passwordRules.test(newPassword) ||
-      !passwordRules.test(newPasswordConfirm)
-    ) {
-      alert('비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.');
-      return;
-    }
-
-    if (newPassword !== newPasswordConfirm) {
-      alert('새 비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
+    if (newPassword !== newPasswordConfirm)
+      return alert('새 비밀번호가 일치하지 않습니다.');
     onSubmit();
   };
 
   const onSubmit = () => {
+    if (userObj.isSocial) return alert('비밀번호 변경이 불가능한 계정입니다.');
+
     const currentUser = firebaseAuth.currentUser;
     const credential = firebaseInstance.auth.EmailAuthProvider.credential(
       currentUser.email,

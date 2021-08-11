@@ -113,6 +113,12 @@ const UserDelete = ({ toggleUserDelete }) => {
   };
 
   const onSubmit = () => {
+    const answer = window.confirm(
+      '회원탈퇴 후 복구할 수 없습니다.\n정말 탈퇴 하시겠습니까?.',
+    );
+    if (!answer) return;
+    if (userObj.isSocial) return alert('회원탈퇴가 불가능한 계정입니다.');
+
     const currentUser = firebaseAuth.currentUser;
     const credential = firebaseInstance.auth.EmailAuthProvider.credential(
       currentUser.email,
@@ -222,15 +228,9 @@ const UserDelete = ({ toggleUserDelete }) => {
       });
 
   const validCheck = () => {
-    const passwordRules = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
-    if (!passwordRules.test(password) || !passwordRules.test(passwordConfirm)) {
-      alert('비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.');
-      return;
-    }
-    const answer = window.confirm(
-      '회원탈퇴 후 복구할 수 없습니다.\n정말 탈퇴 하시겠습니까?.',
-    );
-    if (answer) onSubmit();
+    if (password !== passwordConfirm)
+      return alert('비밀번호 확인이 일치하지 않습니다.');
+    onSubmit();
   };
 
   const handleKeyPress = (e) => {
