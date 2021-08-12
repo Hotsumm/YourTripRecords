@@ -6,13 +6,13 @@ const PaginationContainer = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #16a085;
   position: absolute;
-  width: 367px;
+  background: #16a085;
+  width: 100%;
   max-height: 200px;
   overflow: auto;
-  top: 41px;
-  left: 48px;
+  top: 100%;
+  left: 0px;
   border: 1px solid gray;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

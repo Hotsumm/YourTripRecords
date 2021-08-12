@@ -157,33 +157,41 @@ const PictureInfo = styled.div`
     gap: 5px 0;
   }
   display: flex;
-  padding: 5px 0;
+  padding: 5px 20px;
   gap: 0 10px;
+  justify-content: flex-start;
   align-items: flex-start;
-  :first-child {
-    position: relative;
+  :focus {
+    outline: none;
+    border: 2px solid #16a085;
   }
-  & input {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px 5px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  span {
-    width: 10%;
+  & span {
     font-weight: 700;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+`;
+
+const InputWrap = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px 0;
+  margin-bottom: 15px;
+  & input {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-style: none;
+    border-radius: 5px;
+    padding: 10px 5px;
   }
 `;
 
 const TextAreaWrap = styled.div`
+  gap: 5px 0;
   width: 100%;
   display: flex;
+  flex-direction: column;
   textarea {
     width: 100%;
     padding: 5px;
@@ -196,7 +204,6 @@ const TextAreaWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  flex-direction: column;
   div {
     width: 100%;
     text-align: right;
@@ -528,27 +535,29 @@ const Upload = () => {
                         </PictureWrap>
                         <PictureInputWrap>
                           <PictureInfo>
-                            <span>위치</span>
-                            <input
-                              type="text"
-                              placeholder="위치"
-                              id={index}
-                              name="location"
-                              onChange={onChange}
-                              value={searchPlace[index]}
-                            />
-                            {searchPlace[index] &&
-                              !searchPlaceSelect[index] && (
-                                <Pagination
-                                  searchPlace={searchPlace[index]}
-                                  locationSelect={locationSelect}
-                                  id={index}
-                                />
-                              )}
+                            <InputWrap>
+                              <span>위치</span>
+                              <input
+                                type="text"
+                                placeholder="위치"
+                                id={index}
+                                name="location"
+                                onChange={onChange}
+                                value={searchPlace[index]}
+                              />
+                              {searchPlace[index] &&
+                                !searchPlaceSelect[index] && (
+                                  <Pagination
+                                    searchPlace={searchPlace[index]}
+                                    locationSelect={locationSelect}
+                                    id={index}
+                                  />
+                                )}
+                            </InputWrap>
                           </PictureInfo>
                           <PictureInfo>
-                            <span>설명</span>
                             <TextAreaWrap>
+                              <span>설명</span>
                               <textarea
                                 type="text"
                                 placeholder="최대 300자로 사진을 설명해보세요."
