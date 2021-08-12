@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../Context';
 
 const CityListContainer = styled.div`
-  @media (max-width: 500px) {
-    top: 220px;
-    left: 30px;
+  @media (max-width: 768px) {
+    display: none;
   }
-  width: 100%;
+  width: 50vw;
   position: absolute;
   top: 380px;
   left: 100px;

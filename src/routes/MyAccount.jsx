@@ -78,6 +78,9 @@ const Menu = styled.div`
   @media (max-width: 500px) {
     width: 95vw;
   }
+  @media (max-width: 768px) {
+    width: 180px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;

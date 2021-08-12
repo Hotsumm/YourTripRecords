@@ -6,7 +6,7 @@ import Loading from '../Load/Loading';
 import { ThemeContext } from '../../Context';
 
 const UploadedListContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
     align-items: center;
   }
@@ -28,7 +28,7 @@ const NoUploadedList = styled.span`
 `;
 
 const UploadedListWrap = styled.ul`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
   }

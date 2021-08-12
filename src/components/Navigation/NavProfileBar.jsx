@@ -10,8 +10,6 @@ import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const ProfileBarWrap = styled.div`
-  @media (max-width: 500px) {
-  }
   position: relative;
   height: 40px;
   border-radius: 20px;
@@ -29,7 +27,7 @@ const AvatarWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0 15px;
+  gap: 0 10px;
   & span {
     @media (max-width: 500px) {
       display: none;

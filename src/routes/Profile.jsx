@@ -23,7 +23,7 @@ const ProfileBackground = styled.img`
 `;
 
 const ProfileWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,7 +41,7 @@ const ProfileWrap = styled.div`
 `;
 
 const ProfileRow = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 0;
     :first-child {
       width: 90vw;

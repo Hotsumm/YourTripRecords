@@ -19,6 +19,9 @@ const PostEditContainer = styled.div`
   height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeaderWrap = styled.div`
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
   width: 100%;
   display: flex;
   justify-content: center;
@@ -37,7 +40,7 @@ const PostEditWrap = styled.div`
 `;
 
 const RecordContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
   width: 500px;
@@ -49,18 +52,21 @@ const RecordContainer = styled.div`
 `;
 
 const RecordWrap = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+  }
   display: flex;
+  width: 768px;
   justify-content: center;
   align-items: center;
-  width: 100%;
   padding: 10px 0;
   & span {
     width: 30%;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   input {
-    width: 70%;
+    min-width: 50%;
     font-size: 18px;
     padding: 10px;
     border-radius: 5px;
@@ -72,8 +78,8 @@ const RecordWrap = styled.div`
     }
   }
   select {
-    width: 70%;
-    padding: 7px;
+    min-width: 50%;
+    padding: 10px;
     font-size: 14px;
     border-radius: 5px;
     border-style: none;
@@ -81,7 +87,7 @@ const RecordWrap = styled.div`
   }
 `;
 const PictureInfoContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 0 10px;
   }
   width: 100%;
@@ -92,7 +98,7 @@ const PictureInfoContainer = styled.div`
 `;
 
 const PictureInfoWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
   }
@@ -104,39 +110,56 @@ const PictureInfoWrap = styled.div`
 `;
 
 const PictureWrap = styled.div`
+  width: 400px;
   @media (max-width: 500px) {
+    width: 100%;
+    padding: 0 20px;
+  }
+  @media (max-width: 768px) {
     margin-bottom: 10px;
   }
   & img {
-    width: 330px;
+    width: 100%;
     aspect-ratio: 4/3;
-    cursor: pointer;
+    cursor: default;
   }
-
-  cursor: default;
 `;
 const PictureInputWrap = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  width: 500px;
   display: flex;
-  width: 100%;
   flex-direction: column;
 `;
 
 const PictureInfo = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     gap: 5px 0;
+    width: 100%;
   }
   display: flex;
-  padding: 5px 0;
+  padding: 5px 20px;
   gap: 0 10px;
+  justify-content: flex-start;
   align-items: flex-start;
 
-  :first-child {
-    position: relative;
+  & span {
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 5px;
   }
-  input {
-    width: 100%;
-    margin-bottom: 15px;
+`;
+
+const InputWrap = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px 0;
+  margin-bottom: 15px;
+  & input {
     padding: 10px 5px;
     border-radius: 5px;
     border-style: none;
@@ -147,14 +170,17 @@ const PictureInfo = styled.div`
     }
   }
   & span {
-    width: 10%;
     font-weight: 700;
+    text-align: left;
+    margin-bottom: 5px;
   }
 `;
 
 const TextAreaWrap = styled.div`
+  gap: 5px 0;
   width: 100%;
   display: flex;
+  flex-direction: column;
   textarea {
     width: 100%;
     padding: 5px;
@@ -167,7 +193,6 @@ const TextAreaWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  flex-direction: column;
   div {
     width: 100%;
     text-align: right;
@@ -176,19 +201,19 @@ const TextAreaWrap = styled.div`
 `;
 
 const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
-`;
-
-const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  border: 1px solid #16a085;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  :first-child {
-    margin-right: 30px;
+  margin-bottom: 20px;
+  gap: 0 20px;
+  & button {
+    width: 100px;
+    height: 50px;
+    border: 0.1px solid #16a085;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    pointer-events: ${(props) => props.loading && 'none'};
   }
-  pointer-events: ${(props) => props.loading && 'none'};
 `;
 
 const PostEdit = ({ match, location }) => {
@@ -324,7 +349,13 @@ const PostEdit = ({ match, location }) => {
                     </RecordWrap>
                     <RecordWrap>
                       <span>도시</span>
-                      <span style={{ textAlign: 'left', fontWeight: 700 }}>
+                      <span
+                        style={{
+                          minWidth: '50%',
+                          textAlign: 'left',
+                          fontWeight: 700,
+                        }}
+                      >
                         {postObj.city}
                       </span>
                     </RecordWrap>
@@ -349,25 +380,27 @@ const PostEdit = ({ match, location }) => {
                         </PictureWrap>
                         <PictureInputWrap>
                           <PictureInfo>
-                            <span>위치</span>
-                            <input
-                              type="text"
-                              placeholder="위치"
-                              id={index}
-                              name="location"
-                              value={
-                                searchPlace[index] ? searchPlace[index] : ''
-                              }
-                              onChange={onChange}
-                            />
-                            {searchPlace[index] &&
-                              !searchPlaceSelect[index] && (
-                                <Pagination
-                                  searchPlace={searchPlace[index]}
-                                  locationSelect={locationSelect}
-                                  id={index}
-                                />
-                              )}
+                            <InputWrap>
+                              <span>위치</span>
+                              <input
+                                type="text"
+                                placeholder="위치"
+                                id={index}
+                                name="location"
+                                value={
+                                  searchPlace[index] ? searchPlace[index] : ''
+                                }
+                                onChange={onChange}
+                              />
+                              {searchPlace[index] &&
+                                !searchPlaceSelect[index] && (
+                                  <Pagination
+                                    searchPlace={searchPlace[index]}
+                                    locationSelect={locationSelect}
+                                    id={index}
+                                  />
+                                )}
+                            </InputWrap>
                           </PictureInfo>
                           <PictureInfo>
                             <span>설명</span>
@@ -396,11 +429,11 @@ const PostEdit = ({ match, location }) => {
             </>
           )}
           <ButtonWrap loading={loading ? 1 : 0}>
-            <Button loading={loading ? 1 : 0} onClick={onPostEdit}>
+            <button loading={loading ? 1 : 0} onClick={onPostEdit}>
               수정하기
-            </Button>
+            </button>
             <Link to="/" style={{ pointerEvents: loading && 'none' }}>
-              <Button loading={loading ? 1 : 0}>취소</Button>
+              <button loading={loading ? 1 : 0}>취소</button>
             </Link>
           </ButtonWrap>
         </PostEditWrap>

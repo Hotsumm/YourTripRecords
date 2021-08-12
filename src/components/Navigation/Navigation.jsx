@@ -23,7 +23,7 @@ const NavWrap = styled.div`
   display: flex;
   padding: 0px 60px;
   @media (max-width: 500px) {
-    padding: 0px 20px;
+    padding: 0px 10px;
   }
   max-width: 1450px;
   margin: 0 auto;
@@ -33,7 +33,7 @@ const NavWrap = styled.div`
 
 const TitleContainer = styled.div`
   @media (max-width: 500px) {
-    font-size: 24px;
+    font-size: 20px;
   }
   display: flex;
   padding: 20px 0;

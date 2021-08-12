@@ -15,8 +15,9 @@ const ProfileMenuContainer = styled.div`
 `;
 
 const ProfileMenuWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
+    padding: 0px 20px;
   }
   width: 100%;
   display: flex;
@@ -35,10 +36,9 @@ const AvatarWrap = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
-  margin-right: 10px;
 `;
 
 const AvatarInfoWrap = styled.div`
@@ -93,7 +93,7 @@ const OtherUser = styled.span`
 `;
 
 const MenuWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     gap: 15px 0;
   }
@@ -106,13 +106,13 @@ const MenuWrap = styled.div`
 `;
 
 const MenuLink = styled(Link)`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
 
 const Menu = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
   display: flex;

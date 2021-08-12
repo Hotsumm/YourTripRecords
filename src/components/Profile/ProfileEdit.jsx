@@ -18,7 +18,10 @@ const ProfileEditContainer = styled.div`
 `;
 
 const ProfileEditWrap = styled.div`
-  width: 650px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  width: 768px;
   max-height: 550px;
   overflow: auto;
   background: ${(props) => props.theme.menuColor};
@@ -50,9 +53,17 @@ const HeaderTitle = styled.div`
 
 const ProfileContentWrap = styled.div`
   display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const AvatarContainer = styled.div`
+  @media (max-width: 500px) {
+    margin-bottom: 20px;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,14 +107,17 @@ const Avatar = styled.img`
 `;
 
 const InputContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   width: 64%;
 `;
 const InputWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px 20px 10px 0px;
-  input {
+  padding: 10px 20px;
+  & input {
     text-align: start;
     width: 100%;
     height: 40px;

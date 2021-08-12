@@ -4,11 +4,12 @@ const { kakao } = window;
 
 const MarkerContanier = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 const MarkerWrap = styled.div`
-  width: 70%;
-  height: 150px;
+  width: 100%;
+  height: 100%;
 `;
 
 const Marker = ({ coords }) => {

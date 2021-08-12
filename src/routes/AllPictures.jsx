@@ -33,7 +33,7 @@ const AllPicturesHeader = styled.div`
 `;
 
 const AllPicturesWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 0px 10px;
   }
   width: 100%;
@@ -49,12 +49,12 @@ const PictureNumber = styled.div`
 `;
 
 const SelectPictureContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     order: 3;
   }
   width: 100%;
   display: flex;
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 30px 0;
     flex-direction: column;
   }
@@ -92,7 +92,7 @@ const SelectPicture = styled.img`
 `;
 
 const SelectPictureInfoWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
   width: 50%;
@@ -115,6 +115,7 @@ const DescriptionWrap = styled.div`
 `;
 
 const Description = styled.div`
+  max-width: 500px;
   font-size: 14px;
   line-height: 2;
   color: ${(props) => !props.description && 'gray'};
@@ -149,7 +150,10 @@ const PictureInfoHeader = styled.span`
 
 const KakaoMapWrap = styled.div`
   width: 100%;
-  height: 100%;
+  max-height: 200px;
+  max-width: 300px;
+  height: 200px;
+  aspect-ratio: 4/3;
   display: flex;
   flex-direction: column;
 `;
@@ -179,7 +183,7 @@ const NoLocation = styled.span`
 `;
 
 const AllPicturesList = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     order: 2;
     height: 100px;
   }
@@ -312,7 +316,6 @@ const AllPictures = ({ match, location }) => {
                         >
                           {selectPicture.location.placeName}
                         </Location>
-
                         <Marker coords={selectPicture.location.coords} />
                       </KakaoMapWrap>
                     </LocationWrap>

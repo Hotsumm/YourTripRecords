@@ -33,6 +33,9 @@ const NoPost = styled.p`
 `;
 
 const CityPostWrap = styled.div`
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
   @media (max-width: 500px) {
     display: flex;
     flex-direction: column;

@@ -23,6 +23,9 @@ const UploadContainer = styled.div`
   height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeaderWrap = styled.div`
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
   width: 100%;
   display: flex;
   justify-content: center;
@@ -42,7 +45,7 @@ const UploadWrap = styled.div`
 `;
 
 const RecordInfoContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
   width: 500px;
@@ -54,7 +57,10 @@ const RecordInfoContainer = styled.div`
 `;
 
 const RecordInfoWrap = styled.div`
-  width: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  width: 768px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,7 +69,7 @@ const RecordInfoWrap = styled.div`
     width: 30%;
   }
   & input {
-    width: 70%;
+    min-width: 50%;
     font-size: 18px;
     padding: 10px;
     border-radius: 5px;
@@ -75,7 +81,7 @@ const RecordInfoWrap = styled.div`
     }
   }
   & select {
-    width: 70%;
+    min-width: 50%;
     padding: 7px;
     font-size: 14px;
     border-radius: 5px;
@@ -96,7 +102,7 @@ const HashtagWrap = styled.ul`
 const Hashtag = styled.li`
   padding: 10px 20px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: ${(props) => props.theme.textColor};
   background: ${(props) => props.theme.menuColor};
   border: 1px solid #16a085;
@@ -106,7 +112,7 @@ const Hashtag = styled.li`
 `;
 
 const PirctureInfoContainer = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 0 10px;
   }
   width: 100%;
@@ -117,7 +123,7 @@ const PirctureInfoContainer = styled.div`
 `;
 
 const PictureInfoWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
   }
@@ -129,16 +135,18 @@ const PictureInfoWrap = styled.div`
 `;
 
 const PictureWrap = styled.div`
+  width: 400px;
   @media (max-width: 500px) {
+    width: 100%;
+    padding: 0 20px;
+  }
+  @media (max-width: 768px) {
     margin-bottom: 10px;
   }
   & img {
-    width: 330px;
+    width: 100%;
     aspect-ratio: 4/3;
-    cursor: pointer;
-    :hover {
-      opacity: 0.8;
-    }
+    cursor: default;
   }
 `;
 
@@ -152,19 +160,17 @@ const PictureInputWrap = styled.div`
 `;
 
 const PictureInfo = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     gap: 5px 0;
+    width: 100%;
   }
   display: flex;
   padding: 5px 20px;
   gap: 0 10px;
   justify-content: flex-start;
   align-items: flex-start;
-  :focus {
-    outline: none;
-    border: 2px solid #16a085;
-  }
+
   & span {
     font-weight: 700;
     text-align: left;
@@ -184,6 +190,15 @@ const InputWrap = styled.div`
     border-style: none;
     border-radius: 5px;
     padding: 10px 5px;
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
+  }
+  & span {
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 5px;
   }
 `;
 
@@ -217,9 +232,11 @@ const FileContainer = styled.div`
   height: 300px;
   display: flex;
   justify-content: center;
-
   label {
-    width: 450px;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+    width: 500px;
     height: 100%;
     position: absolute;
     display: flex;
@@ -237,6 +254,7 @@ const FileContainer = styled.div`
 `;
 
 const GuideContainer = styled.div`
+  width: 100%;
   margin: 25px 0;
 `;
 
@@ -251,19 +269,19 @@ const Guide = styled.div`
 `;
 
 const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
   margin-bottom: 20px;
-`;
-const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  border: 0.1px solid #16a085;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  :first-child {
-    margin-right: 30px;
+  gap: 0 20px;
+  & button {
+    width: 100px;
+    height: 50px;
+    border: 0.1px solid #16a085;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    pointer-events: ${(props) => props.loading && 'none'};
   }
-  pointer-events: ${(props) => props.loading && 'none'};
 `;
 
 const Upload = () => {
@@ -612,20 +630,20 @@ const Upload = () => {
             <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
           </GuideContainer>
           <ButtonWrap>
-            <Button
+            <button
               type="submit"
               loading={loading ? 1 : 0}
               theme={theme}
               onClick={onUpload}
             >
               업로드하기
-            </Button>
-            <Button
+            </button>
+            <button
               style={{ pointerEvents: loading && 'none' }}
               onClick={closeButton}
             >
               취소
-            </Button>
+            </button>
           </ButtonWrap>
         </UploadWrap>
         <Footer />

@@ -4,9 +4,13 @@ import { ThemeContext } from '../../Context';
 
 const ProfileIntroContainer = styled.div`
   @media (max-width: 500px) {
+    padding: 0;
+  }
+  @media (max-width: 768px) {
     width: 100%;
     margin-right: 0px;
     margin-bottom: 40px;
+    padding: 0 30px;
   }
   width: 25%;
   margin-right: 40px;
