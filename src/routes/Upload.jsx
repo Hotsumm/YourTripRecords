@@ -69,6 +69,7 @@ const RecordInfoWrap = styled.div`
     width: 30%;
   }
   & input {
+    -webkit-appearance: none;
     min-width: 50%;
     font-size: 18px;
     padding: 10px;
@@ -208,6 +209,7 @@ const TextAreaWrap = styled.div`
   display: flex;
   flex-direction: column;
   textarea {
+    -webkit-appearance: none;
     width: 100%;
     padding: 5px;
     border-radius: 5px;

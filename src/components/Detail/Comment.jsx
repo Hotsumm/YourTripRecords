@@ -30,13 +30,13 @@ const CommentCreatorWrap = styled.div`
   display: flex;
   align-items: center;
   padding: 30px 0;
-  img {
+  gap: 0 15px;
+  & img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    margin-right: 10px;
   }
-  button {
+  & button {
     width: 70px;
     height: 40px;
     border: 1px solid #16a085;
@@ -51,19 +51,22 @@ const CommentCreatorWrap = styled.div`
   }
 `;
 
-const CommentInput = styled.input`
+const CommentInputWrap = styled.div`
   width: 100%;
-  font-size: 16px;
-  border: none;
-  line-height: 10px;
-  padding: 10px 0px 10px 10px;
-  border-radius: 5px;
-  border-style: none;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  margin-right: 20px;
-  :focus {
-    outline: none;
-    border: 2px solid #16a085;
+  & input {
+    padding: 10px 0px 10px 10px;
+    -webkit-appearance: none;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    line-height: 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
   }
 `;
 
@@ -238,16 +241,17 @@ const Comment = ({ postId }) => {
           <CommentCreatorWrap>
             {userObj ? (
               <>
-                <img src={userObj.avatar} alt="user" />
-                <CommentInput
-                  type="text"
-                  name="content"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="댓글..."
-                  onKeyPress={handleKeyPress}
-                  required
-                />
+                <img src={userObj.avatar} alt="프로필 사진" />
+                <CommentInputWrap>
+                  <input
+                    type="text"
+                    name="content"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="댓글..."
+                    onKeyPress={handleKeyPress}
+                  />
+                </CommentInputWrap>
 
                 <button onClick={handleComments}>작성</button>
               </>

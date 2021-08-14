@@ -53,6 +53,7 @@ const InputWrap = styled.div`
   margin-bottom: 15px;
 
   & input {
+    -webkit-appearance: none;
     width: 250px;
     padding: 15px 20px;
     border-style: none;

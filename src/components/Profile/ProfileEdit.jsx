@@ -122,6 +122,7 @@ const InputWrap = styled.div`
   flex-direction: column;
   padding: 10px 20px;
   & input {
+    -webkit-appearance: none;
     text-align: start;
     width: 100%;
     height: 40px;

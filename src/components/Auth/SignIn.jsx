@@ -81,6 +81,7 @@ const InputContainer = styled.div`
 const InputWrap = styled.div`
   width: 100%;
   & input {
+    -webkit-appearance: none;
     width: 100%;
     height: 50px;
     padding: 0 0 0 20px;

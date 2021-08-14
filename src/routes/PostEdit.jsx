@@ -66,6 +66,7 @@ const RecordWrap = styled.div`
   }
 
   input {
+    -webkit-appearance: none;
     min-width: 50%;
     font-size: 18px;
     padding: 10px;
@@ -78,6 +79,7 @@ const RecordWrap = styled.div`
     }
   }
   select {
+    -webkit-appearance: none;
     min-width: 50%;
     padding: 10px;
     font-size: 14px;
