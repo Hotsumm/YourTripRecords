@@ -72,12 +72,12 @@ const ProfileContainer = styled.div`
 `;
 
 const ThemeContainer = styled.div`
-  z-index: -1;
   position: absolute;
   top: 20px;
   right: 280px;
 
   @media (max-width: 768px) {
+    z-index: -1;
     top: 90px;
     right: 20px;
   }

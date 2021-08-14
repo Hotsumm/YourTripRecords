@@ -23,7 +23,7 @@ const ProfileBackground = styled.img`
 `;
 
 const ProfileWrap = styled.div`
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,19 +41,25 @@ const ProfileWrap = styled.div`
 `;
 
 const ProfileRow = styled.div`
-  @media (max-width: 768px) {
+  width: 100%;
+  display: flex;
+  margin-bottom: 50px;
+  padding: 0 100px;
+
+  @media (max-width: 1200px) {
+    padding: 0 50px;
+  }
+  @media (max-width: 1024px) {
     padding: 0;
     :first-child {
       width: 90vw;
     }
     :last-child {
+      display: flex;
       flex-direction: column;
+      align-items: center;
     }
   }
-  width: 100%;
-  display: flex;
-  margin-bottom: 50px;
-  padding: 0 100px;
 `;
 
 const Profile = ({ match }) => {

@@ -6,11 +6,14 @@ import Loading from '../Load/Loading';
 import { ThemeContext } from '../../Context';
 
 const UploadedListContainer = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
+  width: 70%;
+  @media (max-width: 1200px) {
+    width: 65%;
+  }
+  @media (max-width: 1024px) {
+    width: 80%;
     align-items: center;
   }
-  width: 75%;
   display: flex;
   flex-direction: column;
 `;
@@ -33,7 +36,7 @@ const UploadedListWrap = styled.ul`
     flex-direction: column;
   }
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   width: 100%;
 `;
@@ -50,9 +53,14 @@ const PostContainer = styled.div`
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 `;
 
-const PostThumbnail = styled.img`
+const PostThumbnailWrap = styled.div`
   width: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/3;
+
+  &img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const PostHeaderWrap = styled.div`
@@ -78,11 +86,15 @@ const AvatarWrap = styled.div`
   align-items: center;
 `;
 
-const Avatar = styled.img`
+const AvatarImgWrap = styled.div`
   width: 30px;
   height: 30px;
-  border-radius: 50%;
   margin-right: 5px;
+  & img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
 `;
 
 const NickName = styled.div`
@@ -149,7 +161,9 @@ const UserUploadedList = ({ userObj, thisUser }) => {
                       <PostHeaderWrap>
                         <PostHeader>
                           <AvatarWrap>
-                            <Avatar src={thisUser.avatar}></Avatar>
+                            <AvatarImgWrap>
+                              <img src={thisUser.avatar} alt="프로필 사진" />
+                            </AvatarImgWrap>
                             <NickName theme={theme}>
                               {thisUser.nickname}
                             </NickName>
@@ -164,10 +178,12 @@ const UserUploadedList = ({ userObj, thisUser }) => {
                           <PostCreated>{record.createdAt}</PostCreated>
                         </PostHeader>
                       </PostHeaderWrap>
-                      <PostThumbnail
-                        src={record.pictureList[0].pictureURL}
-                        alt={record.pictureList[0].fileName}
-                      />
+                      <PostThumbnailWrap>
+                        <img
+                          src={record.pictureList[0].pictureURL}
+                          alt="썸네일"
+                        />
+                      </PostThumbnailWrap>
                     </PostContainer>
                   </Link>
                 </UploadedList>

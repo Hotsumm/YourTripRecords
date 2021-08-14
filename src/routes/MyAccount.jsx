@@ -39,21 +39,25 @@ const UserWrap = styled.div`
 `;
 
 const UserInfoWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 15px 0;
+    margin-bottom: 30px;
+  }
   display: flex;
   align-items: center;
   margin-bottom: 60px;
+  gap: 0 10px;
   img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
   }
-  div {
+  span {
     :nth-child(2) {
-      margin-left: 10px;
       font-size: 20px;
     }
     :last-child {
-      margin-left: 5px;
       font-weight: 700;
       font-size: 14px;
       color: #16a085;
@@ -62,6 +66,9 @@ const UserInfoWrap = styled.div`
 `;
 
 const MenuWrap = styled.div`
+  @media (max-width: 768px) {
+    gap: 0 10px;
+  }
   @media (max-width: 500px) {
     flex-direction: column;
     align-items: center;
@@ -71,30 +78,47 @@ const MenuWrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 0 20px;
-  padding-bottom: 20px;
 `;
 
 const Menu = styled.div`
-  @media (max-width: 500px) {
-    width: 95vw;
+  @media (max-width: 1024px) {
+    width: 200px;
+    font-size: 16px;
   }
   @media (max-width: 768px) {
-    width: 180px;
+    width: 150px;
+    font-size: 16px;
   }
+
+  @media (max-width: 500px) {
+    width: 90vw;
+    font-size: 20px;
+    height: 150px;
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   width: 250px;
-  height: 150px;
+  padding: 40px 0;
   border-radius: 10px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   border: 1px solid #16a085;
 `;
 
-const Title = styled.div`
+const IconWrap = styled.div`
+  & svg {
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+    font-size: 30px;
+  }
+`;
+
+const Title = styled.span`
   margin-top: 15px;
 `;
 
@@ -121,23 +145,29 @@ const MyAccount = ({ match }) => {
             <UserWrap>
               <UserInfoWrap>
                 <img src={userObj.avatar} alt="Avatar" />
-                <div>{userObj.nickname}님,</div>
-                <div>{userObj.email}</div>
+                <span>{userObj.nickname}</span>
+                <span>{userObj.email}</span>
               </UserInfoWrap>
             </UserWrap>
             <MenuWrap>
               <Link to={`/profile/${userObj.userId}`}>
                 <Menu theme={theme}>
-                  <BsBoxArrowInUpRight size={25} style={{ color: '#00b894' }} />
+                  <IconWrap>
+                    <BsBoxArrowInUpRight style={{ color: '#00b894' }} />
+                  </IconWrap>
                   <Title>프로필로 이동</Title>
                 </Menu>
               </Link>
               <Menu onClick={toggleChangePassword} theme={theme}>
-                <FcLock size={25} />
+                <IconWrap>
+                  <FcLock />
+                </IconWrap>
                 <Title>비밀번호 변경</Title>
               </Menu>
               <Menu onClick={toggleUserDelete} theme={theme}>
-                <FiUserX size={25} style={{ color: '#e74c3c' }} />
+                <IconWrap>
+                  <FiUserX style={{ color: '#e74c3c' }} />
+                </IconWrap>
                 <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
               </Menu>
             </MenuWrap>

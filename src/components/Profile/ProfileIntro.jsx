@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import { ThemeContext } from '../../Context';
 
 const ProfileIntroContainer = styled.div`
+  width: 30%;
+
+  @media (max-width: 1200px) {
+    width: 33%;
+  }
+
+  @media (max-width: 1024px) {
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    margin-right: 0px;
+    margin-bottom: 40px;
+  }
   @media (max-width: 500px) {
     padding: 0;
   }
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-right: 0px;
-    margin-bottom: 40px;
-    padding: 0 30px;
-  }
-  width: 25%;
   margin-right: 40px;
 `;
 
@@ -26,6 +32,8 @@ const ProfileIntroWrap = styled.div`
 `;
 
 const IntroHeader = styled.div`
+  @media (max-width: 768px) {
+  }
   text-align: left;
   width: 100%;
   font-size: 20px;

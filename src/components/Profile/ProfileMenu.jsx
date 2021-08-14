@@ -29,36 +29,51 @@ const ProfileMenuWrap = styled.div`
 `;
 
 const AvatarWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
   width: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 20px 0;
 `;
 
-const Avatar = styled.img`
-  width: 120px;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
+const AvatarImgWrap = styled.div`
+  width: 150px;
+  & img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+  }
 `;
 
 const AvatarInfoWrap = styled.div`
+  @media (max-width: 768px) {
+    width: auto;
+  }
+  @media (max-width: 500px) {
+    padding: 20px 0;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px 20px;
+  gap: 10px 0;
 `;
 
 const InfoContent = styled.div`
+  @media (max-width: 500px) {
+    align-items: center;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   gap: 3px 0;
-  padding: 7px 0;
 `;
-const ContentTitle = styled.div``;
 
 const Nickname = styled.div`
   font-size: 18px;
@@ -80,6 +95,10 @@ const PostConunt = styled.div`
   margin-top: 5px;
 `;
 const OtherUserWrap = styled.div`
+  @media (max-width: 768px) {
+    justify-content: center;
+    padding: 20px 0;
+  }
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -93,7 +112,7 @@ const OtherUser = styled.span`
 `;
 
 const MenuWrap = styled.div`
-  @media (max-width: 768px) {
+  @media (max-width: 1400px) {
     flex-direction: column;
     gap: 15px 0;
   }
@@ -106,13 +125,13 @@ const MenuWrap = styled.div`
 `;
 
 const MenuLink = styled(Link)`
-  @media (max-width: 768px) {
+  @media (max-width: 1400px) {
     width: 100%;
   }
 `;
 
 const Menu = styled.div`
-  @media (max-width: 768px) {
+  @media (max-width: 1400px) {
     width: 100%;
   }
   display: flex;
@@ -147,14 +166,16 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
       <ProfileMenuContainer>
         <ProfileMenuWrap theme={theme}>
           <AvatarWrap>
-            <Avatar src={thisUser.avatar}></Avatar>
+            <AvatarImgWrap>
+              <img src={thisUser.avatar} alt="프로필 사진" />
+            </AvatarImgWrap>
             <AvatarInfoWrap>
               <InfoContent>
-                <ContentTitle>닉네임</ContentTitle>
+                <span>닉네임</span>
                 <Nickname>{thisUser.nickname}</Nickname>
               </InfoContent>
               <InfoContent>
-                <ContentTitle>포스팅</ContentTitle>
+                <span>포스팅</span>
                 <PostConunt>{thisUser.records.length}</PostConunt>
               </InfoContent>
               {thisUser.instagram && (
