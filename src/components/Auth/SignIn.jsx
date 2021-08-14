@@ -20,40 +20,53 @@ const SignInContainer = styled.div`
   background: rgba(0, 0, 0, 0.4);
 `;
 const SignInWrap = styled.div`
+  @media (max-width: 500px) {
+    width: 90%;
+  }
   width: 450px;
-  height: 450px;
+  overflow-y: auto;
   background: ${(props) => props.theme.menuColor};
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
 const SignInHeader = styled.div`
   width: 100%;
-  height: 15%;
   padding: 15px 0;
   display: flex;
   position: relative;
   border-bottom: 1px solid #ababab80;
   justify-content: center;
   align-items: center;
-  & svg {
-    position: absolute;
-    left: 40px;
-    cursor: pointer;
-  }
 `;
 
+const HeaderIconWrap = styled.div`
+  position: absolute;
+  left: 40px;
+  cursor: pointer;
+  & svg {
+    @media (max-width: 500px) {
+      font-size: 18px;
+    }
+    font-size: 25px;
+  }
+`;
 const HeaderTitle = styled.span`
+  @media (max-width: 320px) {
+    font-size: 16px;
+  }
   font-size: 20px;
 `;
 
 const SignInContentWrap = styled.div`
+  @media (max-width: 500px) {
+    padding: 30px 20px;
+  }
   width: 100%;
-  height: 85%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 50px;
+  padding: 30px 50px;
 `;
 
 const InputContainer = styled.div`
@@ -62,6 +75,7 @@ const InputContainer = styled.div`
   padding: 10px 0px;
   flex-direction: column;
   align-items: center;
+  gap: 20px 0;
 `;
 
 const InputWrap = styled.div`
@@ -81,19 +95,21 @@ const InputWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  :not(:last-child) {
-    & input {
-      margin-bottom: 20px;
-    }
-  }
 `;
 
 const SignUpTextWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 5px 0;
+    align-items: center;
+    padding: 10px 0;
+  }
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+
   padding: 0 10px;
+  padding: 20px 0;
   color: grey;
   & span {
     :last-child {
@@ -114,6 +130,9 @@ const ButtonWrap = styled.div`
   justify-content: center;
 
   & button {
+    @media (max-width: 320px) {
+      font-size: 14px;
+    }
     width: 100%;
     height: 50px;
     background: transparent;
@@ -133,8 +152,12 @@ const ButtonWrap = styled.div`
       margin-bottom: 10px;
 
       & svg {
+        @media (max-width: 320px) {
+          font-size: 16px;
+        }
         position: absolute;
         left: 20px;
+        font-size: 20px;
       }
     }
   }
@@ -223,7 +246,9 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
     <SignInContainer>
       <SignInWrap theme={theme}>
         <SignInHeader>
-          <BsBoxArrowInLeft onClick={closeButton} size={26} />
+          <HeaderIconWrap>
+            <BsBoxArrowInLeft onClick={closeButton} />
+          </HeaderIconWrap>
           <HeaderTitle>로그인</HeaderTitle>
         </SignInHeader>
         <SignInContentWrap>
@@ -267,7 +292,7 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
               <ButtonWrap theme={theme}>
                 <button onClick={handleSignIn}>로그인</button>
                 <button onClick={googleSignIn}>
-                  <FcGoogle size={25} />
+                  <FcGoogle />
                   Google로 로그인하기
                 </button>
               </ButtonWrap>

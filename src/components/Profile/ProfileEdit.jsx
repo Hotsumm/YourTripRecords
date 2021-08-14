@@ -18,11 +18,15 @@ const ProfileEditContainer = styled.div`
 `;
 
 const ProfileEditWrap = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 1024px) {
+    width: 80%;
+    max-height: 400px;
   }
+  @media (max-width: 500px) {
+    width: 95%;
+  }
+  max-height: 500px;
   width: 768px;
-  max-height: 550px;
   overflow: auto;
   background: ${(props) => props.theme.menuColor};
   margin-top: 100px;

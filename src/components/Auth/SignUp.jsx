@@ -21,15 +21,20 @@ const SignUpContainer = styled.div`
   background: rgba(0, 0, 0, 0.4);
 `;
 const SignUpWrap = styled.div`
-  width: 450px;
+  @media (max-width: 500px) {
+    width: 90%;
+    max-height: 400px;
+  }
+  width: 500px;
   height: 600px;
+  max-height: 600px;
+  overflow-y: auto;
   background: ${(props) => props.theme.menuColor};
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
 const SignUpHeader = styled.div`
   width: 100%;
-  height: 10%;
   display: flex;
   position: relative;
   border-bottom: 1px solid #ababab80;
@@ -37,18 +42,24 @@ const SignUpHeader = styled.div`
   align-items: center;
   padding: 20px 0;
   & svg {
+    @media (max-width: 320px) {
+      font-size: 20px;
+    }
+    font-size: 26px;
     position: absolute;
     left: 40px;
     cursor: pointer;
   }
 `;
 const HeaderTitle = styled.span`
+  @media (max-width: 320px) {
+    font-size: 14px;
+  }
   font-size: 20px;
 `;
 
 const SignUpContentWrap = styled.div`
   width: 100%;
-  height: 90%;
   padding: 30px 0;
   display: flex;
   flex-direction: column;
@@ -57,20 +68,30 @@ const SignUpContentWrap = styled.div`
 `;
 
 const InputContainer = styled.div`
+  @media (max-width: 500px) {
+    padding: 0 20px;
+  }
   width: 100%;
   display: flex;
-  padding: 0px 50px 10px 50px;
+  padding: 0px 50px;
+  gap: 20px 0;
   flex-direction: column;
   align-items: center;
 `;
 
 const ButtonWrap = styled.div`
+  @media (max-width: 500px) {
+    padding: 0 20px;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 40px;
   & button {
+    @media (max-width: 320px) {
+      font-size: 12px;
+    }
     width: 100%;
     height: 50px;
     border-radius: 15px;
@@ -88,8 +109,12 @@ const ButtonWrap = styled.div`
       position: relative;
       align-items: center;
       & svg {
+        @media (max-width: 320px) {
+          font-size: 16px;
+        }
         position: absolute;
         left: 20px;
+        font-size: 24px;
       }
     }
   }
@@ -99,13 +124,16 @@ const InputWrap = styled.div`
   width: 100%;
   & input {
     width: 100%;
-    height: 50px;
-    padding: 0 0 0 20px;
+    height: 45px;
+    padding-left: 20px;
     border-radius: 15px;
     border-style: none;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     ::placeholder {
-      font-size: 15px;
+      @media (max-width: 320px) {
+        font-size: 12px;
+      }
+      font-size: 14px;
     }
     :focus {
       outline: none;
@@ -113,15 +141,19 @@ const InputWrap = styled.div`
     }
   }
 
-  :not(:last-child) {
-    & input {
-      margin-bottom: 25px;
-    }
-  }
   :last-child {
     margin-bottom: 30px;
   }
 `;
+
+const InputTextWrap = styled.div`
+  width: 100%;
+  padding: 5px 10px;
+  & span {
+    color: grey;
+  }
+`;
+
 const SignUp = ({ toggleSignUp }) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -211,7 +243,7 @@ const SignUp = ({ toggleSignUp }) => {
     <SignUpContainer>
       <SignUpWrap theme={theme}>
         <SignUpHeader>
-          <BsBoxArrowInLeft onClick={closeButton} size={26} />
+          <BsBoxArrowInLeft onClick={closeButton} />
           <HeaderTitle>회원가입</HeaderTitle>
         </SignUpHeader>
         <SignUpContentWrap>
@@ -228,15 +260,26 @@ const SignUp = ({ toggleSignUp }) => {
                     onChange={onChange}
                     required
                   />
+                  <InputTextWrap>
+                    <span>
+                      이메일 링크 확인을 위해, 정확한 이메일을 입력해주세요.
+                    </span>
+                  </InputTextWrap>
                 </InputWrap>
                 <InputWrap>
                   <input
+                    style={{ marginBottom: '5px' }}
                     type="text"
                     placeholder="닉네임"
                     name="nickname"
                     onChange={onChange}
                     required
                   />
+                  <InputTextWrap>
+                    <span>
+                      닉네임은 한글 2~8자 영문 4자~16자로 작성해주세요.
+                    </span>
+                  </InputTextWrap>
                 </InputWrap>
                 <InputWrap>
                   <input
@@ -246,6 +289,9 @@ const SignUp = ({ toggleSignUp }) => {
                     onChange={onChange}
                     required
                   />
+                  <InputTextWrap>
+                    <span>비밀번호는 6자이상으로 입력해주세요.</span>
+                  </InputTextWrap>
                 </InputWrap>
                 <InputWrap>
                   <input
@@ -260,7 +306,7 @@ const SignUp = ({ toggleSignUp }) => {
               <ButtonWrap theme={theme}>
                 <button onClick={handleSignUp}>회원가입</button>
                 <button onClick={googleSignIn}>
-                  <FcGoogle size={25} />
+                  <FcGoogle />
                   Google로 로그인 하기
                 </button>
               </ButtonWrap>

@@ -6,8 +6,8 @@ import { darkTheme } from '../../theme';
 const ThemeSwitchWrap = styled.div`
   position: relative;
   @media (max-width: 500px) {
-    width: 60px;
-    height: 25px;
+    width: 65px;
+    height: 35px;
   }
   width: 80px;
   height: 35px;
@@ -32,9 +32,7 @@ const ThemeSwitchLabel = styled.label`
   cursor: pointer;
   ::after {
     @media (max-width: 500px) {
-      width: 20px;
-      height: 20px;
-      font-size: 16px;
+      font-size: 18px;
     }
     content: '🌞';
     margin: 4px;
@@ -60,9 +58,7 @@ const ThemeSwitchInput = styled.input`
     background: ${(props) => props.theme.bgColor};
     ::after {
       @media (max-width: 500px) {
-        width: 20px;
-        height: 20px;
-        font-size: 16px;
+        font-size: 18px;
         margin-left: 35px;
       }
       content: '🌛';
