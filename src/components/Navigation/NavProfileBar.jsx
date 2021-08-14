@@ -54,6 +54,9 @@ const Icon = styled.div`
 `;
 
 const ProfileMenu = styled.div`
+  @media (max-width: 500px) {
+    width: 180px;
+  }
   position: absolute;
   width: 230px;
   padding: 10px 0;

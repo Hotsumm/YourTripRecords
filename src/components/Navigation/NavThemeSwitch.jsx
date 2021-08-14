@@ -5,6 +5,12 @@ import { darkTheme } from '../../theme';
 
 const ThemeSwitchWrap = styled.div`
   position: relative;
+  @media (max-width: 500px) {
+    width: 60px;
+    height: 25px;
+  }
+  width: 80px;
+  height: 35px;
 `;
 const ThemeMode = styled.span`
   position: absolute;
@@ -18,14 +24,18 @@ const ThemeSwitchLabel = styled.label`
   position: absolute;
   top: 0;
   left: 0;
-  width: 80px;
-  height: 35px;
+  width: 100%;
   border-radius: 25px;
   background: white;
   transition: background-color 0.2s;
   border: 1px solid #ababab80;
   cursor: pointer;
   ::after {
+    @media (max-width: 500px) {
+      width: 20px;
+      height: 20px;
+      font-size: 16px;
+    }
     content: '🌞';
     margin: 4px;
     border-radius: 50%;
@@ -49,6 +59,12 @@ const ThemeSwitchInput = styled.input`
   &:checked + ${ThemeSwitchLabel} {
     background: ${(props) => props.theme.bgColor};
     ::after {
+      @media (max-width: 500px) {
+        width: 20px;
+        height: 20px;
+        font-size: 16px;
+        margin-left: 35px;
+      }
       content: '🌛';
       display: flex;
       align-items: center;

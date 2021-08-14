@@ -19,9 +19,14 @@ const NavContainer = styled.div`
 `;
 
 const NavWrap = styled.div`
+  position: relative;
   width: 100%;
+  height: 100%;
   display: flex;
   padding: 0px 60px;
+  @media (max-width: 768px) {
+    padding: 0px 20px;
+  }
   @media (max-width: 500px) {
     padding: 0px 10px;
   }
@@ -32,6 +37,9 @@ const NavWrap = styled.div`
 `;
 
 const TitleContainer = styled.div`
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
   @media (max-width: 500px) {
     font-size: 20px;
   }
@@ -57,15 +65,21 @@ const SearchContainer = styled.div`
 
 const ProfileContainer = styled.div`
   display: flex;
+  max-width: 200px;
   align-items: flex-start;
   justify-content: space-between;
   padding: 20px 0;
 `;
 
 const ThemeContainer = styled.div`
-  margin-right: 120px;
-  @media (max-width: 500px) {
-    display: none;
+  z-index: -1;
+  position: absolute;
+  top: 20px;
+  right: 280px;
+
+  @media (max-width: 768px) {
+    top: 90px;
+    right: 20px;
   }
 `;
 
@@ -78,11 +92,11 @@ const Navigation = ({ show }) => {
           <Link to="/">YourTripRecords</Link>
         </TitleContainer>
         <ProfileContainer theme={theme}>
-          <ThemeContainer show={show}>
-            <NavThemeSwitch />
-          </ThemeContainer>
           <NavProfileBar />
         </ProfileContainer>
+        <ThemeContainer show={show}>
+          <NavThemeSwitch />
+        </ThemeContainer>
       </NavWrap>
     </NavContainer>
   );
