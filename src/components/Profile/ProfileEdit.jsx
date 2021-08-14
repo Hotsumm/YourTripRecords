@@ -220,6 +220,34 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
     reader.readAsDataURL(theFile);
   };
 
+  const vaildCheck = () => {
+    const specialCheck = /[`~!@#$%^&*|\\'";:/?]/gi;
+
+    let nicknameLength = 0;
+    for (let i = 0; i < nickname.length; i++) {
+      if (escape(nickname.charAt(i)).length > 4) {
+        nicknameLength += 2;
+      } else {
+        nicknameLength += 1;
+      }
+    }
+
+    if (nicknameLength < 2 || nicknameLength > 16)
+      return alert(
+        '닉네임은 한글 2~8자, 영문 및 숫자 4~16자 사이로 입력해주세요. ',
+      );
+    else if (specialCheck.test(nickname) || nickname.search(/\s/) !== -1)
+      return alert('닉네임은 특수문자 또는 공백을 포함 할 수 없습니다.');
+
+    if (specialCheck.test(instagram) || instagram.search(/\s/) !== -1)
+      return alert('인스타그램 아이디를 정확하게 입력해주세요.');
+
+    if (intro.length > 100)
+      return alert('소개를 4자에서 100자 이하로 입력해주세요.');
+
+    onSubmit();
+  };
+
   const onSubmit = async () => {
     const usersRef = firebaseFireStore.collection('users').doc(userObj.userId);
     if (!avatarPreview) {
@@ -292,17 +320,16 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
               <span>*닉네임</span>
               <input
                 type="text"
-                maxLength="12"
+                maxLength="16"
                 name="nickname"
                 value={nickname}
                 onChange={onChange}
                 placeholder="닉네임"
-                required
               />
               <span
                 style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
               >
-                닉네임은 최대 12자로 입력해주세요.
+                닉네임은 최소 2자 최대 8자로 입력해주세요.
               </span>
             </InputWrap>
             <InputWrap>
@@ -313,7 +340,6 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
                 onChange={onChange}
                 value={instagram}
                 placeholder="인스타그램"
-                required
               />
               <span
                 style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
@@ -327,18 +353,16 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
                 name="intro"
                 value={intro}
                 rows="4"
-                minLength="10"
-                maxLength="160"
+                maxLength="100"
                 onChange={onChange}
-                placeholder="최소 10자 최대 160자로 자신을 소개해보세요."
-                required
+                placeholder="최대 100자로 자신을 소개해보세요."
               />
               <span>{intro.length}/160자</span>
             </InputWrap>
           </InputContainer>
         </ProfileContentWrap>
         <ButtonWrap>
-          <button onClick={onSubmit}>변경하기</button>
+          <button onClick={vaildCheck}>변경하기</button>
           <button onClick={closeButton}>취소</button>
         </ButtonWrap>
       </ProfileEditWrap>
