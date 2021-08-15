@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { cityArray } from '../utils/cityArray';
-import { hashtagArray } from '../utils/hashtagArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
-import Pagination from '../components/Detail/KakaoMap/Pagination';
 import { UserContext, ThemeContext } from '../Context';
 import Footer from '../components/Home/Footer';
+import UploadGuide from '../components/Upload/UploadGuide';
+import RecordInfo from '../components/Upload/RecordInfo';
+import PictureInfo from '../components/Upload/PictureInfo';
 
 const UploadContainer = styled.div`
   width: 100%;
@@ -44,190 +45,6 @@ const UploadWrap = styled.div`
   padding: 30px 0px;
 `;
 
-const RecordInfoContainer = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 10px;
-`;
-
-const RecordInfoWrap = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  width: 768px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-  & span {
-    width: 30%;
-  }
-  & input {
-    -webkit-appearance: none;
-    min-width: 50%;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  & select {
-    min-width: 50%;
-    padding: 7px;
-    font-size: 14px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-const HashtagWrap = styled.ul`
-  margin-top: 30px;
-  width: 100%;
-  padding: 0 20px;
-  display: flex;
-  overflow-x: auto;
-  gap: 0 20px;
-`;
-
-const Hashtag = styled.li`
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 14px;
-  color: ${(props) => props.theme.textColor};
-  background: ${(props) => props.theme.menuColor};
-  border: 1px solid #16a085;
-  :hover {
-    color: #16a085;
-  }
-`;
-
-const PirctureInfoContainer = styled.div`
-  @media (max-width: 768px) {
-    padding: 0 10px;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 100px;
-`;
-
-const PictureInfoWrap = styled.div`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-  width: 100%;
-  gap: 0 50px;
-  display: flex;
-  justify-content: center;
-  padding: 20px 10px;
-`;
-
-const PictureWrap = styled.div`
-  width: 400px;
-  @media (max-width: 500px) {
-    width: 100%;
-    padding: 0 20px;
-  }
-  @media (max-width: 768px) {
-    margin-bottom: 10px;
-  }
-  & img {
-    width: 100%;
-    aspect-ratio: 4/3;
-    cursor: default;
-  }
-`;
-
-const PictureInputWrap = styled.div`
-  @media (max-width: 500px) {
-    width: 100%;
-  }
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const PictureInfo = styled.div`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 5px 0;
-    width: 100%;
-  }
-  display: flex;
-  padding: 5px 20px;
-  gap: 0 10px;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  & span {
-    font-weight: 700;
-    text-align: left;
-    margin-bottom: 5px;
-  }
-`;
-
-const InputWrap = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px 0;
-  margin-bottom: 15px;
-  & input {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-style: none;
-    border-radius: 5px;
-    padding: 10px 5px;
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  & span {
-    font-weight: 700;
-    text-align: left;
-    margin-bottom: 5px;
-  }
-`;
-
-const TextAreaWrap = styled.div`
-  gap: 5px 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  textarea {
-    -webkit-appearance: none;
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    line-height: 20px;
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  div {
-    width: 100%;
-    text-align: right;
-    margin-top: 5px;
-  }
-`;
-
 const FileContainer = styled.div`
   position: relative;
   width: 100%;
@@ -253,21 +70,6 @@ const FileContainer = styled.div`
       opacity: 0.7;
     }
   }
-`;
-
-const GuideContainer = styled.div`
-  width: 100%;
-  margin: 25px 0;
-`;
-
-const GuideHeader = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`;
-const Guide = styled.div`
-  font-size: 14px;
-  padding: 5px 0;
 `;
 
 const ButtonWrap = styled.div`
@@ -492,108 +294,19 @@ const Upload = () => {
             <>
               {posts && posts.length > 0 ? (
                 <>
-                  <RecordInfoContainer>
-                    <RecordInfoWrap>
-                      <span style={{ fontSize: '16px' }}>여행 제목</span>
-                      <input
-                        type="title"
-                        name="recordTitle"
-                        onChange={onChange}
-                      />
-                    </RecordInfoWrap>
-                    <RecordInfoWrap>
-                      <span style={{ fontSize: '14px' }}>도시</span>
-                      <select name="city" onChange={onChange}>
-                        {cityArray &&
-                          cityArray.length > 0 &&
-                          cityArray.map((city, index) => (
-                            <option key={index} value={city.name}>
-                              {city.name}
-                            </option>
-                          ))}
-                      </select>
-                    </RecordInfoWrap>
-                    <RecordInfoWrap>
-                      <span style={{ fontSize: '14px' }}>여행 계절</span>
-                      <select name="season" onChange={onChange}>
-                        <option value="봄">봄</option>
-                        <option value="여름">여름</option>
-                        <option value="가을">가을</option>
-                        <option value="겨울">겨울</option>
-                      </select>
-                    </RecordInfoWrap>
-                    <HashtagWrap>
-                      {hashtagArray.map((hashtag) => (
-                        <Hashtag
-                          theme={theme}
-                          key={hashtag.id}
-                          onClick={() => handleHashtagSelect(hashtag.name)}
-                          style={
-                            selectedHashtag.includes(hashtag.name)
-                              ? {
-                                  background: '#e3f4ea',
-                                  fontWeight: '600',
-                                  color: '#16a085',
-                                  cursor: 'default',
-                                  border: 'none',
-                                }
-                              : {
-                                  cursor: 'pointer',
-                                }
-                          }
-                        >
-                          {hashtag.name}
-                        </Hashtag>
-                      ))}
-                    </HashtagWrap>
-                  </RecordInfoContainer>
-                  <PirctureInfoContainer>
-                    {posts.map((post, index) => (
-                      <PictureInfoWrap key={index}>
-                        <PictureWrap>
-                          <img src={post.picturePreview} alt="post" />
-                        </PictureWrap>
-                        <PictureInputWrap>
-                          <PictureInfo>
-                            <InputWrap>
-                              <span>위치</span>
-                              <input
-                                type="text"
-                                placeholder="위치"
-                                id={index}
-                                name="location"
-                                onChange={onChange}
-                                value={searchPlace[index]}
-                              />
-                              {searchPlace[index] &&
-                                !searchPlaceSelect[index] && (
-                                  <Pagination
-                                    searchPlace={searchPlace[index]}
-                                    locationSelect={locationSelect}
-                                    id={index}
-                                  />
-                                )}
-                            </InputWrap>
-                          </PictureInfo>
-                          <PictureInfo>
-                            <TextAreaWrap>
-                              <span>설명</span>
-                              <textarea
-                                type="text"
-                                placeholder="최대 300자로 사진을 설명해보세요."
-                                rows="7"
-                                maxLength="300"
-                                id={index}
-                                name="description"
-                                onChange={onChange}
-                              />
-                              <div>{posts[index].description.length}/300자</div>
-                            </TextAreaWrap>
-                          </PictureInfo>
-                        </PictureInputWrap>
-                      </PictureInfoWrap>
-                    ))}
-                  </PirctureInfoContainer>
+                  <RecordInfo
+                    onChange={onChange}
+                    cityArray={cityArray}
+                    handleHashtagSelect={handleHashtagSelect}
+                    selectedHashtag={selectedHashtag}
+                  />
+                  <PictureInfo
+                    posts={posts}
+                    onChange={onChange}
+                    searchPlace={searchPlace}
+                    searchPlaceSelect={searchPlaceSelect}
+                    locationSelect={locationSelect}
+                  />
                 </>
               ) : (
                 <FileContainer>
@@ -612,25 +325,7 @@ const Upload = () => {
               )}
             </>
           )}
-          <GuideContainer>
-            <GuideHeader>가이드 라인</GuideHeader>
-            <Guide>
-              *자신이 다녀왔던 여행지의 여행사진들을 업로드 해주세요.
-            </Guide>
-            <Guide>*여행기록의 제목을 지어주세요.</Guide>
-            <Guide>*여행기록의 도시, 계절을 선택해주세요.</Guide>
-            <Guide>
-              *여행사진의 위치, 사진에 대한 간단한 설명을 적어주세요.
-            </Guide>
-            <Guide>
-              (작성한 위치는 게시물에 지도로 표시되니, 정확한 위치를
-              입력해주세요.)
-            </Guide>
-            <Guide>
-              *사진은 최소 5장에서 최대 15장까지 업로드할 수 있습니다.
-            </Guide>
-            <Guide>*사진의 크기는 최대 15MB 미만이여야 합니다.</Guide>
-          </GuideContainer>
+          <UploadGuide />
           <ButtonWrap>
             <button
               type="submit"
