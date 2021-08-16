@@ -70,36 +70,49 @@ const LikesUserInfo = styled.div`
   align-items: center;
 `;
 
-const Avatar = styled.img`
+const AvatarWrap = styled.div`
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 10px;
+  & img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
 `;
 
 const UserInfo = styled.div`
+  width: 130px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-right: 40px;
+  margin-right: 30px;
+  gap: 5px 0;
 `;
 
 const UserNickname = styled.span`
+  width: auto;
   font-size: 16px;
-  margin-bottom: 5px;
 `;
 
 const PostingCount = styled.span`
+  width: auto;
   font-size: 12px;
   color: gray;
 `;
 
-const UserProfileButton = styled.button`
-  text-align: right;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ababab80;
+const UserProfileLink = styled(Link)`
+  width: 100px;
+  height: 40px;
+  & button {
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ababab80;
+  }
+
   :hover {
     color: white;
     background: #16a085;
@@ -145,9 +158,7 @@ const LikesUser = ({ postObj, toggleLikesUser }) => {
         ) : (
           <>
             <LikesUserListHeader>
-              <HiX onClick={closeButton} size={'20'}>
-                x
-              </HiX>
+              <HiX onClick={closeButton} size={'20'} />
               <Header>좋아요 한 사용자</Header>
             </LikesUserListHeader>
             <LikesUserList>
@@ -156,16 +167,18 @@ const LikesUser = ({ postObj, toggleLikesUser }) => {
                 likesUserList.map((user, index) => (
                   <LikesUserInfoWrap key={index}>
                     <LikesUserInfo>
-                      <Avatar src={user.avatar} />
+                      <AvatarWrap>
+                        <img src={user.avatar} alt="프로필사진" />
+                      </AvatarWrap>
                       <UserInfo>
                         <UserNickname>{user.nickname}</UserNickname>
                         <PostingCount>
                           포스팅 : {user.records.length}개
                         </PostingCount>
                       </UserInfo>
-                      <Link to={`/profile/${user.userId}`}>
-                        <UserProfileButton>프로필 이동</UserProfileButton>
-                      </Link>
+                      <UserProfileLink to={`/profile/${user.userId}`}>
+                        <button>프로필 이동</button>
+                      </UserProfileLink>
                     </LikesUserInfo>
                   </LikesUserInfoWrap>
                 ))}
