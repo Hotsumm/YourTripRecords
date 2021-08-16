@@ -10,6 +10,8 @@ import { UserContext, ThemeContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import { BsThreeDots } from 'react-icons/bs';
 import Footer from '../components/Home/Footer';
+import Loading from '../components/Load/Loading';
+
 const DetailContainer = styled.div`
   width: 100%;
   display: flex;
@@ -21,7 +23,6 @@ const DetailContainer = styled.div`
 `;
 
 const DetailWrap = styled.div`
-  z-index: 80;
   @media (max-width: 500px) {
     width: 95vw;
   }
@@ -99,10 +100,11 @@ const DetailInfoWrap = styled.div`
 `;
 
 const PostDetail = ({ match }) => {
-  const { userObj } = useContext(UserContext);
+  const { userObj, refreshUser } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
   const [postObj, setPostObj] = useState(null);
   const [isEditClick, setIsEditClick] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
   const postId = match.params.postId;
@@ -113,31 +115,34 @@ const PostDetail = ({ match }) => {
       '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
     );
     if (answer) {
+      setLoading(true);
       firebaseFireStore
         .collection('records')
         .doc(postId)
         .delete()
-        .then(() => userPostDelete(userObj.userId, postId, postObj.city))
+        .then(() => userPostDelete(userObj.userId, postId))
+        .then(() => {
+          refreshUser(true);
+          alert('게시물이 정상적으로 삭제되었습니다.');
+          setLoading(false);
+          history.push(`/city/${postObj.city}`);
+        })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
           alert('게시물 삭제에 실패하였습니다.');
         });
     }
   };
 
-  const userPostDelete = (userId, postId, city) => {
+  const userPostDelete = async (userId, postId) => {
     const newRecords = userObj.records.filter((record) => record !== postId);
-    firebaseFireStore
+    await firebaseFireStore
       .collection('users')
       .doc(userId)
       .update({
-        records: newRecords,
+        records: [...newRecords],
       })
-      .then(() => {
-        alert('게시물이 정상적으로 삭제되었습니다.');
-        history.push(`/city/${city}`);
-      })
-
       .catch((error) => console.log(error));
   };
 
@@ -167,43 +172,50 @@ const PostDetail = ({ match }) => {
       {postObj && (
         <DetailContainer>
           <DetailWrap>
-            <DetailHeaderWrap>
-              <PostTitleWrap>
-                <h1>{postObj.postTitle}</h1>
-              </PostTitleWrap>
-              <PostCreatedWrap>
-                <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-                {userObj && userObj.userId === postObj.creator.userObj.userId && (
-                  <IconWrap>
-                    <BsThreeDots onClick={handleEdit} size={26} />
-                  </IconWrap>
-                )}
-              </PostCreatedWrap>
-              {isEditClick && (
-                <EditWrap theme={theme}>
-                  <ul>
-                    <Link
-                      to={{
-                        pathname: `/postEdit/${postObj.postId}`,
-                        state: { postObj },
-                      }}
-                    >
-                      <li>게시물 수정하기</li>
-                    </Link>
-                    <li onClick={handleDeletePost}>게시물 삭제하기</li>
-                    <li onClick={handleEdit} style={{ color: 'red' }}>
-                      취소
-                    </li>
-                  </ul>
-                </EditWrap>
-              )}
-            </DetailHeaderWrap>
-            <DetailInfoWrap>
-              <Preview postObj={postObj} pathName={pathName} />
-              <PostInfo postObj={postObj} userObj={userObj} />
-              {postObj.hashtags && <Hashtag postObj={postObj} />}
-              <Comment postId={postObj.postId} />
-            </DetailInfoWrap>
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                <DetailHeaderWrap>
+                  <PostTitleWrap>
+                    <h1>{postObj.postTitle}</h1>
+                  </PostTitleWrap>
+                  <PostCreatedWrap>
+                    <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
+                    {userObj &&
+                      userObj.userId === postObj.creator.userObj.userId && (
+                        <IconWrap>
+                          <BsThreeDots onClick={handleEdit} size={26} />
+                        </IconWrap>
+                      )}
+                  </PostCreatedWrap>
+                  {isEditClick && (
+                    <EditWrap theme={theme}>
+                      <ul>
+                        <Link
+                          to={{
+                            pathname: `/postEdit/${postObj.postId}`,
+                            state: { postObj },
+                          }}
+                        >
+                          <li>게시물 수정하기</li>
+                        </Link>
+                        <li onClick={handleDeletePost}>게시물 삭제하기</li>
+                        <li onClick={handleEdit} style={{ color: 'red' }}>
+                          취소
+                        </li>
+                      </ul>
+                    </EditWrap>
+                  )}
+                </DetailHeaderWrap>
+                <DetailInfoWrap>
+                  <Preview postObj={postObj} pathName={pathName} />
+                  <PostInfo postObj={postObj} userObj={userObj} />
+                  {postObj.hashtags && <Hashtag postObj={postObj} />}
+                  <Comment postId={postObj.postId} />
+                </DetailInfoWrap>
+              </>
+            )}
           </DetailWrap>
           <Footer />
         </DetailContainer>
