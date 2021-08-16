@@ -221,10 +221,11 @@ const Upload = () => {
     let userPostList = userObj.records;
     let pictureInfo = [];
     const postId = uuidv4();
-    const postRefId = uuidv4();
 
     for (let post of posts) {
-      const fileRef = firebaseStorage.ref(postRefId).child(post.fileName);
+      const fileRef = firebaseStorage
+        .ref(city)
+        .child(`${postId}/${post.fileName}`);
       const res = await fileRef.putString(post.picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
       pictureInfo.push({
