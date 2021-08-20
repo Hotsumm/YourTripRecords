@@ -19,7 +19,7 @@ const CommentContainer = styled.div`
 const CommentHeader = styled.div`
   width: 100%;
   margin-top: 20px;
-  span {
+  & span {
     font-size: 20px;
     font-weight: 700;
   }
@@ -31,11 +31,7 @@ const CommentCreatorWrap = styled.div`
   align-items: center;
   padding: 30px 0;
   gap: 0 15px;
-  & img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
+
   & button {
     width: 70px;
     height: 40px;
@@ -54,7 +50,7 @@ const CommentCreatorWrap = styled.div`
 const CommentInputWrap = styled.div`
   width: 100%;
   & input {
-    padding: 10px 0px 10px 10px;
+    padding: 10px;
     -webkit-appearance: none;
     width: 100%;
     font-size: 16px;
@@ -87,6 +83,7 @@ const CommentList = styled.li`
 const CommentContent = styled.div`
   display: flex;
   align-items: flex-start;
+  gap: 0 15px;
   padding: 5px 0;
 `;
 
@@ -103,11 +100,15 @@ const ContentInfo = styled.div`
   border-bottom: 1px solid #ababab80;
 `;
 
-const Avatar = styled.img`
+const Avatar = styled.div`
   width: 35px;
   height: 35px;
-  border-radius: 50%;
-  margin-right: 15px;
+  aspect-ratio: 1/1;
+  & img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
 `;
 
 const Author = styled.span`
@@ -241,7 +242,9 @@ const Comment = ({ postId }) => {
           <CommentCreatorWrap>
             {userObj ? (
               <>
-                <img src={userObj.avatar} alt="프로필 사진" />
+                <Avatar>
+                  <img src={userObj.avatar} alt="프로필 사진" />
+                </Avatar>
                 <CommentInputWrap>
                   <input
                     type="text"
@@ -252,15 +255,16 @@ const Comment = ({ postId }) => {
                     onKeyPress={handleKeyPress}
                   />
                 </CommentInputWrap>
-
                 <button onClick={handleComments}>작성</button>
               </>
             ) : (
               <>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004"
-                  alt="user"
-                />
+                <Avatar>
+                  <img
+                    src="https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004"
+                    alt="기본프로필 사진"
+                  />
+                </Avatar>
                 <div
                   style={{
                     fontSize: 18,
@@ -291,7 +295,9 @@ const Comment = ({ postId }) => {
                 {comments &&
                   comments.map((comment, index) => (
                     <CommentContent key={index}>
-                      <Avatar src={comment.avatar}></Avatar>
+                      <Avatar>
+                        <img src={comment.avatar} alt="프로필 사진" />
+                      </Avatar>
                       <ContentInfoWrap>
                         <ContentInfo>
                           <Link to={`/profile/${comment.authorId}`}>
@@ -301,7 +307,7 @@ const Comment = ({ postId }) => {
                           {userObj && userObj.userId === comment.authorId && (
                             <HiX
                               size={'14px'}
-                              style={{ cursor: 'pointer' }}
+                              style={{ cursor: 'pointer', color: 'tomato' }}
                               onClick={() =>
                                 handleDeleteComment(comment.commentId)
                               }
