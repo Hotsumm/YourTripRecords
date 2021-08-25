@@ -26,7 +26,6 @@ const CityCategoryWrap = styled.div`
   }
   width: 100%;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -63,18 +62,20 @@ const Category = styled.select`
 
 const HashtagWrap = styled.ul`
   @media (max-width: 500px) {
-    overflow-x: auto;
     padding: 0 20px;
   }
-  width: 100vw;
+  overflow-x: auto;
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
   margin-top: 30px;
   gap: 0 20px;
   margin-bottom: 20px;
 `;
 
 const Hashtag = styled.li`
+  @media (min-width: 600px) {
+    white-space: pre;
+  }
   padding: 10px 15px;
   border-radius: 10px;
   font-size: 1rem;

@@ -6,18 +6,24 @@ import { ThemeContext } from '../../Context';
 const HashtagContainer = styled.div`
   overflow-x: auto;
   width: 100%;
-  padding: 10px 0;
+  padding: 10px;
 `;
 const HashtagWrap = styled.ul`
   @media (max-width: 500px) {
     justify-content: center;
   }
-  width: 100%;
+  overflow-x: auto;
+  width: 100vw;
   display: flex;
-  justify-content: flex-start;
+  padding: 0 10px;
   gap: 0 20px;
+`;
 
+const HashtagLink = styled(Link)`
+  width: auto;
   & li {
+    width: 100%;
+    white-space: nowrap;
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 16px;
@@ -39,12 +45,12 @@ const Hashtag = ({ postObj }) => {
       <HashtagWrap>
         {postObj.hashtags &&
           postObj.hashtags.map((hashtag, index) => (
-            <Link
+            <HashtagLink
               key={index}
               to={{ pathname: '/city/전체', hashtag: [hashtag] }}
             >
               <li theme={theme}>{hashtag}</li>
-            </Link>
+            </HashtagLink>
           ))}
       </HashtagWrap>
     </HashtagContainer>

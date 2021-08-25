@@ -75,9 +75,6 @@ const CityListWrap = styled.ul`
 `;
 
 const City = styled.li`
-  @media (max-width: 500px) {
-    width: 50px;
-  }
   background: ${(props) => props.theme.menuColor};
   width: 70px;
   cursor: pointer;

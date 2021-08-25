@@ -77,6 +77,7 @@ const InputWrap = styled.div`
   gap: 5px 0;
   margin-bottom: 15px;
   & input {
+    -webkit-appearance: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     border-style: none;
     border-radius: 5px;

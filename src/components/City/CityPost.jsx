@@ -6,11 +6,14 @@ import Loading from '../Load/Loading';
 import noPostImg from '../../static/assets/NoPost1.jpeg';
 
 const CityPostContainer = styled.div`
+  @media (max-width: 1024px) {
+    padding: 50px 30px;
+  }
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 60px;
+  padding: 50px 40px;
 `;
 
 const NoPostWrap = styled.div`
@@ -20,19 +23,39 @@ const NoPostWrap = styled.div`
   align-items: center;
 `;
 
-const NoPostImg = styled.img`
-  width: 750px;
-  height: 400px;
+const NoPostImgWrap = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 400px;
+  }
+  @media (max-width: 500px) {
+    width: 100%;
+    height: 250px;
+  }
+  @media (max-width: 320px) {
+    width: 100%;
+    height: 150px;
+  }
+  width: 768px;
+  height: 500px;
   border-radius: 10px;
+  & img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const NoPost = styled.p`
+  white-space: pre;
   font-size: 4vw;
   margin-bottom: 10px;
   color: black;
 `;
 
 const CityPostWrap = styled.div`
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -43,13 +66,13 @@ const CityPostWrap = styled.div`
   }
   width: 100%;
   display: grid;
-  gap: 50px;
+  gap: 50px 30px;
   grid-template-columns: repeat(4, 1fr);
 `;
 const PostIntro = styled.div`
   position: relative;
   @media (max-width: 500px) {
-    width: 95vw;
+    width: 100%;
     align-items: center;
   }
   height: 100%;
@@ -219,7 +242,9 @@ const CityPost = ({ loading, posts }) => {
               <NoPost style={{ marginBottom: '40px' }}>
                 첫 게시물을 등록 해보세요 !
               </NoPost>
-              <NoPostImg src={noPostImg} />
+              <NoPostImgWrap>
+                <img src={noPostImg} alt="게시물 없음" />
+              </NoPostImgWrap>
             </NoPostWrap>
           )}
         </>
