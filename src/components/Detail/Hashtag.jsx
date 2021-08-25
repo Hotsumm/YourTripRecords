@@ -6,7 +6,7 @@ import { ThemeContext } from '../../Context';
 const HashtagContainer = styled.div`
   overflow-x: auto;
   width: 100%;
-  padding: 10px;
+  padding: 10px 0;
 `;
 const HashtagWrap = styled.ul`
   @media (max-width: 500px) {

@@ -31,10 +31,8 @@ const CommentCreatorWrap = styled.div`
   align-items: center;
   padding: 30px 0;
   gap: 0 15px;
-
   & button {
-    width: 70px;
-    height: 40px;
+    white-space: pre;
     border: 1px solid #16a085;
     border-radius: 5px;
     color: #16a085;
@@ -103,10 +101,9 @@ const ContentInfo = styled.div`
 const Avatar = styled.div`
   width: 35px;
   height: 35px;
-  aspect-ratio: 1/1;
   & img {
-    width: 100%;
-    height: 100%;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
   }
 `;

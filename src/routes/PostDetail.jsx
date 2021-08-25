@@ -23,7 +23,10 @@ const DetailContainer = styled.div`
 `;
 
 const DetailWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 1024px) {
+    width: 80vw;
+  }
+  @media (max-width: 768px) {
     width: 95vw;
   }
   width: 65vw;
@@ -70,6 +73,7 @@ const PostCreated = styled.div`
 const PostTitleWrap = styled.div`
   width: 100%;
   & h1 {
+    white-space: pre;
     font-size: 1.2rem;
   }
 `;
