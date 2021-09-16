@@ -64,12 +64,18 @@ const CityPostWrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   width: 100%;
   display: grid;
   gap: 50px 30px;
   grid-template-columns: repeat(4, 1fr);
 `;
+
+const CityPostLink = styled(Link)`
+  width: 100%;
+`;
+
 const PostIntro = styled.div`
   position: relative;
   @media (max-width: 500px) {
@@ -197,7 +203,7 @@ const CityPost = ({ loading, posts }) => {
           {posts && posts.length > 0 ? (
             <CityPostWrap>
               {posts.map((post) => (
-                <Link
+                <CityPostLink
                   key={post.postId}
                   to={{
                     pathname: `/city/${post.city}/${post.postId}`,
@@ -244,7 +250,7 @@ const CityPost = ({ loading, posts }) => {
                       </InfoContent>
                     </PostInfo>
                   </PostIntro>
-                </Link>
+                </CityPostLink>
               ))}
             </CityPostWrap>
           ) : (
