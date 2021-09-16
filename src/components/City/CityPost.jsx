@@ -89,8 +89,18 @@ const PostIntro = styled.div`
 
 const PostThumbnail = styled.div`
   width: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 75%;
+  }
   & img {
-    aspect-ratio: 4/3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 `;
 
