@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AiFillGithub } from 'react-icons/ai';
 import { GrInstagram } from 'react-icons/gr';
@@ -34,15 +34,41 @@ const FooterTitle = styled.span`
 const FooterIconWrap = styled.div`
   display: flex;
   gap: 20px;
-  svg {
+  & svg {
     font-size: 24px;
-    cursor: pointer;
   }
 `;
 
-const FooterIcon = styled.div``;
+const FooterIcon = styled.div`
+  display: block;
+  cursor: pointer;
+  :last-child {
+    position: relative;
+    cursor: default;
+  }
+`;
+
+const MailWrap = styled.div`
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+  width: 200px;
+  padding: 10px 0;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  border-style: none;
+  border-radius: 3px;
+  text-align: center;
+  display: ${(props) => (props.isMailHover ? 'block' : 'none')};
+  & span {
+    font-size: 14px;
+    :last-child {
+      font-weight: 700;
+    }
+  }
+`;
 
 const Footer = () => {
+  const [isMailHover, setIsMailHover] = useState(false);
   return (
     <FooterContainer>
       <FooterWrap>
@@ -58,7 +84,14 @@ const Footer = () => {
               onClick={() => window.open('https://www.instagram.com/hotsumm/')}
             />
           </FooterIcon>
-          <FooterIcon>
+          <FooterIcon
+            onMouseEnter={() => setIsMailHover(true)}
+            onMouseLeave={() => setIsMailHover(false)}
+          >
+            <MailWrap isMailHover={isMailHover ? 1 : 0}>
+              <span>Gmail : </span>
+              <span>tjddufgk@gmail.com</span>
+            </MailWrap>
             <AiOutlineMail />
           </FooterIcon>
         </FooterIconWrap>
