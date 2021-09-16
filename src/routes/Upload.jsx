@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
@@ -46,26 +47,51 @@ const UploadWrap = styled.div`
 `;
 
 const FileContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   position: relative;
-  width: 100%;
+  width: 500px;
   height: 300px;
   display: flex;
   justify-content: center;
-  label {
-    @media (max-width: 500px) {
-      width: 100%;
-    }
-    width: 500px;
+  align-items: center;
+`;
+
+const LabelTextWrap = styled.div`
+  display: flex;
+  gap: 15px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & span {
+    font-size: 20px;
+  }
+`;
+
+const IconWrap = styled.div`
+  & svg {
+    width: 100%;
     height: 100%;
-    position: absolute;
+  }
+`;
+
+const LabelWrap = styled.div`
+  position: absolute;
+  opacity: 0.9;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  & label {
+    background: #cae5dd;
+    width: 100%;
+    height: 100%;
+    color: ${(props) => props.theme.textColor};
     display: flex;
-    background: white;
-    border: 2px dashed gray;
+    border: 1px dashed #16a085;
     justify-content: center;
     align-items: center;
     font-size: 20px;
-    color: black;
-    cursor: pointer;
     :hover {
       opacity: 0.7;
     }
@@ -311,17 +337,24 @@ const Upload = () => {
                 </>
               ) : (
                 <FileContainer>
-                  <label htmlFor="input-file">
-                    사진 올리기 (최소 5장 최대 15장)
-                  </label>
-                  <input
-                    type="file"
-                    id="input-file"
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    multiple="multiple"
-                    onChange={onFileChange}
-                  />
+                  <LabelWrap>
+                    <label htmlFor="input-file">
+                      <LabelTextWrap>
+                        <IconWrap>
+                          <AiOutlineCloudUpload size={80} />
+                        </IconWrap>
+                        <span>사진 올리기 (최소 5장 최대 15장)</span>
+                      </LabelTextWrap>
+                    </label>
+                    <input
+                      type="file"
+                      id="input-file"
+                      style={{ display: 'none' }}
+                      accept="image/*"
+                      multiple="multiple"
+                      onChange={onFileChange}
+                    />
+                  </LabelWrap>
                 </FileContainer>
               )}
             </>

@@ -65,17 +65,28 @@ const PopularPostWrap = styled.div`
   display: flex;
   justify-content: center;
   padding: 30px 100px;
-  overflow-x: auto;
   margin: 0 auto;
   gap: 0 20px;
+
+  @media (max-width: 768px) {
+    padding: 30px 50px;
+    gap: 0 10px;
+  }
   @media (max-width: 500px) {
     padding: 30px;
   }
 `;
 
-const PopularPost = styled.img`
-  width: 23vw;
-  aspect-ratio: 1/1;
+const PopularImgLink = styled(Link)`
+  width: 300px;
+`;
+
+const PopularImgWrap = styled.div`
+  width: 100%;
+  & img {
+    width: 100%;
+    aspect-ratio: 1/1;
+  }
 `;
 
 const PopularCity = () => {
@@ -176,15 +187,20 @@ const PopularCity = () => {
             {selectCityObj && (
               <PopularPostWrap>
                 {selectCityObj.map((record, index) => (
-                  <Link
+                  <PopularImgLink
                     key={record.postId}
                     to={{
                       pathname: `/city/${record.city}/${record.postId}`,
                       state: { cityName: record.city, record: record },
                     }}
                   >
-                    <PopularPost src={record.pictureList[0].pictureURL} />
-                  </Link>
+                    <PopularImgWrap>
+                      <img
+                        src={record.pictureList[0].pictureURL}
+                        alt="인기사진"
+                      />
+                    </PopularImgWrap>
+                  </PopularImgLink>
                 ))}
               </PopularPostWrap>
             )}
