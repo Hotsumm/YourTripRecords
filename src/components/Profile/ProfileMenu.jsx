@@ -17,7 +17,6 @@ const ProfileMenuContainer = styled.div`
 const ProfileMenuWrap = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
-    padding: 0px 20px;
   }
   width: 100%;
   display: flex;

@@ -23,12 +23,16 @@ const ProfileBackground = styled.img`
 `;
 
 const ProfileWrap = styled.div`
-  @media (max-width: 1000px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 0;
+  @media (max-width: 1200px) {
+    padding: 50px;
   }
+  @media (max-width: 768px) {
+    padding: 50px 20px;
+  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
@@ -43,16 +47,14 @@ const ProfileWrap = styled.div`
 const ProfileRow = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
   margin-bottom: 50px;
   padding: 0 100px;
 
-  @media (max-width: 1200px) {
-    padding: 0 50px;
-  }
   @media (max-width: 1024px) {
     padding: 0;
     :first-child {
-      width: 90vw;
+      width: 100%;
     }
     :last-child {
       display: flex;

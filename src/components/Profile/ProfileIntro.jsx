@@ -12,7 +12,7 @@ const ProfileIntroContainer = styled.div`
   @media (max-width: 1024px) {
     display: flex;
     justify-content: center;
-    width: 90vw;
+    width: 100%;
     margin-right: 0px;
     margin-bottom: 40px;
   }
@@ -27,7 +27,7 @@ const ProfileIntroWrap = styled.div`
   display: flex;
   background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  padding: 20px 20px 50px 20px;
+  padding: 20px;
   flex-direction: column;
 `;
 
@@ -37,13 +37,17 @@ const IntroHeader = styled.div`
   text-align: left;
   width: 100%;
   font-size: 20px;
-  margin-bottom: 20px;
 `;
 
-const Intro = styled.span`
+const Intro = styled.div`
   width: 100%;
-  font-size: 13px;
-  text-align: left;
+  height: 100%;
+  padding: 30px 0;
+  & span {
+    width: 100%;
+    font-size: 13px;
+    text-align: left;
+  }
 `;
 
 const ProfileIntro = ({ thisUser }) => {
@@ -55,7 +59,9 @@ const ProfileIntro = ({ thisUser }) => {
         <ProfileIntroWrap theme={theme}>
           <IntroHeader>소개</IntroHeader>
           <Intro>
-            {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
+            <span>
+              {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
+            </span>
           </Intro>
         </ProfileIntroWrap>
       </ProfileIntroContainer>

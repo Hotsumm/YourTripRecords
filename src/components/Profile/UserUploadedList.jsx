@@ -11,7 +11,7 @@ const UploadedListContainer = styled.div`
     width: 65%;
   }
   @media (max-width: 1024px) {
-    width: 80%;
+    width: 100%;
     align-items: center;
   }
   display: flex;
@@ -51,16 +51,6 @@ const PostContainer = styled.div`
   flex-direction: column;
   background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-`;
-
-const PostThumbnailWrap = styled.div`
-  width: 100%;
-  aspect-ratio: 4/3;
-
-  &img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const PostHeaderWrap = styled.div`
@@ -110,6 +100,23 @@ const PostTitle = styled.div`
 const PostCreated = styled.div`
   font-size: 10px;
   color: gray;
+`;
+
+const PostThumbnailWrap = styled.div`
+  width: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 75%;
+  }
+  & img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 `;
 
 const UserUploadedList = ({ userObj, thisUser }) => {
