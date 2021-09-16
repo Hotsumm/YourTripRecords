@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import CityPost from '../components/City/CityPost';
 import CityCategory from '../components/City/CityCategory';
+import CityPostSort from '../components/City/CityPostSort';
 import { firebaseFireStore } from '../firebaseConfig';
 import Footer from '../components/Home/Footer';
+import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
 
 const CityContainer = styled.div`
   width: 100%;
@@ -34,11 +36,16 @@ const CityName = styled.span`
 const City = ({ match, location }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
+  const [selectSort, setSelectedSort] = useState('최신순');
   const [selectedSeason, setSelectedSeason] = useState('전체');
   const [hashtagList, setHashtagList] = useState(
     location.hashtag ? location.hashtag : [],
   );
   const cityName = match.params.cityName;
+
+  const handleCurrentSort = (sortName) => {
+    setSelectedSort(sortName);
+  };
 
   const handleHashtagSelect = (hashtag) => {
     if (hashtagList.includes(hashtag)) {
@@ -80,11 +87,20 @@ const City = ({ match, location }) => {
             postArr = postArr.filter((post) => post.hashtags.includes(hashtag));
           }
         }
+
+        if (selectSort === '최신순') {
+          postArr.sort((next, prev) => sortByLatest(next, prev));
+        } else if (selectSort === '오래된순') {
+          postArr.sort((next, prev) => sortByOldest(next, prev));
+        } else {
+          postArr.sort((next, prev) => sortByPopular(next, prev));
+        }
+
         setPosts(postArr);
       })
       .catch((error) => error.message)
       .finally(() => setLoading(false));
-  }, [cityName, selectedSeason, hashtagList]);
+  }, [cityName, selectedSeason, hashtagList, selectSort]);
 
   useEffect(() => {
     fetchPost();
@@ -103,6 +119,7 @@ const City = ({ match, location }) => {
           hashtagList={hashtagList}
           handleHashtagSelect={handleHashtagSelect}
         />
+        <CityPostSort handleCurrentSort={handleCurrentSort} />
         {posts && (
           <CityPost loading={loading} posts={posts} cityName={cityName} />
         )}

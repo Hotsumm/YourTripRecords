@@ -7,13 +7,14 @@ import noPostImg from '../../static/assets/NoPost1.jpeg';
 
 const CityPostContainer = styled.div`
   @media (max-width: 1024px) {
-    padding: 50px 30px;
+    padding: 0 30px 40px 30px;
   }
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 50px 40px;
+  padding: 0px 40px 40px 40px;
 `;
 
 const NoPostWrap = styled.div`
@@ -211,7 +212,7 @@ const CityPost = ({ loading, posts }) => {
                       <PostCountWrap>
                         <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
                         <LikeCount>{post.likes.length}</LikeCount>
-                        <CommentCount>(0)</CommentCount>
+                        <CommentCount>({post.comments.length})</CommentCount>
                       </PostCountWrap>
                       <PostTitle>
                         {post.postTitle.length > 15
