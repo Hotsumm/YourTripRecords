@@ -79,13 +79,18 @@ const PopularPostWrap = styled.div`
 
 const PopularImgLink = styled(Link)`
   width: 300px;
-`;
-
-const PopularImgWrap = styled.div`
-  width: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 100%;
+  }
   & img {
-    width: 100%;
-    aspect-ratio: 1/1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 `;
 
@@ -194,12 +199,10 @@ const PopularCity = () => {
                       state: { cityName: record.city, record: record },
                     }}
                   >
-                    <PopularImgWrap>
-                      <img
-                        src={record.pictureList[0].pictureURL}
-                        alt="인기사진"
-                      />
-                    </PopularImgWrap>
+                    <img
+                      src={record.pictureList[0].pictureURL}
+                      alt="인기사진"
+                    />
                   </PopularImgLink>
                 ))}
               </PopularPostWrap>
