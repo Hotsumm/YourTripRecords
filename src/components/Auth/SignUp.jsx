@@ -24,13 +24,17 @@ const SignUpWrap = styled.div`
   @media (max-width: 500px) {
     width: 90%;
     max-height: 400px;
+    border-radius: 15px;
   }
-  width: 500px;
-  height: 600px;
+  @media (max-width: 320px) {
+    width: 95%;
+  }
+  width: 450px;
+  height: 80vh;
   max-height: 600px;
   overflow-y: auto;
   background: ${(props) => props.theme.menuColor};
-  border-radius: 30px;
+  border-radius: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
 const SignUpHeader = styled.div`
@@ -41,26 +45,36 @@ const SignUpHeader = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  & svg {
-    @media (max-width: 320px) {
-      font-size: 20px;
+  & header {
+    @media (max-width: 500px) {
+      font-size: 14px;
     }
-    font-size: 26px;
-    position: absolute;
-    left: 40px;
-    cursor: pointer;
+    font-size: 20px;
   }
 `;
-const HeaderTitle = styled.span`
-  @media (max-width: 320px) {
-    font-size: 14px;
+
+const IconWrap = styled.div`
+  @media (max-width: 500px) {
+    width: 20px;
+    height: 20px;
   }
-  font-size: 20px;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 40px;
+  cursor: pointer;
+
+  & svg {
+    font-size: 24px;
+    @media (max-width: 500px) {
+      font-size: 18px;
+    }
+  }
 `;
 
 const SignUpContentWrap = styled.div`
   width: 100%;
-  padding: 30px 0;
+  padding: 30px 0 60px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,6 +84,7 @@ const SignUpContentWrap = styled.div`
 const InputContainer = styled.div`
   @media (max-width: 500px) {
     padding: 0 20px;
+    gap: 10px 0;
   }
   width: 100%;
   display: flex;
@@ -79,60 +94,25 @@ const InputContainer = styled.div`
   align-items: center;
 `;
 
-const ButtonWrap = styled.div`
-  @media (max-width: 500px) {
-    padding: 0 20px;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 40px;
-  & button {
-    @media (max-width: 320px) {
-      font-size: 12px;
-    }
-    width: 100%;
-    height: 50px;
-    border-radius: 15px;
-    font-size: 16px;
-    border: 1px solid #16a085;
-    :first-child {
-      background: ${(props) => props.theme.mainColor};
-      color: white;
-      margin-bottom: 15px;
-    }
-
-    :last-child {
-      display: flex;
-      justify-content: center;
-      position: relative;
-      align-items: center;
-      & svg {
-        @media (max-width: 320px) {
-          font-size: 16px;
-        }
-        position: absolute;
-        left: 20px;
-        font-size: 24px;
-      }
-    }
-  }
-`;
-
 const InputWrap = styled.div`
   width: 100%;
   & input {
+    @media (max-width: 500px) {
+      height: 35px;
+      border-radius: 10px;
+      padding-left: 10px;
+    }
     -webkit-appearance: none;
     width: 100%;
     height: 45px;
+    margin-bottom: 3px;
     padding-left: 20px;
     border-radius: 15px;
     border-style: none;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     ::placeholder {
-      @media (max-width: 320px) {
-        font-size: 12px;
+      @media (max-width: 500px) {
+        font-size: 10px;
       }
       font-size: 14px;
     }
@@ -151,7 +131,54 @@ const InputTextWrap = styled.div`
   width: 100%;
   padding: 5px 10px;
   & span {
+    @media (max-width: 500px) {
+      font-size: 10px;
+    }
+
+    font-size: 12px;
     color: grey;
+  }
+`;
+
+const ButtonWrap = styled.div`
+  @media (max-width: 500px) {
+    padding: 0 20px;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+  & button {
+    @media (max-width: 500px) {
+      font-size: 12px;
+      height: 40px;
+    }
+    width: 100%;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 16px;
+    border: 1px solid #16a085;
+    :first-child {
+      background: ${(props) => props.theme.mainColor};
+      color: white;
+      margin-bottom: 15px;
+    }
+    :last-child {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      align-items: center;
+      & svg {
+        @media (max-width: 500px) {
+          font-size: 18px;
+          left: 15px;
+        }
+        position: absolute;
+        left: 20px;
+        font-size: 24px;
+      }
+    }
   }
 `;
 
@@ -244,8 +271,10 @@ const SignUp = ({ toggleSignUp }) => {
     <SignUpContainer>
       <SignUpWrap theme={theme}>
         <SignUpHeader>
-          <BsBoxArrowInLeft onClick={closeButton} />
-          <HeaderTitle>회원가입</HeaderTitle>
+          <IconWrap>
+            <BsBoxArrowInLeft onClick={closeButton} />
+          </IconWrap>
+          <header>회원가입</header>
         </SignUpHeader>
         <SignUpContentWrap>
           {loading ? (
@@ -269,7 +298,6 @@ const SignUp = ({ toggleSignUp }) => {
                 </InputWrap>
                 <InputWrap>
                   <input
-                    style={{ marginBottom: '5px' }}
                     type="text"
                     placeholder="닉네임"
                     name="nickname"
