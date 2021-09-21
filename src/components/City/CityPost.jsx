@@ -29,7 +29,7 @@ const NoPostImgWrap = styled.div`
     width: 100%;
     height: 400px;
   }
-  @media (max-width: 500px) {
+  @media (max-width: 576px) {
     width: 100%;
     height: 250px;
   }
@@ -54,13 +54,13 @@ const NoPost = styled.p`
 `;
 
 const CityPostWrap = styled.div`
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 500px) {
+  @media (max-width: 576px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -107,6 +107,23 @@ const PostThumbnail = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
+  }
+`;
+
+const PictureCountWrap = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid white;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & span {
+    font-size: 20px;
+    color: white;
   }
 `;
 
@@ -216,6 +233,9 @@ const CityPost = ({ loading, posts }) => {
                         src={post.pictureList[0].pictureURL}
                         alt={post.postId}
                       />
+                      <PictureCountWrap>
+                        <span>+{post.pictureList.length - 1}</span>
+                      </PictureCountWrap>
                     </PostThumbnail>
                     {post.hashtags && (
                       <HashtagWrap>
