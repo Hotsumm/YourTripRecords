@@ -5,7 +5,9 @@ const AllPicturesListContainer = styled.div`
   @media (max-width: 1024px) {
     padding: 0px 10px;
   }
-
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -19,23 +21,29 @@ const PicturesListWrap = styled.div`
     order: 2;
   }
   display: flex;
-  width: 100vw;
+  justify-content: flex-start;
+  width: 100%;
   overflow-x: auto;
-  height: 150px;
   gap: 0 10px;
-  padding: 20px 30px;
+  padding: 20px 10px;
 `;
 const PictureWrap = styled.div`
-  width: 150px;
-  aspect-ratio: 4/3;
+  & img {
+    width: 120px;
+    height: 90px;
+    @media (max-width: 500px) {
+      width: 100px;
+      height: 75px;
+    }
+    @media (max-width: 368px) {
+      width: 80px;
+      height: 60px;
+    }
+  }
   opacity: 0.6;
   cursor: pointer;
   :nth-child(${(props) => props.index + 1}) {
     opacity: 1;
-  }
-  & img {
-    width: 100%;
-    height: 100%;
   }
 `;
 

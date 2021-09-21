@@ -10,32 +10,23 @@ import { BsArrowRightShort } from 'react-icons/bs';
 const SelectPictureContainer = styled.div`
   @media (max-width: 1024px) {
     order: 3;
-    padding: 30px 50px;
     flex-direction: column;
     align-items: center;
-  }
-  @media (max-width: 768px) {
-    padding: 30px;
-  }
-  @media (max-width: 500px) {
-    padding: 30px 10px;
+    padding: 10px;
   }
 
   width: 100%;
+  padding: 20px;
   display: flex;
   justify-content: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  padding: 30px;
 `;
 
 const SelectPictureSlideWrap = styled.div`
-  @media (max-width: 1200px) {
-    width: 600px;
-  }
   @media (max-width: 1024px) {
     width: 100%;
   }
-  width: 800px;
+  width: 65%;
   position: relative;
   display: flex;
   align-items: center;
@@ -43,6 +34,7 @@ const SelectPictureSlideWrap = styled.div`
     position: absolute;
     color: white;
     cursor: pointer;
+    z-index: 99;
     :first-child {
       left: 10px;
     }
@@ -57,30 +49,34 @@ const SelectPictureSlideWrap = styled.div`
 `;
 
 const SelectPictureWrap = styled.div`
-  aspect-ratio: 4/3;
   width: 100%;
-  height: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 75%;
+  }
   & img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 `;
 
 const SelectPictureInfoWrap = styled.div`
-  @media (max-width: 1400px) {
-    width: 400px;
-  }
   @media (max-width: 1024px) {
     width: 100%;
     flex-direction: row;
-    height: 400px;
+    height: 350px;
   }
-  @media (max-width: 1024px) {
-    width: 100%;
+  @media (max-width: 768px) {
     flex-direction: column;
+    height: auto;
   }
-  width: 500px;
-  height: 600px;
+
+  width: 35%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -91,20 +87,22 @@ const PictureInfoHeaderWrap = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  gap: 0 10px;
+  gap: 0 5px;
   & span {
     display: inline;
     width: 100%;
     font-size: 16px;
     font-weight: 700;
     text-align: left;
-    margin-top: 3px;
   }
 `;
 
 const HeaderIconWrap = styled.div`
+  width: 23px;
+  height: 23px;
   & svg {
-    font-size: 22px;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -119,9 +117,7 @@ const DescriptionWrap = styled.div`
     border-bottom: 1px solid #f1f2f6;
   }
   width: 100%;
-  height: 325px;
-  max-height: 60%;
-  height: 100%;
+  height: 55%;
   display: flex;
   flex-direction: column;
   padding: 15px;
@@ -138,33 +134,26 @@ const LocationWrap = styled.div`
   @media (max-width: 1024px) {
     height: 100%;
   }
-  @media (max-width: 768px) {
-  }
   width: 100%;
-  height: 275px;
+  height: 45%;
   display: flex;
   flex-direction: column;
   padding: 15px;
 `;
 
 const KakaoMapWrap = styled.div`
-  @media (max-width: 1200px) {
-    width: 250px;
+  @media (max-width: 768px) {
+    width: 98%;
   }
-  @media (max-width: 1024px) {
-    width: 350px;
-  }
-  @media (max-width: 500px) {
-    width: 270px;
-    height: 150px;
-  }
-  @media (max-width: 375px) {
-    width: 200px;
-  }
-  width: 350px;
-  height: 200px;
+  width: 80%;
+  min-height: 85%;
   display: flex;
   flex-direction: column;
+`;
+
+const KakaoMapLinkWrap = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
   & span {
     display: inline;
     cursor: pointer;
@@ -176,8 +165,12 @@ const KakaoMapWrap = styled.div`
 `;
 
 const MarkerWrap = styled.div`
-  width: 100%;
-  height: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 50%;
+  }
 `;
 
 const NoLocationWrap = styled.div`
@@ -211,7 +204,7 @@ const SelectPicture = ({ selectPicture, slideLeft, slideRight }) => {
         <DescriptionWrap>
           <PictureInfoHeaderWrap>
             <HeaderIconWrap>
-              <AiOutlineSound />
+              <AiOutlineSound size={22} />
             </HeaderIconWrap>
             <span>설명</span>
           </PictureInfoHeaderWrap>
@@ -224,21 +217,23 @@ const SelectPicture = ({ selectPicture, slideLeft, slideRight }) => {
         <LocationWrap>
           <PictureInfoHeaderWrap>
             <HeaderIconWrap>
-              <TiLocationOutline style={{ color: theme.textColor }} />
+              <TiLocationOutline size={22} style={{ color: theme.textColor }} />
             </HeaderIconWrap>
             <span>위치</span>
           </PictureInfoHeaderWrap>
           {selectPicture.location ? (
             <KakaoMapWrap>
-              <span
-                onClick={() =>
-                  window.open(
-                    `https://map.kakao.com/link/map/${selectPicture.location.locationId}`,
-                  )
-                }
-              >
-                {selectPicture.location.placeName}
-              </span>
+              <KakaoMapLinkWrap>
+                <span
+                  onClick={() =>
+                    window.open(
+                      `https://map.kakao.com/link/map/${selectPicture.location.locationId}`,
+                    )
+                  }
+                >
+                  {selectPicture.location.placeName}
+                </span>
+              </KakaoMapLinkWrap>
               <MarkerWrap>
                 <Marker coords={selectPicture.location.coords} />
               </MarkerWrap>

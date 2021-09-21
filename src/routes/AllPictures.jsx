@@ -7,6 +7,9 @@ import SelectPicture from '../components/AllPictures/SelectPicture';
 import AllPicturesList from '../components/AllPictures/AllPicturesList';
 
 const AllPicturesContainer = styled.div`
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
