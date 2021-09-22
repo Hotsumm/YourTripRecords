@@ -7,7 +7,7 @@ import { TiLocationOutline } from 'react-icons/ti';
 import { BsArrowLeftShort } from 'react-icons/bs';
 import { BsArrowRightShort } from 'react-icons/bs';
 
-const SelectPictureContainer = styled.div`
+const SelectPictureContainer = styled.article`
   @media (max-width: 1024px) {
     order: 3;
     flex-direction: column;

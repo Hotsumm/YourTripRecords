@@ -16,7 +16,7 @@ const PopularCityWrap = styled.div`
   flex-direction: column;
 `;
 
-const PopularCityHeaderWrap = styled.div`
+const PopularCityHeaderWrap = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -24,7 +24,7 @@ const PopularCityHeaderWrap = styled.div`
   padding: 20px 0;
 `;
 
-const PopularCityHeader = styled.div`
+const PopularCityHeader = styled.h2`
   @media (max-width: 500px) {
     font-size: 20px;
   }

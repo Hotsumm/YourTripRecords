@@ -6,7 +6,7 @@ import { ThemeContext } from '../Context';
 import SelectPicture from '../components/AllPictures/SelectPicture';
 import AllPicturesList from '../components/AllPictures/AllPicturesList';
 
-const AllPicturesContainer = styled.div`
+const AllPicturesContainer = styled.main`
   @media (max-width: 768px) {
     padding: 0 10px;
   }
@@ -19,14 +19,14 @@ const AllPicturesContainer = styled.div`
   padding: 0 20px;
 `;
 
-const AllPicturesHeader = styled.div`
+const AllPicturesHeaderWrap = styled.header`
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
-  & span {
+  & h1 {
     font-size: 18px;
   }
 
@@ -103,12 +103,12 @@ const AllPictures = ({ match, location }) => {
     <AllPicturesContainer theme={theme}>
       {pictureList && (
         <>
-          <AllPicturesHeader>
+          <AllPicturesHeaderWrap>
             <BsBoxArrowInLeft onClick={onCloseBtn} size={24} />
-            <span>
+            <h1>
               {pictureIndex + 1}/{pictureList.length}
-            </span>
-          </AllPicturesHeader>
+            </h1>
+          </AllPicturesHeaderWrap>
           <SelectPicture
             selectPicture={selectPicture}
             slideLeft={slideLeft}

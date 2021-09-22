@@ -8,7 +8,7 @@ import { UserContext } from '../Context';
 import Pagination from '../components/Detail/KakaoMap/Pagination';
 import Footer from '../components/Home/Footer';
 
-const PostEditContainer = styled.div`
+const PostEditContainer = styled.main`
   width: 100%;
   padding-top: 80px;
   text-align: center;
@@ -18,14 +18,14 @@ const PostEditContainer = styled.div`
     props.loading ? 'brightness(30%)' : 'brightness(100%)'};
   height: ${(props) => props.loading && '100vh'};
 `;
-const UploadHeaderWrap = styled.div`
+const UploadHeaderWrap = styled.header`
   @media (max-width: 768px) {
     font-size: 30px;
   }
   width: 100%;
   display: flex;
   justify-content: center;
-  & span {
+  & h1 {
     font-size: 40px;
   }
   margin-top: 50px;
@@ -330,7 +330,7 @@ const PostEdit = ({ match, location }) => {
       <Navigation show={true} />
       <PostEditContainer loading={loading ? 1 : 0}>
         <UploadHeaderWrap>
-          <span>여행기록 수정</span>
+          <h1>여행기록 수정</h1>
         </UploadHeaderWrap>
         <PostEditWrap>
           {loading ? (

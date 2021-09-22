@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../Context';
 
-const ProfileIntroContainer = styled.div`
+const ProfileIntroContainer = styled.section`
   width: 30%;
 
   @media (max-width: 1200px) {
@@ -31,12 +31,13 @@ const ProfileIntroWrap = styled.div`
   flex-direction: column;
 `;
 
-const IntroHeader = styled.div`
-  @media (max-width: 768px) {
-  }
-  text-align: left;
+const IntroHeaderWrap = styled.header`
   width: 100%;
+`;
+
+const IntroHeader = styled.h3`
   font-size: 20px;
+  text-align: left;
 `;
 
 const Intro = styled.div`
@@ -57,7 +58,9 @@ const ProfileIntro = ({ thisUser }) => {
     <>
       <ProfileIntroContainer>
         <ProfileIntroWrap theme={theme}>
-          <IntroHeader>소개</IntroHeader>
+          <IntroHeaderWrap>
+            <IntroHeader>소개</IntroHeader>
+          </IntroHeaderWrap>
           <Intro>
             <span>
               {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}

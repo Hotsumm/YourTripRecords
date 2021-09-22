@@ -9,17 +9,17 @@ import SignIn from '../Auth/SignIn';
 import { HiX } from 'react-icons/hi';
 import { v4 as uuidv4 } from 'uuid';
 
-const CommentContainer = styled.div`
+const CommentContainer = styled.section`
   width: 100%;
   padding: 0 10px;
   display: flex;
   flex-direction: column;
 `;
 
-const CommentHeader = styled.div`
+const CommentHeaderWrap = styled.header`
   width: 100%;
   margin-top: 20px;
-  & span {
+  & h2 {
     font-size: 20px;
     font-weight: 700;
   }
@@ -233,9 +233,9 @@ const Comment = ({ postId }) => {
         <Loading />
       ) : (
         <CommentContainer>
-          <CommentHeader>
-            <span>댓글 {commentCount}개</span>
-          </CommentHeader>
+          <CommentHeaderWrap>
+            <h2>댓글 {commentCount}개</h2>
+          </CommentHeaderWrap>
           <CommentCreatorWrap>
             {userObj ? (
               <>

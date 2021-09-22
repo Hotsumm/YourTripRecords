@@ -12,7 +12,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import Footer from '../components/Home/Footer';
 import Loading from '../components/Load/Loading';
 
-const DetailContainer = styled.div`
+const DetailContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -22,7 +22,7 @@ const DetailContainer = styled.div`
   margin: 0 auto;
 `;
 
-const DetailWrap = styled.div`
+const DetailWrap = styled.article`
   @media (max-width: 1024px) {
     width: 80vw;
   }
@@ -33,23 +33,34 @@ const DetailWrap = styled.div`
   padding: 80px 0;
 `;
 
-const DetailHeaderWrap = styled.div`
+const DetailHeaderWrap = styled.header`
   position: relative;
   @media (max-width: 500px) {
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: center;
   }
   width: 100%;
   display: flex;
-  padding: 20px 0;
+  padding: 20px 10px 10px 10px;
   justify-content: space-between;
   align-items: center;
 `;
 
-const PostCreatedWrap = styled.div`
-  @media (max-width: 500px) {
-    justify-content: flex-end;
+const PostTitleWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  & h1 {
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+    font-size: 24px;
+    white-space: pre;
   }
+`;
+
+const PostCreatedWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -68,14 +79,6 @@ const IconWrap = styled.div`
 
 const PostCreated = styled.div`
   color: gray;
-`;
-
-const PostTitleWrap = styled.div`
-  width: 100%;
-  & h1 {
-    white-space: pre;
-    font-size: 1.2rem;
-  }
 `;
 
 const EditWrap = styled.div`

@@ -31,16 +31,18 @@ const UserDeleteWrap = styled.div`
   background: ${(props) => props.theme.menuColor};
 `;
 
-const UserDeleteHeader = styled.div`
+const UserDeleteHeaderWrap = styled.header`
   width: 100%;
   display: flex;
-  color: tomato;
   justify-content: center;
   align-items: center;
   padding: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 700;
   border-bottom: 1px solid #ababab80;
+  & h2 {
+    color: tomato;
+    font-size: 18px;
+    font-weight: 700;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -246,7 +248,9 @@ const UserDelete = ({ toggleUserDelete }) => {
         <Loading />
       ) : (
         <UserDeleteWrap theme={theme}>
-          <UserDeleteHeader>회원 탈퇴</UserDeleteHeader>
+          <UserDeleteHeaderWrap>
+            <h2>회원 탈퇴</h2>
+          </UserDeleteHeaderWrap>
           <InputContainer>
             <InputWrap>
               <input

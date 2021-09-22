@@ -37,7 +37,7 @@ const SignUpWrap = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
-const SignUpHeader = styled.div`
+const SignUpHeaderWrap = styled.div`
   width: 100%;
   display: flex;
   position: relative;
@@ -45,7 +45,7 @@ const SignUpHeader = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  & header {
+  & h3 {
     @media (max-width: 500px) {
       font-size: 14px;
     }
@@ -270,12 +270,12 @@ const SignUp = ({ toggleSignUp }) => {
   return (
     <SignUpContainer>
       <SignUpWrap theme={theme}>
-        <SignUpHeader>
+        <SignUpHeaderWrap>
           <IconWrap>
             <BsBoxArrowInLeft onClick={closeButton} />
           </IconWrap>
-          <header>회원가입</header>
-        </SignUpHeader>
+          <h3>회원가입</h3>
+        </SignUpHeaderWrap>
         <SignUpContentWrap>
           {loading ? (
             <Loading />

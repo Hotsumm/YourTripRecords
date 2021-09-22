@@ -6,7 +6,7 @@ import NavThemeSwitch from './NavThemeSwitch';
 import { ThemeContext } from '../../Context';
 import { darkTheme } from '../../theme';
 
-const NavContainer = styled.div`
+const NavContainer = styled.header`
   width: 100vw;
   height: 80px;
   position: fixed;
@@ -18,7 +18,7 @@ const NavContainer = styled.div`
     props.show ? `${props.theme.NavColor}` : 'transparent'};
 `;
 
-const NavWrap = styled.div`
+const NavWrap = styled.nav`
   position: relative;
   width: 100%;
   height: 100%;

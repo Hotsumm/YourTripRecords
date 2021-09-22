@@ -4,7 +4,7 @@ import { AiFillGithub } from 'react-icons/ai';
 import { GrInstagram } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
 
-const FooterContainer = styled.div`
+const FooterContainer = styled.footer`
   width: 100%;
   height: 120px;
   border-top: 1px solid grey;

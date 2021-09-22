@@ -9,11 +9,20 @@ import ProfileIntro from '../components/Profile/ProfileIntro';
 import Loading from '../components/Load/Loading';
 import bgProfile from '../static/assets/bgProfile.jpg';
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled.main`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
 `;
+
+const ProfileHeaderWrap = styled.header`
+  width: 100%;
+`;
+
+const ProfileHeader = styled.h1`
+  opacity: 0;
+`;
+
 const ProfileBackground = styled.img`
   width: 100%;
   object-fit: cover;
@@ -102,7 +111,10 @@ const Profile = ({ match }) => {
     <>
       <Navigation show={true} />
       <ProfileContainer>
-        <ProfileBackground src={bgProfile} alt="프로필배경" />
+        <ProfileHeaderWrap>
+          <ProfileHeader />
+          <ProfileBackground src={bgProfile} alt="프로필배경" />
+        </ProfileHeaderWrap>
         {isLoading ? (
           <Loading />
         ) : (

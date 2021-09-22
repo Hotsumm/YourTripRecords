@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Loading from '../Load/Loading';
 import { ThemeContext } from '../../Context';
 
-const UploadedListContainer = styled.div`
+const UploadedListContainer = styled.section`
   width: 70%;
   @media (max-width: 1200px) {
     width: 65%;
@@ -18,8 +18,12 @@ const UploadedListContainer = styled.div`
   flex-direction: column;
 `;
 
-const UploadedListHeader = styled.span`
+const UploadedListHeaderWrap = styled.header`
+  width: 100%;
   margin-bottom: 40px;
+`;
+
+const UploadedListHeader = styled.h2`
   font-size: 26px;
   font-weight: 600;
 `;
@@ -53,7 +57,7 @@ const PostContainer = styled.div`
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 `;
 
-const PostHeaderWrap = styled.div`
+const PostHeaderWrap = styled.header`
   width: 100%;
   display: flex;
   padding: 10px;
@@ -87,12 +91,12 @@ const AvatarImgWrap = styled.div`
   }
 `;
 
-const NickName = styled.div`
+const NickName = styled.h4`
   color: ${(props) => props.theme.textColor};
   font-size: 14px;
 `;
 
-const PostTitle = styled.div`
+const PostTitle = styled.h3`
   color: ${(props) => props.theme.textColor};
   font-size: 16px;
 `;
@@ -154,9 +158,11 @@ const UserUploadedList = ({ userObj, thisUser }) => {
         <Loading />
       ) : (
         <UploadedListContainer>
-          <UploadedListHeader>
-            {thisUser.nickname}의 여행기록
-          </UploadedListHeader>
+          <UploadedListHeaderWrap>
+            <UploadedListHeader>
+              {thisUser.nickname}의 여행기록
+            </UploadedListHeader>
+          </UploadedListHeaderWrap>
           {recordList.length === 0 ? (
             <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
           ) : (

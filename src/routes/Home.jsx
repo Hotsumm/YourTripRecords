@@ -6,7 +6,7 @@ import Background from '../components/Home/Background';
 import PopularCity from '../components/Home/PopularCity';
 import Footer from '../components/Home/Footer';
 
-const HomeContainer = styled.div`
+const HomeContainer = styled.main`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;

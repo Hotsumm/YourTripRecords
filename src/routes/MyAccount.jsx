@@ -11,17 +11,20 @@ import { UserContext, ThemeContext } from '../Context';
 import UserDelete from '../components/Account/UserDelete';
 import Footer from '../components/Home/Footer';
 
-const MyAccountContainer = styled.div`
+const MyAccountContainer = styled.main`
   width: 100vw;
   max-width: 1450px;
   padding-top: 80px;
   margin: 0 auto;
 `;
 
-const MyAccountHeader = styled.div`
+const MyAccountHeaderWrap = styled.header`
   width: 100%;
-  text-align: center;
   padding-top: 60px;
+`;
+
+const MyAccountHeader = styled.h1`
+  text-align: center;
   font-size: 40px;
 `;
 
@@ -140,7 +143,9 @@ const MyAccount = ({ match }) => {
       <Navigation show={true} />
       {userObj && (
         <MyAccountContainer>
-          <MyAccountHeader>내 계정</MyAccountHeader>
+          <MyAccountHeaderWrap>
+            <MyAccountHeader>내 계정</MyAccountHeader>
+          </MyAccountHeaderWrap>
           <MyAccountWrap>
             <UserWrap>
               <UserInfoWrap>

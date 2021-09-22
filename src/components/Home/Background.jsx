@@ -10,12 +10,12 @@ const BackgroundContainer = styled.div`
     height: 100%;
     aspect-ratio: 1/1;
   }
-  img {
+  & img {
     object-fit: cover;
     width: 100%;
     height: 100%;
   }
-  span {
+  & span {
     @media (max-width: 500px) {
       top: 120px;
       left: 50px;

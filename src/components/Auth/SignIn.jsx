@@ -29,7 +29,7 @@ const SignInWrap = styled.div`
   border-radius: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
-const SignInHeader = styled.div`
+const SignInHeaderWrap = styled.header`
   width: 100%;
   padding: 15px 0;
   display: flex;
@@ -50,7 +50,7 @@ const HeaderIconWrap = styled.div`
     font-size: 25px;
   }
 `;
-const HeaderTitle = styled.span`
+const HeaderTitle = styled.h3`
   @media (max-width: 320px) {
     font-size: 16px;
   }
@@ -246,12 +246,12 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
   return (
     <SignInContainer>
       <SignInWrap theme={theme}>
-        <SignInHeader>
+        <SignInHeaderWrap>
           <HeaderIconWrap>
             <BsBoxArrowInLeft onClick={closeButton} />
           </HeaderIconWrap>
           <HeaderTitle>로그인</HeaderTitle>
-        </SignInHeader>
+        </SignInHeaderWrap>
         <SignInContentWrap>
           {loading ? (
             <Loading />

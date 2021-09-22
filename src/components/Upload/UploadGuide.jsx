@@ -1,17 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const GuideContainer = styled.div`
+const GuideContainer = styled.section`
   width: 100%;
   margin: 25px 0;
 `;
 
-const GuideHeader = styled.div`
-  font-size: 20px;
-  font-weight: 700;
+const GuideHeaderWrap = styled.header`
+  width: 100%;
   margin-bottom: 15px;
+  & h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
 `;
-const Guide = styled.div`
+const Guide = styled.p`
   font-size: 14px;
   padding: 5px 0;
 `;
@@ -19,7 +22,9 @@ const Guide = styled.div`
 const UploadGuide = () => {
   return (
     <GuideContainer>
-      <GuideHeader>가이드 라인</GuideHeader>
+      <GuideHeaderWrap>
+        <h2>가이드 라인</h2>
+      </GuideHeaderWrap>
       <Guide>*자신이 다녀왔던 여행지의 여행사진들을 업로드 해주세요.</Guide>
       <Guide>*여행기록의 제목을 지어주세요.</Guide>
       <Guide>*여행기록의 도시, 계절을 선택해주세요.</Guide>

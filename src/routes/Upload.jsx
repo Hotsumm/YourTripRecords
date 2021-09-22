@@ -14,7 +14,7 @@ import UploadGuide from '../components/Upload/UploadGuide';
 import RecordInfo from '../components/Upload/RecordInfo';
 import PictureInfo from '../components/Upload/PictureInfo';
 
-const UploadContainer = styled.div`
+const UploadContainer = styled.main`
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
@@ -24,17 +24,17 @@ const UploadContainer = styled.div`
     props.loading ? 'brightness(30%)' : 'brightness(100%)'};
   height: ${(props) => props.loading && '100vh'};
 `;
-const UploadHeaderWrap = styled.div`
+const UploadHeaderWrap = styled.header`
   @media (max-width: 768px) {
     font-size: 30px;
   }
   width: 100%;
   display: flex;
   justify-content: center;
-  & span {
+  margin-top: 50px;
+  & h1 {
     font-size: 40px;
   }
-  margin-top: 50px;
 `;
 
 const UploadWrap = styled.div`
@@ -312,7 +312,7 @@ const Upload = () => {
       <Navigation show={true} />
       <UploadContainer loading={loading ? 1 : 0}>
         <UploadHeaderWrap>
-          <span>여행기록 올리기</span>
+          <h1>여행기록 올리기</h1>
         </UploadHeaderWrap>
         <UploadWrap>
           {loading ? (

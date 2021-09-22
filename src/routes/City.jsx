@@ -8,14 +8,14 @@ import { firebaseFireStore } from '../firebaseConfig';
 import Footer from '../components/Home/Footer';
 import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
 
-const CityContainer = styled.div`
+const CityContainer = styled.main`
   width: 100%;
   padding-top: 80px;
   max-width: 1450px;
   margin: 0 auto;
 `;
 
-const CityHeader = styled.div`
+const CityHeader = styled.header`
   @media (max-width: 500px) {
     align-items: center;
     padding: 60px 0 40px 0;
@@ -28,7 +28,7 @@ const CityHeader = styled.div`
   align-items: flex-start;
 `;
 
-const CityName = styled.span`
+const CityName = styled.h1`
   font-size: 40px;
   font-weight: 600;
 `;

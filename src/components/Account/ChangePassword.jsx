@@ -26,15 +26,17 @@ const ChangePasswordWrap = styled.div`
   background: ${(props) => props.theme.menuColor};
 `;
 
-const ChangePasswordHeader = styled.div`
+const ChangePasswordHeaderWrap = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 700;
   border-bottom: 1px solid #ababab80;
+  & h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -169,7 +171,9 @@ const ChangePassword = ({ toggleChangePassword }) => {
   return (
     <ChangePasswordContainer>
       <ChangePasswordWrap theme={theme}>
-        <ChangePasswordHeader>비밀번호 변경</ChangePasswordHeader>
+        <ChangePasswordHeaderWrap>
+          <h2>비밀번호 변경</h2>
+        </ChangePasswordHeaderWrap>
         <InputContainer>
           <InputWrap>
             <input
