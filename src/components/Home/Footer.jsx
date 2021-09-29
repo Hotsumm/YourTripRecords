@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AiFillGithub } from 'react-icons/ai';
-import { GrInstagram } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
 
 const FooterContainer = styled.footer`
@@ -77,11 +76,6 @@ const Footer = () => {
           <FooterIcon>
             <AiFillGithub
               onClick={() => window.open('https://github.com/Hotsumm')}
-            />
-          </FooterIcon>
-          <FooterIcon>
-            <GrInstagram
-              onClick={() => window.open('https://www.instagram.com/hotsumm/')}
             />
           </FooterIcon>
           <FooterIcon
