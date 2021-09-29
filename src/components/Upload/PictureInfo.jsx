@@ -18,6 +18,7 @@ const PictureInfoWrap = styled.div`
     flex-direction: column;
     align-items: center;
   }
+  position: relative;
   width: 100%;
   gap: 0 50px;
   display: flex;
@@ -26,26 +27,40 @@ const PictureInfoWrap = styled.div`
 `;
 
 const PictureWrap = styled.div`
-  width: 400px;
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
   @media (max-width: 500px) {
     width: 100%;
     padding: 0 20px;
   }
-  @media (max-width: 768px) {
-    margin-bottom: 10px;
+
+  position: relative;
+  width: 300px;
+
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 75%;
   }
   & img {
     width: 100%;
-    aspect-ratio: 4/3;
-    cursor: default;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 `;
 
 const PictureInputWrap = styled.div`
   @media (max-width: 500px) {
     width: 100%;
+    gap: 10px 0;
   }
-  width: 500px;
+  gap: 20px 0;
+  width: 400px;
   display: flex;
   flex-direction: column;
 `;
@@ -57,7 +72,7 @@ const PictureInfoInput = styled.div`
     width: 100%;
   }
   display: flex;
-  padding: 5px 20px;
+
   gap: 0 10px;
   justify-content: flex-start;
   align-items: flex-start;
@@ -160,9 +175,9 @@ const PictureInfo = ({
                 <textarea
                   type="text"
                   placeholder="최대 300자로 사진을 설명해보세요."
-                  rows="7"
                   maxLength="300"
                   id={index}
+                  rows={4}
                   name="description"
                   onChange={onChange}
                 />

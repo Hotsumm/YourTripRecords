@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const GuideContainer = styled.section`
   width: 100%;
   margin: 25px 0;
+  padding: 0 10px;
 `;
 
 const GuideHeaderWrap = styled.header`
