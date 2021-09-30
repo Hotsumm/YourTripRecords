@@ -5,7 +5,7 @@ import { cityArray } from '../../utils/cityArray';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../Context';
 
-const CityListContainer = styled.div`
+const HomeCityListContainer = styled.div`
   @media (max-width: 768px) {
     display: none;
   }
@@ -20,11 +20,11 @@ const CityListContainer = styled.div`
   z-index: 2;
 `;
 
-const CityListHeader = styled.div`
+const HomeCityListHeader = styled.div`
   width: 100%;
 `;
 
-const CityMenu = styled.ul`
+const HomeCityMenu = styled.ul`
   display: flex;
   cursor: default;
   justify-content: flex-start;
@@ -97,20 +97,20 @@ const CityName = styled.div`
   }
 `;
 
-const CityList = () => {
+const HomeCityList = () => {
   const { theme } = useContext(ThemeContext);
   return (
-    <CityListContainer>
-      <CityListHeader>
-        <CityMenu>
+    <HomeCityListContainer>
+      <HomeCityListHeader>
+        <HomeCityMenu>
           <Menu theme={theme}>
             <IconWrap>
               <FiMapPin size={'20'} />
             </IconWrap>
             <span>도시</span>
           </Menu>
-        </CityMenu>
-      </CityListHeader>
+        </HomeCityMenu>
+      </HomeCityListHeader>
       <CityListWrap theme={theme}>
         <Link to={'/city/전체'}>
           <City theme={theme}>
@@ -125,8 +125,8 @@ const CityList = () => {
           </Link>
         ))}
       </CityListWrap>
-    </CityListContainer>
+    </HomeCityListContainer>
   );
 };
 
-export default CityList;
+export default HomeCityList;

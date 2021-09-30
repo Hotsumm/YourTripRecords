@@ -1,10 +1,11 @@
 import React, { useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
-import CityList from '../components/City/CityList';
+import HomeCityList from '../components/Home/HomeCityList';
 import Background from '../components/Home/Background';
 import PopularCity from '../components/Home/PopularCity';
 import Footer from '../components/Home/Footer';
+import HomeIntro from '../components/Home/HomeIntro';
 
 const HomeContainer = styled.main`
   width: 100%;
@@ -34,7 +35,8 @@ const Home = () => {
       <Navigation show={navBar} />
       <HomeContainer>
         <Background />
-        <CityList />
+        <HomeIntro />
+        <HomeCityList />
         <PopularCity />
         <Footer />
       </HomeContainer>
