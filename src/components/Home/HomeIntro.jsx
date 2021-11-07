@@ -37,6 +37,7 @@ const CityLink = styled(Link)`
   padding: 10px 20px;
   font-size: 18px;
   border-radius: 20px;
+  color: white;
   :hover {
     background: #e3f4ea;
     color: #16a085;

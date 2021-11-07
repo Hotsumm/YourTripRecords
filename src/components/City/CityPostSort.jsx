@@ -20,6 +20,8 @@ const CityPostSortWrap = styled.div`
 `;
 
 const SortBox = styled.div`
+  width: 100px;
+  height: 40px;
   position: relative;
   display: flex;
   padding: 5px 10px;
@@ -55,8 +57,8 @@ const SortMenuWrap = styled.ul`
   position: absolute;
   z-index: 999;
   padding: 5px 0;
-  top: 35px;
-  right: 35px;
+  top: 40px;
+  right: 0px;
   width: 130px;
   border: 1px solid grey;
   border-radius: 5px;
