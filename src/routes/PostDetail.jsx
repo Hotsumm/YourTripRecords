@@ -1,23 +1,16 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
 import Hashtag from '../components/Detail/Hashtag';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
-import { UserContext, ThemeContext } from '../Context';
+import { UserContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
-import { BsThreeDots } from 'react-icons/bs';
+import PostDetailEdit from '../components/Detail/PostDetailEdit';
 import Footer from '../components/Home/Footer';
 import Loading from '../components/Load/Loading';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 
 const DetailContainer = styled.main`
   width: 100%;
@@ -41,14 +34,13 @@ const DetailWrap = styled.article`
 `;
 
 const DetailHeaderWrap = styled.header`
-  position: relative;
   @media (max-width: 500px) {
     flex-direction: column;
     justify-content: center;
   }
   width: 100%;
+  height: 60px;
   display: flex;
-  padding: 20px 10px 10px 10px;
   justify-content: space-between;
   align-items: center;
 `;
@@ -68,43 +60,18 @@ const PostTitleWrap = styled.div`
 `;
 
 const PostCreatedWrap = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  gap: 0 10px;
   align-items: center;
 `;
 
-const IconWrap = styled.div`
-  padding: 2px 3px;
-  margin-left: 15px;
-  :hover {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-  }
-  cursor: pointer;
-`;
-
-const PostCreated = styled.div`
+const PostCreated = styled.span`
+  width: 100%;
   color: gray;
-`;
-
-const EditWrap = styled.div`
-  background: ${(props) => props.theme.menuColor};
-  position: absolute;
-  z-index: 99;
-  border-radius: 5px;
-  top: 50px;
-  right: 30px;
-  padding: 5px;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  li {
-    font-size: 12px;
-    padding: 5px 10px;
-    cursor: pointer;
-    :hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  }
+  text-align: right;
 `;
 
 const DetailInfoWrap = styled.div`
@@ -115,17 +82,12 @@ const DetailInfoWrap = styled.div`
 
 const PostDetail = ({ match }) => {
   const { userObj, refreshUser } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
   const [postObj, setPostObj] = useState(null);
-  const [isEditClick, setIsEditClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const ref = useRef();
   const history = useHistory();
   const postId = match.params.postId;
   const pathName = match.url;
-
-  useOutsideClick(ref, () => setIsEditClick(false));
 
   const handleDeletePost = () => {
     const answer = window.confirm(
@@ -164,8 +126,6 @@ const PostDetail = ({ match }) => {
       .catch((error) => console.log(error));
   };
 
-  const handleEdit = () => setIsEditClick(!isEditClick);
-
   const fetchPosts = useCallback(() => {
     const postsRef = firebaseFireStore.collection('records').doc(postId);
     postsRef
@@ -200,31 +160,12 @@ const PostDetail = ({ match }) => {
                   </PostTitleWrap>
                   <PostCreatedWrap>
                     <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-                    {userObj &&
-                      userObj.userId === postObj.creator.userObj.userId && (
-                        <IconWrap onClick={handleEdit} ref={ref}>
-                          <BsThreeDots size={26} />
-                        </IconWrap>
-                      )}
+                    <PostDetailEdit
+                      userObj={userObj}
+                      postObj={postObj}
+                      handleDeletePost={handleDeletePost}
+                    />
                   </PostCreatedWrap>
-                  {isEditClick && (
-                    <EditWrap theme={theme}>
-                      <ul>
-                        <Link
-                          to={{
-                            pathname: `/postEdit/${postObj.postId}`,
-                            state: { postObj },
-                          }}
-                        >
-                          <li>게시물 수정하기</li>
-                        </Link>
-                        <li onClick={handleDeletePost}>게시물 삭제하기</li>
-                        <li onClick={handleEdit} style={{ color: 'red' }}>
-                          취소
-                        </li>
-                      </ul>
-                    </EditWrap>
-                  )}
                 </DetailHeaderWrap>
                 <DetailInfoWrap>
                   <Preview postObj={postObj} pathName={pathName} />
