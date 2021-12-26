@@ -20,10 +20,9 @@ const UploadContainer = styled.main`
   margin: 0 auto;
   padding-top: 80px;
   text-align: center;
-  filter: ${(props) =>
-    props.loading ? 'brightness(30%)' : 'brightness(100%)'};
   height: ${(props) => props.loading && '100vh'};
 `;
+
 const UploadHeaderWrap = styled.header`
   @media (max-width: 768px) {
     font-size: 30px;
@@ -110,13 +109,12 @@ const ButtonWrap = styled.div`
     border: 0.1px solid #16a085;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    pointer-events: ${(props) => props.loading && 'none'};
   }
 `;
 
 const Upload = () => {
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [city, setCity] = useState('서울');
   const [postTitle, setPostTitle] = useState('');
@@ -124,17 +122,14 @@ const Upload = () => {
   const [searchPlace, setSearchPlace] = useState([]);
   const [selectedHashtag, setSelectedHashtag] = useState([]);
   const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
+
   const { userObj, refreshUser } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  let newPosts;
-  let newSearchPlace;
-  let newSearchPlaceSelect;
-
   const locationSelect = (locationId, longitude, latitude, place_name, id) => {
-    newPosts = [...posts];
-    newSearchPlace = [...searchPlace];
-    newSearchPlaceSelect = [...searchPlaceSelect];
+    let newPosts = [...posts];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
 
     newSearchPlace[id] = place_name;
     newSearchPlaceSelect[id] = true;
@@ -143,6 +138,7 @@ const Upload = () => {
       placeName: place_name,
       locationId,
     };
+
     setSearchPlace(newSearchPlace);
     setSearchPlaceSelect(newSearchPlaceSelect);
     setPosts(newPosts);
@@ -158,6 +154,7 @@ const Upload = () => {
       setSelectedHashtag([...newSelectedHashtag]);
       return;
     }
+
     newSelectedHashtag.push(name);
     setSelectedHashtag([...newSelectedHashtag]);
   };
@@ -167,9 +164,9 @@ const Upload = () => {
       target: { id, name, value },
     } = e;
 
-    newPosts = [...posts];
-    newSearchPlace = [...searchPlace];
-    newSearchPlaceSelect = [...searchPlaceSelect];
+    let newPosts = [...posts];
+    let newSearchPlace = [...searchPlace];
+    let newSearchPlaceSelect = [...searchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
@@ -199,13 +196,8 @@ const Upload = () => {
       target: { files: fileArr },
     } = e;
 
-    if (fileArr.length > 15) {
-      alert('사진을 15장 이하로 업로드 해주세요.');
-      return;
-    } else if (fileArr.length < 5) {
-      alert('사진을 최소 5장 이상 업로드 해주세요.');
-      return;
-    }
+    if (fileArr.length > 15) alert('사진을 15장 이하로 업로드 해주세요.');
+    else if (fileArr.length < 5) alert('사진을 최소 5장 이상 업로드 해주세요.');
 
     let fileURLs = [];
     let pictureFiles = [];
@@ -243,17 +235,19 @@ const Upload = () => {
   };
 
   const onUpload = async () => {
-    setLoading(true);
-    let userPostList = userObj.records;
-    let pictureInfo = [];
+    setIsLoading(true);
+
+    const pictureInfo = [];
     const postId = uuidv4();
 
     for (let post of posts) {
       const fileRef = firebaseStorage
         .ref(city)
         .child(`${postId}/${post.fileName}`);
+
       const res = await fileRef.putString(post.picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
+
       pictureInfo.push({
         pictureId: uuidv4(),
         location: post.location,
@@ -262,14 +256,6 @@ const Upload = () => {
         pictureURL: pictureURL,
       });
     }
-
-    firebaseFireStore
-      .collection('users')
-      .doc(userObj.userId)
-      .update({
-        records: [...userPostList, postId],
-      })
-      .catch((error) => console.log(error));
 
     const docData = {
       postId,
@@ -286,19 +272,20 @@ const Upload = () => {
       pictureList: [...pictureInfo],
     };
 
-    firebaseFireStore
-      .collection('records')
-      .doc(postId)
-      .set(docData)
+    Promise.all([
+      userRecordsUpdate(userObj.records, postId),
+      recordsUpdate(postId, docData),
+    ])
       .then(() => {
-        setLoading(false);
+        setIsLoading(false);
         refreshUser(true);
         alert('업로드가 완료 되었습니다.');
         history.push(`/city/${city}/${postId}`);
       })
       .catch((error) => {
-        console.log(error.message);
-        setLoading(false);
+        alert('여행기록 업로드에 실패 하였습니다.');
+        console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -307,15 +294,26 @@ const Upload = () => {
     if (answer) history.goBack();
   };
 
+  const userRecordsUpdate = (userPostList, postId) =>
+    firebaseFireStore
+      .collection('users')
+      .doc(userObj.userId)
+      .update({
+        records: [...userPostList, postId],
+      });
+
+  const recordsUpdate = (postId, docData) =>
+    firebaseFireStore.collection('records').doc(postId).set(docData);
+
   return (
     <>
       <Navigation show={true} />
-      <UploadContainer loading={loading ? 1 : 0}>
+      <UploadContainer loading={isLoading ? 1 : 0}>
         <UploadHeaderWrap>
           <h1>여행기록 올리기</h1>
         </UploadHeaderWrap>
         <UploadWrap>
-          {loading ? (
+          {isLoading ? (
             <Loading />
           ) : (
             <>
@@ -363,14 +361,15 @@ const Upload = () => {
           <ButtonWrap>
             <button
               type="submit"
-              loading={loading ? 1 : 0}
+              loading={isLoading ? 1 : 0}
               theme={theme}
               onClick={onUpload}
+              style={{ pointerEvents: isLoading && 'none' }}
             >
               업로드하기
             </button>
             <button
-              style={{ pointerEvents: loading && 'none' }}
+              style={{ pointerEvents: isLoading && 'none' }}
               onClick={closeButton}
             >
               취소
