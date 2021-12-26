@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
@@ -11,6 +17,7 @@ import { firebaseFireStore } from '../firebaseConfig';
 import { BsThreeDots } from 'react-icons/bs';
 import Footer from '../components/Home/Footer';
 import Loading from '../components/Load/Loading';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 const DetailContainer = styled.main`
   width: 100%;
@@ -51,7 +58,7 @@ const PostTitleWrap = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  & h1 {
+  & h2 {
     @media (max-width: 768px) {
       font-size: 20px;
     }
@@ -111,18 +118,21 @@ const PostDetail = ({ match }) => {
   const { theme } = useContext(ThemeContext);
   const [postObj, setPostObj] = useState(null);
   const [isEditClick, setIsEditClick] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const ref = useRef();
   const history = useHistory();
   const postId = match.params.postId;
   const pathName = match.url;
+
+  useOutsideClick(ref, () => setIsEditClick(false));
 
   const handleDeletePost = () => {
     const answer = window.confirm(
       '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
     );
     if (answer) {
-      setLoading(true);
+      setIsLoading(true);
       firebaseFireStore
         .collection('records')
         .doc(postId)
@@ -131,12 +141,12 @@ const PostDetail = ({ match }) => {
         .then(() => {
           refreshUser(true);
           alert('게시물이 정상적으로 삭제되었습니다.');
-          setLoading(false);
+          setIsLoading(false);
           history.push(`/city/${postObj.city}`);
         })
         .catch((error) => {
           console.log(error);
-          setLoading(false);
+          setIsLoading(false);
           alert('게시물 삭제에 실패하였습니다.');
         });
     }
@@ -144,6 +154,7 @@ const PostDetail = ({ match }) => {
 
   const userPostDelete = async (userId, postId) => {
     const newRecords = userObj.records.filter((record) => record !== postId);
+
     await firebaseFireStore
       .collection('users')
       .doc(userId)
@@ -179,20 +190,20 @@ const PostDetail = ({ match }) => {
       {postObj && (
         <DetailContainer>
           <DetailWrap>
-            {loading ? (
+            {isLoading ? (
               <Loading />
             ) : (
               <>
                 <DetailHeaderWrap>
                   <PostTitleWrap>
-                    <h1>{postObj.postTitle}</h1>
+                    <h2>{postObj.postTitle}</h2>
                   </PostTitleWrap>
                   <PostCreatedWrap>
                     <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
                     {userObj &&
                       userObj.userId === postObj.creator.userObj.userId && (
-                        <IconWrap>
-                          <BsThreeDots onClick={handleEdit} size={26} />
+                        <IconWrap onClick={handleEdit} ref={ref}>
+                          <BsThreeDots size={26} />
                         </IconWrap>
                       )}
                   </PostCreatedWrap>
