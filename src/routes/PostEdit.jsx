@@ -14,9 +14,6 @@ const PostEditContainer = styled.main`
   text-align: center;
   max-width: 1450px;
   margin: 0 auto;
-  filter: ${(props) =>
-    props.loading ? 'brightness(30%)' : 'brightness(100%)'};
-  height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeaderWrap = styled.header`
   @media (max-width: 768px) {
@@ -30,7 +27,7 @@ const UploadHeaderWrap = styled.header`
   }
   margin-top: 50px;
 `;
-const PostEditWrap = styled.div`
+const PostEditWrap = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -39,7 +36,7 @@ const PostEditWrap = styled.div`
   padding: 30px 0px;
 `;
 
-const RecordContainer = styled.div`
+const RecordContainer = styled.ul`
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -51,7 +48,7 @@ const RecordContainer = styled.div`
   padding: 30px 10px;
 `;
 
-const RecordWrap = styled.div`
+const RecordWrap = styled.li`
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -65,7 +62,7 @@ const RecordWrap = styled.div`
     font-size: 16px;
   }
 
-  input {
+  & input {
     -webkit-appearance: none;
     min-width: 50%;
     font-size: 18px;
@@ -78,7 +75,7 @@ const RecordWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  select {
+  & select {
     -webkit-appearance: none;
     min-width: 50%;
     padding: 10px;
@@ -88,66 +85,76 @@ const RecordWrap = styled.div`
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   }
 `;
-const PictureInfoContainer = styled.div`
-  @media (max-width: 768px) {
-    padding: 0 10px;
+
+const PictureInfoContainer = styled.article`
+  display: flex;
+  justify-content: center;
+  width: 1000px;
+  padding: 0 10px;
+  @media (max-width: 1000px) {
+    width: 100%;
   }
+`;
+
+const PictureInfoWrap = styled.ul`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 100px;
-`;
+  align-items: center;
+  gap: 30px 0;
+  margin-bottom: 30px;
 
-const PictureInfoWrap = styled.div`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+  & li {
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px 0;
+      width: 80%;
+    }
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0 50px;
   }
-  width: 100%;
-  gap: 0 50px;
-  display: flex;
-  justify-content: center;
-  padding: 20px 10px;
 `;
 
 const PictureWrap = styled.div`
-  width: 400px;
-  @media (max-width: 500px) {
-    width: 100%;
-    padding: 0 20px;
-  }
+  width: 50%;
   @media (max-width: 768px) {
-    margin-bottom: 10px;
+    width: 100%;
   }
+
   & img {
     width: 100%;
-    aspect-ratio: 4/3;
     cursor: default;
   }
 `;
 const PictureInputWrap = styled.div`
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
-  width: 500px;
+  width: 50%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 const PictureInfo = styled.div`
   @media (max-width: 768px) {
-    flex-direction: column;
     gap: 5px 0;
-    width: 100%;
   }
+  width: 100%;
   display: flex;
-  padding: 5px 20px;
-  gap: 0 10px;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 0 10px;
 
-  & span {
+  & h3 {
     font-weight: 700;
     text-align: left;
     margin-bottom: 5px;
@@ -183,7 +190,7 @@ const TextAreaWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  textarea {
+  & textarea {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
@@ -218,7 +225,7 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const PostEdit = ({ match, location }) => {
+const PostEdit = ({ location }) => {
   const postObj = location.state.postObj;
   const history = useHistory();
   const { userObj } = useContext(UserContext);
@@ -372,59 +379,62 @@ const PostEdit = ({ match, location }) => {
                     </RecordWrap>
                   </RecordContainer>
                   <PictureInfoContainer>
-                    {pictureObjList.map((pictureObj, index) => (
-                      <PictureInfoWrap key={index}>
-                        <PictureWrap>
-                          <img
-                            src={pictureObj.pictureURL}
-                            alt={pictureObj.pictureId}
-                          />
-                        </PictureWrap>
-                        <PictureInputWrap>
-                          <PictureInfo>
-                            <InputWrap>
-                              <span>위치</span>
-                              <input
-                                type="text"
-                                placeholder="위치"
-                                id={index}
-                                name="location"
-                                value={
-                                  searchPlace[index] ? searchPlace[index] : ''
-                                }
-                                onChange={onChange}
-                              />
-                              {searchPlace[index] &&
-                                !searchPlaceSelect[index] && (
-                                  <Pagination
-                                    searchPlace={searchPlace[index]}
-                                    locationSelect={locationSelect}
-                                    id={index}
-                                  />
-                                )}
-                            </InputWrap>
-                          </PictureInfo>
-                          <PictureInfo>
-                            <span>설명</span>
-                            <TextAreaWrap>
-                              <textarea
-                                type="text"
-                                placeholder="최대 300자로 사진을 설명해보세요."
-                                rows="7"
-                                maxLength="300"
-                                id={index}
-                                name="description"
-                                value={pictureObj.description}
-                                onChange={onChange}
-                              />
-                              <div>
-                                {pictureObjList[index].description.length}/300자
-                              </div>
-                            </TextAreaWrap>
-                          </PictureInfo>
-                        </PictureInputWrap>
-                      </PictureInfoWrap>
-                    ))}
+                    <PictureInfoWrap>
+                      {pictureObjList.map((pictureObj, index) => (
+                        <li key={index}>
+                          <PictureWrap>
+                            <img
+                              src={pictureObj.pictureURL}
+                              alt={pictureObj.pictureId}
+                            />
+                          </PictureWrap>
+                          <PictureInputWrap>
+                            <PictureInfo>
+                              <h3>위치</h3>
+                              <InputWrap>
+                                <input
+                                  type="text"
+                                  placeholder="위치"
+                                  id={index}
+                                  name="location"
+                                  value={
+                                    searchPlace[index] ? searchPlace[index] : ''
+                                  }
+                                  onChange={onChange}
+                                />
+                                {searchPlace[index] &&
+                                  !searchPlaceSelect[index] && (
+                                    <Pagination
+                                      searchPlace={searchPlace[index]}
+                                      locationSelect={locationSelect}
+                                      id={index}
+                                    />
+                                  )}
+                              </InputWrap>
+                            </PictureInfo>
+                            <PictureInfo>
+                              <h3>설명</h3>
+                              <TextAreaWrap>
+                                <textarea
+                                  type="text"
+                                  placeholder="최대 300자로 사진을 설명해보세요."
+                                  rows="7"
+                                  maxLength="300"
+                                  id={index}
+                                  name="description"
+                                  value={pictureObj.description}
+                                  onChange={onChange}
+                                />
+                                <div>
+                                  {pictureObjList[index].description.length}
+                                  /300자
+                                </div>
+                              </TextAreaWrap>
+                            </PictureInfo>
+                          </PictureInputWrap>
+                        </li>
+                      ))}
+                    </PictureInfoWrap>
                   </PictureInfoContainer>
                 </>
               )}
