@@ -11,10 +11,10 @@ const RecordInfoContainer = styled.section`
 `;
 
 const RecordContentWrap = styled.ul`
-  @media (max-width: 768px) {
+  @media (max-width: 500px) {
     width: 100%;
   }
-  width: 600px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,12 +28,20 @@ const RecordContent = styled.li`
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+  gap: 0px 10px;
   & span {
-    width: 30%;
+    @media (max-width: 500px) {
+      font-size: 14px;
+    }
+    @media (max-width: 320px) {
+      font-size: 12px;
+    }
+    font-size: 16px;
+    width: 20%;
   }
   & input {
     -webkit-appearance: none;
-    width: 70%;
+    width: 80%;
     font-size: 18px;
     padding: 10px;
     border-radius: 5px;
@@ -45,7 +53,7 @@ const RecordContent = styled.li`
     }
   }
   & select {
-    width: 70%;
+    width: 80%;
     padding: 7px;
     font-size: 14px;
     border-radius: 5px;
@@ -54,12 +62,23 @@ const RecordContent = styled.li`
   }
 `;
 
-const HashtagWrap = styled.ul`
+const HashtagContainer = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HashtagWrap = styled.ul`
+  @media (max-width: 500px) {
+    width: 100%;
+    max-width: 500px;
+  }
+  width: 500px;
   margin-top: 30px;
   padding: 0 20px;
   display: flex;
-  justify-content: center;
+
   overflow-x: auto;
   gap: 0 20px;
 `;
@@ -92,11 +111,11 @@ const RecordInfo = ({
     <RecordInfoContainer>
       <RecordContentWrap>
         <RecordContent>
-          <span style={{ fontSize: '16px' }}>여행 제목</span>
+          <span>여행 제목</span>
           <input type="title" name="recordTitle" onChange={onChange} />
         </RecordContent>
         <RecordContent>
-          <span style={{ fontSize: '14px' }}>도시</span>
+          <span>도시</span>
           <select name="city" onChange={onChange}>
             {cityArray &&
               cityArray.length > 0 &&
@@ -108,7 +127,7 @@ const RecordInfo = ({
           </select>
         </RecordContent>
         <RecordContent>
-          <span style={{ fontSize: '14px' }}>여행 계절</span>
+          <span>여행 계절</span>
           <select name="season" onChange={onChange}>
             <option value="봄">봄</option>
             <option value="여름">여름</option>
@@ -116,30 +135,32 @@ const RecordInfo = ({
             <option value="겨울">겨울</option>
           </select>
         </RecordContent>
-        <HashtagWrap>
-          {hashtagArray.map((hashtag) => (
-            <Hashtag
-              theme={theme}
-              key={hashtag.id}
-              onClick={() => handleHashtagSelect(hashtag.name)}
-              style={
-                selectedHashtag.includes(hashtag.name)
-                  ? {
-                      background: '#e3f4ea',
-                      fontWeight: '600',
-                      color: '#16a085',
-                      cursor: 'default',
-                      border: 'none',
-                    }
-                  : {
-                      cursor: 'pointer',
-                    }
-              }
-            >
-              {hashtag.name}
-            </Hashtag>
-          ))}
-        </HashtagWrap>
+        <HashtagContainer>
+          <HashtagWrap>
+            {hashtagArray.map((hashtag) => (
+              <Hashtag
+                theme={theme}
+                key={hashtag.id}
+                onClick={() => handleHashtagSelect(hashtag.name)}
+                style={
+                  selectedHashtag.includes(hashtag.name)
+                    ? {
+                        background: '#e3f4ea',
+                        fontWeight: '600',
+                        color: '#16a085',
+                        cursor: 'default',
+                        border: 'none',
+                      }
+                    : {
+                        cursor: 'pointer',
+                      }
+                }
+              >
+                {hashtag.name}
+              </Hashtag>
+            ))}
+          </HashtagWrap>
+        </HashtagContainer>
       </RecordContentWrap>
     </RecordInfoContainer>
   );

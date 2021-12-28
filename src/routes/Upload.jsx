@@ -32,6 +32,9 @@ const UploadHeaderWrap = styled.header`
   margin-top: 50px;
   & h1 {
     font-size: 40px;
+    @media (max-width: 320px) {
+      font-size: 30px;
+    }
   }
 `;
 

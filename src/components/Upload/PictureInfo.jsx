@@ -26,7 +26,7 @@ const PictureInfoWrap = styled.ul`
       flex-direction: column;
       align-items: center;
       gap: 20px 0;
-      width: 80%;
+      width: 500px;
     }
     @media (max-width: 500px) {
       width: 100%;
@@ -34,7 +34,7 @@ const PictureInfoWrap = styled.ul`
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 0 50px;
+    gap: 0 30px;
   }
 `;
 
