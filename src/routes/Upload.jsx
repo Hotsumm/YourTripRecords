@@ -20,7 +20,6 @@ const UploadContainer = styled.main`
   margin: 0 auto;
   padding-top: 80px;
   text-align: center;
-  height: ${(props) => props.loading && '100vh'};
 `;
 
 const UploadHeaderWrap = styled.header`
@@ -36,7 +35,7 @@ const UploadHeaderWrap = styled.header`
   }
 `;
 
-const UploadWrap = styled.div`
+const UploadWrap = styled.article`
   width: 100%;
   display: flex;
   flex-direction: column;
