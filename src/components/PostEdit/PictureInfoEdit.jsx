@@ -12,8 +12,8 @@ const PictureInfoWrap = styled.ul`
   @media (max-width: 1000px) {
     width: 100%;
   }
-  padding: 0 10px;
   width: 1000px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,11 +39,11 @@ const PictureInfoWrap = styled.ul`
 `;
 
 const PictureWrap = styled.div`
+  position: relative;
   width: 50%;
   @media (max-width: 768px) {
     width: 100%;
   }
-  position: relative;
 
   ::before {
     content: '';
@@ -71,7 +71,7 @@ const PictureInputWrap = styled.div`
   justify-content: space-between;
 `;
 
-const PictureInfoContent = styled.div`
+const PictureInfo = styled.div`
   @media (max-width: 768px) {
     gap: 5px 0;
   }
@@ -97,11 +97,10 @@ const InputWrap = styled.div`
   gap: 5px 0;
   margin-bottom: 15px;
   & input {
-    -webkit-appearance: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-style: none;
-    border-radius: 5px;
     padding: 10px 5px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     :focus {
       outline: none;
       border: 2px solid #16a085;
@@ -119,8 +118,7 @@ const TextAreaWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  textarea {
-    -webkit-appearance: none;
+  & textarea {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
@@ -132,15 +130,15 @@ const TextAreaWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  div {
+  & div {
     width: 100%;
     text-align: right;
     margin-top: 5px;
   }
 `;
 
-const PictureInfo = ({
-  posts,
+const PictureInfoEdit = ({
+  pictureObjList,
   onChange,
   searchPlace,
   searchPlaceSelect,
@@ -149,13 +147,13 @@ const PictureInfo = ({
   return (
     <PictureInfoContainer>
       <PictureInfoWrap>
-        {posts.map((post, index) => (
+        {pictureObjList.map((pictureObj, index) => (
           <li key={index}>
             <PictureWrap>
-              <img src={post.picturePreview} alt="여행기록 사진" />
+              <img src={pictureObj.pictureURL} alt="여행기록 사진" />
             </PictureWrap>
             <PictureInputWrap>
-              <PictureInfoContent>
+              <PictureInfo>
                 <h3>위치</h3>
                 <InputWrap>
                   <input
@@ -163,8 +161,8 @@ const PictureInfo = ({
                     placeholder="위치"
                     id={index}
                     name="location"
+                    value={searchPlace[index] ? searchPlace[index] : ''}
                     onChange={onChange}
-                    value={searchPlace[index]}
                   />
                   {searchPlace[index] && !searchPlaceSelect[index] && (
                     <Pagination
@@ -174,22 +172,26 @@ const PictureInfo = ({
                     />
                   )}
                 </InputWrap>
-              </PictureInfoContent>
-              <PictureInfoContent>
+              </PictureInfo>
+              <PictureInfo>
                 <h3>설명</h3>
                 <TextAreaWrap>
                   <textarea
                     type="text"
                     placeholder="최대 300자로 사진을 설명해보세요."
+                    rows="7"
                     maxLength="300"
                     id={index}
-                    rows={8}
                     name="description"
+                    value={pictureObj.description}
                     onChange={onChange}
                   />
-                  <div>{posts[index].description.length}/300자</div>
+                  <div>
+                    {pictureObjList[index].description.length}
+                    /300자
+                  </div>
                 </TextAreaWrap>
-              </PictureInfoContent>
+              </PictureInfo>
             </PictureInputWrap>
           </li>
         ))}
@@ -198,4 +200,4 @@ const PictureInfo = ({
   );
 };
 
-export default PictureInfo;
+export default PictureInfoEdit;

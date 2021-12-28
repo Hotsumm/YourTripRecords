@@ -5,8 +5,9 @@ import Navigation from '../components/Navigation/Navigation';
 import { firebaseFireStore } from '../firebaseConfig';
 import Loading from '../components/Load/Loading';
 import { UserContext } from '../Context';
-import Pagination from '../components/Detail/KakaoMap/Pagination';
 import Footer from '../components/Home/Footer';
+import PictureInfoEdit from '../components/PostEdit/PictureInfoEdit';
+import RecordInfoEdit from '../components/PostEdit/RecordInfoEdit';
 
 const PostEditContainer = styled.main`
   width: 100%;
@@ -14,9 +15,6 @@ const PostEditContainer = styled.main`
   text-align: center;
   max-width: 1450px;
   margin: 0 auto;
-  filter: ${(props) =>
-    props.loading ? 'brightness(30%)' : 'brightness(100%)'};
-  height: ${(props) => props.loading && '100vh'};
 `;
 const UploadHeaderWrap = styled.header`
   @media (max-width: 768px) {
@@ -25,181 +23,22 @@ const UploadHeaderWrap = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
+
   & h1 {
     font-size: 40px;
+    @media (max-width: 320px) {
+      font-size: 30px;
+    }
   }
-  margin-top: 50px;
 `;
-const PostEditWrap = styled.div`
+const PostEditWrap = styled.article`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 30px 0px;
-`;
-
-const RecordContainer = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 10px;
-`;
-
-const RecordWrap = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  display: flex;
-  width: 768px;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-  & span {
-    width: 30%;
-    font-size: 16px;
-  }
-
-  input {
-    -webkit-appearance: none;
-    min-width: 50%;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  select {
-    -webkit-appearance: none;
-    min-width: 50%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-`;
-const PictureInfoContainer = styled.div`
-  @media (max-width: 768px) {
-    padding: 0 10px;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 100px;
-`;
-
-const PictureInfoWrap = styled.div`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-  width: 100%;
-  gap: 0 50px;
-  display: flex;
-  justify-content: center;
-  padding: 20px 10px;
-`;
-
-const PictureWrap = styled.div`
-  width: 400px;
-  @media (max-width: 500px) {
-    width: 100%;
-    padding: 0 20px;
-  }
-  @media (max-width: 768px) {
-    margin-bottom: 10px;
-  }
-  & img {
-    width: 100%;
-    aspect-ratio: 4/3;
-    cursor: default;
-  }
-`;
-const PictureInputWrap = styled.div`
-  @media (max-width: 500px) {
-    width: 100%;
-  }
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const PictureInfo = styled.div`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 5px 0;
-    width: 100%;
-  }
-  display: flex;
-  padding: 5px 20px;
-  gap: 0 10px;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  & span {
-    font-weight: 700;
-    text-align: left;
-    margin-bottom: 5px;
-  }
-`;
-
-const InputWrap = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px 0;
-  margin-bottom: 15px;
-  & input {
-    padding: 10px 5px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  & span {
-    font-weight: 700;
-    text-align: left;
-    margin-bottom: 5px;
-  }
-`;
-
-const TextAreaWrap = styled.div`
-  gap: 5px 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  textarea {
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    line-height: 20px;
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  div {
-    width: 100%;
-    text-align: right;
-    margin-top: 5px;
-  }
 `;
 
 const ButtonWrap = styled.div`
@@ -218,7 +57,7 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const PostEdit = ({ match, location }) => {
+const PostEdit = ({ location }) => {
   const postObj = location.state.postObj;
   const history = useHistory();
   const { userObj } = useContext(UserContext);
@@ -339,93 +178,19 @@ const PostEdit = ({ match, location }) => {
             <>
               {postObj && (
                 <>
-                  <RecordContainer>
-                    <RecordWrap>
-                      <span>여행 제목</span>
-                      <input
-                        type="title"
-                        name="recordTitle"
-                        value={postTitle}
-                        onChange={onChange}
-                      />
-                    </RecordWrap>
-                    <RecordWrap>
-                      <span>도시</span>
-                      <span
-                        style={{
-                          minWidth: '50%',
-                          textAlign: 'left',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {postObj.city}
-                      </span>
-                    </RecordWrap>
-                    <RecordWrap>
-                      <span>여행 계절</span>
-                      <select name="season" value={season} onChange={onChange}>
-                        <option value="봄">봄</option>
-                        <option value="여름">여름</option>
-                        <option value="가을">가을</option>
-                        <option value="겨울">겨울</option>
-                      </select>
-                    </RecordWrap>
-                  </RecordContainer>
-                  <PictureInfoContainer>
-                    {pictureObjList.map((pictureObj, index) => (
-                      <PictureInfoWrap key={index}>
-                        <PictureWrap>
-                          <img
-                            src={pictureObj.pictureURL}
-                            alt={pictureObj.pictureId}
-                          />
-                        </PictureWrap>
-                        <PictureInputWrap>
-                          <PictureInfo>
-                            <InputWrap>
-                              <span>위치</span>
-                              <input
-                                type="text"
-                                placeholder="위치"
-                                id={index}
-                                name="location"
-                                value={
-                                  searchPlace[index] ? searchPlace[index] : ''
-                                }
-                                onChange={onChange}
-                              />
-                              {searchPlace[index] &&
-                                !searchPlaceSelect[index] && (
-                                  <Pagination
-                                    searchPlace={searchPlace[index]}
-                                    locationSelect={locationSelect}
-                                    id={index}
-                                  />
-                                )}
-                            </InputWrap>
-                          </PictureInfo>
-                          <PictureInfo>
-                            <span>설명</span>
-                            <TextAreaWrap>
-                              <textarea
-                                type="text"
-                                placeholder="최대 300자로 사진을 설명해보세요."
-                                rows="7"
-                                maxLength="300"
-                                id={index}
-                                name="description"
-                                value={pictureObj.description}
-                                onChange={onChange}
-                              />
-                              <div>
-                                {pictureObjList[index].description.length}/300자
-                              </div>
-                            </TextAreaWrap>
-                          </PictureInfo>
-                        </PictureInputWrap>
-                      </PictureInfoWrap>
-                    ))}
-                  </PictureInfoContainer>
+                  <RecordInfoEdit
+                    postObj={postObj}
+                    onChange={onChange}
+                    postTitle={postTitle}
+                    season={season}
+                  />
+                  <PictureInfoEdit
+                    pictureObjList={pictureObjList}
+                    onChange={onChange}
+                    searchPlace={searchPlace}
+                    searchPlaceSelect={searchPlaceSelect}
+                    locationSelect={locationSelect}
+                  />
                 </>
               )}
             </>
