@@ -160,11 +160,13 @@ const PostDetail = ({ match }) => {
                   </PostTitleWrap>
                   <PostCreatedWrap>
                     <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-                    <PostDetailEdit
-                      userObj={userObj}
-                      postObj={postObj}
-                      handleDeletePost={handleDeletePost}
-                    />
+                    {userObj && (
+                      <PostDetailEdit
+                        userObj={userObj}
+                        postObj={postObj}
+                        handleDeletePost={handleDeletePost}
+                      />
+                    )}
                   </PostCreatedWrap>
                 </DetailHeaderWrap>
                 <DetailInfoWrap>

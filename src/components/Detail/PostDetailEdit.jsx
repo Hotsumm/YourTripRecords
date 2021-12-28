@@ -12,7 +12,7 @@ const PostDetailEditContainer = styled.div`
 
 const IconWrap = styled.div`
   width: 100%;
-  heght: 100%;
+  height: 100%;
   padding: 2px 3px;
   :hover {
     background: rgba(0, 0, 0, 0.3);
