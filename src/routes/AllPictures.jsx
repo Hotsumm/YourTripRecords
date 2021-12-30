@@ -56,9 +56,7 @@ const AllPictures = ({ match, location }) => {
 
   if (location.state === undefined) history.push('/');
 
-  window.onpopstate = () => {
-    history.push(`/city/${cityName}/${postId}`);
-  };
+  window.onpopstate = () => history.push(`/city/${cityName}/${postId}`);
 
   const slideLeft = () => {
     if (pictureIndex > 0) {
