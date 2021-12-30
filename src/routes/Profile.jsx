@@ -15,12 +15,8 @@ const ProfileContainer = styled.main`
   margin: 0 auto;
 `;
 
-const ProfileHeaderWrap = styled.header`
+const ProfileHeader = styled.header`
   width: 100%;
-`;
-
-const ProfileHeader = styled.h1`
-  opacity: 0;
 `;
 
 const ProfileBackground = styled.img`
@@ -111,10 +107,9 @@ const Profile = ({ match }) => {
     <>
       <Navigation show={true} />
       <ProfileContainer>
-        <ProfileHeaderWrap>
-          <ProfileHeader />
+        <ProfileHeader>
           <ProfileBackground src={bgProfile} alt="프로필배경" />
-        </ProfileHeaderWrap>
+        </ProfileHeader>
         {isLoading ? (
           <Loading />
         ) : (
