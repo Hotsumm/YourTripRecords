@@ -37,6 +37,20 @@ const PreviewImgWrap = styled.div`
       display: none;
     }
   }
+  width: 100%;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 75%;
+  }
+  & img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
   :first-child {
     grid-area: 1 / 1 / 3 / 3;
   }
@@ -54,11 +68,6 @@ const PreviewImgWrap = styled.div`
   }
 `;
 
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 4/3;
-`;
 const Preview = ({ postObj, pathName }) => {
   return (
     <PreviewContainer>
@@ -79,7 +88,7 @@ const Preview = ({ postObj, pathName }) => {
                       },
                     }}
                   >
-                    <PreviewImg src={picture.pictureURL} />
+                    <img src={picture.pictureURL} alt="미리보기" />
                   </Link>
                 </PreviewImgWrap>
               ),

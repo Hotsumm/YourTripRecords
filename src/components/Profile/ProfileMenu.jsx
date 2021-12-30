@@ -42,7 +42,6 @@ const AvatarImgWrap = styled.div`
   width: 150px;
   & img {
     width: 100%;
-    aspect-ratio: 1/1;
     border-radius: 50%;
   }
 `;

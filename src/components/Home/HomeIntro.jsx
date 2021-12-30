@@ -42,7 +42,7 @@ const CityLink = styled(Link)`
     background: #e3f4ea;
     color: #16a085;
   }
-  @media (min-width: 721px) {
+  @media (min-width: 767px) {
     display: none;
   }
   @media (max-width: 500px) {
