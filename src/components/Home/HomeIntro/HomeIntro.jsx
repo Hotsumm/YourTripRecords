@@ -6,7 +6,7 @@ const HomeIntroContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: auto;
+  width: 250px;
   position: absolute;
   top: 200px;
   left: 100px;
@@ -19,11 +19,12 @@ const HomeIntroContainer = styled.div`
 const IntroWrap = styled.div`
   width: 100%;
   margin-bottom: 30px;
-  & span {
+  & p {
     width: 240px;
     font-weight: 600;
     font-size: 45px;
     color: white;
+    line-height: 120%;
     text-shadow: 1px 0.5px 2px black;
     @media (max-width: 500px) {
       font-size: 26px;
@@ -55,11 +56,11 @@ const HomeIntro = () => {
   return (
     <HomeIntroContainer>
       <IntroWrap>
-        <span>
+        <p>
           너의 <br />
           여행기록들을 <br />
           공유 해봐 !
-        </span>
+        </p>
       </IntroWrap>
       <CityLink to={'/city/전체'}>지금 여행기록 보러가기</CityLink>
     </HomeIntroContainer>
