@@ -32,7 +32,7 @@ const UploadHeaderWrap = styled.header`
   margin-top: 50px;
   & h1 {
     font-size: 40px;
-    @media (max-width: 320px) {
+    @media (max-width: 500px) {
       font-size: 30px;
     }
   }
@@ -47,9 +47,22 @@ const UploadWrap = styled.article`
   padding: 30px 0px;
 `;
 
-const FileContainer = styled.div`
+const UploadFileContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 520px) {
+    padding: 0 10px;
+  }
+`;
+
+const UploadFileWrap = styled.div`
   @media (max-width: 500px) {
     width: 100%;
+  }
+  @media (max-width: 320px) {
+    height: 200px;
   }
   position: relative;
   width: 500px;
@@ -59,32 +72,15 @@ const FileContainer = styled.div`
   align-items: center;
 `;
 
-const LabelTextWrap = styled.div`
-  display: flex;
-  gap: 15px 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & span {
-    font-size: 20px;
-  }
-`;
-
-const IconWrap = styled.div`
-  & svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
 const LabelWrap = styled.div`
   position: absolute;
   opacity: 0.9;
   width: 100%;
   height: 100%;
-  cursor: pointer;
+
   & label {
     background: #cae5dd;
+    cursor: pointer;
     width: 100%;
     height: 100%;
     color: ${(props) => props.theme.textColor};
@@ -99,13 +95,45 @@ const LabelWrap = styled.div`
   }
 `;
 
+const LabelTextWrap = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 15px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & span {
+    @media (max-width: 320px) {
+      font-size: 16px;
+    }
+    font-size: 20px;
+  }
+`;
+
+const IconWrap = styled.div`
+  @media (max-width: 320px) {
+    width: 60px;
+    height: 60px;
+  }
+  width: 80px;
+  height: 80px;
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 const ButtonWrap = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 20px;
   gap: 0 20px;
   & button {
+    font-size: 14px;
+    @media (max-width: 320px) {
+      width: 90px;
+      height: 45px;
+    }
     width: 100px;
     height: 50px;
     border: 0.1px solid #16a085;
@@ -336,26 +364,28 @@ const Upload = () => {
                   />
                 </>
               ) : (
-                <FileContainer>
-                  <LabelWrap>
-                    <label htmlFor="input-file">
-                      <LabelTextWrap>
-                        <IconWrap>
-                          <AiOutlineCloudUpload size={80} />
-                        </IconWrap>
-                        <span>사진 올리기 (최소 5장 최대 15장)</span>
-                      </LabelTextWrap>
-                    </label>
-                    <input
-                      type="file"
-                      id="input-file"
-                      style={{ display: 'none' }}
-                      accept="image/*"
-                      multiple="multiple"
-                      onChange={onFileChange}
-                    />
-                  </LabelWrap>
-                </FileContainer>
+                <UploadFileContainer>
+                  <UploadFileWrap>
+                    <LabelWrap>
+                      <label htmlFor="input-file">
+                        <LabelTextWrap>
+                          <IconWrap>
+                            <AiOutlineCloudUpload size={80} />
+                          </IconWrap>
+                          <span>사진 올리기 (최소 5장 최대 15장)</span>
+                        </LabelTextWrap>
+                      </label>
+                      <input
+                        type="file"
+                        id="input-file"
+                        style={{ display: 'none' }}
+                        accept="image/*"
+                        multiple="multiple"
+                        onChange={onFileChange}
+                      />
+                    </LabelWrap>
+                  </UploadFileWrap>
+                </UploadFileContainer>
               )}
             </>
           )}
