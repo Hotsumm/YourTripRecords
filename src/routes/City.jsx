@@ -16,12 +16,12 @@ const CityContainer = styled.main`
 `;
 
 const CityHeader = styled.header`
-  @media (max-width: 500px) {
+  @media (max-width: 1024px) {
     align-items: center;
-    padding: 60px 0 40px 0;
+    padding: 40px 0;
   }
-  width: 100vw;
-  padding: 60px 0px 40px 50px;
+  width: 100%;
+  padding: 60px 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,6 +29,7 @@ const CityHeader = styled.header`
 `;
 
 const CityName = styled.h1`
+  white-space: pre;
   font-size: 40px;
   font-weight: 600;
 `;
