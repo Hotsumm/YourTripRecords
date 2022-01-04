@@ -28,7 +28,7 @@ const PictureInfoWrap = styled.ul`
       gap: 20px 0;
       width: 500px;
     }
-    @media (max-width: 500px) {
+    @media (max-width: 520px) {
       width: 100%;
     }
     width: 100%;
