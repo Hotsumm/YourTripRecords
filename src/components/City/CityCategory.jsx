@@ -40,8 +40,9 @@ const CategorySelectWrap = styled.div`
   margin-right: 70px;
 `;
 
-const CategoryHeader = styled.span`
+const CategoryHeader = styled.h3`
   font-size: 20px;
+  white-space: pre;
 `;
 
 const Category = styled.select`
