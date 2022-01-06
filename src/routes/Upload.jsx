@@ -13,6 +13,7 @@ import Footer from '../components/Home/Footer';
 import UploadGuide from '../components/Upload/UploadGuide';
 import RecordInfo from '../components/Upload/RecordInfo';
 import PictureInfo from '../components/Upload/PictureInfo';
+import { browserImageCompression } from '../utils/browserImageCompression';
 
 const UploadContainer = styled.main`
   width: 100%;
@@ -221,7 +222,7 @@ const Upload = () => {
     }
   };
 
-  const onFileChange = (e) => {
+  const onFileChange = async (e) => {
     const {
       target: { files: fileArr },
     } = e;
@@ -234,15 +235,19 @@ const Upload = () => {
     let searchPlaceList = [];
     let searchPlaceSelectList = [];
 
-    for (let i = 0; i < fileArr.length; i++) {
-      let file = fileArr[i];
+    const newFileArr = await Promise.all(
+      [...fileArr].map(async (file) => await browserImageCompression(file)),
+    );
+
+    for (let i = 0; i < newFileArr.length; i++) {
+      let file = newFileArr[i];
 
       searchPlaceList.push('');
       searchPlaceSelectList.push(false);
 
       pictureFiles.push({
-        picturePreview: URL.createObjectURL(fileArr[i]),
-        fileName: fileArr[i].name,
+        picturePreview: URL.createObjectURL(newFileArr[i]),
+        fileName: newFileArr[i].name,
         picture: '',
         location: null,
         description: '',
@@ -259,6 +264,7 @@ const Upload = () => {
       };
       reader.readAsDataURL(file);
     }
+
     setPosts(pictureFiles);
     setSearchPlace(searchPlaceList);
     setSearchPlaceSelect(searchPlaceSelectList);
