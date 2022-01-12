@@ -4,7 +4,7 @@ import NavProfileBar from './NavProfileBar';
 import { Link } from 'react-router-dom';
 import NavThemeSwitch from './NavThemeSwitch';
 import { ThemeContext } from '../../Context';
-import { darkTheme } from '../../theme';
+import { darkTheme } from '../../styles/theme';
 
 const NavContainer = styled.header`
   width: 100vw;
