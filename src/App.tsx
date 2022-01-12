@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Router from './Router';
-import { GlobalStyles } from './global-styles';
+import { GlobalStyles } from './styles/global-styles';
 import { firebaseAuth } from './firebaseConfig';
 import { firebaseFireStore } from './firebaseConfig';
 import { UserContext, ThemeContext } from './Context';
 import { useDarkMode } from './hooks/useDarkMode';
 
-const App = () => {
-  const [userObj, setUserObj] = useState(null);
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
+export interface IUserObj {
+  avatar: string;
+  createdAt: string;
+  email: string;
+  intro?: string;
+  isSocial: boolean;
+  nickname: string;
+  records: string[];
+  userId: string;
+}
+
+const App: React.FC = () => {
+  const [userObj, setUserObj] = useState<IUserObj | undefined>(undefined);
   const [init, setInit] = useState(false);
-  const [theme, toggleTheme] = useDarkMode();
+  const { theme, toggleTheme } = useDarkMode();
 
   useEffect(() => refreshUser(true), []);
 
-  const refreshUser = (sign) => {
+  const refreshUser = (sign: boolean) => {
     if (!sign) return;
     firebaseAuth.onAuthStateChanged((user) => {
       if (user && user.emailVerified) {
@@ -22,9 +39,7 @@ const App = () => {
           .get()
           .then((doc) => {
             if (doc.exists) {
-              const userData = {
-                ...doc.data(),
-              };
+              const userData: any = { ...doc.data() };
               setUserObj(userData);
               setInit(true);
             } else {
