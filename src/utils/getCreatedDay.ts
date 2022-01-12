@@ -1,4 +1,4 @@
-export const getCreatedDay = () => {
+export const getCreatedDay = (): string => {
   const date = new Date();
   const year = date.getFullYear();
   const month = ('0' + (1 + date.getMonth())).slice(-2);
