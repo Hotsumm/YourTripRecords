@@ -1,4 +1,9 @@
-export const cityArray = [
+interface ICityArray {
+  id: number;
+  name: string;
+}
+
+export const cityArray: ICityArray[] = [
   {
     id: 1,
     name: '서울',

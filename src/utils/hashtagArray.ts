@@ -1,4 +1,9 @@
-export const hashtagArray = [
+interface IHashtagArray {
+  id: number;
+  name: string;
+}
+
+export const hashtagArray: IHashtagArray[] = [
   {
     id: 0,
     name: '카페',
