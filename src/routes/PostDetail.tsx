@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
@@ -80,13 +80,20 @@ const DetailInfoWrap = styled.div`
   width: 100%;
 `;
 
-const PostDetail = ({ match }) => {
-  const { userObj, refreshUser } = useContext(UserContext);
-  const [postObj, setPostObj] = useState(null);
+interface MatchProps {
+  postId: string;
+  pathName: string;
+}
+
+const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
+  match,
+}) => {
+  const { userObj, refreshUser }: any = useContext(UserContext);
+  const [postObj, setPostObj] = useState<IPost | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
-  const postId = match.params.postId;
+  const { postId } = match.params;
   const pathName = match.url;
 
   const handleDeletePost = () => {
@@ -104,7 +111,7 @@ const PostDetail = ({ match }) => {
           refreshUser(true);
           alert('게시물이 정상적으로 삭제되었습니다.');
           setIsLoading(false);
-          history.push(`/city/${postObj.city}`);
+          postObj && history.push(`/city/${postObj.city}`);
         })
         .catch((error) => {
           console.log(error);
@@ -114,8 +121,10 @@ const PostDetail = ({ match }) => {
     }
   };
 
-  const userPostDelete = async (userId, postId) => {
-    const newRecords = userObj.records.filter((record) => record !== postId);
+  const userPostDelete = async (userId: string, postId: string) => {
+    const newRecords = userObj.records.filter(
+      (record: string) => record !== postId,
+    );
 
     await firebaseFireStore
       .collection('users')
@@ -131,7 +140,7 @@ const PostDetail = ({ match }) => {
     postsRef
       .get()
       .then((doc) => {
-        const postData = {
+        const postData: any = {
           postId,
           ...doc.data(),
         };
@@ -160,7 +169,7 @@ const PostDetail = ({ match }) => {
                   </PostTitleWrap>
                   <PostCreatedWrap>
                     <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-                    {userObj && (
+                    {userObj.userId === postObj.creator.userObj.userId && (
                       <PostDetailEdit
                         userObj={userObj}
                         postObj={postObj}
@@ -171,7 +180,7 @@ const PostDetail = ({ match }) => {
                 </DetailHeaderWrap>
                 <DetailInfoWrap>
                   <Preview postObj={postObj} pathName={pathName} />
-                  <PostInfo postObj={postObj} userObj={userObj} />
+                  <PostInfo postObj={postObj} />
                   {postObj.hashtags && <Hashtag postObj={postObj} />}
                   <Comment postId={postObj.postId} />
                 </DetailInfoWrap>
