@@ -47,7 +47,7 @@ const PictureWrap = styled.div`
   }
 `;
 
-const AllPicturesList = ({ changePicture, pictureIndex, pictureList }) => {
+const AllPicturesList = ({ changePicture, pictureList, pictureIndex }) => {
   return (
     <AllPicturesListContainer>
       <PicturesListWrap>
