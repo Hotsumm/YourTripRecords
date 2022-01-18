@@ -8,7 +8,7 @@ import { cityArray } from '../utils/cityArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
-import { UserContext, ThemeContext } from '../Context';
+import { UserContext } from '../Context';
 import Footer from '../components/Home/Footer';
 import UploadGuide from '../components/Upload/UploadGuide';
 import RecordInfo from '../components/Upload/RecordInfo';
@@ -124,58 +124,85 @@ const IconWrap = styled.div`
   }
 `;
 
-const ButtonWrap = styled.div`
+const ButtonWrap = styled.div<{ isLoading: number }>`
   display: flex;
   justify-content: center;
   width: 100%;
   gap: 0 20px;
+  margin-bottom: 20px;
   & button {
-    font-size: 14px;
     @media (max-width: 320px) {
       width: 90px;
       height: 45px;
     }
+    font-size: 14px;
     width: 100px;
     height: 50px;
     border: 0.1px solid #16a085;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    pointer-events: ${(props) => props.isLoading && 'none'};
   }
 `;
 
+interface LocationSelectParams {
+  (
+    locationId: string,
+    longitude: string,
+    latitude: string,
+    place_name: string,
+    id: number,
+  ): void;
+}
+
+interface IPictureFileList {
+  picturePreview: string;
+  fileName: string;
+  picture: string;
+  location: ILocation | null;
+  description: string;
+}
+
 const Upload = () => {
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(false);
-  const [posts, setPosts] = useState([]);
-  const [city, setCity] = useState('서울');
-  const [postTitle, setPostTitle] = useState('');
-  const [season, setSeason] = useState('봄');
-  const [searchPlace, setSearchPlace] = useState([]);
-  const [selectedHashtag, setSelectedHashtag] = useState([]);
-  const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [pictureFileList, setPictureFileList] = useState<IPictureFileList[]>(
+    [],
+  );
+  const [city, setCity] = useState<string>('서울');
+  const [postTitle, setPostTitle] = useState<string>('');
+  const [season, setSeason] = useState<string>('봄');
+  const [searchPlace, setSearchPlace] = useState<string[]>([]);
+  const [selectedHashtag, setSelectedHashtag] = useState<string[]>([]);
+  const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
 
-  const { userObj, refreshUser } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
+  const { userObj, refreshUser }: any = useContext(UserContext);
 
-  const locationSelect = (locationId, longitude, latitude, place_name, id) => {
-    let newPosts = [...posts];
+  const locationSelect: LocationSelectParams = (
+    locationId,
+    longitude,
+    latitude,
+    place_name,
+    id,
+  ) => {
+    let newPictureFileList = [...pictureFileList];
     let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
     newSearchPlace[id] = place_name;
-    newSearchPlaceSelect[id] = true;
-    newPosts[id].location = {
+    newIsSearchPlaceSelect[id] = true;
+    newPictureFileList[id].location = {
       coords: { longitude, latitude },
       placeName: place_name,
       locationId,
     };
 
     setSearchPlace(newSearchPlace);
-    setSearchPlaceSelect(newSearchPlaceSelect);
-    setPosts(newPosts);
+    setIsSearchPlaceSelect(newIsSearchPlaceSelect);
+    setPictureFileList(newPictureFileList);
   };
 
-  const handleHashtagSelect = (name) => {
+  const handleHashtagSelect = (name: string): void => {
     let newSelectedHashtag = [...selectedHashtag];
 
     if (selectedHashtag.includes(name)) {
@@ -190,14 +217,14 @@ const Upload = () => {
     setSelectedHashtag([...newSelectedHashtag]);
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { id, name, value },
+      target: { name, value },
     } = e;
-
-    let newPosts = [...posts];
+    const id = parseInt(e.target.id);
+    let newPictureFileList = [...pictureFileList];
     let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
@@ -206,36 +233,35 @@ const Upload = () => {
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      if (newSearchPlaceSelect[id]) {
-        newSearchPlaceSelect[id] = false;
+      if (newIsSearchPlaceSelect[id]) {
+        newIsSearchPlaceSelect[id] = false;
       }
 
-      newPosts[id].location = null;
+      newPictureFileList[id].location = null;
       newSearchPlace[id] = value;
 
       setSearchPlace(newSearchPlace);
-      setSearchPlaceSelect(newSearchPlaceSelect);
-      setPosts(newPosts);
+      setIsSearchPlaceSelect(newIsSearchPlaceSelect);
+      setPictureFileList(newPictureFileList);
     } else if (name === 'description') {
-      newPosts[id].description = value;
-      setPosts(newPosts);
+      newPictureFileList[id].description = value;
+      setPictureFileList(newPictureFileList);
     }
   };
 
-  const onFileChange = async (e) => {
-    const {
-      target: { files: fileArr },
-    } = e;
+  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileArr = e.target.files;
 
-    if (fileArr.length > 15) alert('사진을 15장 이하로 업로드 해주세요.');
-    else if (fileArr.length < 5) alert('사진을 최소 5장 이상 업로드 해주세요.');
+    if (!fileArr || fileArr.length > 15)
+      return alert('사진을 15장 이하로 업로드 해주세요.');
+    else if (!fileArr || fileArr.length < 5)
+      return alert('사진을 최소 5장 이상 업로드 해주세요.');
 
-    let fileURLs = [];
-    let pictureFiles = [];
+    let pictureFiles: IPictureFileList[] = [];
     let searchPlaceList = [];
-    let searchPlaceSelectList = [];
+    let isSearchPlaceSelectList = [];
 
-    const newFileArr = await Promise.all(
+    const newFileArr: any[] = await Promise.all(
       [...fileArr].map(async (file) => await browserImageCompression(file)),
     );
 
@@ -243,7 +269,7 @@ const Upload = () => {
       let file = newFileArr[i];
 
       searchPlaceList.push('');
-      searchPlaceSelectList.push(false);
+      isSearchPlaceSelectList.push(false);
 
       pictureFiles.push({
         picturePreview: URL.createObjectURL(newFileArr[i]),
@@ -253,47 +279,46 @@ const Upload = () => {
         description: '',
       });
 
-      const reader = new FileReader();
+      const reader: FileReader = new FileReader();
 
       reader.onloadend = (finishedEvent) => {
-        const {
-          currentTarget: { result },
-        } = finishedEvent;
+        let fileURLs: string[] = [];
+        const result: any = finishedEvent.currentTarget;
         fileURLs[i] = result;
         pictureFiles[i].picture = fileURLs[i];
       };
       reader.readAsDataURL(file);
     }
 
-    setPosts(pictureFiles);
+    setPictureFileList(pictureFiles);
     setSearchPlace(searchPlaceList);
-    setSearchPlaceSelect(searchPlaceSelectList);
+    setIsSearchPlaceSelect(isSearchPlaceSelectList);
   };
 
   const onUpload = async () => {
     setIsLoading(true);
 
-    const pictureInfo = [];
+    const pictureInfo: IPictureList[] = [];
     const postId = uuidv4();
 
-    for (let post of posts) {
+    for (let pictureFile of pictureFileList) {
       const fileRef = firebaseStorage
         .ref(city)
-        .child(`${postId}/${post.fileName}`);
+        .child(`${postId}/${pictureFile.fileName}`);
 
-      const res = await fileRef.putString(post.picture, 'data_url');
+      const res = await fileRef.putString(pictureFile.picture, 'data_url');
       const pictureURL = await res.ref.getDownloadURL();
 
       pictureInfo.push({
         pictureId: uuidv4(),
-        location: post.location,
-        description: post.description,
-        fileName: post.fileName,
+        location: pictureFile.location,
+        description: pictureFile.description,
+        fileName: pictureFile.fileName,
         pictureURL: pictureURL,
       });
     }
 
-    const docData = {
+    const docData: IPost = {
       postId,
       postTitle,
       createdAt: getCreatedDay(),
@@ -330,7 +355,7 @@ const Upload = () => {
     if (answer) history.goBack();
   };
 
-  const userRecordsUpdate = (userPostList, postId) =>
+  const userRecordsUpdate = (userPostList: string[], postId: string) =>
     firebaseFireStore
       .collection('users')
       .doc(userObj.userId)
@@ -338,13 +363,13 @@ const Upload = () => {
         records: [...userPostList, postId],
       });
 
-  const recordsUpdate = (postId, docData) =>
+  const recordsUpdate = (postId: string, docData: IPost) =>
     firebaseFireStore.collection('records').doc(postId).set(docData);
 
   return (
     <>
       <Navigation show={true} />
-      <UploadContainer loading={isLoading ? 1 : 0}>
+      <UploadContainer>
         <UploadHeaderWrap>
           <h1>여행기록 올리기</h1>
         </UploadHeaderWrap>
@@ -353,7 +378,7 @@ const Upload = () => {
             <Loading />
           ) : (
             <>
-              {posts && posts.length > 0 ? (
+              {pictureFileList && pictureFileList.length > 0 ? (
                 <>
                   <RecordInfo
                     onChange={onChange}
@@ -362,10 +387,10 @@ const Upload = () => {
                     selectedHashtag={selectedHashtag}
                   />
                   <PictureInfo
-                    posts={posts}
+                    posts={pictureFileList}
                     onChange={onChange}
                     searchPlace={searchPlace}
-                    searchPlaceSelect={searchPlaceSelect}
+                    searchPlaceSelect={isSearchPlaceSelect}
                     locationSelect={locationSelect}
                   />
                 </>
@@ -386,7 +411,7 @@ const Upload = () => {
                         id="input-file"
                         style={{ display: 'none' }}
                         accept="image/*"
-                        multiple="multiple"
+                        multiple
                         onChange={onFileChange}
                       />
                     </LabelWrap>
@@ -396,22 +421,11 @@ const Upload = () => {
             </>
           )}
           <UploadGuide />
-          <ButtonWrap>
-            <button
-              type="submit"
-              loading={isLoading ? 1 : 0}
-              theme={theme}
-              onClick={onUpload}
-              style={{ pointerEvents: isLoading && 'none' }}
-            >
+          <ButtonWrap isLoading={isLoading ? 1 : 0}>
+            <button type="submit" onClick={onUpload}>
               업로드하기
             </button>
-            <button
-              style={{ pointerEvents: isLoading && 'none' }}
-              onClick={closeButton}
-            >
-              취소
-            </button>
+            <button onClick={closeButton}>취소</button>
           </ButtonWrap>
         </UploadWrap>
         <Footer />
