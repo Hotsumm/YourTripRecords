@@ -90,7 +90,7 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
 }) => {
   const { userObj, refreshUser }: any = useContext(UserContext);
   const [postObj, setPostObj] = useState<IPost | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const history = useHistory();
   const { postId } = match.params;
@@ -111,7 +111,7 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
           refreshUser(true);
           alert('게시물이 정상적으로 삭제되었습니다.');
           setIsLoading(false);
-          postObj && history.push(`/city/${postObj.city}`);
+          history.push(`/city/${postObj?.city}`);
         })
         .catch((error) => {
           console.log(error);
@@ -136,17 +136,25 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   };
 
   const fetchPosts = useCallback(() => {
-    const postsRef = firebaseFireStore.collection('records').doc(postId);
-    postsRef
+    setIsLoading(true);
+    firebaseFireStore
+      .collection('records')
+      .doc(postId)
       .get()
       .then((doc) => {
-        const postData: any = {
-          postId,
-          ...doc.data(),
-        };
+        const postData: any = doc.data()
+          ? {
+              postId,
+              ...doc.data(),
+            }
+          : null;
         setPostObj(postData);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, [postId]);
 
   useEffect(() => {
@@ -169,13 +177,14 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
                   </PostTitleWrap>
                   <PostCreatedWrap>
                     <PostCreated>게시일 : {postObj.createdAt}</PostCreated>
-                    {userObj.userId === postObj.creator.userObj.userId && (
-                      <PostDetailEdit
-                        userObj={userObj}
-                        postObj={postObj}
-                        handleDeletePost={handleDeletePost}
-                      />
-                    )}
+                    {userObj &&
+                      userObj.userId === postObj.creator.userObj.userId && (
+                        <PostDetailEdit
+                          userObj={userObj}
+                          postObj={postObj}
+                          handleDeletePost={handleDeletePost}
+                        />
+                      )}
                   </PostCreatedWrap>
                 </DetailHeaderWrap>
                 <DetailInfoWrap>
