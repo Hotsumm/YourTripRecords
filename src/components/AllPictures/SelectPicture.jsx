@@ -90,7 +90,6 @@ const PictureInfoHeaderWrap = styled.div`
   gap: 0 5px;
   & span {
     display: inline;
-    width: 100%;
     font-size: 16px;
     font-weight: 700;
     text-align: left;
@@ -160,7 +159,6 @@ const KakaoMapLinkWrap = styled.div`
     font-size: 14px;
     text-decoration: underline;
     font-weight: 600;
-    margin-bottom: 15px;
   }
 `;
 

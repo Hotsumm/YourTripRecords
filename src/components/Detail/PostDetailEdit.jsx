@@ -52,31 +52,29 @@ const PostDetailEdit = ({ userObj, postObj, handleDeletePost }) => {
   const handleEdit = () => setIsEditClick(!isEditClick);
 
   return (
-    userObj.userId === postObj.creator.userObj.userId && (
-      <PostDetailEditContainer>
-        <IconWrap onClick={handleEdit} ref={ref}>
-          <BsThreeDots size={26} />
-        </IconWrap>
-        {isEditClick && (
-          <EditWrap theme={theme}>
-            <ul>
-              <Link
-                to={{
-                  pathname: `/postEdit/${postObj.postId}`,
-                  state: { postObj },
-                }}
-              >
-                <li>게시물 수정하기</li>
-              </Link>
-              <li onClick={handleDeletePost}>게시물 삭제하기</li>
-              <li onClick={handleEdit} style={{ color: 'red' }}>
-                취소
-              </li>
-            </ul>
-          </EditWrap>
-        )}
-      </PostDetailEditContainer>
-    )
+    <PostDetailEditContainer>
+      <IconWrap onClick={handleEdit} ref={ref}>
+        <BsThreeDots size={26} />
+      </IconWrap>
+      {isEditClick && (
+        <EditWrap theme={theme}>
+          <ul>
+            <Link
+              to={{
+                pathname: `/postEdit/${postObj.postId}`,
+                state: { postObj },
+              }}
+            >
+              <li>게시물 수정하기</li>
+            </Link>
+            <li onClick={handleDeletePost}>게시물 삭제하기</li>
+            <li onClick={handleEdit} style={{ color: 'red' }}>
+              취소
+            </li>
+          </ul>
+        </EditWrap>
+      )}
+    </PostDetailEditContainer>
   );
 };
 
