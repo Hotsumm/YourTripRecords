@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import CityPost from '../components/City/CityPost';
@@ -34,44 +35,51 @@ const CityName = styled.h1`
   font-weight: 600;
 `;
 
-const City = ({ match, location }) => {
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState(null);
-  const [selectSort, setSelectedSort] = useState('최신순');
-  const [selectedSeason, setSelectedSeason] = useState('전체');
-  const [hashtagList, setHashtagList] = useState(
-    location.hashtag ? location.hashtag : [],
+interface MatchProps {
+  cityName: string;
+}
+
+const City: React.FC<
+  RouteComponentProps<MatchProps, {}, { hashtags: string[] | undefined }>
+> = ({ match, location }) => {
+  const { cityName } = match.params;
+  const hashtags = location.state ? location.state.hashtags : undefined;
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [posts, setPosts] = useState<IPost[] | null>(null);
+  const [selectSort, setSelectedSort] = useState<string>('최신순');
+  const [selectedSeason, setSelectedSeason] = useState<string>('전체');
+  const [hashtagList, setHashtagList] = useState<string[]>(
+    hashtags ? hashtags : [],
   );
-  const cityName = match.params.cityName;
 
-  const handleCurrentSort = (sortName) => {
+  const handleCurrentSort = (sortName: string): void =>
     setSelectedSort(sortName);
-  };
 
-  const handleHashtagSelect = (hashtag) => {
+  const handleHashtagSelect = (hashtag: string) => {
     if (hashtagList.includes(hashtag)) {
       const hashtagFilter = hashtagList.filter(
-        (element) => element !== hashtag,
+        (element: string) => element !== hashtag,
       );
       setHashtagList([...hashtagFilter]);
       return;
     }
-    setHashtagList((prev) => [...prev, hashtag]);
+    setHashtagList((prev: string[]) => [...prev, hashtag]);
   };
 
-  const handleSeasonSelect = (season) => {
+  const handleSeasonSelect = (season: string) => {
     setSelectedSeason(season);
   };
 
   const fetchPost = useCallback(() => {
     setLoading(true);
-    let postArr = [];
+    let postArr: IPost[] = [];
 
     firebaseFireStore
       .collection('records')
       .get()
       .then((postsRef) => {
-        postsRef.forEach((doc) => {
+        postsRef.forEach((doc: any) => {
           postArr.push(doc.data());
         });
 
@@ -121,9 +129,7 @@ const City = ({ match, location }) => {
           handleHashtagSelect={handleHashtagSelect}
         />
         <CityPostSort handleCurrentSort={handleCurrentSort} />
-        {posts && (
-          <CityPost loading={loading} posts={posts} cityName={cityName} />
-        )}
+        {posts && <CityPost loading={loading} posts={posts} />}
         <Footer />
       </CityContainer>
     </>
