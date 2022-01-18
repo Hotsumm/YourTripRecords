@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
-import { useHistory } from 'react-router-dom';
+import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { ThemeContext } from '../Context';
 import SelectPicture from '../components/AllPictures/SelectPicture';
 import AllPicturesList from '../components/AllPictures/AllPicturesList';
@@ -39,19 +39,36 @@ const AllPicturesHeaderWrap = styled.header`
     left: 40px;
   }
 `;
+interface IPictureList {
+  pictureId: string;
+  location: string;
+  description: string;
+  pictureURL: string;
+  fileName: string;
+}
 
-const AllPictures = ({ match, location }) => {
-  const pictureList = location.state ? location.state.pictureList : null;
-  const [pictureIndex, setPictureIndex] = useState(
-    location.state ? location.state.pictureIndex : null,
-  );
-  const [selectPicture, setSelectPicture] = useState(
-    pictureList ? pictureList[pictureIndex] : null,
-  );
+interface MatchProps {
+  postId: string;
+  cityName: string;
+}
 
+interface LocationProps {
+  postId?: string;
+  initPictureIndex: number;
+  pictureList: IPictureList[];
+}
+
+const AllPictures: React.FC<
+  RouteComponentProps<MatchProps, {}, LocationProps>
+> = ({ match, location }) => {
+  const { cityName } = match.params;
+  const { postId, initPictureIndex, pictureList } = location.state;
+
+  const [pictureIndex, setPictureIndex] = useState<number>(initPictureIndex);
+  const [selectPicture, setSelectPicture] = useState<IPictureList>(
+    pictureList[pictureIndex],
+  );
   const history = useHistory();
-  const postId = match.params.postId;
-  const cityName = match.params.cityName;
   const { theme } = useContext(ThemeContext);
 
   if (location.state === undefined) history.push('/');
@@ -84,7 +101,7 @@ const AllPictures = ({ match, location }) => {
     }
   };
 
-  const changePicture = (index) => {
+  const changePicture = (index: number) => {
     setPictureIndex(index);
     setSelectPicture(pictureList[index]);
     history.push({
