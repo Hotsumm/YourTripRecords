@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { firebaseFireStore } from '../firebaseConfig';
@@ -41,61 +41,85 @@ const PostEditWrap = styled.article`
   padding: 30px 0px;
 `;
 
-const ButtonWrap = styled.div`
+const ButtonWrap = styled.div<{ isLoading: number }>`
   display: flex;
   justify-content: center;
   width: 100%;
   margin-bottom: 20px;
   gap: 0 20px;
   & button {
+    @media (max-width: 320px) {
+      width: 90px;
+      height: 45px;
+    }
+    font-size: 14px;
     width: 100px;
     height: 50px;
     border: 0.1px solid #16a085;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    pointer-events: ${(props) => props.loading && 'none'};
+    pointer-events: ${(props) => props.isLoading && 'none'};
   }
 `;
 
-const PostEdit = ({ location }) => {
-  const postObj = location.state.postObj;
-  const history = useHistory();
-  const { userObj } = useContext(UserContext);
+interface LocationSelectParams {
+  (
+    locationId: string,
+    longitude: string,
+    latitude: string,
+    place_name: string,
+    id: number,
+  ): void;
+}
 
-  const [pictureObjList, setPictureObjList] = useState(
-    location ? location.state.postObj.pictureList : [],
+const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
+  location,
+}) => {
+  const { postObj } = location.state;
+  const history = useHistory();
+  const { userObj }: any = useContext(UserContext);
+  const [pictureObjList, setPictureObjList] = useState<IPictureList[]>(
+    postObj.pictureList,
   );
-  const [loading, setLoading] = useState(false);
-  const [postTitle, setPostTitle] = useState(postObj.postTitle);
-  const [season, setSeason] = useState(postObj.season);
-  const [searchPlace, setSearchPlace] = useState([]);
-  const [searchPlaceSelect, setSearchPlaceSelect] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [postTitle, setPostTitle] = useState<string>(postObj.postTitle);
+  const [season, setSeason] = useState<string>(postObj.season);
+  const [searchPlace, setSearchPlace] = useState<string[]>([]);
+  const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
 
   useEffect(() => {
-    let placeNameList = [];
-    let searchPlaceSelectList = [];
+    let placeNameList: string[] = [];
+    let isSearchPlaceSelectList: boolean[] = [];
 
     for (let i = 0; i < postObj.pictureList.length; i++) {
-      if (postObj.pictureList[i].location) {
-        searchPlaceSelectList.push(true);
-        placeNameList.push(postObj.pictureList[i].location.placeName);
+      const pictureLocation = postObj.pictureList[i].location;
+
+      if (pictureLocation) {
+        isSearchPlaceSelectList.push(true);
+        placeNameList.push(pictureLocation.placeName);
       } else {
-        searchPlaceSelectList.push(false);
+        isSearchPlaceSelectList.push(false);
         placeNameList.push('');
       }
     }
 
     setSearchPlace(placeNameList);
-    setSearchPlaceSelect(searchPlaceSelectList);
+    setIsSearchPlaceSelect(isSearchPlaceSelectList);
   }, [postObj]);
 
-  const locationSelect = (locationId, longitude, latitude, place_name, id) => {
+  const locationSelect: LocationSelectParams = (
+    locationId,
+    longitude,
+    latitude,
+    place_name,
+    id,
+  ) => {
     let newPictureObjList = [...pictureObjList];
     let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
     newSearchPlace[id] = place_name;
-    newSearchPlaceSelect[id] = true;
+    newIsSearchPlaceSelect[id] = true;
     newPictureObjList[id].location = {
       coords: { longitude, latitude },
       placeName: place_name,
@@ -103,26 +127,28 @@ const PostEdit = ({ location }) => {
     };
 
     setSearchPlace(newSearchPlace);
-    setSearchPlaceSelect(newSearchPlaceSelect);
+    setIsSearchPlaceSelect(newIsSearchPlaceSelect);
     setPictureObjList(newPictureObjList);
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { id, name, value },
+      target: { name, value },
     } = e;
+    const id = parseInt(e.target.id);
+
     let newPictureObjList = [...pictureObjList];
     let newSearchPlace = [...searchPlace];
-    let newSearchPlaceSelect = [...searchPlaceSelect];
+    let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
     if (name === 'recordTitle') {
       setPostTitle(value);
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      if (newSearchPlaceSelect[id]) {
-        newSearchPlaceSelect[id] = false;
-        setSearchPlaceSelect(newSearchPlaceSelect);
+      if (newIsSearchPlaceSelect[id]) {
+        newIsSearchPlaceSelect[id] = false;
+        setIsSearchPlaceSelect(newIsSearchPlaceSelect);
       }
 
       newPictureObjList[id].location = null;
@@ -137,7 +163,7 @@ const PostEdit = ({ location }) => {
   };
 
   const onPostEdit = () => {
-    setLoading(true);
+    setIsLoading(true);
     const recordsRef = firebaseFireStore
       .collection('records')
       .doc(postObj.postId);
@@ -154,25 +180,30 @@ const PostEdit = ({ location }) => {
         pictureList: [...pictureObjList],
       })
       .then(() => {
-        setLoading(false);
+        setIsLoading(false);
         alert('여행기록 수정이 완료 되었습니다.');
         history.push(`/city/${postObj.city}/${postObj.postId}`);
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
+        setIsLoading(false);
       });
+  };
+
+  const closeButton = () => {
+    const answer = window.confirm('작성을 취소 하시겠습니까?');
+    if (answer) history.goBack();
   };
 
   return (
     <>
       <Navigation show={true} />
-      <PostEditContainer loading={loading ? 1 : 0}>
+      <PostEditContainer>
         <UploadHeaderWrap>
           <h1>여행기록 수정</h1>
         </UploadHeaderWrap>
         <PostEditWrap>
-          {loading ? (
+          {isLoading ? (
             <Loading />
           ) : (
             <>
@@ -188,20 +219,16 @@ const PostEdit = ({ location }) => {
                     pictureObjList={pictureObjList}
                     onChange={onChange}
                     searchPlace={searchPlace}
-                    searchPlaceSelect={searchPlaceSelect}
+                    searchPlaceSelect={isSearchPlaceSelect}
                     locationSelect={locationSelect}
                   />
                 </>
               )}
             </>
           )}
-          <ButtonWrap loading={loading ? 1 : 0}>
-            <button loading={loading ? 1 : 0} onClick={onPostEdit}>
-              수정하기
-            </button>
-            <Link to="/" style={{ pointerEvents: loading && 'none' }}>
-              <button loading={loading ? 1 : 0}>취소</button>
-            </Link>
+          <ButtonWrap isLoading={isLoading ? 1 : 0}>
+            <button onClick={onPostEdit}>수정하기</button>
+            <button onClick={closeButton}>취소</button>
           </ButtonWrap>
         </PostEditWrap>
         <Footer />

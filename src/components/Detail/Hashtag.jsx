@@ -47,7 +47,7 @@ const Hashtag = ({ postObj }) => {
           postObj.hashtags.map((hashtag, index) => (
             <HashtagLink
               key={index}
-              to={{ pathname: '/city/전체', hashtag: [hashtag] }}
+              to={{ pathname: '/city/전체', state: { hashtags: [hashtag] } }}
             >
               <li theme={theme}>{hashtag}</li>
             </HashtagLink>

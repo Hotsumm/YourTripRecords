@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Redirect } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import ChangePassword from '../components/Account/ChangePassword';
@@ -125,16 +125,26 @@ const Title = styled.span`
   margin-top: 15px;
 `;
 
-const MyAccount = ({ match }) => {
-  const [isChangePassword, setIsChangePassword] = useState(false);
-  const [isUserDelete, setIsUserDelete] = useState(false);
-  const { userObj } = useContext(UserContext);
+interface MatchProps {
+  userId: string;
+}
+
+const MyAccount: React.FC<RouteComponentProps<MatchProps, {}>> = ({
+  match,
+}) => {
+  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+  const [isUserDelete, setIsUserDelete] = useState<boolean>(false);
+  const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const toggleChangePassword = () => setIsChangePassword(!isChangePassword);
-  const toggleUserDelete = () => setIsUserDelete(!isUserDelete);
+  const { userId } = match.params;
 
-  if (userObj === null || userObj.userId !== match.params.userId) {
+  const toggleChangePassword = (): void =>
+    setIsChangePassword(!isChangePassword);
+
+  const toggleUserDelete = (): void => setIsUserDelete(!isUserDelete);
+
+  if (userObj === null || userObj.userId !== userId) {
     return <Redirect to="/" />;
   }
 

@@ -11,7 +11,7 @@ const HomeContainer = styled.main`
   margin: 0 auto;
 `;
 
-const Home = () => {
+const Home: React.FC = () => {
   const [navBar, setNavBar] = useState(false);
 
   useLayoutEffect(() => {

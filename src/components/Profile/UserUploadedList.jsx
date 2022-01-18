@@ -123,7 +123,7 @@ const PostThumbnailWrap = styled.div`
   }
 `;
 
-const UserUploadedList = ({ userObj, thisUser }) => {
+const UserUploadedList = ({ thisUser }) => {
   const [loading, setLoading] = useState(true);
   const [recordList, setRecordList] = useState([]);
   const { theme } = useContext(ThemeContext);

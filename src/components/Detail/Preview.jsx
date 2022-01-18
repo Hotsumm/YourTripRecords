@@ -83,7 +83,7 @@ const Preview = ({ postObj, pathName }) => {
                       pathname: `${pathName}/${postObj.pictureList[index].pictureId}`,
                       state: {
                         postId: postObj.postId,
-                        pictureIndex: index,
+                        initPictureIndex: index,
                         pictureList: postObj.pictureList,
                       },
                     }}
@@ -97,7 +97,8 @@ const Preview = ({ postObj, pathName }) => {
           to={{
             pathname: `${pathName}/${postObj.pictureList[0].pictureId}`,
             state: {
-              pictureIndex: 0,
+              postId: postObj.postId,
+              initPictureIndex: 0,
               pictureList: postObj.pictureList,
             },
           }}
