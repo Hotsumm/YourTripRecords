@@ -11,11 +11,7 @@
     "allowJs": true,
     "baseUrl": "src",
     "outDir": "./dist",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
@@ -23,11 +19,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "exclude": [
-    "node_modules",
-    "build"
-  ],
-  "include": [
-    "**/*"
-  ]
+  "exclude": ["node_modules", "build"],
+  "include": ["**/*"]
 }
