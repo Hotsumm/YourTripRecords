@@ -283,7 +283,7 @@ const Upload = () => {
 
       reader.onloadend = (finishedEvent) => {
         let fileURLs: string[] = [];
-        const result: any = finishedEvent.currentTarget;
+        const { result }: any = finishedEvent.currentTarget;
         fileURLs[i] = result;
         pictureFiles[i].picture = fileURLs[i];
       };
