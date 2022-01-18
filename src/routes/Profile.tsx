@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import UserUploadedList from '../components/Profile/UserUploadedList';
-import { UserContext, ThemeContext } from '../Context';
+import { UserContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import ProfileMenu from '../components/Profile/ProfileMenu';
 import ProfileIntro from '../components/Profile/ProfileIntro';
@@ -69,12 +70,15 @@ const ProfileRow = styled.div`
   }
 `;
 
-const Profile = ({ match }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [thisUser, setThisUser] = useState(null);
+interface MatchProps {
+  userId: string;
+}
 
-  const { userObj } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
+const Profile: React.FC<RouteComponentProps<MatchProps, {}>> = ({ match }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [thisUser, setThisUser] = useState<any>(null);
+
+  const { userObj }: any = useContext(UserContext);
 
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;
@@ -125,11 +129,7 @@ const Profile = ({ match }) => {
                 </ProfileRow>
                 <ProfileRow>
                   <ProfileIntro thisUser={thisUser} />
-                  <UserUploadedList
-                    theme={theme}
-                    userObj={userObj}
-                    thisUser={thisUser}
-                  />
+                  <UserUploadedList thisUser={thisUser} />
                 </ProfileRow>
               </ProfileWrap>
             )}
