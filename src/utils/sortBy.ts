@@ -1,26 +1,8 @@
-import { IUserObj } from '../App';
-
-interface IPictureList {
-  pictureId: string;
-  location: string;
-  description: string;
-  pictureURL: string;
-  fileName: string;
-}
-
 interface SortByPram {
-  pictureId: string;
-  location: string;
-  description: string;
-  createdAt: string;
-  hashtags: string[];
-  likes: string[];
-  comments: string[];
-  creator: IUserObj;
-  pictureList: IPictureList[];
+  (next: IPost, prev: IPost): number;
 }
 
-export const sortByPopular = (next: SortByPram, prev: SortByPram): number => {
+export const sortByPopular: SortByPram = (next, prev) => {
   return (
     prev.likes.length +
     prev.comments.length -
@@ -28,7 +10,7 @@ export const sortByPopular = (next: SortByPram, prev: SortByPram): number => {
   );
 };
 
-export const sortByLatest = (next: SortByPram, prev: SortByPram): number => {
+export const sortByLatest: SortByPram = (next, prev) => {
   const nextArr = next.createdAt.split('-');
   const prevArr = prev.createdAt.split('-');
   return (
@@ -37,7 +19,7 @@ export const sortByLatest = (next: SortByPram, prev: SortByPram): number => {
   );
 };
 
-export const sortByOldest = (next: SortByPram, prev: SortByPram): number => {
+export const sortByOldest: SortByPram = (next, prev) => {
   const nextArr = next.createdAt.split('-');
   const prevArr = prev.createdAt.split('-');
   return (

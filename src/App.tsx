@@ -6,25 +6,8 @@ import { firebaseFireStore } from './firebaseConfig';
 import { UserContext, ThemeContext } from './Context';
 import { useDarkMode } from './hooks/useDarkMode';
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
-export interface IUserObj {
-  avatar: string;
-  createdAt: string;
-  email: string;
-  intro?: string;
-  isSocial: boolean;
-  nickname: string;
-  records: string[];
-  userId: string;
-}
-
 const App: React.FC = () => {
-  const [userObj, setUserObj] = useState<IUserObj | undefined>(undefined);
+  const [userObj, setUserObj] = useState<IUserObj | null>(null);
   const [init, setInit] = useState(false);
   const { theme, toggleTheme } = useDarkMode();
 
