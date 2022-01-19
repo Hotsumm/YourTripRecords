@@ -90,21 +90,27 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const ChangePassword = ({ toggleChangePassword }) => {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+interface ChangePasswordProps {
+  toggleChangePassword(): void;
+}
+
+const ChangePassword: React.FC<ChangePasswordProps> = ({
+  toggleChangePassword,
+}) => {
+  const [oldPassword, setOldPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>('');
 
   const { theme } = useContext(ThemeContext);
-  const { userObj } = useContext(UserContext);
+  const { userObj }: any = useContext(UserContext);
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       validCheck();
     }
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
@@ -125,7 +131,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
   const onSubmit = () => {
     if (userObj.isSocial) return alert('비밀번호 변경이 불가능한 계정입니다.');
 
-    const currentUser = firebaseAuth.currentUser;
+    const currentUser: any = firebaseAuth.currentUser;
     const credential = firebaseInstance.auth.EmailAuthProvider.credential(
       currentUser.email,
       oldPassword,
@@ -147,14 +153,14 @@ const ChangePassword = ({ toggleChangePassword }) => {
               })
               .catch((error) => console.log(error));
           })
-          .catch((error) => {
+          .catch((error: any) => {
             if (error.code === 'auth/weak-password') {
               alert('새 비밀번호를 6자 이상으로 입력해주세요.');
             }
             console.log(error);
           });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         if (error.code === 'auth/weak-password') {
           alert(
             '비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.',
