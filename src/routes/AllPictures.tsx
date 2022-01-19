@@ -39,13 +39,6 @@ const AllPicturesHeaderWrap = styled.header`
     left: 40px;
   }
 `;
-interface IPictureList {
-  pictureId: string;
-  location: string;
-  description: string;
-  pictureURL: string;
-  fileName: string;
-}
 
 interface MatchProps {
   postId: string;
@@ -53,7 +46,6 @@ interface MatchProps {
 }
 
 interface LocationProps {
-  postId?: string;
   initPictureIndex: number;
   pictureList: IPictureList[];
 }
@@ -61,8 +53,8 @@ interface LocationProps {
 const AllPictures: React.FC<
   RouteComponentProps<MatchProps, {}, LocationProps>
 > = ({ match, location }) => {
-  const { cityName } = match.params;
-  const { postId, initPictureIndex, pictureList } = location.state;
+  const { postId, cityName } = match.params;
+  const { initPictureIndex, pictureList } = location.state;
 
   const [pictureIndex, setPictureIndex] = useState<number>(initPictureIndex);
   const [selectPicture, setSelectPicture] = useState<IPictureList>(
@@ -75,7 +67,7 @@ const AllPictures: React.FC<
 
   window.onpopstate = () => history.push(`/city/${cityName}/${postId}`);
 
-  const slideLeft = () => {
+  const slideLeft = (): void => {
     if (pictureIndex > 0) {
       history.push({
         pathname: `/city/${cityName}/${postId}/${
@@ -88,7 +80,7 @@ const AllPictures: React.FC<
     }
   };
 
-  const slideRight = () => {
+  const slideRight = (): void => {
     if (pictureIndex < pictureList.length - 1) {
       history.push({
         pathname: `/city/${cityName}/${postId}/${
@@ -101,7 +93,7 @@ const AllPictures: React.FC<
     }
   };
 
-  const changePicture = (index: number) => {
+  const changePicture = (index: number): void => {
     setPictureIndex(index);
     setSelectPicture(pictureList[index]);
     history.push({
