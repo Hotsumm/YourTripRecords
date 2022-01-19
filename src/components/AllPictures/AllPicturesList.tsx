@@ -27,7 +27,7 @@ const PicturesListWrap = styled.div`
   gap: 0 10px;
   padding: 20px 10px;
 `;
-const PictureWrap = styled.div`
+const PictureWrap = styled.div<{ index: number }>`
   & img {
     width: 120px;
     height: 90px;
@@ -47,7 +47,17 @@ const PictureWrap = styled.div`
   }
 `;
 
-const AllPicturesList = ({ changePicture, pictureList, pictureIndex }) => {
+interface AllPicturesListProps {
+  changePicture(index: number): void;
+  pictureList: IPictureList[];
+  pictureIndex: number;
+}
+
+const AllPicturesList: React.FC<AllPicturesListProps> = ({
+  changePicture,
+  pictureList,
+  pictureIndex,
+}) => {
   return (
     <AllPicturesListContainer>
       <PicturesListWrap>

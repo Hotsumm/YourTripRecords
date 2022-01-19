@@ -123,7 +123,7 @@ const DescriptionWrap = styled.div`
   border-bottom: 1px solid #f1f2f6;
 `;
 
-const Description = styled.div`
+const Description = styled.div<{ description: string }>`
   font-size: 14px;
   line-height: 2;
   color: ${(props) => !props.description && 'gray'};
@@ -186,7 +186,17 @@ const NoLocation = styled.span`
   text-decoration: underline;
 `;
 
-const SelectPicture = ({ selectPicture, slideLeft, slideRight }) => {
+interface SelectPictureProps {
+  selectPicture: IPictureList;
+  slideLeft(): void;
+  slideRight(): void;
+}
+
+const SelectPicture: React.FC<SelectPictureProps> = ({
+  selectPicture,
+  slideLeft,
+  slideRight,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -225,7 +235,7 @@ const SelectPicture = ({ selectPicture, slideLeft, slideRight }) => {
                 <span
                   onClick={() =>
                     window.open(
-                      `https://map.kakao.com/link/map/${selectPicture.location.locationId}`,
+                      `https://map.kakao.com/link/map/${selectPicture.location?.locationId}`,
                     )
                   }
                 >
