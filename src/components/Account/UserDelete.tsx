@@ -96,15 +96,19 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const UserDelete = ({ toggleUserDelete }) => {
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [loading, setLoading] = useState(false);
+interface UserDeleteProps {
+  toggleUserDelete(): void;
+}
 
-  const { userObj } = useContext(UserContext);
+const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
@@ -120,13 +124,18 @@ const UserDelete = ({ toggleUserDelete }) => {
       '회원탈퇴 후 복구할 수 없습니다.\n정말 탈퇴 하시겠습니까?.',
     );
     if (!answer) return;
+
     if (userObj.isSocial) return alert('회원탈퇴가 불가능한 계정입니다.');
 
-    const currentUser = firebaseAuth.currentUser;
+    const currentUser: any = firebaseAuth.currentUser;
+
+    if (!currentUser) return;
+
     const credential = firebaseInstance.auth.EmailAuthProvider.credential(
       currentUser.email,
       password,
     );
+
     setLoading(true);
     currentUser
       .reauthenticateWithCredential(credential)
@@ -138,7 +147,7 @@ const UserDelete = ({ toggleUserDelete }) => {
         );
         window.location.reload();
       })
-      .catch((error) => {
+      .catch((error: any) => {
         if (error.code === 'auth/weak-password') {
           alert(
             '비밀번호는 8~16자 숫자/소문자/특수문자를 모두 포함해야 합니다.',
@@ -161,10 +170,8 @@ const UserDelete = ({ toggleUserDelete }) => {
       userCommentDelete(userObj.userId),
     ]);
 
-  const userPostAllDelete = (userRecordsList) => {
-    if (!userRecordsList) {
-      return;
-    }
+  const userPostAllDelete = (userRecordsList: string[]) => {
+    if (!userRecordsList) return;
 
     return userRecordsList.forEach((postId) => {
       firebaseFireStore
@@ -178,15 +185,17 @@ const UserDelete = ({ toggleUserDelete }) => {
     });
   };
 
-  const userLikesAllDelete = (userId) =>
+  const userLikesAllDelete = (userId: string) =>
     firebaseFireStore
       .collection('records')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const records = doc.data();
-          if (records.likes.includes(userId)) {
-            const likeFilter = records.likes.filter((like) => like !== userId);
+          if (records.likes.length > 0 && records.likes.includes(userId)) {
+            const likeFilter = records.likes.filter(
+              (like: string) => like !== userId,
+            );
             firebaseFireStore
               .collection('records')
               .doc(records.postId)
@@ -199,28 +208,30 @@ const UserDelete = ({ toggleUserDelete }) => {
       })
       .catch((error) => console.log(error));
 
-  const userCommentDelete = (userId) =>
+  const userCommentDelete = (userId: string) =>
     firebaseFireStore
       .collection('records')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach(async (doc) => {
           const records = doc.data();
-          const commentFilter = records.comments.filter(
-            (comment) => comment.authorId !== userId,
-          );
-          await firebaseFireStore
-            .collection('records')
-            .doc(records.postId)
-            .update({
-              comments: [...commentFilter],
-            })
-            .catch((error) => alert(error.message));
+          if (records.comments.length > 0) {
+            const commentFilter = records.comments.filter(
+              (comment: IComment) => comment.authorId !== userId,
+            );
+            await firebaseFireStore
+              .collection('records')
+              .doc(records.postId)
+              .update({
+                comments: [...commentFilter],
+              })
+              .catch((error) => alert(error.message));
+          }
         });
       })
       .catch((error) => console.log(error));
 
-  const userDelete = (userId) =>
+  const userDelete = (userId: string) =>
     firebaseFireStore
       .collection('users')
       .doc(userId)
@@ -236,7 +247,7 @@ const UserDelete = ({ toggleUserDelete }) => {
     onSubmit();
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       validCheck();
     }
