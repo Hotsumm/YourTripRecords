@@ -88,7 +88,14 @@ const Hashtag = styled.li`
   }
 `;
 
-const CityCategory = ({
+interface CityCategoryProps {
+  cityName: string;
+  handleSeasonSelect(season: string): void;
+  hashtagList: string[];
+  handleHashtagSelect(hashtag: string): void;
+}
+
+const CityCategory: React.FC<CityCategoryProps> = ({
   cityName,
   handleSeasonSelect,
   hashtagList,
@@ -100,7 +107,7 @@ const CityCategory = ({
   const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const {
       target: { name, value },
     } = e;
