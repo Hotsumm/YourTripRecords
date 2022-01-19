@@ -48,3 +48,12 @@ interface ICoords {
   latitude: string;
   longitude: string;
 }
+
+interface IComment {
+  authorId: string;
+  avatar: string;
+  commentId: string;
+  content: string;
+  createdAt: string;
+  nickname: string;
+}
