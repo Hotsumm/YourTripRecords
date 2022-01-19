@@ -74,16 +74,21 @@ const SortMenu = styled.li`
   }
 `;
 
-const CityPostSort = ({ handleCurrentSort }) => {
+interface CityPostSortProps {
+  handleCurrentSort(sortName: string): void;
+}
+
+const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
   const [isSort, setIsSort] = useState(false);
   const [currentSort, setCurrentSort] = useState('최신순');
   const { theme } = useContext(ThemeContext);
-  const onClick = (e) => {
-    if (e.target.nodeName !== 'LI') return;
 
-    const {
-      target: { innerText },
-    } = e;
+  const onClick = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+
+    if (target.nodeName !== 'LI') return;
+
+    const innerText = target.innerText;
 
     if (innerText === '인기순') {
       setCurrentSort('인기순');
