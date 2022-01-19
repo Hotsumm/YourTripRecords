@@ -224,7 +224,12 @@ const NoPost = styled.div`
   }
 `;
 
-const CityPost = ({ loading, posts }) => {
+interface CityPostProps {
+  loading: boolean;
+  posts: IPost[];
+}
+
+const CityPost: React.FC<CityPostProps> = ({ loading, posts }) => {
   return (
     <CityPostContainer>
       {loading ? (
