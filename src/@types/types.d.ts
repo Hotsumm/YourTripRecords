@@ -9,6 +9,7 @@ interface IUserObj {
   isSocial: boolean;
   nickname: string;
   records: string[];
+  instagram?: string;
 }
 
 interface IUserContext {
