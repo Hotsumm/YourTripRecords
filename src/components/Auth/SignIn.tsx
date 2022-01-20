@@ -164,10 +164,15 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const SignIn = ({ toggleSignIn, toggleSignUp }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+interface SignInProps {
+  toggleSignIn(): void;
+  toggleSignUp(): void;
+}
+
+const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { theme } = useContext(ThemeContext);
 
@@ -176,7 +181,7 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
 
   const closeButton = () => toggleSignIn();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
@@ -192,11 +197,11 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
     setLoading(true);
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
+      .then((userCredential: any) => {
         if (!userCredential.user.emailVerified) {
           const answer = window.confirm(resendMessage);
           if (answer) {
-            firebaseAuth.currentUser.sendEmailVerification();
+            firebaseAuth.currentUser?.sendEmailVerification();
             alert('이메일 확인링크가 재전송 되었습니다.');
           }
           firebaseAuth.signOut();
@@ -221,7 +226,7 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)
-      .then((result) => {
+      .then((result: any) => {
         if (result.additionalUserInfo.isNewUser)
           return CreateSocialUser(
             result.user.email,
@@ -238,7 +243,7 @@ const SignIn = ({ toggleSignIn, toggleSignUp }) => {
       });
   };
 
-  const onKeyPress = (e) => {
+  const onKeyPress = (e: React.KeyboardEvent): void => {
     if (e.key === 'Enter') {
       handleSignIn();
     }

@@ -182,18 +182,22 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const SignUp = ({ toggleSignUp }) => {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+interface SignUpProps {
+  toggleSignUp(): void;
+}
+
+const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
   const { theme } = useContext(ThemeContext);
 
   const closeButton = () => toggleSignUp();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
@@ -217,7 +221,7 @@ const SignUp = ({ toggleSignUp }) => {
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         firebaseAuth.currentUser
-          .sendEmailVerification()
+          ?.sendEmailVerification()
           .then(() => CreateUser(email, nickname))
           .then(() => firebaseAuth.signOut())
           .then(() => {
@@ -250,7 +254,7 @@ const SignUp = ({ toggleSignUp }) => {
     const provider = new firebaseInstance.auth.GoogleAuthProvider();
     firebaseAuth
       .signInWithPopup(provider)
-      .then((result) => {
+      .then((result: any) => {
         if (result.additionalUserInfo.isNewUser)
           return CreateSocialUser(
             result.user.email,
