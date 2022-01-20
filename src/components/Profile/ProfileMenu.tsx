@@ -7,6 +7,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { FaExchangeAlt } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import SignIn from '../Auth/SignIn';
+import SignUp from '../Auth/SignUp';
 import { ThemeContext } from '../../Context';
 
 const ProfileMenuContainer = styled.div`
@@ -146,18 +147,36 @@ const Menu = styled.div`
   }
 `;
 
-const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
-  const [isEditClick, setIsEditClick] = useState(false);
-  const [isSignInClick, setIsSignInClick] = useState(false);
+interface ProfileMenuProps {
+  userCheck: boolean;
+  thisUser: IUserObj;
+  userObj: IUserObj;
+}
+
+const ProfileMenu: React.FC<ProfileMenuProps> = ({
+  userCheck,
+  thisUser,
+  userObj,
+}) => {
+  const [isEditClick, setIsEditClick] = useState<boolean>(false);
+  const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
+  const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
 
   const { theme } = useContext(ThemeContext);
 
-  const toggleProfileEdit = () => setIsEditClick(!isEditClick);
+  const toggleProfileEdit = (): void => setIsEditClick(!isEditClick);
 
-  const toggleSignIn = () => setIsSignInClick(!isSignInClick);
+  const toggleSignIn = (): void => setIsSignInClick(!isSignInClick);
 
-  const handleInstagram = () =>
-    window.open(`https://www.instagram.com/${thisUser.instagram}/`);
+  const toggleSignUp = (): void => setIsSignUpClick(!isSignUpClick);
+
+  const handleInstagram = (): void => {
+    if (typeof window.open === 'function') {
+      window.open(`https://www.instagram.com/${thisUser.instagram}/`);
+    } else {
+      window.location.href = `https://www.instagram.com/${thisUser.instagram}/`;
+    }
+  };
 
   return (
     <>
@@ -219,7 +238,10 @@ const ProfileMenu = ({ userCheck, thisUser, userObj }) => {
         </ProfileMenuWrap>
       </ProfileMenuContainer>
       {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
-      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
+      {isSignInClick && (
+        <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
+      )}
+      {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
     </>
   );
 };

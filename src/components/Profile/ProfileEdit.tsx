@@ -174,29 +174,37 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const ProfileEdit = ({ toggleProfileEdit }) => {
-  const { userObj } = useContext(UserContext);
+interface ProfileEditProps {
+  toggleProfileEdit(): void;
+}
+
+const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
+  const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const [nickname, setNickname] = useState(userObj.nickname);
-  const [instagram, setInstagram] = useState(
+  const [nickname, setNickname] = useState<string>(userObj.nickname);
+  const [instagram, setInstagram] = useState<string>(
     userObj.instagram ? userObj.instagram : '',
   );
-  const [intro, setIntro] = useState(userObj.intro ? userObj.intro : '');
-  const [avatar, setAvatar] = useState(userObj.avatar);
-  const [avatarPreview, setAvatarPreview] = useState(false);
+  const [intro, setIntro] = useState<string>(
+    userObj.intro ? userObj.intro : '',
+  );
+  const [avatar, setAvatar] = useState<string>(userObj.avatar);
+  const [avatarPreview, setAvatarPreview] = useState<boolean>(false);
 
   const defaultAvatar =
     'https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004';
 
   const closeButton = () => toggleProfileEdit();
 
-  const defaultAvatarChange = () => {
+  const defaultAvatarChange = (): void => {
     setAvatar(defaultAvatar);
     setAvatarPreview(true);
   };
 
-  const onChange = (e) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
     const {
       target: { name, value },
     } = e;
@@ -208,16 +216,17 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
       setIntro(value);
     }
   };
-  const onFileChange = (e) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { files },
     } = e;
+
+    if (!files) return alert('사진 업로드에 실패하였습니다.');
+
     const theFile = files[0];
-    const reader = new FileReader();
+    const reader: FileReader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
+      const { result }: any = finishedEvent.currentTarget;
 
       setAvatar(result);
       setAvatarPreview(true);
@@ -225,7 +234,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
     reader.readAsDataURL(theFile);
   };
 
-  const vaildCheck = () => {
+  const vaildCheck = (): void => {
     const specialCheck = /[`~!@#$%^&*|\\'";:/?]/gi;
 
     let nicknameLength = 0;
@@ -253,7 +262,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
     onSubmit();
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (): Promise<void> => {
     const usersRef = firebaseFireStore.collection('users').doc(userObj.userId);
     if (!avatarPreview) {
       usersRef
@@ -325,7 +334,7 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
               <span>*닉네임</span>
               <input
                 type="text"
-                maxLength="16"
+                maxLength={16}
                 name="nickname"
                 value={nickname}
                 onChange={onChange}
@@ -357,8 +366,8 @@ const ProfileEdit = ({ toggleProfileEdit }) => {
               <textarea
                 name="intro"
                 value={intro}
-                rows="4"
-                maxLength="100"
+                rows={4}
+                maxLength={100}
                 onChange={onChange}
                 placeholder="최대 100자로 자신을 소개해보세요."
               />

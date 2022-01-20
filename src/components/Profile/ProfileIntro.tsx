@@ -51,7 +51,11 @@ const Intro = styled.div`
   }
 `;
 
-const ProfileIntro = ({ thisUser }) => {
+interface ProfileIntroProps {
+  thisUser: IUserObj;
+}
+
+const ProfileIntro: React.FC<ProfileIntroProps> = ({ thisUser }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
