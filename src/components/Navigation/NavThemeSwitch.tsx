@@ -78,7 +78,7 @@ const ThemeSwitchInput = styled.input`
   }
 `;
 
-const NavThemeSwitch = () => {
+const NavThemeSwitch: React.FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <ThemeSwitchWrap>

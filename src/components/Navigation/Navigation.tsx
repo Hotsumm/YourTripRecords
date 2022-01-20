@@ -6,7 +6,7 @@ import NavThemeSwitch from './NavThemeSwitch';
 import { ThemeContext } from '../../Context';
 import { darkTheme } from '../../styles/theme';
 
-const NavContainer = styled.header`
+const NavContainer = styled.header<{ show: boolean }>`
   width: 100vw;
   height: 80px;
   position: fixed;
@@ -36,7 +36,7 @@ const NavWrap = styled.nav`
   align-items: center;
 `;
 
-const TitleContainer = styled.div`
+const TitleContainer = styled.div<{ show: boolean }>`
   @media (max-width: 768px) {
     font-size: 24px;
   }
@@ -83,7 +83,11 @@ const ThemeContainer = styled.div`
   }
 `;
 
-const Navigation = ({ show }) => {
+interface NavigationProps {
+  show: boolean;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ show }) => {
   const { theme } = useContext(ThemeContext);
   return (
     <NavContainer theme={theme} show={show}>
@@ -94,7 +98,7 @@ const Navigation = ({ show }) => {
         <ProfileContainer theme={theme}>
           <NavProfileBar />
         </ProfileContainer>
-        <ThemeContainer show={show}>
+        <ThemeContainer>
           <NavThemeSwitch />
         </ThemeContainer>
       </NavWrap>

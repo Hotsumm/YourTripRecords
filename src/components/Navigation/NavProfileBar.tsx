@@ -81,14 +81,14 @@ const ProfileMenu = styled.div`
   }
 `;
 
-const NavProfile = () => {
-  const [isMenu, setIsMenu] = useState(false);
-  const [isSignUpClick, setIsSignUpClick] = useState(false);
-  const [isSignInClick, setIsSignInClick] = useState(false);
-  const { userObj } = useContext(UserContext);
+const NavProfile: React.FC = () => {
+  const [isMenu, setIsMenu] = useState<boolean>(false);
+  const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
+  const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
+  const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setIsMenu(false));
 

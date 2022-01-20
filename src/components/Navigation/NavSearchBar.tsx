@@ -28,7 +28,7 @@ const SearchBar = styled.input`
   }
 `;
 
-const NavSearchBar = () => {
+const NavSearchBar: React.FC = () => {
   return (
     <SearchBarWrap>
       <SearchBar type="text" placeholder="보고싶은 도시를 입력해주세요." />
