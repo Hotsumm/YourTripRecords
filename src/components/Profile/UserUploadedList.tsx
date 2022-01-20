@@ -123,20 +123,24 @@ const PostThumbnailWrap = styled.div`
   }
 `;
 
-const UserUploadedList = ({ thisUser }) => {
-  const [loading, setLoading] = useState(true);
-  const [recordList, setRecordList] = useState([]);
+interface UserUploadedListProps {
+  thisUser: IUserObj;
+}
+
+const UserUploadedList: React.FC<UserUploadedListProps> = ({ thisUser }) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [recordList, setRecordList] = useState<IPost[] | []>([]);
   const { theme } = useContext(ThemeContext);
 
   const fetchPost = useCallback(async () => {
     setLoading(true);
-    let recordArr = [];
+    let recordArr: IPost[] = [];
     for (let i = 0; i < thisUser.records.length; i++) {
       await firebaseFireStore
         .collection('records')
         .doc(thisUser.records[i])
         .get()
-        .then((doc) => {
+        .then((doc: any) => {
           if (doc.exists) {
             recordArr.push(doc.data());
           } else {
