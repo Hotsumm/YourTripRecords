@@ -52,7 +52,7 @@ const CityLink = styled(Link)`
   }
 `;
 
-const HomeIntro = () => {
+const HomeIntro: React.FC = () => {
   return (
     <HomeIntroContainer>
       <IntroWrap>
