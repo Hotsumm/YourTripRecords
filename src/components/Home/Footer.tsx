@@ -47,7 +47,7 @@ const FooterIcon = styled.div`
   }
 `;
 
-const MailWrap = styled.div`
+const MailWrap = styled.div<{ isMailHover: number }>`
   position: absolute;
   bottom: 30px;
   right: 0;
@@ -66,8 +66,8 @@ const MailWrap = styled.div`
   }
 `;
 
-const Footer = () => {
-  const [isMailHover, setIsMailHover] = useState(false);
+const Footer: React.FC = () => {
+  const [isMailHover, setIsMailHover] = useState<boolean>(false);
   return (
     <FooterContainer>
       <FooterWrap>

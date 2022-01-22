@@ -94,40 +94,37 @@ const PopularImgLink = styled(Link)`
   }
 `;
 
-const PopularCity = () => {
-  const [loading, setLoading] = useState(true);
-  const [popularPost, setPopularPost] = useState(null);
-  const [popularCityName, setPopularCityName] = useState(null);
-  const [selectCityObj, setSelectCityObj] = useState(null);
-  const [selected, setSelected] = useState('');
+const PopularCity: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [popularPost, setPopularPost] = useState<IPost[]>([]);
+  const [popularCityName, setPopularCityName] = useState<string[]>([]);
+  const [selectCityObj, setSelectCityObj] = useState<IPost[]>([]);
+  const [selected, setSelected] = useState<string>('');
 
   const { theme } = useContext(ThemeContext);
 
-  const handleCitySelect = (city) => {
+  const handleCitySelect = (city: string): void => {
     setSelectCityObj(
       popularPost.filter((post) => post.city === city).slice(0, 4),
-      setSelected(city),
     );
+    setSelected(city);
   };
 
   const fetchPost = useCallback(() => {
     setLoading(true);
-    let allRecord = [];
-    let popularCityArr = [];
+    let allRecord: IPost[] = [];
+    let popularCityArr: string[] = [];
     firebaseFireStore
       .collection('records')
       .get()
       .then((postsRef) => {
-        postsRef.forEach((doc) => {
+        postsRef.forEach((doc: any) => {
           allRecord.push(doc.data());
         });
         allRecord.sort((next, prev) => sortByPopular(next, prev));
         for (let i = 0; i < allRecord.length; i++) {
-          if (popularCityArr > 4) break;
-          if (
-            popularCityArr === null ||
-            !popularCityArr.includes(allRecord[i].city)
-          ) {
+          if (popularCityArr.length >= 4) break;
+          if (!popularCityArr.includes(allRecord[i].city)) {
             popularCityArr.push(allRecord[i].city);
           }
         }

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FiMapPin } from 'react-icons/fi';
-import { cityArray } from '../../utils/cityArray';
+import { cityArray } from '../../../utils/cityArray';
 import { Link } from 'react-router-dom';
-import { ThemeContext } from '../../Context';
+import { ThemeContext } from '../../../Context';
 
 const HomeCityListContainer = styled.div`
   @media (max-width: 768px) {
@@ -11,7 +11,7 @@ const HomeCityListContainer = styled.div`
   }
   width: 50vw;
   position: absolute;
-  top: 380px;
+  top: 390px;
   left: 100px;
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@ const CityName = styled.div`
   }
 `;
 
-const HomeCityList = () => {
+const HomeCityList: React.FC = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <HomeCityListContainer>
