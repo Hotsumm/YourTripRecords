@@ -97,7 +97,7 @@ const CityName = styled.div`
   }
 `;
 
-const HomeCityList = () => {
+const HomeCityList: React.FC = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <HomeCityListContainer>
