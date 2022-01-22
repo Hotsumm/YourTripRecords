@@ -19,7 +19,7 @@ const BackgroundContainer = styled.div`
   }
 `;
 
-const Background = () => {
+const Background: React.FC = () => {
   return (
     <BackgroundContainer>
       <img src={bgImg} alt="메인배경" />
