@@ -59,6 +59,19 @@ interface IComment {
   nickname: string;
 }
 
+interface IPictureFileList {
+  picturePreview: string;
+  fileName: string;
+  picture: string;
+  location: ILocation | null;
+  description: string;
+}
+
+interface ICityArray {
+  id: number;
+  name: string;
+}
+
 //Prams
 interface LocationSelectParams {
   (
