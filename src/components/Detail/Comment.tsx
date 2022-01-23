@@ -6,6 +6,7 @@ import { firebaseFireStore } from '../../firebaseConfig';
 import { UserContext } from '../../Context';
 import { getCreatedDay } from '../../utils/getCreatedDay';
 import SignIn from '../Auth/SignIn';
+import SignUp from '../Auth/SignUp';
 import { HiX } from 'react-icons/hi';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -128,23 +129,29 @@ const Content = styled.div`
   font-size: 15px;
 `;
 
-const Comment = ({ postId }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSignInClick, setIsSignInClick] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [commentCount, setCommentCount] = useState(0);
-  const [content, setContent] = useState('');
-  const { userObj } = useContext(UserContext);
+interface CommentProps {
+  postId: string;
+}
+
+const Comment: React.FC<CommentProps> = ({ postId }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
+  const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [commentCount, setCommentCount] = useState<number>(0);
+  const [content, setContent] = useState<string>('');
+  const { userObj }: any = useContext(UserContext);
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
+  const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleComments();
     }
   };
 
-  const handleDeleteComment = (commentId) => {
+  const handleDeleteComment = (commentId: string) => {
     const answer = window.confirm('작성한 댓글을 삭제하시겠습니까?');
     if (answer) {
       const newComments = comments.filter(
@@ -173,7 +180,7 @@ const Comment = ({ postId }) => {
     const commentsRef = firebaseFireStore.collection('records').doc(postId);
     commentsRef
       .get()
-      .then((doc) => {
+      .then((doc: any) => {
         if (doc.exists) {
           setComments(doc.data().comments);
           setCommentCount(doc.data().comments.length);
@@ -181,7 +188,7 @@ const Comment = ({ postId }) => {
           console.log('No such document!');
         }
       })
-      .catch((error) => console.log(error), fetchComments)
+      .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
   }, [postId, setCommentCount]);
 
@@ -191,35 +198,27 @@ const Comment = ({ postId }) => {
       return;
     }
     const commentId = uuidv4();
+    const commentsDoc = [
+      ...comments,
+      {
+        commentId,
+        authorId: userObj.userId,
+        avatar: userObj.avatar,
+        nickname: userObj.nickname,
+        content,
+        createdAt: getCreatedDay(),
+      },
+    ];
+
     firebaseFireStore
       .collection('records')
       .doc(postId)
       .update({
-        comments: [
-          ...comments,
-          {
-            commentId,
-            authorId: userObj.userId,
-            avatar: userObj.avatar,
-            nickname: userObj.nickname,
-            content,
-            createdAt: getCreatedDay(),
-          },
-        ],
+        comments: commentsDoc,
       })
       .then(() => {
         setContent('');
-        setComments([
-          ...comments,
-          {
-            commentId,
-            authorId: userObj.userId,
-            avatar: userObj.avatar,
-            nickname: userObj.nickname,
-            content,
-            createdAt: getCreatedDay(),
-          },
-        ]);
+        setComments(commentsDoc);
         setCommentCount(commentCount + 1);
       })
       .catch((error) => console.log(error));
@@ -320,7 +319,10 @@ const Comment = ({ postId }) => {
           )}
         </CommentContainer>
       )}
-      {isSignInClick && <SignIn toggleSignIn={toggleSignIn} />}
+      {isSignInClick && (
+        <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
+      )}
+      {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
     </>
   );
 };
