@@ -66,7 +66,19 @@ const RecordInfoContent = styled.li`
   }
 `;
 
-const RecordInfoEdit = ({ postObj, onChange, postTitle, season }) => {
+interface RecordInfoEditProps {
+  postObj: IPost;
+  onChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void;
+  postTitle: string;
+  season: string;
+}
+
+const RecordInfoEdit: React.FC<RecordInfoEditProps> = ({
+  postObj,
+  onChange,
+  postTitle,
+  season,
+}) => {
   return (
     <RecordInfoContainer>
       <RecordInfoWrap>
