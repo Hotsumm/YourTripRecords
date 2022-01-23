@@ -57,23 +57,27 @@ const CreatorWrap = styled.div`
   }
 `;
 
-const PostInfo = ({ postObj }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isLikesUser, setIsLikesUser] = useState(false);
-  const [likeCount, setLikeCount] = useState(
+interface PostInfoProps {
+  postObj: IPost;
+}
+
+const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isLikesUser, setIsLikesUser] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(
     postObj.likes.length ? postObj.likes.length : 0,
   );
 
-  const { userObj } = useContext(UserContext);
+  const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
-  const likeList = postObj.likes;
 
-  const toggleLikesUser = () => {
+  const toggleLikesUser = (): void => {
     if (likeCount === 0) return;
     setIsLikesUser(!isLikesUser);
   };
 
-  const handleLike = () => {
+  const handleLike = (): void => {
+    const likeList = postObj.likes;
     if (!userObj) {
       alert('먼저 로그인을 해주세요.');
       return;
