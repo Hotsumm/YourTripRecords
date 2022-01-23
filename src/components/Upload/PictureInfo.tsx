@@ -139,20 +139,32 @@ const TextAreaWrap = styled.div`
   }
 `;
 
-const PictureInfo = ({
-  posts,
+interface PictureInfoProps {
+  pictureFileList: IPictureFileList[];
+  onChange(
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ): void;
+  searchPlace: string[];
+  isSearchPlaceSelect: boolean[];
+  locationSelect: LocationSelectParams;
+}
+
+const PictureInfo: React.FC<PictureInfoProps> = ({
+  pictureFileList,
   onChange,
   searchPlace,
-  searchPlaceSelect,
+  isSearchPlaceSelect,
   locationSelect,
 }) => {
   return (
     <PictureInfoContainer>
       <PictureInfoWrap>
-        {posts.map((post, index) => (
+        {pictureFileList.map((pictureFile, index) => (
           <li key={index}>
             <PictureWrap>
-              <img src={post.picturePreview} alt="여행기록 사진" />
+              <img src={pictureFile.picturePreview} alt="여행기록 사진" />
             </PictureWrap>
             <PictureInputWrap>
               <PictureInfoContent>
@@ -166,7 +178,7 @@ const PictureInfo = ({
                     onChange={onChange}
                     value={searchPlace[index]}
                   />
-                  {searchPlace[index] && !searchPlaceSelect[index] && (
+                  {searchPlace[index] && !isSearchPlaceSelect[index] && (
                     <Pagination
                       searchPlace={searchPlace[index]}
                       locationSelect={locationSelect}
@@ -179,15 +191,14 @@ const PictureInfo = ({
                 <h3>설명</h3>
                 <TextAreaWrap>
                   <textarea
-                    type="text"
                     placeholder="최대 300자로 사진을 설명해보세요."
-                    maxLength="300"
+                    maxLength={300}
                     id={index}
                     rows={8}
                     name="description"
                     onChange={onChange}
                   />
-                  <div>{posts[index].description.length}/300자</div>
+                  <div>{pictureFileList[index].description.length}/300자</div>
                 </TextAreaWrap>
               </PictureInfoContent>
             </PictureInputWrap>

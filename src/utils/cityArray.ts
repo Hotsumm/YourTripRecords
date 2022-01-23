@@ -1,8 +1,3 @@
-interface ICityArray {
-  id: number;
-  name: string;
-}
-
 export const cityArray: ICityArray[] = [
   {
     id: 1,

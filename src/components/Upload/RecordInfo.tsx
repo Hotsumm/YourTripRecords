@@ -99,7 +99,18 @@ const Hashtag = styled.li`
   }
 `;
 
-const RecordInfo = ({
+interface RecordInfoProps {
+  onChange(
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ): void;
+  cityArray: ICityArray[];
+  handleHashtagSelect(name: string): void;
+  selectedHashtag: string[];
+}
+
+const RecordInfo: React.FC<RecordInfoProps> = ({
   onChange,
   cityArray,
   handleHashtagSelect,

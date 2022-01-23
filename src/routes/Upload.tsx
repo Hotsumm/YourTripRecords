@@ -145,14 +145,6 @@ const ButtonWrap = styled.div<{ isLoading: number }>`
   }
 `;
 
-interface IPictureFileList {
-  picturePreview: string;
-  fileName: string;
-  picture: string;
-  location: ILocation | null;
-  description: string;
-}
-
 const Upload = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -207,7 +199,11 @@ const Upload = () => {
     setSelectedHashtag([...newSelectedHashtag]);
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const {
       target: { name, value },
     } = e;
@@ -377,10 +373,10 @@ const Upload = () => {
                     selectedHashtag={selectedHashtag}
                   />
                   <PictureInfo
-                    posts={pictureFileList}
+                    pictureFileList={pictureFileList}
                     onChange={onChange}
                     searchPlace={searchPlace}
-                    searchPlaceSelect={isSearchPlaceSelect}
+                    isSearchPlaceSelect={isSearchPlaceSelect}
                     locationSelect={locationSelect}
                   />
                 </>
