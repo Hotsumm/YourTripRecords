@@ -62,16 +62,6 @@ const ButtonWrap = styled.div<{ isLoading: number }>`
   }
 `;
 
-interface LocationSelectParams {
-  (
-    locationId: string,
-    longitude: string,
-    latitude: string,
-    place_name: string,
-    id: number,
-  ): void;
-}
-
 const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
   location,
 }) => {
@@ -131,7 +121,11 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
     setPictureObjList(newPictureObjList);
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ): void => {
     const {
       target: { name, value },
     } = e;
@@ -219,7 +213,7 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
                     pictureObjList={pictureObjList}
                     onChange={onChange}
                     searchPlace={searchPlace}
-                    searchPlaceSelect={isSearchPlaceSelect}
+                    isSearchPlaceSelect={isSearchPlaceSelect}
                     locationSelect={locationSelect}
                   />
                 </>
