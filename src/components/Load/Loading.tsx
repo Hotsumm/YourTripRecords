@@ -46,7 +46,7 @@ const LoadingWrap = styled.div`
   }
 `;
 
-const Loading = () => {
+const Loading: React.FC = () => {
   return (
     <>
       <LoadingContainer>
