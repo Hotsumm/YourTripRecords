@@ -20,7 +20,7 @@ const Guide = styled.p`
   padding: 5px 0;
 `;
 
-const UploadGuide = () => {
+const UploadGuide: React.FC = () => {
   return (
     <GuideContainer>
       <GuideHeaderWrap>
