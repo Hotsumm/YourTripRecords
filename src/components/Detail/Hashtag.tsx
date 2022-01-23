@@ -21,23 +21,28 @@ const HashtagWrap = styled.ul`
 
 const HashtagLink = styled(Link)`
   width: auto;
-  & li {
-    width: 100%;
-    white-space: nowrap;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 16px;
-    color: ${(props) => props.theme.textColor};
-    background: ${(props) => props.theme.menuColor};
-    border: 1px solid #16a085;
-    cursor: pointer;
-    :hover {
-      color: #16a085;
-    }
+`;
+
+const HashTagLI = styled.li`
+  width: 100%;
+  white-space: nowrap;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: ${(props) => props.theme.textColor};
+  background: ${(props) => props.theme.menuColor};
+  border: 1px solid #16a085;
+  cursor: pointer;
+  :hover {
+    color: #16a085;
   }
 `;
 
-const Hashtag = ({ postObj }) => {
+interface HashtagProps {
+  postObj: IPost;
+}
+
+const Hashtag: React.FC<HashtagProps> = ({ postObj }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -49,7 +54,7 @@ const Hashtag = ({ postObj }) => {
               key={index}
               to={{ pathname: '/city/전체', state: { hashtags: [hashtag] } }}
             >
-              <li theme={theme}>{hashtag}</li>
+              <HashTagLI theme={theme}>{hashtag}</HashTagLI>
             </HashtagLink>
           ))}
       </HashtagWrap>
