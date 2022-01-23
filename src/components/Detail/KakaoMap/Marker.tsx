@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-const { kakao } = window;
+const { kakao }: any = window;
 
 const MarkerContanier = styled.div`
   position: absolute;
@@ -17,7 +17,11 @@ const MarkerWrap = styled.div`
   height: 100%;
 `;
 
-const Marker = ({ coords }) => {
+interface MarkerProps {
+  coords: ICoords;
+}
+
+const Marker: React.FC<MarkerProps> = ({ coords }) => {
   useEffect(() => {
     const container = document.getElementById('marker');
     const options = {

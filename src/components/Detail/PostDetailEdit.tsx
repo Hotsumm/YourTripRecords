@@ -40,16 +40,23 @@ const EditWrap = styled.div`
   }
 `;
 
-const PostDetailEdit = ({ userObj, postObj, handleDeletePost }) => {
+interface PostDetailEditProps {
+  postObj: IPost;
+  handleDeletePost(): void;
+}
+
+const PostDetailEdit: React.FC<PostDetailEditProps> = ({
+  postObj,
+  handleDeletePost,
+}) => {
   const { theme } = useContext(ThemeContext);
 
-  const [isEditClick, setIsEditClick] = useState(false);
+  const [isEditClick, setIsEditClick] = useState<boolean>(false);
 
-  const ref = useRef();
-
+  const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, () => setIsEditClick(false));
 
-  const handleEdit = () => setIsEditClick(!isEditClick);
+  const handleEdit = (): void => setIsEditClick(!isEditClick);
 
   return (
     <PostDetailEditContainer>

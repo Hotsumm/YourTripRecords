@@ -119,23 +119,28 @@ const UserProfileLink = styled(Link)`
   }
 `;
 
-const LikesUser = ({ postObj, toggleLikesUser }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [likesUserList, setLikesUserList] = useState([]);
+interface LikesUserProps {
+  postObj: IPost;
+  toggleLikesUser(): void;
+}
+
+const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [likesUserList, setLikesUserList] = useState<IUserObj[]>([]);
 
   const { theme } = useContext(ThemeContext);
 
-  const closeButton = () => toggleLikesUser();
+  const closeButton = (): void => toggleLikesUser();
 
-  const fetchLikesUser = useCallback(async () => {
+  const fetchLikesUser = useCallback<() => void>(async () => {
     setIsLoading(true);
-    let likesUserArr = [];
+    let likesUserArr: IUserObj[] = [];
     for (let userId of postObj.likes) {
       await firebaseFireStore
         .collection('users')
         .doc(userId)
         .get()
-        .then((doc) => {
+        .then((doc: any) => {
           if (doc.exists) {
             likesUserArr.push(doc.data());
           } else {

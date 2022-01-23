@@ -145,16 +145,6 @@ const ButtonWrap = styled.div<{ isLoading: number }>`
   }
 `;
 
-interface LocationSelectParams {
-  (
-    locationId: string,
-    longitude: string,
-    latitude: string,
-    place_name: string,
-    id: number,
-  ): void;
-}
-
 interface IPictureFileList {
   picturePreview: string;
   fileName: string;

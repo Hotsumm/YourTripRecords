@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-const { kakao } = window;
+const { kakao }: any = window;
 
 const PaginationContainer = styled.ul`
   display: flex;
@@ -31,7 +31,6 @@ const PaginationWrap = styled.li`
 
 const PaginationPlaceName = styled.span`
   min-width: 100%;
-  width: 100%;
   font-size: 12px;
   color: white;
   padding: 5px;
@@ -41,22 +40,36 @@ const PaginationPlaceName = styled.span`
 const PaginationAddress = styled.span`
   min-width: 100%;
   display: inline;
-  width: 100%;
   font-size: 10px;
   color: white;
   padding: 5px;
 `;
 
-const Pagination = ({ searchPlace, locationSelect, id }) => {
-  const [Places, setPlaces] = useState([]);
+interface PaginationProps {
+  searchPlace: string;
+  locationSelect: LocationSelectParams;
+  id: number;
+}
 
-  const handleLocation = (locationId, longitude, latitude, place_name) => {
+const Pagination: React.FC<PaginationProps> = ({
+  searchPlace,
+  locationSelect,
+  id,
+}) => {
+  const [Places, setPlaces] = useState<any[]>([]);
+
+  const handleLocation: LocationSelectParams = (
+    locationId,
+    longitude,
+    latitude,
+    place_name,
+  ) => {
     locationSelect(locationId, longitude, latitude, place_name, id);
   };
 
   useEffect(() => {
     const places = new kakao.maps.services.Places();
-    const placesSearchCB = (data, status) => {
+    const placesSearchCB = (data: any, status: any) => {
       if (status === kakao.maps.services.Status.OK) {
         displayPlaces(data);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -68,7 +81,7 @@ const Pagination = ({ searchPlace, locationSelect, id }) => {
     };
     places.keywordSearch(searchPlace, placesSearchCB);
 
-    const displayPlaces = (data) => {
+    const displayPlaces = (data: any[]): void => {
       setPlaces(data);
     };
   }, [searchPlace]);
@@ -76,11 +89,11 @@ const Pagination = ({ searchPlace, locationSelect, id }) => {
   return (
     <PaginationContainer>
       {Places &&
-        Places.map((place, index) => (
+        Places.map((place) => (
           <PaginationWrap
             key={place.id}
             onClick={() =>
-              handleLocation(place.id, place.x, place.y, place.place_name)
+              handleLocation(place.id, place.x, place.y, place.place_name, id)
             }
           >
             <PaginationPlaceName>{place.place_name}</PaginationPlaceName>

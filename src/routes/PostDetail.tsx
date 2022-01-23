@@ -180,7 +180,6 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
                     {userObj &&
                       userObj.userId === postObj.creator.userObj.userId && (
                         <PostDetailEdit
-                          userObj={userObj}
                           postObj={postObj}
                           handleDeletePost={handleDeletePost}
                         />

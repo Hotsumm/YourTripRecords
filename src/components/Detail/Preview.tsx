@@ -68,7 +68,12 @@ const PreviewImgWrap = styled.div`
   }
 `;
 
-const Preview = ({ postObj, pathName }) => {
+interface PreviewProps {
+  postObj: IPost;
+  pathName: string;
+}
+
+const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
   return (
     <PreviewContainer>
       <PreviewWrap>
