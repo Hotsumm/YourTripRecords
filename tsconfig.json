@@ -8,17 +8,19 @@
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
-    "allowJs": true,
+    "allowJs": false,
     "baseUrl": "src",
     "outDir": "./dist",
+    "typeRoots": ["src/@types", "node_modules/@types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "strictNullChecks": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["**/*"]
+  "include": ["src/**/*"]
 }
