@@ -15,9 +15,13 @@
 
 - ## ⚙️ Stack
 
-  1. ### React
-  2. ### Firebase
-  3. ### styled-components
+  ### 1. React
+
+  ### 2. Typescript
+
+  ### 3. Firebase
+
+  ### 4. styled-components
 
 - ## ℗ Clone
 
@@ -25,7 +29,7 @@
     $ git clone https://github.com/Hotsumm/YourTripRecords.git
   ```
 
-- ## ⌨️ Use
+- ## ⌨️ Usage
 
   ```
       $ yarn
