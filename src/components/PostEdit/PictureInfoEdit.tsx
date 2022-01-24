@@ -170,7 +170,7 @@ const PictureInfoEdit: React.FC<PictureInfoEditProps> = ({
                     name="location"
                     value={searchPlace[index] ? searchPlace[index] : ''}
                     onChange={onChange}
-                    id={index}
+                    tabIndex={index}
                   />
                   {searchPlace[index] && !isSearchPlaceSelect[index] && (
                     <Pagination
@@ -188,7 +188,7 @@ const PictureInfoEdit: React.FC<PictureInfoEditProps> = ({
                     placeholder="최대 300자로 사진을 설명해보세요."
                     rows={7}
                     maxLength={300}
-                    id={index}
+                    tabIndex={index}
                     name="description"
                     value={pictureObj.description}
                     onChange={onChange}

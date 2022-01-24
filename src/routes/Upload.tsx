@@ -205,9 +205,8 @@ const Upload = () => {
     >,
   ) => {
     const {
-      target: { name, value },
+      target: { tabIndex, name, value },
     } = e;
-    const id = parseInt(e.target.id);
     let newPictureFileList = [...pictureFileList];
     let newSearchPlace = [...searchPlace];
     let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
@@ -219,18 +218,18 @@ const Upload = () => {
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      if (newIsSearchPlaceSelect[id]) {
-        newIsSearchPlaceSelect[id] = false;
+      if (newIsSearchPlaceSelect[tabIndex]) {
+        newIsSearchPlaceSelect[tabIndex] = false;
       }
 
-      newPictureFileList[id].location = null;
-      newSearchPlace[id] = value;
+      newPictureFileList[tabIndex].location = null;
+      newSearchPlace[tabIndex] = value;
 
       setSearchPlace(newSearchPlace);
       setIsSearchPlaceSelect(newIsSearchPlaceSelect);
       setPictureFileList(newPictureFileList);
     } else if (name === 'description') {
-      newPictureFileList[id].description = value;
+      newPictureFileList[tabIndex].description = value;
       setPictureFileList(newPictureFileList);
     }
   };

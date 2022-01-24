@@ -127,9 +127,8 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
     >,
   ): void => {
     const {
-      target: { name, value },
+      target: { tabIndex, name, value },
     } = e;
-    const id = parseInt(e.target.id);
 
     let newPictureObjList = [...pictureObjList];
     let newSearchPlace = [...searchPlace];
@@ -140,18 +139,18 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
     } else if (name === 'season') {
       setSeason(value);
     } else if (name === 'location') {
-      if (newIsSearchPlaceSelect[id]) {
-        newIsSearchPlaceSelect[id] = false;
+      if (newIsSearchPlaceSelect[tabIndex]) {
+        newIsSearchPlaceSelect[tabIndex] = false;
         setIsSearchPlaceSelect(newIsSearchPlaceSelect);
       }
 
-      newPictureObjList[id].location = null;
-      newSearchPlace[id] = value;
+      newPictureObjList[tabIndex].location = null;
+      newSearchPlace[tabIndex] = value;
 
       setSearchPlace(newSearchPlace);
       setPictureObjList(newPictureObjList);
     } else if (name === 'description') {
-      newPictureObjList[id].description = value;
+      newPictureObjList[tabIndex].description = value;
       setPictureObjList(newPictureObjList);
     }
   };

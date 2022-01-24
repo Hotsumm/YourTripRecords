@@ -173,7 +173,7 @@ const PictureInfo: React.FC<PictureInfoProps> = ({
                   <input
                     type="text"
                     placeholder="위치"
-                    id={index}
+                    tabIndex={index}
                     name="location"
                     onChange={onChange}
                     value={searchPlace[index]}
@@ -193,7 +193,7 @@ const PictureInfo: React.FC<PictureInfoProps> = ({
                   <textarea
                     placeholder="최대 300자로 사진을 설명해보세요."
                     maxLength={300}
-                    id={index}
+                    tabIndex={index}
                     rows={8}
                     name="description"
                     onChange={onChange}
