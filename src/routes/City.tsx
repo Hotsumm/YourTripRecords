@@ -12,7 +12,7 @@ import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
 const CityContainer = styled.main`
   width: 100%;
   padding-top: 80px;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
 `;
 
