@@ -13,7 +13,7 @@ const PostEditContainer = styled.main`
   width: 100%;
   padding-top: 80px;
   text-align: center;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
 `;
 const UploadHeaderWrap = styled.header`
