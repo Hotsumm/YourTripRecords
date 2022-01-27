@@ -7,7 +7,7 @@ import Footer from '../components/Home/Footer';
 
 const HomeContainer = styled.main`
   width: 100%;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
 `;
 
