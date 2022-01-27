@@ -12,7 +12,7 @@ import bgProfile from '../static/assets/bgProfile.jpg';
 
 const ProfileContainer = styled.main`
   width: 100%;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
 `;
 
