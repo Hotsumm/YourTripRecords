@@ -14,7 +14,7 @@ const AllPicturesContainer = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
   padding: 0 20px;
 `;
