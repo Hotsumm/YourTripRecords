@@ -17,7 +17,7 @@ import { browserImageCompression } from '../utils/browserImageCompression';
 
 const UploadContainer = styled.main`
   width: 100%;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
   padding-top: 80px;
   text-align: center;
