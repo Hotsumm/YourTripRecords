@@ -13,7 +13,7 @@ import Footer from '../components/Home/Footer';
 
 const MyAccountContainer = styled.main`
   width: 100vw;
-  max-width: 1450px;
+  max-width: 2560px;
   padding-top: 80px;
   margin: 0 auto;
 `;

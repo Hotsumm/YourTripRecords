@@ -18,7 +18,7 @@ const DetailContainer = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
 `;
 
