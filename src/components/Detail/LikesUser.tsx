@@ -21,9 +21,8 @@ const LikesUserListContainer = styled.div`
 
 const LikesUserListWrap = styled.div`
   display: flex;
-  max-height: 400px;
+  max-height: 50%;
   border-radius: 10px;
-  overflow: auto;
   flex-direction: column;
   background: ${(props) => props.theme.menuColor};
 `;
@@ -41,17 +40,18 @@ const LikesUserListHeader = styled.div`
     left: 10px;
     cursor: pointer;
   }
-`;
-
-const Header = styled.div`
-  font-size: 18px;
-  font-weight: 700;
+  & h3 {
+    font-size: 18px;
+    font-weight: 700;
+  }
 `;
 
 const LikesUserList = styled.ul`
   width: 100%;
   padding: 20px 0;
   display: flex;
+  overflow-y: auto;
+  max-height: calc(50vh - 59px);
   flex-direction: column;
   align-items: flex-start;
 `;
@@ -111,11 +111,10 @@ const UserProfileLink = styled(Link)`
     padding: 10px 15px;
     border-radius: 5px;
     border: 1px solid #ababab80;
-  }
-
-  :hover {
-    color: white;
-    background: #16a085;
+    :hover {
+      color: white;
+      background: #16a085;
+    }
   }
 `;
 
@@ -164,7 +163,7 @@ const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
           <>
             <LikesUserListHeader>
               <HiX onClick={closeButton} size={'20'} />
-              <Header>좋아요 한 사용자</Header>
+              <h3>좋아요 한 사용자</h3>
             </LikesUserListHeader>
             <LikesUserList>
               {likesUserList &&

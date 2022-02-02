@@ -20,18 +20,14 @@ const ProfileEditContainer = styled.div`
 const ProfileEditWrap = styled.div`
   @media (max-width: 1024px) {
     width: 80%;
-    max-height: 400px;
   }
   @media (max-width: 500px) {
     width: 95%;
   }
-  max-height: 500px;
   width: 768px;
-  overflow: auto;
+  max-height: 75vh;
+  margin-top: 80px;
   background: ${(props) => props.theme.menuColor};
-  margin-top: 100px;
-  z-index: 1;
-  padding: 0 0 30px 0;
   border-radius: 20px;
 
   ::-webkit-scrollbar-thumb {
@@ -49,13 +45,23 @@ const ProfileEditHeader = styled.div`
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #ababab80;
-  margin-bottom: 20px;
 `;
 const HeaderTitle = styled.div`
   font-size: 20px;
 `;
 
-const ProfileContentWrap = styled.div`
+const ProfileEditContentWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  max-height: calc(75vh - 61px);
+  overflow-y: auto;
+`;
+
+const ProfileContent = styled.div`
+  width: 100%;
   display: flex;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -64,7 +70,7 @@ const ProfileContentWrap = styled.div`
   }
 `;
 
-const AvatarContainer = styled.div`
+const ProfileAvatarWrap = styled.div`
   @media (max-width: 500px) {
     margin-bottom: 20px;
   }
@@ -73,7 +79,7 @@ const AvatarContainer = styled.div`
   align-items: center;
   padding-top: 10px;
   width: 35%;
-  button {
+  & button {
     padding: 10px 10px;
     background: #16a085;
     border: 1px solid #16a085;
@@ -89,7 +95,7 @@ const AvatarWrap = styled.div`
   :hover {
     opacity: 0.7;
   }
-  label {
+  & label {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -110,9 +116,13 @@ const Avatar = styled.img`
   border-radius: 50%;
 `;
 
-const InputContainer = styled.div`
-  @media (max-width: 500px) {
+const ProfileInputWrap = styled.div`
+  @media (max-width: 768px) {
     width: 100%;
+    padding: 0 20px;
+  }
+  @media (max-width: 500px) {
+    padding: 0;
   }
   width: 64%;
 `;
@@ -135,7 +145,7 @@ const InputWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  textarea {
+  & textarea {
     line-height: 20px;
     padding: 10px 0 0 10px;
     border-radius: 5px;
@@ -146,12 +156,12 @@ const InputWrap = styled.div`
       border: 2px solid #16a085;
     }
   }
-  span {
+  & span {
     font-weight: 600;
     margin-bottom: 10px;
   }
   :last-child {
-    span {
+    & span {
       :last-child {
         text-align: right;
         color: gray;
@@ -164,7 +174,7 @@ const InputWrap = styled.div`
 const ButtonWrap = styled.div`
   display: flex;
   justify-content: center;
-  button {
+  & button {
     width: 100px;
     height: 50px;
     border: 0.1px solid #16a085;
@@ -304,81 +314,83 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
         <ProfileEditHeader>
           <HeaderTitle>프로필 수정</HeaderTitle>
         </ProfileEditHeader>
-        <ProfileContentWrap>
-          <AvatarContainer>
-            <AvatarWrap>
-              {avatarPreview ? (
-                <Avatar src={avatar} />
-              ) : (
-                <Avatar src={userObj.avatar} />
-              )}
-              <label htmlFor="input-file">프로필사진 변경</label>
-              <input
-                type="file"
-                id="input-file"
-                style={{ display: 'none' }}
-                accept="image/*"
-                onChange={onFileChange}
-              />
-            </AvatarWrap>
-            <button style={{ color: 'white' }} onClick={defaultAvatarChange}>
-              기본이미지로 변경
-            </button>
-          </AvatarContainer>
-          <InputContainer>
-            <InputWrap>
-              <span>*이메일</span>
-              <input type="email" value={userObj.email} readOnly />
-            </InputWrap>
-            <InputWrap>
-              <span>*닉네임</span>
-              <input
-                type="text"
-                maxLength={16}
-                name="nickname"
-                value={nickname}
-                onChange={onChange}
-                placeholder="닉네임"
-              />
-              <span
-                style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
-              >
-                닉네임은 최소 2자 최대 8자로 입력해주세요.
-              </span>
-            </InputWrap>
-            <InputWrap>
-              <span>인스타그램</span>
-              <input
-                type="text"
-                name="instagram"
-                onChange={onChange}
-                value={instagram}
-                placeholder="인스타그램"
-              />
-              <span
-                style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
-              >
-                Instagram ID가 있다면, 입력해주세요.
-              </span>
-            </InputWrap>
-            <InputWrap>
-              <span>소개</span>
-              <textarea
-                name="intro"
-                value={intro}
-                rows={4}
-                maxLength={100}
-                onChange={onChange}
-                placeholder="최대 100자로 자신을 소개해보세요."
-              />
-              <span>{intro.length}/160자</span>
-            </InputWrap>
-          </InputContainer>
-        </ProfileContentWrap>
-        <ButtonWrap>
-          <button onClick={vaildCheck}>변경하기</button>
-          <button onClick={closeButton}>취소</button>
-        </ButtonWrap>
+        <ProfileEditContentWrap>
+          <ProfileContent>
+            <ProfileAvatarWrap>
+              <AvatarWrap>
+                {avatarPreview ? (
+                  <Avatar src={avatar} />
+                ) : (
+                  <Avatar src={userObj.avatar} />
+                )}
+                <label htmlFor="input-file">프로필사진 변경</label>
+                <input
+                  type="file"
+                  id="input-file"
+                  style={{ display: 'none' }}
+                  accept="image/*"
+                  onChange={onFileChange}
+                />
+              </AvatarWrap>
+              <button style={{ color: 'white' }} onClick={defaultAvatarChange}>
+                기본이미지로 변경
+              </button>
+            </ProfileAvatarWrap>
+            <ProfileInputWrap>
+              <InputWrap>
+                <span>*이메일</span>
+                <input type="email" value={userObj.email} readOnly />
+              </InputWrap>
+              <InputWrap>
+                <span>*닉네임</span>
+                <input
+                  type="text"
+                  maxLength={16}
+                  name="nickname"
+                  value={nickname}
+                  onChange={onChange}
+                  placeholder="닉네임"
+                />
+                <span
+                  style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
+                >
+                  닉네임은 최소 2자 최대 8자로 입력해주세요.
+                </span>
+              </InputWrap>
+              <InputWrap>
+                <span>인스타그램</span>
+                <input
+                  type="text"
+                  name="instagram"
+                  onChange={onChange}
+                  value={instagram}
+                  placeholder="인스타그램"
+                />
+                <span
+                  style={{ marginTop: '5px', color: 'gray', fontWeight: '500' }}
+                >
+                  Instagram ID가 있다면, 입력해주세요.
+                </span>
+              </InputWrap>
+              <InputWrap>
+                <span>소개</span>
+                <textarea
+                  name="intro"
+                  value={intro}
+                  rows={4}
+                  maxLength={100}
+                  onChange={onChange}
+                  placeholder="최대 100자로 자신을 소개해보세요."
+                />
+                <span>{intro.length}/160자</span>
+              </InputWrap>
+            </ProfileInputWrap>
+          </ProfileContent>
+          <ButtonWrap>
+            <button onClick={vaildCheck}>변경하기</button>
+            <button onClick={closeButton}>취소</button>
+          </ButtonWrap>
+        </ProfileEditContentWrap>
       </ProfileEditWrap>
     </ProfileEditContainer>
   );

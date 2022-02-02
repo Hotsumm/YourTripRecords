@@ -20,23 +20,27 @@ const SignUpContainer = styled.div`
   z-index: 1;
   background: rgba(0, 0, 0, 0.4);
 `;
+
 const SignUpWrap = styled.div`
   @media (max-width: 500px) {
     width: 90%;
-    max-height: 400px;
     border-radius: 15px;
   }
   @media (max-width: 320px) {
     width: 95%;
   }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 450px;
-  height: 80vh;
-  max-height: 600px;
+  max-height: 90%;
   overflow-y: auto;
   background: ${(props) => props.theme.menuColor};
   border-radius: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;
+
 const SignUpHeaderWrap = styled.div`
   width: 100%;
   display: flex;
@@ -63,7 +67,6 @@ const IconWrap = styled.div`
   position: absolute;
   left: 40px;
   cursor: pointer;
-
   & svg {
     font-size: 24px;
     @media (max-width: 500px) {
@@ -74,10 +77,11 @@ const IconWrap = styled.div`
 
 const SignUpContentWrap = styled.div`
   width: 100%;
-  padding: 30px 0 60px 0;
+  padding: 30px 0;
+  max-height: calc(90vh - 61px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -89,8 +93,10 @@ const InputContainer = styled.div`
   width: 100%;
   display: flex;
   padding: 0px 50px;
+  margin-bottom: 30px;
   gap: 20px 0;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -120,10 +126,6 @@ const InputWrap = styled.div`
       outline: none;
       border: 2px solid #16a085;
     }
-  }
-
-  :last-child {
-    margin-bottom: 30px;
   }
 `;
 
@@ -213,8 +215,8 @@ const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
   };
 
   const handleSignUp = () => {
-    if (password !== passwordConfirm) alert('비밀번호를 확인해주세요.');
-    if (!nickname) alert('닉네임을 입력해주세요.');
+    if (password !== passwordConfirm) return alert('비밀번호를 확인해주세요.');
+    if (!nickname) return alert('닉네임을 입력해주세요.');
 
     setLoading(true);
     firebaseAuth
