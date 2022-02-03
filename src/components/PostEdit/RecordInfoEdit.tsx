@@ -86,7 +86,7 @@ const RecordInfoEdit: React.FC<RecordInfoEditProps> = ({
           <span>여행 제목</span>
           <input
             type="title"
-            name="recordTitle"
+            name="postTitle"
             value={postTitle}
             onChange={onChange}
           />

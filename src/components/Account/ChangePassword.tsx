@@ -94,15 +94,24 @@ interface ChangePasswordProps {
   toggleChangePassword(): void;
 }
 
+interface InputsProps {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+}
+
 const ChangePassword: React.FC<ChangePasswordProps> = ({
   toggleChangePassword,
 }) => {
-  const [oldPassword, setOldPassword] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>('');
-
+  const [inputs, setInputs] = useState<InputsProps>({
+    oldPassword: '',
+    newPassword: '',
+    newPasswordConfirm: '',
+  });
   const { theme } = useContext(ThemeContext);
   const { userObj }: any = useContext(UserContext);
+
+  const { oldPassword, newPassword, newPasswordConfirm } = inputs;
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -114,13 +123,11 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
     const {
       target: { name, value },
     } = e;
-    if (name === 'newPassword') {
-      setNewPassword(value);
-    } else if (name === 'newPasswordConfirm') {
-      setNewPasswordConfirm(value);
-    } else if (name === 'oldPassword') {
-      setOldPassword(value);
-    }
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
   const validCheck = () => {
     if (newPassword !== newPasswordConfirm)

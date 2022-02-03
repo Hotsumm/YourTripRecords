@@ -62,20 +62,29 @@ const ButtonWrap = styled.div<{ isLoading: number }>`
   }
 `;
 
+interface InputsProps {
+  postTitle: string;
+  season: string;
+}
+
 const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
   location,
 }) => {
-  const { postObj } = location.state;
   const history = useHistory();
+  const { postObj } = location.state;
   const { userObj }: any = useContext(UserContext);
+  const [inputs, setInputs] = useState<InputsProps>({
+    postTitle: postObj.postTitle,
+    season: postObj.season,
+  });
   const [pictureObjList, setPictureObjList] = useState<IPictureList[]>(
     postObj.pictureList,
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [postTitle, setPostTitle] = useState<string>(postObj.postTitle);
-  const [season, setSeason] = useState<string>(postObj.season);
   const [searchPlace, setSearchPlace] = useState<string[]>([]);
   const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
+
+  const { postTitle, season } = inputs;
 
   useEffect(() => {
     let placeNameList: string[] = [];
@@ -134,11 +143,7 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
     let newSearchPlace = [...searchPlace];
     let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
-    if (name === 'recordTitle') {
-      setPostTitle(value);
-    } else if (name === 'season') {
-      setSeason(value);
-    } else if (name === 'location') {
+    if (name === 'location') {
       if (newIsSearchPlaceSelect[tabIndex]) {
         newIsSearchPlaceSelect[tabIndex] = false;
         setIsSearchPlaceSelect(newIsSearchPlaceSelect);
@@ -149,10 +154,17 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
 
       setSearchPlace(newSearchPlace);
       setPictureObjList(newPictureObjList);
+      return;
     } else if (name === 'description') {
       newPictureObjList[tabIndex].description = value;
       setPictureObjList(newPictureObjList);
+      return;
     }
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const onPostEdit = () => {
