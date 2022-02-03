@@ -188,19 +188,25 @@ interface ProfileEditProps {
   toggleProfileEdit(): void;
 }
 
+interface InputsProps {
+  nickname: string;
+  instagram: string;
+  intro: string;
+}
+
 const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
   const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const [nickname, setNickname] = useState<string>(userObj.nickname);
-  const [instagram, setInstagram] = useState<string>(
-    userObj.instagram ? userObj.instagram : '',
-  );
-  const [intro, setIntro] = useState<string>(
-    userObj.intro ? userObj.intro : '',
-  );
+  const [inputs, setInputs] = useState<InputsProps>({
+    nickname: userObj.nickname,
+    instagram: userObj.instagram ? userObj.instagram : '',
+    intro: userObj.intro ? userObj.intro : '',
+  });
   const [avatar, setAvatar] = useState<string>(userObj.avatar);
   const [avatarPreview, setAvatarPreview] = useState<boolean>(false);
+
+  const { nickname, instagram, intro } = inputs;
 
   const defaultAvatar =
     'https://firebasestorage.googleapis.com/v0/b/travel-7a141.appspot.com/o/UserProfle%2FU3NaFKaoyGYnYozURq4p2XHsqkw2%2FdefaultAvatar.png?alt=media&token=dc3a629e-1934-4db6-abf0-e918c306d004';
@@ -218,13 +224,11 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'nickname') {
-      setNickname(value);
-    } else if (name === 'instagram') {
-      setInstagram(value);
-    } else if (name === 'intro') {
-      setIntro(value);
-    }
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
