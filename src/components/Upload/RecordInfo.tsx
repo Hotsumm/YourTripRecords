@@ -123,7 +123,7 @@ const RecordInfo: React.FC<RecordInfoProps> = ({
       <RecordContentWrap>
         <RecordContent>
           <span>여행 제목</span>
-          <input type="title" name="recordTitle" onChange={onChange} />
+          <input type="title" name="postTitle" onChange={onChange} />
         </RecordContent>
         <RecordContent>
           <span>도시</span>

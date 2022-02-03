@@ -145,20 +145,30 @@ const ButtonWrap = styled.div<{ isLoading: number }>`
   }
 `;
 
+interface InputsProps {
+  postTitle: string;
+  season: string;
+  city: string;
+}
+
 const Upload = () => {
   const history = useHistory();
+  const [inputs, setInputs] = useState<InputsProps>({
+    postTitle: '',
+    season: '봄',
+    city: '서울',
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pictureFileList, setPictureFileList] = useState<IPictureFileList[]>(
     [],
   );
-  const [city, setCity] = useState<string>('서울');
-  const [postTitle, setPostTitle] = useState<string>('');
-  const [season, setSeason] = useState<string>('봄');
   const [searchPlace, setSearchPlace] = useState<string[]>([]);
   const [selectedHashtag, setSelectedHashtag] = useState<string[]>([]);
   const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
 
   const { userObj, refreshUser }: any = useContext(UserContext);
+
+  const { postTitle, season, city } = inputs;
 
   const locationSelect: LocationSelectParams = (
     locationId,
@@ -211,27 +221,27 @@ const Upload = () => {
     let newSearchPlace = [...searchPlace];
     let newIsSearchPlaceSelect = [...isSearchPlaceSelect];
 
-    if (name === 'recordTitle') {
-      setPostTitle(value);
-    } else if (name === 'city') {
-      setCity(value);
-    } else if (name === 'season') {
-      setSeason(value);
-    } else if (name === 'location') {
+    if (name === 'location') {
       if (newIsSearchPlaceSelect[tabIndex]) {
         newIsSearchPlaceSelect[tabIndex] = false;
       }
-
       newPictureFileList[tabIndex].location = null;
       newSearchPlace[tabIndex] = value;
 
       setSearchPlace(newSearchPlace);
       setIsSearchPlaceSelect(newIsSearchPlaceSelect);
       setPictureFileList(newPictureFileList);
+      return;
     } else if (name === 'description') {
       newPictureFileList[tabIndex].description = value;
       setPictureFileList(newPictureFileList);
+      return;
     }
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
