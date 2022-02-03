@@ -100,23 +100,31 @@ interface UserDeleteProps {
   toggleUserDelete(): void;
 }
 
-const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
-  const [password, setPassword] = useState<string>('');
-  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+interface InputsProps {
+  password: string;
+  passwordConfirm: string;
+}
 
+const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
+  const [inputs, setInputs] = useState<InputsProps>({
+    password: '',
+    passwordConfirm: '',
+  });
+  const [loading, setLoading] = useState<boolean>(false);
   const { userObj }: any = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
+
+  const { password, passwordConfirm } = inputs;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'password') {
-      setPassword(value);
-    } else if (name === 'passwordConfirm') {
-      setPasswordConfirm(value);
-    }
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const onSubmit = () => {

@@ -188,14 +188,25 @@ interface SignUpProps {
   toggleSignUp(): void;
 }
 
+interface InputsProps {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
+  const [inputs, setInputs] = useState<InputsProps>({
+    email: '',
+    nickname: '',
+    password: '',
+    passwordConfirm: '',
+  });
   const [loading, setLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
-  const [nickname, setNickname] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
   const { theme } = useContext(ThemeContext);
+
+  const { email, nickname, password, passwordConfirm } = inputs;
 
   const closeButton = () => toggleSignUp();
 
@@ -203,15 +214,10 @@ const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'nickname') {
-      setNickname(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    } else if (name === 'passwordConfirm') {
-      setPasswordConfirm(value);
-    }
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const handleSignUp = () => {

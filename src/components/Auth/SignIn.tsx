@@ -169,12 +169,21 @@ interface SignInProps {
   toggleSignUp(): void;
 }
 
+interface InputsProps {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [inputs, setInputs] = useState<InputsProps>({
+    email: '',
+    password: '',
+  });
   const [loading, setLoading] = useState<boolean>(false);
 
   const { theme } = useContext(ThemeContext);
+
+  const { email, password } = inputs;
 
   const resendMessage =
     '이메일 확인링크가 인증되지 않았습니다. \n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다.\n이메일 확인링크를 재전송 하시겠습니까?';
@@ -185,15 +194,16 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
     const {
       target: { name, value },
     } = e;
-
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    }
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const handleSignIn = () => {
+    if (!email) return alert('이메일을 입력해주세요.');
+    if (!password) return alert('비밀번호를 입력해주세요.');
+
     setLoading(true);
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
