@@ -14,6 +14,7 @@ const AllPicturesListContainer = styled.div`
   align-items: center;
   padding: 0px 40px;
   margin-bottom: 30px;
+  max-width: 1440px;
 `;
 
 const PicturesListWrap = styled.div`
