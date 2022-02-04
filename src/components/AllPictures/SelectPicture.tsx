@@ -16,6 +16,7 @@ const SelectPictureContainer = styled.article`
   }
 
   width: 100%;
+  max-width: 1440px;
   padding: 20px;
   display: flex;
   justify-content: center;

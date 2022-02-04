@@ -13,7 +13,7 @@ const HashtagWrap = styled.ul`
     justify-content: center;
   }
   overflow-x: auto;
-  width: 100vw;
+  width: 100%;
   display: flex;
   padding: 0 10px;
   gap: 0 20px;
