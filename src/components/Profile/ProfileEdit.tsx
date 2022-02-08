@@ -279,38 +279,98 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
   const onSubmit = async (): Promise<void> => {
     const usersRef = firebaseFireStore.collection('users').doc(userObj.userId);
     if (!avatarPreview) {
-      usersRef
-        .update({
-          nickname,
-          instagram,
-          intro,
-        })
-        .then(() => {
-          alert('프로필이 변경되었습니다');
-          window.location.reload();
-        })
-        .catch((error) => alert(error.message));
+      noChangeAvatar(usersRef);
     } else {
       const fileRef = firebaseStorage
         .ref('UserProfle')
         .child(`${userObj.userId}/${uuidv4()}`);
       const res = await fileRef.putString(avatar, 'data_url');
       const avatarURL = await res.ref.getDownloadURL();
-      usersRef
-        .update({
-          nickname,
-          avatar: avatar === defaultAvatar ? avatar : avatarURL,
-          instagram,
-          intro,
-        })
+      const newUserObj = {
+        ...userObj,
+        avatar: avatarURL,
+      };
+
+      await Promise.all([
+        changeAvatar(usersRef, avatarURL),
+        changeRecordProfile(newUserObj),
+        changeCommentProfile(avatarURL),
+      ])
         .then(() => {
           alert('프로필이 변경되었습니다');
           window.location.reload();
         })
-
-        .catch((error) => alert(error.message));
+        .catch((error: Error) => alert(error.message));
     }
   };
+
+  const changeCommentProfile = (avatarURL: string) =>
+    firebaseFireStore
+      .collection('records')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          const record = doc.data();
+          if (record.comments && record.comments.length > 0) {
+            let comments = record.comments;
+            for (let i = 0; i < comments.length; i++) {
+              if (comments[i].authorId === userObj.userId) {
+                comments[i].avatar = avatarURL;
+              }
+            }
+            await firebaseFireStore
+              .collection('records')
+              .doc(record.postId)
+              .update({
+                comments: [...comments],
+              })
+              .catch((error) => alert(error.message));
+          }
+        });
+      });
+
+  const changeRecordProfile = (newUserObj: IUserObj) =>
+    firebaseFireStore
+      .collection('records')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const record = doc.data();
+          if (record.creator.userObj.userId === userObj.userId) {
+            firebaseFireStore
+              .collection('records')
+              .doc(record.postId)
+              .update({
+                creator: { userObj: { ...newUserObj } },
+              })
+              .catch((error) => alert(error.message));
+          }
+        });
+      });
+
+  const changeAvatar = (usersRef: any, avatarURL: string) =>
+    usersRef
+      .update({
+        nickname,
+        avatar: avatar === defaultAvatar ? avatar : avatarURL,
+        instagram,
+        intro,
+      })
+      .then((res: any) => console.log(res))
+      .catch((error: Error) => alert(error.message));
+
+  const noChangeAvatar = (usersRef: any) =>
+    usersRef
+      .update({
+        nickname,
+        instagram,
+        intro,
+      })
+      .then(() => {
+        alert('프로필이 변경되었습니다');
+        window.location.reload();
+      })
+      .catch((error: Error) => alert(error.message));
 
   return (
     <ProfileEditContainer>
