@@ -255,9 +255,10 @@ const Upload = () => {
     let pictureFiles: IPictureFileList[] = [];
     let searchPlaceList = [];
     let isSearchPlaceSelectList = [];
+    let fileURLs: string[] = [];
 
     const newFileArr: any[] = await Promise.all(
-      [...fileArr].map(async (file) => await browserImageCompression(file)),
+      [...fileArr].map((file) => browserImageCompression(file)),
     );
 
     for (let i = 0; i < newFileArr.length; i++) {
@@ -277,14 +278,12 @@ const Upload = () => {
       const reader: FileReader = new FileReader();
 
       reader.onloadend = (finishedEvent) => {
-        let fileURLs: string[] = [];
         const { result }: any = finishedEvent.currentTarget;
-        fileURLs[i] = result;
+        fileURLs.push(result);
         pictureFiles[i].picture = fileURLs[i];
       };
       reader.readAsDataURL(file);
     }
-
     setPictureFileList(pictureFiles);
     setSearchPlace(searchPlaceList);
     setIsSearchPlaceSelect(isSearchPlaceSelectList);
@@ -296,19 +295,23 @@ const Upload = () => {
     const pictureInfo: IPictureList[] = [];
     const postId = uuidv4();
 
-    for (let pictureFile of pictureFileList) {
-      const fileRef = firebaseStorage
-        .ref(city)
-        .child(`${postId}/${pictureFile.fileName}`);
+    const allPictureURL = await Promise.all(
+      [...pictureFileList].map((pictureFile) => {
+        const fileRef = firebaseStorage
+          .ref(city)
+          .child(`${postId}/${pictureFile.fileName}`);
+        const res = fileRef.putString(pictureFile.picture, 'data_url');
+        return res;
+      }),
+    );
 
-      const res = await fileRef.putString(pictureFile.picture, 'data_url');
-      const pictureURL = await res.ref.getDownloadURL();
-
+    for (let i = 0; i < pictureFileList.length; i++) {
+      const pictureURL = await allPictureURL[i].ref.getDownloadURL();
       pictureInfo.push({
         pictureId: uuidv4(),
-        location: pictureFile.location,
-        description: pictureFile.description,
-        fileName: pictureFile.fileName,
+        location: pictureFileList[i].location,
+        description: pictureFileList[i].description,
+        fileName: pictureFileList[i].fileName,
         pictureURL: pictureURL,
       });
     }
