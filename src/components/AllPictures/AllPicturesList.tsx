@@ -65,7 +65,7 @@ const AllPicturesList: React.FC<AllPicturesListProps> = ({
         {pictureList.length > 0 &&
           pictureList.map((picture, index) => (
             <PictureWrap
-              key={index}
+              key={picture.pictureId}
               index={pictureIndex}
               onClick={() => changePicture(index)}
             >

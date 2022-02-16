@@ -289,8 +289,8 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
             <CommentWrap>
               <CommentList>
                 {comments &&
-                  comments.map((comment, index) => (
-                    <CommentContent key={index}>
+                  comments.map((comment) => (
+                    <CommentContent key={comment.commentId}>
                       <Avatar>
                         <img src={comment.avatar} alt="프로필 사진" />
                       </Avatar>

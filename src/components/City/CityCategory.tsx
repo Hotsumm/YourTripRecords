@@ -129,8 +129,8 @@ const CityCategory: React.FC<CityCategoryProps> = ({
             <option value="전체">전체</option>
             {cityArray &&
               cityArray.length > 0 &&
-              cityArray.map((city, index) => (
-                <option key={index} value={city.name}>
+              cityArray.map((city) => (
+                <option key={city.id} value={city.name}>
                   {city.name}
                 </option>
               ))}

@@ -168,8 +168,8 @@ const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
             <LikesUserList>
               {likesUserList &&
                 likesUserList.length > 0 &&
-                likesUserList.map((user, index) => (
-                  <LikesUserInfoWrap key={index}>
+                likesUserList.map((user) => (
+                  <LikesUserInfoWrap key={user.userId}>
                     <LikesUserInfo>
                       <AvatarWrap>
                         <img src={user.avatar} alt="프로필사진" />

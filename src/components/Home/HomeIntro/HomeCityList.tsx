@@ -117,8 +117,8 @@ const HomeCityList: React.FC = () => {
             <CityName theme={theme}>전체</CityName>
           </City>
         </Link>
-        {cityArray.map((city, index) => (
-          <Link key={index} to={`/city/${city.name}`}>
+        {cityArray.map((city) => (
+          <Link key={city.id} to={`/city/${city.name}`}>
             <City theme={theme}>
               <CityName theme={theme}>{city.name}</CityName>
             </City>

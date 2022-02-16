@@ -171,8 +171,8 @@ const UserUploadedList: React.FC<UserUploadedListProps> = ({ thisUser }) => {
             <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
           ) : (
             <UploadedListWrap>
-              {recordList.map((record, index) => (
-                <UploadedList key={index}>
+              {recordList.map((record) => (
+                <UploadedList key={record.postId}>
                   <Link to={`/city/${record.city}/${record.postId}`}>
                     <PostContainer theme={theme}>
                       <PostHeaderWrap>

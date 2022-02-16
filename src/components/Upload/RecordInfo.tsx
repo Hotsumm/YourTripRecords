@@ -130,8 +130,8 @@ const RecordInfo: React.FC<RecordInfoProps> = ({
           <select name="city" onChange={onChange}>
             {cityArray &&
               cityArray.length > 0 &&
-              cityArray.map((city, index) => (
-                <option key={index} value={city.name}>
+              cityArray.map((city) => (
+                <option key={city.id} value={city.name}>
                   {city.name}
                 </option>
               ))}
