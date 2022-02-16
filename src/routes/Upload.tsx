@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,12 +8,12 @@ import { cityArray } from '../utils/cityArray';
 import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
 import { getCreatedDay } from '../utils/getCreatedDay';
 import Loading from '../components/Load/Loading';
-import { UserContext } from '../Context';
 import Footer from '../components/Home/Footer';
 import UploadGuide from '../components/Upload/UploadGuide';
 import RecordInfo from '../components/Upload/RecordInfo';
 import PictureInfo from '../components/Upload/PictureInfo';
 import { browserImageCompression } from '../utils/browserImageCompression';
+import { useUserContext } from '../hooks/useUserContext';
 
 const UploadContainer = styled.main`
   width: 100%;
@@ -166,7 +166,7 @@ const Upload = () => {
   const [selectedHashtag, setSelectedHashtag] = useState<string[]>([]);
   const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
 
-  const { userObj, refreshUser }: any = useContext(UserContext);
+  const { userObj, refreshUser } = useUserContext();
 
   const { postTitle, season, city } = inputs;
 

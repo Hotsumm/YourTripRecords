@@ -3,7 +3,12 @@ import { theme } from './styles/theme';
 
 const { lightTheme } = theme;
 
-export const UserContext = createContext<IUserContext | null>(null);
+const userContextDefaultValue: IUserContext = {
+  userObj: null,
+  refreshUser: () => {},
+};
+
+export const UserContext = createContext<IUserContext>(userContextDefaultValue);
 
 export const ThemeContext = createContext({
   theme: lightTheme,

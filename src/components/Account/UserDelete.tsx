@@ -5,7 +5,8 @@ import {
   firebaseInstance,
   firebaseFireStore,
 } from '../../firebaseConfig';
-import { UserContext, ThemeContext } from '../../Context';
+import { ThemeContext } from '../../Context';
+import { useUserContext } from '../../hooks/useUserContext';
 import Loading from '../Load/Loading';
 
 const UserDeleteContainer = styled.div`
@@ -111,7 +112,7 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
     passwordConfirm: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
   const { theme } = useContext(ThemeContext);
 
   const { password, passwordConfirm } = inputs;

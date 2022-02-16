@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
@@ -6,7 +6,7 @@ import Comment from '../components/Detail/Comment';
 import Hashtag from '../components/Detail/Hashtag';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
-import { UserContext } from '../Context';
+import { useUserContext } from '../hooks/useUserContext';
 import { firebaseFireStore } from '../firebaseConfig';
 import PostDetailEdit from '../components/Detail/PostDetailEdit';
 import Footer from '../components/Home/Footer';
@@ -88,7 +88,7 @@ interface MatchProps {
 const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   match,
 }) => {
-  const { userObj, refreshUser }: any = useContext(UserContext);
+  const { userObj, refreshUser } = useUserContext();
   const [postObj, setPostObj] = useState<IPost | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

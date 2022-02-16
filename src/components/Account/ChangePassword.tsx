@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { UserContext, ThemeContext } from '../../Context';
+import { ThemeContext } from '../../Context';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const ChangePasswordContainer = styled.div`
   width: 100vw;
@@ -109,7 +110,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
     newPasswordConfirm: '',
   });
   const { theme } = useContext(ThemeContext);
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
 
   const { oldPassword, newPassword, newPasswordConfirm } = inputs;
 

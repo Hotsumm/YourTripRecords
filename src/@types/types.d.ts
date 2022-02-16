@@ -14,7 +14,7 @@ interface IUserObj {
 
 interface IUserContext {
   userObj: IUserObj | null;
-  refreshUser?: (sign: boolean) => void;
+  refreshUser: (sign: boolean) => void;
 }
 
 // POST

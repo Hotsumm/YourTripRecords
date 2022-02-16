@@ -1,14 +1,14 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../Load/Loading';
 import styled from 'styled-components';
 import { firebaseFireStore } from '../../firebaseConfig';
-import { UserContext } from '../../Context';
 import { getCreatedDay } from '../../utils/getCreatedDay';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { HiX } from 'react-icons/hi';
 import { v4 as uuidv4 } from 'uuid';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const CommentContainer = styled.section`
   width: 100%;
@@ -140,7 +140,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [content, setContent] = useState<string>('');
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
   const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
