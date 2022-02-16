@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { firebaseFireStore } from '../firebaseConfig';
 import Loading from '../components/Load/Loading';
-import { UserContext } from '../Context';
 import Footer from '../components/Home/Footer';
 import PictureInfoEdit from '../components/PostEdit/PictureInfoEdit';
 import RecordInfoEdit from '../components/PostEdit/RecordInfoEdit';
+import { useUserContext } from '../hooks/useUserContext';
 
 const PostEditContainer = styled.main`
   width: 100%;
@@ -72,7 +72,7 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
 }) => {
   const history = useHistory();
   const { postObj } = location.state;
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
   const [inputs, setInputs] = useState<InputsProps>({
     postTitle: postObj.postTitle,
     season: postObj.season,

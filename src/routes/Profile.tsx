@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import UserUploadedList from '../components/Profile/UserUploadedList';
-import { UserContext } from '../Context';
 import { firebaseFireStore } from '../firebaseConfig';
 import ProfileMenu from '../components/Profile/ProfileMenu';
 import ProfileIntro from '../components/Profile/ProfileIntro';
 import Loading from '../components/Load/Loading';
 import bgProfile from '../static/assets/bgProfile.jpg';
+import { useUserContext } from '../hooks/useUserContext';
 
 const ProfileContainer = styled.main`
   width: 100%;
@@ -78,7 +78,7 @@ const Profile: React.FC<RouteComponentProps<MatchProps, {}>> = ({ match }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [thisUser, setThisUser] = useState<any>(null);
 
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
 
   const userCheck =
     userObj && thisUser ? thisUser.userId === userObj.userId : false;

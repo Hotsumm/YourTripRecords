@@ -5,7 +5,8 @@ import { GoComment } from 'react-icons/go';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import LikesUser from './LikesUser';
-import { UserContext, ThemeContext } from '../../Context';
+import { ThemeContext } from '../../Context';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -68,7 +69,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
     postObj.likes.length ? postObj.likes.length : 0,
   );
 
-  const { userObj }: any = useContext(UserContext);
+  const { userObj } = useUserContext();
   const { theme } = useContext(ThemeContext);
 
   const toggleLikesUser = (): void => {
