@@ -30,7 +30,7 @@ const NavWrap = styled.nav`
   @media (max-width: 500px) {
     padding: 0px 10px;
   }
-  max-width: 1450px;
+  max-width: 2560px;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
