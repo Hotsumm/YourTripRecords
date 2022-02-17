@@ -130,10 +130,10 @@ const Content = styled.div`
 `;
 
 interface CommentProps {
-  postId: string;
+  postObj: IPost;
 }
 
-const Comment: React.FC<CommentProps> = ({ postId }) => {
+const Comment: React.FC<CommentProps> = ({ postObj }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
   const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
@@ -159,7 +159,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
       );
       firebaseFireStore
         .collection('records')
-        .doc(postId)
+        .doc(postObj.postId)
         .update({
           comments: newComments,
         })
@@ -177,7 +177,9 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
 
   const fetchComments = useCallback(() => {
     setIsLoading(true);
-    const commentsRef = firebaseFireStore.collection('records').doc(postId);
+    const commentsRef = firebaseFireStore
+      .collection('records')
+      .doc(postObj.postId);
     commentsRef
       .get()
       .then((doc: any) => {
@@ -190,7 +192,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
       })
       .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
-  }, [postId, setCommentCount]);
+  }, [postObj.postId]);
 
   const handleComments = () => {
     if (content === '') {
@@ -212,7 +214,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
 
     firebaseFireStore
       .collection('records')
-      .doc(postId)
+      .doc(postObj.postId)
       .update({
         comments: commentsDoc,
       })

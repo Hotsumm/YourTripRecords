@@ -173,4 +173,4 @@ const CityCategory: React.FC<CityCategoryProps> = ({
   );
 };
 
-export default CityCategory;
+export default React.memo(CityCategory);
