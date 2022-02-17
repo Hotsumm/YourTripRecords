@@ -1,9 +1,10 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Background from '../components/Home/Background';
 import PopularCity from '../components/Home/PopularCity';
 import Footer from '../components/Home/Footer';
+import { throttle } from 'lodash';
 
 const HomeContainer = styled.main`
   width: 100%;
@@ -12,21 +13,24 @@ const HomeContainer = styled.main`
 `;
 
 const Home: React.FC = () => {
-  const [navBar, setNavBar] = useState(false);
+  const [navBar, setNavBar] = useState<boolean>(false);
+
+  const throttleScroll = useMemo<() => void>(
+    () =>
+      throttle(() => {
+        if (window.scrollY >= 80) {
+          setNavBar(true);
+        } else {
+          setNavBar(false);
+        }
+      }, 300),
+    [],
+  );
 
   useLayoutEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
-
-  const handleScroll = () => {
-    if (window.scrollY >= 80) {
-      setNavBar(true);
-    } else {
-      setNavBar(false);
-    }
-  };
+    window.addEventListener('scroll', throttleScroll);
+    return () => window.removeEventListener('scroll', throttleScroll);
+  }, [throttleScroll]);
 
   return (
     <>
