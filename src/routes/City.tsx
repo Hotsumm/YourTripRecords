@@ -8,6 +8,7 @@ import CityPostSort from '../components/City/CityPostSort';
 import { firebaseFireStore } from '../firebaseConfig';
 import Footer from '../components/Home/Footer';
 import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
+import Loading from '../components/Load/Loading';
 
 const CityContainer = styled.main`
   width: 100%;
@@ -44,8 +45,7 @@ const City: React.FC<
 > = ({ match, location }) => {
   const { cityName } = match.params;
   const hashtags = location.state ? location.state.hashtags : undefined;
-
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<IPost[] | null>(null);
   const [selectSort, setSelectedSort] = useState<string>('최신순');
   const [selectedSeason, setSelectedSeason] = useState<string>('전체');
@@ -53,26 +53,40 @@ const City: React.FC<
     hashtags ? hashtags : [],
   );
 
-  const handleCurrentSort = (sortName: string): void =>
-    setSelectedSort(sortName);
+  const handleCurrentSort = useCallback(
+    (sortName: string): void => {
+      if (selectSort !== sortName) {
+        setSelectedSort(sortName);
+      }
+    },
+    [selectSort],
+  );
 
-  const handleHashtagSelect = (hashtag: string) => {
-    if (hashtagList.includes(hashtag)) {
-      const hashtagFilter = hashtagList.filter(
-        (element: string) => element !== hashtag,
-      );
-      setHashtagList([...hashtagFilter]);
-      return;
-    }
-    setHashtagList((prev: string[]) => [...prev, hashtag]);
-  };
+  const handleHashtagSelect = useCallback(
+    (hashtag: string) => {
+      if (hashtagList.includes(hashtag)) {
+        const hashtagFilter = hashtagList.filter(
+          (element: string) => element !== hashtag,
+        );
+        setHashtagList([...hashtagFilter]);
+        return;
+      }
+      setHashtagList((prev: string[]) => [...prev, hashtag]);
+    },
+    [hashtagList],
+  );
 
-  const handleSeasonSelect = (season: string) => {
-    setSelectedSeason(season);
-  };
+  const handleSeasonSelect = useCallback(
+    (season: string) => {
+      if (selectedSeason !== season) {
+        setSelectedSeason(season);
+      }
+    },
+    [selectedSeason],
+  );
 
   const fetchPost = useCallback(() => {
-    setLoading(true);
+    setIsLoading(true);
     let postArr: IPost[] = [];
 
     firebaseFireStore
@@ -104,11 +118,10 @@ const City: React.FC<
         } else {
           postArr.sort((next, prev) => sortByPopular(next, prev));
         }
-
         setPosts(postArr);
       })
       .catch((error) => error.message)
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }, [cityName, selectedSeason, hashtagList, selectSort]);
 
   useEffect(() => {
@@ -129,7 +142,7 @@ const City: React.FC<
           handleHashtagSelect={handleHashtagSelect}
         />
         <CityPostSort handleCurrentSort={handleCurrentSort} />
-        {posts && <CityPost loading={loading} posts={posts} />}
+        {isLoading || !posts ? <Loading /> : <CityPost posts={posts} />}
         <Footer />
       </CityContainer>
     </>

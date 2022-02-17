@@ -123,4 +123,4 @@ const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
   );
 };
 
-export default CityPostSort;
+export default React.memo(CityPostSort);
