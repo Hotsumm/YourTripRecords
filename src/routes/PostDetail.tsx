@@ -190,7 +190,7 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
                   <Preview postObj={postObj} pathName={pathName} />
                   <PostInfo postObj={postObj} />
                   {postObj.hashtags && <Hashtag postObj={postObj} />}
-                  <Comment postId={postObj.postId} />
+                  <Comment postObj={postObj} />
                 </DetailInfoWrap>
               </>
             )}
