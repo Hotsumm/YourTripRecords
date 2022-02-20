@@ -101,8 +101,8 @@ const CityCategory: React.FC<CityCategoryProps> = ({
   hashtagList,
   handleHashtagSelect,
 }) => {
-  const [city, setCity] = useState(cityName);
-  const [season, setSeason] = useState('전체');
+  const [city, setCity] = useState<string>(cityName);
+  const [season, setSeason] = useState<string>('전체');
 
   const { theme } = useContext(ThemeContext);
   const history = useHistory();

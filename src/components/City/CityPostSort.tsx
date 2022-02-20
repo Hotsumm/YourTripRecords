@@ -79,8 +79,8 @@ interface CityPostSortProps {
 }
 
 const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
-  const [isSort, setIsSort] = useState(false);
-  const [currentSort, setCurrentSort] = useState('최신순');
+  const [isSort, setIsSort] = useState<boolean>(false);
+  const [currentSort, setCurrentSort] = useState<string>('최신순');
   const { theme } = useContext(ThemeContext);
 
   const onClick = (e: React.MouseEvent<HTMLElement>) => {
