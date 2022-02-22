@@ -88,18 +88,10 @@ const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
 
     if (target.nodeName !== 'LI') return;
 
-    const innerText = target.innerText;
+    const selectedSortName = target.innerText;
 
-    if (innerText === '인기순') {
-      setCurrentSort('인기순');
-      handleCurrentSort('인기순');
-    } else if (innerText === '최신순') {
-      setCurrentSort('최신순');
-      handleCurrentSort('최신순');
-    } else {
-      setCurrentSort('오래된순');
-      handleCurrentSort('오래된순');
-    }
+    setCurrentSort(selectedSortName);
+    handleCurrentSort(selectedSortName);
   };
 
   return (
