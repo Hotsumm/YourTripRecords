@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import Home from './routes/Home';
-import City from './routes/City';
-import Profile from './routes/Profile';
-import Upload from './routes/Upload';
-import PostDetail from './routes/PostDetail';
-import AllPictures from './routes/AllPictures';
-import MyAccount from './routes/MyAccount';
-import PostEdit from './routes/PostEdit';
+import Home from './pages/Home';
+import City from './pages/City';
+import Profile from './pages/Profile';
+import Upload from './pages/Upload';
+import PostDetail from './pages/PostDetail';
+import AllPictures from './pages/AllPictures';
+import MyAccount from './pages/MyAccount';
+import PostEdit from './pages/PostEdit';
 
 const Router = () => {
   return (
