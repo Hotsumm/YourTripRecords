@@ -195,8 +195,9 @@ const Comment: React.FC<CommentProps> = ({ postObj }) => {
   }, [postObj.postId]);
 
   const handleComments = () => {
-    if (content === '') {
-      alert('댓글을 작성해주세요 !');
+    const contentTrim = content.trim();
+    if (contentTrim === '') {
+      alert('댓글을 작성해주세요.');
       return;
     }
     const commentId = uuidv4();
@@ -207,7 +208,7 @@ const Comment: React.FC<CommentProps> = ({ postObj }) => {
         authorId: userObj.userId,
         avatar: userObj.avatar,
         nickname: userObj.nickname,
-        content,
+        content: contentTrim,
         createdAt: getCreatedDay(),
       },
     ];
