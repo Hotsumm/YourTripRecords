@@ -119,11 +119,14 @@ const UserProfileLink = styled(Link)`
 `;
 
 interface LikesUserProps {
-  postObj: IPost;
+  likedUserList: string[];
   toggleLikesUser(): void;
 }
 
-const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
+const LikesUser: React.FC<LikesUserProps> = ({
+  likedUserList,
+  toggleLikesUser,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [likesUserList, setLikesUserList] = useState<IUserObj[]>([]);
 
@@ -134,7 +137,7 @@ const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
   const fetchLikesUser = useCallback<() => void>(async () => {
     setIsLoading(true);
     let likesUserArr: IUserObj[] = [];
-    for (let userId of postObj.likes) {
+    for (let userId of likedUserList) {
       await firebaseFireStore
         .collection('users')
         .doc(userId)
@@ -150,7 +153,7 @@ const LikesUser: React.FC<LikesUserProps> = ({ postObj, toggleLikesUser }) => {
     }
     setLikesUserList(likesUserArr);
     setIsLoading(false);
-  }, [postObj.likes]);
+  }, [likedUserList]);
 
   useEffect(() => fetchLikesUser(), [fetchLikesUser]);
 

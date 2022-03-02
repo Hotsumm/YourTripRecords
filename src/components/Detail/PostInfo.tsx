@@ -63,7 +63,9 @@ interface PostInfoProps {
 }
 
 const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
+  const [postRef, setPostRef] = useState<any>(null);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likedUserList, setLikedUserList] = useState<string[]>([]);
   const [isLikesUser, setIsLikesUser] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(
     postObj.likes.length ? postObj.likes.length : 0,
@@ -72,45 +74,45 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
   const { userObj } = useUserContext();
   const { theme } = useContext(ThemeContext);
 
+  const isUserCheck = (): boolean => (userObj ? true : false);
+
   const toggleLikesUser = (): void => {
     if (likeCount === 0) return;
     setIsLikesUser(!isLikesUser);
   };
 
-  const handleLike = (): void => {
-    const likeList = postObj.likes;
-    if (!userObj) {
-      alert('먼저 로그인을 해주세요.');
-      return;
-    }
-    const likesRef = firebaseFireStore
-      .collection('records')
-      .doc(postObj.postId);
+  const handleLikeClick = (): void => {
+    if (!isUserCheck()) return alert('먼저 로그인을 해주세요.');
 
     if (isLiked) {
-      setIsLiked((isLiked) => !isLiked);
-      setLikeCount((likeCount) => likeCount - 1);
-      const likeFilter = likeList.filter((like) => like !== userObj.userId);
-      likesRef
-        .update({
-          likes: [...likeFilter],
-        })
-        .catch((error) => alert(error.message));
+      const likeFilter = likedUserList.filter(
+        (like) => like !== userObj.userId,
+      );
+      setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
+      updateLikes([...likeFilter]);
     } else {
-      setIsLiked((isLiked) => !isLiked);
-      setLikeCount((likeCount) => likeCount + 1);
-      likesRef
-        .update({
-          likes: [...likeList, userObj.userId],
-        })
-        .catch((error) => alert(error.message));
+      setIsLiked(true);
+      setLikeCount((prev) => prev + 1);
+      updateLikes([...likedUserList, userObj.userId]);
     }
   };
 
+  const updateLikes = (likes: string[]) => {
+    setLikedUserList(likes);
+    return postRef
+      .update({
+        likes,
+      })
+      .catch((error: Error) => alert(error.message));
+  };
+
   useEffect(() => {
-    if (!userObj) {
-      return;
-    }
+    if (!userObj) return;
+    const ref = firebaseFireStore.collection('records').doc(postObj.postId);
+    setPostRef(ref);
+    setLikedUserList(postObj.likes);
+
     const likeCheck = postObj.likes.some((like) => like === userObj.userId);
     if (likeCheck) {
       setIsLiked(true);
@@ -127,13 +129,13 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
             <CountWrap>
               {isLiked ? (
                 <BsHeartFill
-                  onClick={handleLike}
+                  onClick={handleLikeClick}
                   size={'22'}
                   style={{ color: '#eb4d4b', cursor: 'pointer' }}
                 />
               ) : (
                 <BsHeart
-                  onClick={handleLike}
+                  onClick={handleLikeClick}
                   size={'22'}
                   style={{ color: theme.textColor, cursor: 'pointer' }}
                 />
@@ -152,7 +154,10 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
         </PostInfoContainer>
       )}
       {isLikesUser && (
-        <LikesUser postObj={postObj} toggleLikesUser={toggleLikesUser} />
+        <LikesUser
+          likedUserList={likedUserList}
+          toggleLikesUser={toggleLikesUser}
+        />
       )}
     </>
   );
