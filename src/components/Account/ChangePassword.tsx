@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
-import { useUserContext } from '../../hooks/useUserContext';
+import { ThemeContext, UserContext } from '../../Context';
 
 const ChangePasswordContainer = styled.div`
   width: 100vw;
@@ -110,7 +109,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
     newPasswordConfirm: '',
   });
   const { theme } = useContext(ThemeContext);
-  const { userObj } = useUserContext();
+  const { userObj } = useContext(UserContext);
 
   const { oldPassword, newPassword, newPasswordConfirm } = inputs;
 
@@ -137,6 +136,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   };
 
   const onSubmit = () => {
+    if (!userObj) return;
+
     if (userObj.isSocial) return alert('비밀번호 변경이 불가능한 계정입니다.');
 
     const currentUser: any = firebaseAuth.currentUser;

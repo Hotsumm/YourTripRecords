@@ -8,7 +8,6 @@ import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { HiX } from 'react-icons/hi';
 import { v4 as uuidv4 } from 'uuid';
-import { useUserContext } from '../../hooks/useUserContext';
 
 const CommentContainer = styled.section`
   width: 100%;
@@ -131,16 +130,16 @@ const Content = styled.div`
 
 interface CommentProps {
   postObj: IPost;
+  userObj: IUserObj | null;
 }
 
-const Comment: React.FC<CommentProps> = ({ postObj }) => {
+const Comment: React.FC<CommentProps> = ({ postObj, userObj }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
   const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
   const [comments, setComments] = useState<IComment[]>([]);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [content, setContent] = useState<string>('');
-  const { userObj } = useUserContext();
 
   const toggleSignIn = () => setIsSignInClick(!isSignInClick);
   const toggleSignUp = () => setIsSignUpClick(!isSignUpClick);
@@ -195,6 +194,8 @@ const Comment: React.FC<CommentProps> = ({ postObj }) => {
   }, [postObj.postId]);
 
   const handleComments = () => {
+    if (!userObj) return;
+
     const contentTrim = content.trim();
     if (contentTrim === '') {
       alert('댓글을 작성해주세요.');

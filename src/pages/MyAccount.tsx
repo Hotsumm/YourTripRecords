@@ -7,8 +7,7 @@ import { FcLock } from 'react-icons/fc';
 import { BsBoxArrowInUpRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { FiUserX } from 'react-icons/fi';
-import { ThemeContext } from '../Context';
-import { useUserContext } from '../hooks/useUserContext';
+import { ThemeContext, UserContext } from '../Context';
 import UserDelete from '../components/Account/UserDelete';
 import Footer from '../components/Home/Footer';
 
@@ -135,7 +134,7 @@ const MyAccount: React.FC<RouteComponentProps<MatchProps, {}>> = ({
 }) => {
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
   const [isUserDelete, setIsUserDelete] = useState<boolean>(false);
-  const { userObj } = useUserContext();
+  const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
   const { userId } = match.params;

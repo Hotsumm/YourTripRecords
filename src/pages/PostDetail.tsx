@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
@@ -6,11 +6,11 @@ import Comment from '../components/Detail/Comment';
 import Hashtag from '../components/Detail/Hashtag';
 import Preview from '../components/Detail/Preview';
 import PostInfo from '../components/Detail/PostInfo';
-import { useUserContext } from '../hooks/useUserContext';
 import { firebaseFireStore } from '../firebaseConfig';
 import PostDetailEdit from '../components/Detail/PostDetailEdit';
 import Footer from '../components/Home/Footer';
 import Loading from '../components/Load/Loading';
+import { UserContext } from '../Context';
 
 const DetailContainer = styled.main`
   width: 100%;
@@ -88,7 +88,7 @@ interface MatchProps {
 const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   match,
 }) => {
-  const { userObj, refreshUser } = useUserContext();
+  const { userObj, refreshUser } = useContext(UserContext);
   const [postObj, setPostObj] = useState<IPost | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -97,6 +97,8 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   const pathName = match.url;
 
   const handleDeletePost = () => {
+    if (!userObj) return;
+
     const answer = window.confirm(
       '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
     );
@@ -122,6 +124,8 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   };
 
   const userPostDelete = async (userId: string, postId: string) => {
+    if (!userObj) return;
+
     const newRecords = userObj.records.filter(
       (record: string) => record !== postId,
     );
@@ -188,9 +192,12 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
                 </DetailHeaderWrap>
                 <DetailInfoWrap>
                   <Preview postObj={postObj} pathName={pathName} />
-                  <PostInfo postObj={postObj} />
+                  <PostInfo postObj={postObj} userObj={userObj} />
                   {postObj.hashtags && <Hashtag postObj={postObj} />}
-                  <Comment postObj={postObj} />
+                  <Comment
+                    postObj={postObj}
+                    userObj={userObj ? userObj : null}
+                  />
                 </DetailInfoWrap>
               </>
             )}

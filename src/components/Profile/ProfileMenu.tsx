@@ -150,7 +150,7 @@ const Menu = styled.div`
 interface ProfileMenuProps {
   userCheck: boolean;
   thisUser: IUserObj;
-  userObj: IUserObj;
+  userObj: IUserObj | null;
 }
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({
@@ -237,7 +237,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           )}
         </ProfileMenuWrap>
       </ProfileMenuContainer>
-      {isEditClick && <ProfileEdit toggleProfileEdit={toggleProfileEdit} />}
+      {isEditClick && userObj && (
+        <ProfileEdit toggleProfileEdit={toggleProfileEdit} userObj={userObj} />
+      )}
       {isSignInClick && (
         <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
       )}

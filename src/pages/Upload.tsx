@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import UploadGuide from '../components/Upload/UploadGuide';
 import RecordInfo from '../components/Upload/RecordInfo';
 import PictureInfo from '../components/Upload/PictureInfo';
 import { browserImageCompression } from '../utils/browserImageCompression';
-import { useUserContext } from '../hooks/useUserContext';
+import { UserContext } from '../Context';
 
 const UploadContainer = styled.main`
   width: 100%;
@@ -166,9 +166,9 @@ const Upload = () => {
   const [selectedHashtag, setSelectedHashtag] = useState<string[]>([]);
   const [isSearchPlaceSelect, setIsSearchPlaceSelect] = useState<boolean[]>([]);
 
-  const { userObj, refreshUser } = useUserContext();
-
   const { postTitle, season, city } = inputs;
+
+  const { userObj, refreshUser } = useContext(UserContext);
 
   const locationSelect: LocationSelectParams = (
     locationId,
@@ -290,6 +290,8 @@ const Upload = () => {
   };
 
   const onUpload = async () => {
+    if (!userObj) return;
+
     setIsLoading(true);
 
     const pictureInfo: IPictureList[] = [];
@@ -353,13 +355,15 @@ const Upload = () => {
     if (answer) history.goBack();
   };
 
-  const userRecordsUpdate = (userPostList: string[], postId: string) =>
-    firebaseFireStore
+  const userRecordsUpdate = (userPostList: string[], postId: string) => {
+    if (!userObj) return;
+    return firebaseFireStore
       .collection('users')
       .doc(userObj.userId)
       .update({
         records: [...userPostList, postId],
       });
+  };
 
   const recordsUpdate = (postId: string, docData: IPost) =>
     firebaseFireStore.collection('records').doc(postId).set(docData);

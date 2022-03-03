@@ -6,7 +6,6 @@ import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import LikesUser from './LikesUser';
 import { ThemeContext } from '../../Context';
-import { useUserContext } from '../../hooks/useUserContext';
 
 const PostInfoContainer = styled.div`
   width: 100%;
@@ -60,9 +59,10 @@ const CreatorWrap = styled.div`
 
 interface PostInfoProps {
   postObj: IPost;
+  userObj: IUserObj | null;
 }
 
-const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
+const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
   const [postRef, setPostRef] = useState<any>(null);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likedUserList, setLikedUserList] = useState<string[]>([]);
@@ -71,10 +71,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
     postObj.likes.length ? postObj.likes.length : 0,
   );
 
-  const { userObj } = useUserContext();
   const { theme } = useContext(ThemeContext);
-
-  const isUserCheck = (): boolean => (userObj ? true : false);
 
   const toggleLikesUser = (): void => {
     if (likeCount === 0) return;
@@ -82,7 +79,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj }) => {
   };
 
   const handleLikeClick = (): void => {
-    if (!isUserCheck()) return alert('먼저 로그인을 해주세요.');
+    if (!userObj) return alert('먼저 로그인을 해주세요.');
 
     if (isLiked) {
       const likeFilter = likedUserList.filter(

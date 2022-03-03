@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { firebaseFireStore, firebaseStorage } from '../../firebaseConfig';
 import { ThemeContext } from '../../Context';
-import { useUserContext } from '../../hooks/useUserContext';
 
 const ProfileEditContainer = styled.div`
   width: 100vw;
@@ -187,6 +186,7 @@ const ButtonWrap = styled.div`
 
 interface ProfileEditProps {
   toggleProfileEdit(): void;
+  userObj: IUserObj;
 }
 
 interface InputsProps {
@@ -195,8 +195,10 @@ interface InputsProps {
   intro: string;
 }
 
-const ProfileEdit: React.FC<ProfileEditProps> = ({ toggleProfileEdit }) => {
-  const { userObj } = useUserContext();
+const ProfileEdit: React.FC<ProfileEditProps> = ({
+  toggleProfileEdit,
+  userObj,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const [inputs, setInputs] = useState<InputsProps>({

@@ -5,8 +5,7 @@ import { VscTriangleDown } from 'react-icons/vsc';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { firebaseAuth } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
-import { useUserContext } from '../../hooks/useUserContext';
+import { ThemeContext, UserContext } from '../../Context';
 import { Link } from 'react-router-dom';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
@@ -86,7 +85,7 @@ const NavProfile: React.FC = () => {
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
   const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
-  const { userObj } = useUserContext();
+  const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
   const ref = useRef<HTMLDivElement>(null);

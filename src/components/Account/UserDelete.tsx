@@ -5,8 +5,7 @@ import {
   firebaseInstance,
   firebaseFireStore,
 } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
-import { useUserContext } from '../../hooks/useUserContext';
+import { ThemeContext, UserContext } from '../../Context';
 import Loading from '../Load/Loading';
 
 const UserDeleteContainer = styled.div`
@@ -112,7 +111,7 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
     passwordConfirm: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const { userObj } = useUserContext();
+  const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
   const { password, passwordConfirm } = inputs;
@@ -129,6 +128,8 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
   };
 
   const onSubmit = () => {
+    if (!userObj) return;
+
     const answer = window.confirm(
       '회원탈퇴 후 복구할 수 없습니다.\n정말 탈퇴 하시겠습니까?.',
     );
@@ -171,13 +172,15 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
       .finally(() => setLoading(false));
   };
 
-  const userInfoDelete = () =>
-    Promise.all([
+  const userInfoDelete = () => {
+    if (!userObj) return;
+    return Promise.all([
       userPostAllDelete(userObj.records),
       userLikesAllDelete(userObj.userId),
       userDelete(userObj.userId),
       userCommentDelete(userObj.userId),
     ]);
+  };
 
   const userPostAllDelete = (userRecordsList: string[]) => {
     if (!userRecordsList) return;
