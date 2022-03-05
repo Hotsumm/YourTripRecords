@@ -146,6 +146,7 @@ const InputWrap = styled.div`
     }
   }
   & textarea {
+    -webkit-appearance: none;
     line-height: 20px;
     padding: 10px 0 0 10px;
     border-radius: 5px;
