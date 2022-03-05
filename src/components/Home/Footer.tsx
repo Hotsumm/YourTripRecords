@@ -5,8 +5,10 @@ import { AiOutlineMail } from 'react-icons/ai';
 
 const FooterContainer = styled.footer`
   width: 100%;
-  height: 120px;
+  height: 100px;
   border-top: 1px solid grey;
+  position: absolute;
+  bottom: 0;
 `;
 
 const FooterWrap = styled.div`
