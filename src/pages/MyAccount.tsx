@@ -51,12 +51,7 @@ const UserInfoWrap = styled.div`
   align-items: center;
   margin-bottom: 60px;
   gap: 0 10px;
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  span {
+  & span {
     :nth-child(2) {
       font-size: 20px;
     }
@@ -65,6 +60,14 @@ const UserInfoWrap = styled.div`
       font-size: 14px;
       color: #16a085;
     }
+  }
+`;
+
+const Avatar = styled.div`
+  width: 50px;
+  height: 50px;
+  & img {
+    border-radius: 50%;
   }
 `;
 
@@ -159,7 +162,9 @@ const MyAccount: React.FC<RouteComponentProps<MatchProps, {}>> = ({
           <MyAccountWrap>
             <UserWrap>
               <UserInfoWrap>
-                <img src={userObj.avatar} alt="Avatar" />
+                <Avatar>
+                  <img src={userObj.avatar} alt="Avatar" />
+                </Avatar>
                 <span>{userObj.nickname}</span>
                 <span>{userObj.email}</span>
               </UserInfoWrap>

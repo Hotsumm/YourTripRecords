@@ -4,13 +4,18 @@ import reset from 'styled-reset';
 export const GlobalStyles = createGlobalStyle`
     ${reset}
     * {
-        box-sizing : border-box
+        box-sizing : border-box;
     }body{
         font-family: 'Noto Sans KR', sans-serif;
         font-size:12px;
         background : ${({ theme }) => theme.bgColor};
         color :  ${({ theme }) => theme.textColor};
         transition: all 0.25s linear;
+    }
+    main {
+        position: relative;
+        min-height: 100vh;
+        padding-bottom:100px;
     }
     a {
         text-decoration:none;
