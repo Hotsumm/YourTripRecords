@@ -4,7 +4,7 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
 import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
-import LikesUser from './LikesUser';
+import LikedUser from './LikedUser';
 import { ThemeContext } from '../../Context';
 
 const PostInfoContainer = styled.div`
@@ -105,12 +105,14 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
   };
 
   useEffect(() => {
-    if (!userObj) return;
     const ref = firebaseFireStore.collection('records').doc(postObj.postId);
     setPostRef(ref);
     setLikedUserList(postObj.likes);
 
-    const likeCheck = postObj.likes.some((like) => like === userObj.userId);
+    const likeCheck = userObj
+      ? postObj.likes.some((like) => like === userObj.userId)
+      : null;
+
     if (likeCheck) {
       setIsLiked(true);
     } else {
@@ -151,7 +153,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
         </PostInfoContainer>
       )}
       {isLikesUser && (
-        <LikesUser
+        <LikedUser
           likedUserList={likedUserList}
           toggleLikesUser={toggleLikesUser}
         />

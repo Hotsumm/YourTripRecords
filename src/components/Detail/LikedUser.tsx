@@ -6,7 +6,10 @@ import { HiX } from 'react-icons/hi';
 import Loading from '../Load/Loading';
 import { ThemeContext } from '../../Context';
 
-const LikesUserListContainer = styled.div`
+const LikedUserListContainer = styled.div`
+  @media (max-width: 390px) {
+    padding: 0px 10px;
+  }
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -19,7 +22,11 @@ const LikesUserListContainer = styled.div`
   background: rgba(0, 0, 0, 0.4);
 `;
 
-const LikesUserListWrap = styled.div`
+const LikedUserListWrap = styled.div`
+  @media (max-width: 390px) {
+    width: 100%;
+  }
+  width: 370px;
   display: flex;
   max-height: 50%;
   border-radius: 10px;
@@ -27,7 +34,7 @@ const LikesUserListWrap = styled.div`
   background: ${(props) => props.theme.menuColor};
 `;
 
-const LikesUserListHeader = styled.div`
+const LikedUserListHeader = styled.div`
   width: 100%;
   padding: 20px 40px;
   position: relative;
@@ -46,34 +53,41 @@ const LikesUserListHeader = styled.div`
   }
 `;
 
-const LikesUserList = styled.ul`
+const LikedUserList = styled.ul`
   width: 100%;
   padding: 20px 0;
+  gap: 20px 0;
   display: flex;
   overflow-y: auto;
   max-height: calc(50vh - 59px);
   flex-direction: column;
   align-items: flex-start;
+
+  & li {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media (max-width: 390px) {
+      padding: 0 10px;
+    }
+    padding: 0 20px;
+  }
 `;
 
-const LikesUserInfoWrap = styled.li`
+const LikedUserInfoWrap = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
-  padding: 10px 40px;
-`;
-
-const LikesUserInfo = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `;
 
 const AvatarWrap = styled.div`
   width: 40px;
   height: 40px;
-  margin-right: 10px;
+  margin-right: 15px;
   & img {
     width: 100%;
     height: 100%;
@@ -82,33 +96,42 @@ const AvatarWrap = styled.div`
 `;
 
 const UserInfo = styled.div`
-  width: 130px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-right: 30px;
+  margin-right: 10px;
+  margin-top: 4px;
   gap: 5px 0;
-`;
-
-const UserNickname = styled.span`
-  width: auto;
-  font-size: 16px;
-`;
-
-const PostingCount = styled.span`
-  width: auto;
-  font-size: 12px;
-  color: gray;
+  & span {
+    :first-child {
+      @media (max-width: 390px) {
+        font-size: 14px;
+      }
+      width: auto;
+      white-space: pre;
+      font-size: 16px;
+    }
+    :last-child {
+      @media (max-width: 390px) {
+        font-size: 10px;
+      }
+      width: auto;
+      white-space: pre;
+      font-size: 12px;
+      color: gray;
+    }
+  }
 `;
 
 const UserProfileLink = styled(Link)`
   width: 100px;
-  height: 40px;
   & button {
+    text-align: center;
     width: 100%;
     height: 100%;
-    padding: 10px 15px;
+    white-space: pre;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid #ababab80;
     :hover {
@@ -118,12 +141,12 @@ const UserProfileLink = styled(Link)`
   }
 `;
 
-interface LikesUserProps {
+interface LikedUserProps {
   likedUserList: string[];
   toggleLikesUser(): void;
 }
 
-const LikesUser: React.FC<LikesUserProps> = ({
+const LikedUser: React.FC<LikedUserProps> = ({
   likedUserList,
   toggleLikesUser,
 }) => {
@@ -158,43 +181,41 @@ const LikesUser: React.FC<LikesUserProps> = ({
   useEffect(() => fetchLikesUser(), [fetchLikesUser]);
 
   return (
-    <LikesUserListContainer>
-      <LikesUserListWrap theme={theme}>
+    <LikedUserListContainer>
+      <LikedUserListWrap theme={theme}>
         {isLoading ? (
           <Loading />
         ) : (
           <>
-            <LikesUserListHeader>
+            <LikedUserListHeader>
               <HiX onClick={closeButton} size={'20'} />
               <h3>좋아요 한 사용자</h3>
-            </LikesUserListHeader>
-            <LikesUserList>
+            </LikedUserListHeader>
+            <LikedUserList>
               {likesUserList &&
                 likesUserList.length > 0 &&
                 likesUserList.map((user) => (
-                  <LikesUserInfoWrap key={user.userId}>
-                    <LikesUserInfo>
+                  <li key={user.userId}>
+                    <LikedUserInfoWrap>
                       <AvatarWrap>
                         <img src={user.avatar} alt="프로필사진" />
                       </AvatarWrap>
                       <UserInfo>
-                        <UserNickname>{user.nickname}</UserNickname>
-                        <PostingCount>
-                          포스팅 : {user.records.length}개
-                        </PostingCount>
+                        <span>{user.nickname}</span>
+                        <span>포스팅 : {user.records.length}개</span>
                       </UserInfo>
-                      <UserProfileLink to={`/profile/${user.userId}`}>
-                        <button>프로필 이동</button>
-                      </UserProfileLink>
-                    </LikesUserInfo>
-                  </LikesUserInfoWrap>
+                    </LikedUserInfoWrap>
+                    <UserProfileLink to={`/profile/${user.userId}`}>
+                      <button>프로필 이동</button>
+                    </UserProfileLink>
+                  </li>
                 ))}
-            </LikesUserList>
+            </LikedUserList>
           </>
         )}
-      </LikesUserListWrap>
-    </LikesUserListContainer>
+      </LikedUserListWrap>
+    </LikedUserListContainer>
   );
 };
 
-export default LikesUser;
+export default LikedUser;
