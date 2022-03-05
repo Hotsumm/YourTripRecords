@@ -18,6 +18,7 @@ const ProfileMenuContainer = styled.div`
 const ProfileMenuWrap = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
+    padding: 0 20px;
   }
   width: 100%;
   display: flex;
@@ -25,36 +26,46 @@ const ProfileMenuWrap = styled.div`
   align-items: center;
   background: ${(props) => props.theme.menuColor};
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  padding: 0px 40px;
+  padding: 0 40px;
 `;
 
-const AvatarWrap = styled.div`
+const ProfileInfoWrap = styled.div`
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
   @media (max-width: 500px) {
     flex-direction: column;
   }
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 20px 0;
 `;
 
-const AvatarImgWrap = styled.div`
+const AvatarWrap = styled.div`
+  position: relative;
   width: 150px;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 100%;
+  }
   & img {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-radius: 50%;
   }
 `;
 
 const AvatarInfoWrap = styled.div`
-  @media (max-width: 768px) {
-    width: auto;
-  }
   @media (max-width: 500px) {
     padding: 20px 0;
   }
-  width: 100%;
+  width: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -114,6 +125,12 @@ const MenuWrap = styled.div`
   @media (max-width: 1400px) {
     flex-direction: column;
     gap: 15px 0;
+  }
+  @media (max-width: 768px) {
+    width: 75%;
+  }
+  @media (max-width: 500px) {
+    width: 100%;
   }
   padding: 20px 0;
   width: 100%;
@@ -182,10 +199,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
     <>
       <ProfileMenuContainer>
         <ProfileMenuWrap theme={theme}>
-          <AvatarWrap>
-            <AvatarImgWrap>
+          <ProfileInfoWrap>
+            <AvatarWrap>
               <img src={thisUser.avatar} alt="프로필 사진" />
-            </AvatarImgWrap>
+            </AvatarWrap>
             <AvatarInfoWrap>
               <InfoContent>
                 <span>닉네임</span>
@@ -204,7 +221,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
                 </InfoContent>
               )}
             </AvatarInfoWrap>
-          </AvatarWrap>
+          </ProfileInfoWrap>
           {!userObj ? (
             <OtherUserWrap>
               <OtherUser onClick={toggleSignIn}>
