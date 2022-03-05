@@ -43,7 +43,7 @@ const RecordInfoContent = styled.li`
     width: 80%;
     -webkit-appearance: none;
     min-width: 50%;
-    font-size: 18px;
+    font-size: 16px;
     padding: 10px;
     border-radius: 5px;
     border-style: none;
@@ -59,7 +59,7 @@ const RecordInfoContent = styled.li`
     -webkit-appearance: none;
     min-width: 50%;
     padding: 10px;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 5px;
     border-style: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -83,15 +83,6 @@ const RecordInfoEdit: React.FC<RecordInfoEditProps> = ({
     <RecordInfoContainer>
       <RecordInfoWrap>
         <RecordInfoContent>
-          <span>여행 제목</span>
-          <input
-            type="title"
-            name="postTitle"
-            value={postTitle}
-            onChange={onChange}
-          />
-        </RecordInfoContent>
-        <RecordInfoContent>
           <span>도시</span>
           <span
             style={{
@@ -103,6 +94,15 @@ const RecordInfoEdit: React.FC<RecordInfoEditProps> = ({
           >
             {postObj.city}
           </span>
+        </RecordInfoContent>
+        <RecordInfoContent>
+          <span>여행 제목</span>
+          <input
+            type="title"
+            name="postTitle"
+            value={postTitle}
+            onChange={onChange}
+          />
         </RecordInfoContent>
         <RecordInfoContent>
           <span>여행 계절</span>
