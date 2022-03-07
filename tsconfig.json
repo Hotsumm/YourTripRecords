@@ -11,6 +11,7 @@
     "allowJs": false,
     "baseUrl": "src",
     "outDir": "./dist",
+    "types": ["react/next", "react-dom/next"],
     "typeRoots": ["src/@types", "node_modules/@types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
