@@ -234,12 +234,7 @@ const CityPost: React.FC<CityPostProps> = ({ posts }) => {
         <CityPostWrap>
           {posts.map((post) => (
             <CityPostLinkWrap key={post.postId}>
-              <CityPostLink
-                to={{
-                  pathname: `/city/${post.city}/${post.postId}`,
-                  state: { cityName: post.city, post: post },
-                }}
-              >
+              <CityPostLink to={`/city/${post.city}/${post.postId}`}>
                 <PostIntro>
                   <PostThumbnail>
                     <img src={post.pictureList[0].pictureURL} alt="썸네일" />

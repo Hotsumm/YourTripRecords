@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { cityArray } from '../../utils/cityArray';
 import arrowImg from '../../static/assets/arrow.jpeg';
@@ -105,7 +105,7 @@ const CityCategory: React.FC<CityCategoryProps> = ({
   const [season, setSeason] = useState<string>('전체');
 
   const { theme } = useContext(ThemeContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const {
@@ -113,7 +113,7 @@ const CityCategory: React.FC<CityCategoryProps> = ({
     } = e;
     if (name === 'city') {
       setCity(value);
-      history.push(`/city/${value}`);
+      navigate(`/city/${value}`);
     } else if (name === 'season') {
       setSeason(value);
       handleSeasonSelect(value);
