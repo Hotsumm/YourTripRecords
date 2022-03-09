@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { v4 as uuidv4 } from 'uuid';
@@ -152,7 +152,7 @@ interface InputsProps {
 }
 
 const Upload = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState<InputsProps>({
     postTitle: '',
     season: '봄',
@@ -341,7 +341,7 @@ const Upload = () => {
         setIsLoading(false);
         refreshUser(true);
         alert('업로드가 완료 되었습니다.');
-        history.push(`/city/${city}/${postId}`);
+        navigate(`/city/${city}/${postId}`);
       })
       .catch((error) => {
         alert('여행기록 업로드에 실패 하였습니다.');
@@ -352,7 +352,7 @@ const Upload = () => {
 
   const closeButton = () => {
     const answer = window.confirm('작성을 취소 하시겠습니까?');
-    if (answer) history.goBack();
+    if (answer) navigate(-1);
   };
 
   const userRecordsUpdate = (userPostList: string[], postId: string) => {

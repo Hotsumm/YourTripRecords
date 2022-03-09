@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import { firebaseFireStore } from '../firebaseConfig';
@@ -67,11 +67,17 @@ interface InputsProps {
   season: string;
 }
 
-const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
-  location,
-}) => {
-  const history = useHistory();
-  const { postObj } = location.state;
+interface LocationProps {
+  state: {
+    postObj: IPost;
+  };
+}
+
+const PostEdit: React.FC = () => {
+  const navigate = useNavigate();
+  const {
+    state: { postObj },
+  } = useLocation() as LocationProps;
 
   const { userObj } = useContext(UserContext);
   const [inputs, setInputs] = useState<InputsProps>({
@@ -188,7 +194,7 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
       .then(() => {
         setIsLoading(false);
         alert('여행기록 수정이 완료 되었습니다.');
-        history.push(`/city/${postObj.city}/${postObj.postId}`);
+        navigate(`/city/${postObj.city}/${postObj.postId}`);
       })
       .catch((error) => {
         console.log(error);
@@ -198,7 +204,7 @@ const PostEdit: React.FC<RouteComponentProps<{}, {}, { postObj: IPost }>> = ({
 
   const closeButton = () => {
     const answer = window.confirm('작성을 취소 하시겠습니까?');
-    if (answer) history.goBack();
+    if (answer) navigate(-1);
   };
 
   return (
