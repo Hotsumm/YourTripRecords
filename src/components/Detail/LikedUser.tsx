@@ -157,7 +157,7 @@ const LikedUser: React.FC<LikedUserProps> = ({
 
   const closeButton = (): void => toggleLikesUser();
 
-  const fetchLikesUser = useCallback<() => void>(async () => {
+  const fetchLikesUserCallback = useCallback<() => void>(async () => {
     setIsLoading(true);
     let likesUserArr: IUserObj[] = [];
     for (let userId of likedUserList) {
@@ -178,7 +178,12 @@ const LikedUser: React.FC<LikedUserProps> = ({
     setIsLoading(false);
   }, [likedUserList]);
 
-  useEffect(() => fetchLikesUser(), [fetchLikesUser]);
+  useEffect(() => {
+    const fetchLikesUser = () => {
+      fetchLikesUserCallback();
+    };
+    fetchLikesUser();
+  }, [fetchLikesUserCallback]);
 
   return (
     <LikedUserListContainer>
