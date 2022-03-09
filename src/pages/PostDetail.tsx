@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Comment from '../components/Detail/Comment';
@@ -80,21 +80,16 @@ const DetailInfoWrap = styled.div`
   width: 100%;
 `;
 
-interface MatchProps {
-  postId: string;
-  pathName: string;
-}
-
-const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
-  match,
-}) => {
+const PostDetail: React.FC = () => {
   const { userObj, refreshUser } = useContext(UserContext);
   const [postObj, setPostObj] = useState<IPost | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const history = useHistory();
-  const { postId } = match.params;
-  const pathName = match.url;
+  const navigate = useNavigate();
+  const { cityName, postId } = useParams() as {
+    cityName: string;
+    postId: string;
+  };
 
   const handleDeletePost = () => {
     if (!userObj) return;
@@ -113,7 +108,7 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
           refreshUser(true);
           alert('게시물이 정상적으로 삭제되었습니다.');
           setIsLoading(false);
-          history.push(`/city/${postObj?.city}`);
+          navigate(`/city/${postObj?.city}`);
         })
         .catch((error) => {
           console.log(error);
@@ -146,13 +141,10 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
       .doc(postId)
       .get()
       .then((doc) => {
-        const postData: any = doc.data()
-          ? {
-              postId,
-              ...doc.data(),
-            }
-          : null;
-        setPostObj(postData);
+        if (doc.exists) {
+          const postData = doc.data() as IPost;
+          setPostObj(postData);
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -191,7 +183,10 @@ const PostDetail: React.FC<RouteComponentProps<MatchProps, {}>> = ({
                   </PostCreatedWrap>
                 </DetailHeaderWrap>
                 <DetailInfoWrap>
-                  <Preview postObj={postObj} pathName={pathName} />
+                  <Preview
+                    postObj={postObj}
+                    pathName={`/city/${cityName}/${postId}`}
+                  />
                   <PostInfo postObj={postObj} userObj={userObj} />
                   {postObj.hashtags && <Hashtag postObj={postObj} />}
                   <Comment

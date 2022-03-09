@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import {} from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import CityPost from '../components/City/CityPost';
@@ -9,6 +9,8 @@ import { firebaseFireStore } from '../firebaseConfig';
 import Footer from '../components/Home/Footer';
 import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
 import Loading from '../components/Load/Loading';
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const CityContainer = styled.main`
   width: 100%;
@@ -36,15 +38,12 @@ const CityName = styled.h1`
   font-weight: 600;
 `;
 
-interface MatchProps {
-  cityName: string;
-}
+const City: React.FC = () => {
+  const { cityName } = useParams() as { cityName: string };
+  const { state } = useLocation() as any;
 
-const City: React.FC<
-  RouteComponentProps<MatchProps, {}, { hashtags: string[] | undefined }>
-> = ({ match, location }) => {
-  const { cityName } = match.params;
-  const hashtags = location.state ? location.state.hashtags : undefined;
+  const hashtags = state ? state.hashtags : undefined;
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<IPost[] | null>(null);
   const [selectSort, setSelectedSort] = useState<string>('최신순');
@@ -93,8 +92,9 @@ const City: React.FC<
       .collection('records')
       .get()
       .then((postsRef) => {
-        postsRef.forEach((doc: any) => {
-          postArr.push(doc.data());
+        postsRef.forEach((doc) => {
+          const postsData = doc.data() as IPost;
+          postArr.push(postsData);
         });
 
         if (cityName !== '전체') {

@@ -84,13 +84,11 @@ const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
               index < 5 && (
                 <PreviewImgWrap key={picture.pictureId}>
                   <Link
-                    to={{
-                      pathname: `${pathName}/${postObj.pictureList[index].pictureId}`,
-                      state: {
-                        postId: postObj.postId,
-                        initPictureIndex: index,
-                        pictureList: postObj.pictureList,
-                      },
+                    to={`${pathName}/${postObj.pictureList[index].pictureId}`}
+                    state={{
+                      postId: postObj.postId,
+                      initPictureIndex: index,
+                      pictureList: postObj.pictureList,
                     }}
                   >
                     <img src={picture.pictureURL} alt="미리보기" />
@@ -99,13 +97,12 @@ const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
               ),
           )}
         <Link
-          to={{
-            pathname: `${pathName}/${postObj.pictureList[0].pictureId}`,
-            state: {
-              postId: postObj.postId,
-              initPictureIndex: 0,
-              pictureList: postObj.pictureList,
-            },
+          to={`${pathName}/${postObj.pictureList[0].pictureId}`}
+          state={{
+            postId: postObj.postId,
+            cityName: postObj.city,
+            initPictureIndex: 0,
+            pictureList: postObj.pictureList,
           }}
         >
           <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
