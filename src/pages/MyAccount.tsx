@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Redirect, RouteComponentProps } from 'react-router';
+import { Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import ChangePassword from '../components/Account/ChangePassword';
@@ -128,19 +128,13 @@ const Title = styled.span`
   margin-top: 15px;
 `;
 
-interface MatchProps {
-  userId: string;
-}
-
-const MyAccount: React.FC<RouteComponentProps<MatchProps, {}>> = ({
-  match,
-}) => {
+const MyAccount: React.FC = () => {
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
   const [isUserDelete, setIsUserDelete] = useState<boolean>(false);
   const { userObj } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const { userId } = match.params;
+  const { userId } = useParams() as { userId: string };
 
   const toggleChangePassword = (): void =>
     setIsChangePassword(!isChangePassword);
@@ -148,7 +142,7 @@ const MyAccount: React.FC<RouteComponentProps<MatchProps, {}>> = ({
   const toggleUserDelete = (): void => setIsUserDelete(!isUserDelete);
 
   if (userObj === null || userObj.userId !== userId) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

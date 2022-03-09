@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import UserUploadedList from '../components/Profile/UserUploadedList';
@@ -70,14 +70,11 @@ const ProfileRow = styled.div`
   }
 `;
 
-interface MatchProps {
-  userId: string;
-}
-
-const Profile: React.FC<RouteComponentProps<MatchProps, {}>> = ({ match }) => {
+const Profile: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [thisUser, setThisUser] = useState<any>(null);
+  const [thisUser, setThisUser] = useState<IUserObj | null>(null);
 
+  const { userId } = useParams() as { userId: string };
   const { userObj } = useContext(UserContext);
 
   const userCheck =
@@ -85,14 +82,13 @@ const Profile: React.FC<RouteComponentProps<MatchProps, {}>> = ({ match }) => {
 
   const fetchUser = useCallback(() => {
     setIsLoading(true);
-    const userRef = firebaseFireStore
-      .collection('users')
-      .doc(match.params.userId);
+    const userRef = firebaseFireStore.collection('users').doc(userId);
     userRef
       .get()
       .then((doc) => {
         if (doc.exists) {
-          setThisUser(doc.data());
+          const userData = doc.data() as IUserObj;
+          setThisUser(userData);
         } else {
           console.log('No such document!');
         }
@@ -101,7 +97,7 @@ const Profile: React.FC<RouteComponentProps<MatchProps, {}>> = ({ match }) => {
         console.log('Error getting document:', error);
       })
       .finally(() => setIsLoading(false));
-  }, [match.params.userId]);
+  }, [userId]);
 
   useEffect(() => {
     fetchUser();
