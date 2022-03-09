@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import City from './pages/City';
 import Profile from './pages/Profile';
@@ -12,21 +12,20 @@ import PostEdit from './pages/PostEdit';
 const Router = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/city/:cityName" exact component={City} />
-        <Route path="/profile/:userId" exact component={Profile} />
-        <Route path="/myAccount/:userId" exact component={MyAccount} />
-        <Route path="/upload" exact component={Upload} />
-        <Route path="/postEdit/:postId" exact component={PostEdit} />
-        <Route path="/city/:cityName/:postId" exact component={PostDetail} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/city/:cityName" element={<City />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/myAccount/:userId" element={<MyAccount />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/postEdit/:postId" element={<PostEdit />} />
+        <Route path="/city/:cityName/:postId" element={<PostDetail />} />
         <Route
           path="/city/:cityName/:postId/:pictureId"
-          exact
-          component={AllPictures}
+          element={<AllPictures />}
         />
-        <Redirect path="*" to="/" />
-      </Switch>
+        <Route path="*" element={<Navigate replace to="/" />} />
+      </Routes>
     </BrowserRouter>
   );
 };

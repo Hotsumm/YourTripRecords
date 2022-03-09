@@ -66,12 +66,7 @@ const PostDetailEdit: React.FC<PostDetailEditProps> = ({
       {isEditClick && (
         <EditWrap theme={theme}>
           <ul>
-            <Link
-              to={{
-                pathname: `/postEdit/${postObj.postId}`,
-                state: { postObj },
-              }}
-            >
+            <Link to={`/postEdit/${postObj.postId}`} state={{ postObj }}>
               <li>게시물 수정하기</li>
             </Link>
             <li onClick={handleDeletePost}>게시물 삭제하기</li>

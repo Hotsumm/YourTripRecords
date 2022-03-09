@@ -78,7 +78,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
     setIsLikesUser(!isLikesUser);
   };
 
-  const handleLikeClick = (): void => {
+  const handleLikeClick = async (): Promise<void> => {
     if (!userObj) return alert('먼저 로그인을 해주세요.');
 
     if (isLiked) {
@@ -87,17 +87,17 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
       );
       setIsLiked(false);
       setLikeCount((prev) => prev - 1);
-      updateLikes([...likeFilter]);
+      await updateLikes([...likeFilter]);
     } else {
       setIsLiked(true);
       setLikeCount((prev) => prev + 1);
-      updateLikes([...likedUserList, userObj.userId]);
+      await updateLikes([...likedUserList, userObj.userId]);
     }
   };
 
-  const updateLikes = (likes: string[]) => {
+  const updateLikes = async (likes: string[]): Promise<void> => {
     setLikedUserList(likes);
-    return postRef
+    return await postRef
       .update({
         likes,
       })

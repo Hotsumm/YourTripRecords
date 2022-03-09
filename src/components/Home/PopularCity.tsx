@@ -191,10 +191,7 @@ const PopularCity: React.FC = () => {
                 {selectCityObj.map((record, index) => (
                   <PopularImgLink
                     key={record.postId}
-                    to={{
-                      pathname: `/city/${record.city}/${record.postId}`,
-                      state: { cityName: record.city, record: record },
-                    }}
+                    to={`/city/${record.city}/${record.postId}`}
                   >
                     <img
                       src={record.pictureList[0].pictureURL}

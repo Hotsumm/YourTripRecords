@@ -52,7 +52,8 @@ const Hashtag: React.FC<HashtagProps> = ({ postObj }) => {
           postObj.hashtags.map((hashtag, index) => (
             <HashtagLink
               key={index}
-              to={{ pathname: '/city/전체', state: { hashtags: [hashtag] } }}
+              to={'/city/전체'}
+              state={{ hashtags: [hashtag] }}
             >
               <HashTagLI theme={theme}>{hashtag}</HashTagLI>
             </HashtagLink>
