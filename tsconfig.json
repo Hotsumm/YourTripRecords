@@ -11,7 +11,7 @@
     "allowJs": false,
     "baseUrl": "src",
     "outDir": "./dist",
-    "types": ["react/next", "react-dom/next"],
+    "types": ["vite/client", "vite-plugin-svgr/client"],
     "typeRoots": ["src/@types", "node_modules/@types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
@@ -23,5 +23,5 @@
     "strictNullChecks": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src/**/*"]
+  "include": ["vite.config.ts", "src/**/*"]
 }
