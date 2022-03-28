@@ -41,8 +41,8 @@
   },
   "scripts": {
     "start": "ts-node server/server.ts",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx ",
+    "build:client": "vite build --outDir build/client",
+    "build:server": "vite build --outDir build/server --ssr src/entry-server.tsx ",
     "build": "CI= tsc && yarn build:client && yarn build:server",
     "serve": "yarn build",
     "test": "jest"

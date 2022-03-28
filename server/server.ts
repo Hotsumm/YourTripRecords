@@ -41,7 +41,7 @@ async function createServer(
   } else {
     app.use(require('compression')());
     app.use(
-      require('serve-static')(resolve('dist/client'), {
+      require('serve-static')(resolve('build/client'), {
         index: false,
       }),
     );
@@ -60,7 +60,7 @@ async function createServer(
         render = (await vite.ssrLoadModule('/src/entry-server.tsx')).render;
       } else {
         template = indexProd;
-        render = require('./dist/server/entry-server.js').render;
+        render = require('./build/server/entry-server.js').render;
       }
 
       const context = {};
