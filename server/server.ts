@@ -55,7 +55,7 @@ async function createServer(
       if (!isProd) {
         // always read fresh template in dev
 
-        template = fs.readFileSync(resolve('../index.html'), 'utf-8');
+        template = fs.readFileSync(resolve('index.html'), 'utf-8');
         template = await vite.transformIndexHtml(url, template);
         render = (await vite.ssrLoadModule('/src/entry-server.tsx')).render;
       } else {
