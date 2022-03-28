@@ -23,6 +23,7 @@
     "express": "^4.17.3",
     "firebase": "^8.2.7",
     "global": "^4.4.0",
+    "netlify-cli": "^9.13.6",
     "nodemon": "^2.0.15",
     "react": "^18.0.0-rc.2",
     "react-dom": "^18.0.0-rc.2",
@@ -43,9 +44,10 @@
     "start": "ts-node server/server.ts",
     "build:client": "vite build --outDir build/client",
     "build:server": "vite build --outDir build/server --ssr src/entry-server.tsx ",
-    "build": "CI= tsc && yarn build:client && yarn build:server",
+    "build": "CI= tsc && yarn build:client && yarn build:server && yarn copy-files",
     "serve": "yarn build",
-    "test": "jest"
+    "test": "jest",
+    "copy-files": "copyfiles index.html build"
   },
   "eslintConfig": {
     "extends": [
