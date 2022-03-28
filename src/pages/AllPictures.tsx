@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { ThemeContext } from '../Context';
 import SelectPicture from '../components/AllPictures/SelectPicture';
 import AllPicturesList from '../components/AllPictures/AllPicturesList';
@@ -51,8 +51,13 @@ interface LocationProps {
 
 const AllPictures: React.FC = () => {
   const {
-    state: { postId, cityName, initPictureIndex, pictureList },
+    state: { initPictureIndex, pictureList },
   } = useLocation() as LocationProps;
+
+  const { cityName, postId } = useParams() as {
+    cityName: string;
+    postId: string;
+  };
 
   const [pictureIndex, setPictureIndex] = useState<number>(initPictureIndex);
   const [selectPicture, setSelectPicture] = useState<IPictureList>(
