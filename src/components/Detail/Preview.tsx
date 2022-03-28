@@ -86,7 +86,6 @@ const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
                   <Link
                     to={`${pathName}/${postObj.pictureList[index].pictureId}`}
                     state={{
-                      postId: postObj.postId,
                       initPictureIndex: index,
                       pictureList: postObj.pictureList,
                     }}
@@ -99,8 +98,6 @@ const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
         <Link
           to={`${pathName}/${postObj.pictureList[0].pictureId}`}
           state={{
-            postId: postObj.postId,
-            cityName: postObj.city,
             initPictureIndex: 0,
             pictureList: postObj.pictureList,
           }}
