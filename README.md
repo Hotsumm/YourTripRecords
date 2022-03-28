@@ -19,9 +19,13 @@
 
   ### 2. Typescript
 
-  ### 3. Firebase
+  ### 3. Express
 
-  ### 4. styled-components
+  ### 4. Vite
+
+  ### 5. Firebase
+
+  ### 6. styled-components
 
 - ## ℗ Clone
 
@@ -31,10 +35,19 @@
 
 - ## ⌨️ Usage
 
+  ### Development
+
   ```
       $ yarn
 
       $ yarn start
+  ```
+
+  ### Building
+
+  ```
+      $ yarn build
+      $ yarn serve
   ```
 
 - ## 🐞 Bug issues
