@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-const { kakao }: any = window;
 
 const MarkerContanier = styled.div`
   position: absolute;
@@ -23,6 +22,7 @@ interface MarkerProps {
 
 const Marker: React.FC<MarkerProps> = ({ coords }) => {
   useEffect(() => {
+    const { kakao }: any = window;
     const container = document.getElementById('marker');
     const options = {
       center: new kakao.maps.LatLng(coords.latitude, coords.longitude),

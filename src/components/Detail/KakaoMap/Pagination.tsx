@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-const { kakao }: any = window;
 
 const PaginationContainer = styled.ul`
   display: flex;
@@ -68,6 +67,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   useEffect(() => {
+    const { kakao }: any = window;
     const places = new kakao.maps.services.Places();
     const placesSearchCB = (data: any, status: any) => {
       if (status === kakao.maps.services.Status.OK) {
