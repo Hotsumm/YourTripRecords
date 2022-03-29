@@ -302,7 +302,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
       ])
         .then(() => {
           alert('프로필이 변경되었습니다');
-          window.location.reload();
+          location.reload();
         })
         .catch((error: Error) => alert(error.message));
     }
@@ -372,7 +372,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
       })
       .then(() => {
         alert('프로필이 변경되었습니다');
-        window.location.reload();
+        location.reload();
       })
       .catch((error: Error) => alert(error.message));
 

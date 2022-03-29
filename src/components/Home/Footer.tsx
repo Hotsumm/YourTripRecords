@@ -76,9 +76,7 @@ const Footer: React.FC = () => {
         <FooterTitle>©YourTripRecords</FooterTitle>
         <FooterIconWrap>
           <FooterIcon>
-            <AiFillGithub
-              onClick={() => window.open('https://github.com/Hotsumm')}
-            />
+            <AiFillGithub onClick={() => open('https://github.com/Hotsumm')} />
           </FooterIcon>
           <FooterIcon
             onMouseEnter={() => setIsMailHover(true)}

@@ -236,7 +236,7 @@ const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
             alert(
               '회원가입이 완료되었습니다.\n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다. ',
             );
-            window.location.reload();
+            location.reload();
           })
           .catch((error) => console.log(error));
       })
@@ -270,7 +270,7 @@ const SignUp: React.FC<SignUpProps> = ({ toggleSignUp }) => {
             result.user.photoURL,
           );
       })
-      .then(() => window.location.reload())
+      .then(() => location.reload())
       .catch((error) => {
         alert(error.message);
       })

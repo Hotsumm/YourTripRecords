@@ -94,7 +94,7 @@ const PostDetail: React.FC = () => {
   const handleDeletePost = () => {
     if (!userObj) return;
 
-    const answer = window.confirm(
+    const answer = confirm(
       '삭제 후 다시 복구할 수 없습니다.\n작성한 게시물을 삭제하시겠습니까?',
     );
     if (answer) {

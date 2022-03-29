@@ -351,7 +351,7 @@ const Upload = () => {
   };
 
   const closeButton = () => {
-    const answer = window.confirm('작성을 취소 하시겠습니까?');
+    const answer = confirm('작성을 취소 하시겠습니까?');
     if (answer) navigate(-1);
   };
 

@@ -130,7 +130,7 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
   const onSubmit = () => {
     if (!userObj) return;
 
-    const answer = window.confirm(
+    const answer = confirm(
       '회원탈퇴 후 복구할 수 없습니다.\n정말 탈퇴 하시겠습니까?.',
     );
     if (!answer) return;
@@ -155,7 +155,7 @@ const UserDelete: React.FC<UserDeleteProps> = ({ toggleUserDelete }) => {
         alert(
           '정상적으로 회원탈퇴 되었습니다.\n그동안 서비스를 이용해주셔서 감사합니다.',
         );
-        window.location.reload();
+        location.reload();
       })
       .catch((error: any) => {
         if (error.code === 'auth/weak-password') {

@@ -151,7 +151,7 @@ const Comment: React.FC<CommentProps> = ({ postObj, userObj }) => {
   };
 
   const handleDeleteComment = (commentId: string) => {
-    const answer = window.confirm('작성한 댓글을 삭제하시겠습니까?');
+    const answer = confirm('작성한 댓글을 삭제하시겠습니까?');
     if (answer) {
       const newComments = comments.filter(
         (comment) => comment.commentId !== commentId,

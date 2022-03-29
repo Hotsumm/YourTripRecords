@@ -6,8 +6,8 @@ export const useDarkMode = () => {
   const [theme, setTheme] = useState(lightTheme);
   const setMode = (mode: DefaultTheme) => {
     mode === lightTheme
-      ? window.localStorage.setItem('theme', 'light')
-      : window.localStorage.setItem('theme', 'dark');
+      ? localStorage.setItem('theme', 'light')
+      : localStorage.setItem('theme', 'dark');
     setTheme(mode);
   };
   const toggleTheme = (): void => {

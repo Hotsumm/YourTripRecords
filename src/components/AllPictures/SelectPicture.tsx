@@ -235,7 +235,7 @@ const SelectPicture: React.FC<SelectPictureProps> = ({
               <KakaoMapLinkWrap>
                 <span
                   onClick={() =>
-                    window.open(
+                    open(
                       `https://map.kakao.com/link/map/${selectPicture.location?.locationId}`,
                     )
                   }

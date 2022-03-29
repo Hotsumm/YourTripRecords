@@ -188,10 +188,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
   const toggleSignUp = (): void => setIsSignUpClick(!isSignUpClick);
 
   const handleInstagram = (): void => {
-    if (typeof window.open === 'function') {
-      window.open(`https://www.instagram.com/${thisUser.instagram}/`);
+    if (typeof open === 'function') {
+      open(`https://www.instagram.com/${thisUser.instagram}/`);
     } else {
-      window.location.href = `https://www.instagram.com/${thisUser.instagram}/`;
+      location.href = `https://www.instagram.com/${thisUser.instagram}/`;
     }
   };
 

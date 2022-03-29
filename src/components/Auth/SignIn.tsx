@@ -209,7 +209,7 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential: any) => {
         if (!userCredential.user.emailVerified) {
-          const answer = window.confirm(resendMessage);
+          const answer = confirm(resendMessage);
           if (answer) {
             firebaseAuth.currentUser?.sendEmailVerification();
             alert('이메일 확인링크가 재전송 되었습니다.');
@@ -217,7 +217,7 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
           firebaseAuth.signOut();
           return;
         }
-        window.location.reload();
+        location.reload();
       })
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
@@ -244,7 +244,7 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
             result.user.photoURL,
           );
       })
-      .then(() => window.location.reload())
+      .then(() => location.reload())
       .catch((error) => {
         alert(error.message);
       })

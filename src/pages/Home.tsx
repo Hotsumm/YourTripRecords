@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const throttleScroll = useMemo<() => void>(
     () =>
       throttle(() => {
-        if (window.scrollY >= 80) {
+        if (scrollY >= 80) {
           setNavBar(true);
         } else {
           setNavBar(false);
@@ -28,8 +28,8 @@ const Home: React.FC = () => {
   );
 
   useLayoutEffect(() => {
-    window.addEventListener('scroll', throttleScroll);
-    return () => window.removeEventListener('scroll', throttleScroll);
+    addEventListener('scroll', throttleScroll);
+    return () => removeEventListener('scroll', throttleScroll);
   }, [throttleScroll]);
 
   return (

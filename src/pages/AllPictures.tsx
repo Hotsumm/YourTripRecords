@@ -66,7 +66,7 @@ const AllPictures: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
-  window.onpopstate = () => navigate(`/city/${cityName}/${postId}`);
+  onpopstate = () => navigate(`/city/${cityName}/${postId}`);
 
   const slideLeft = (): void => {
     if (pictureIndex > 0) {

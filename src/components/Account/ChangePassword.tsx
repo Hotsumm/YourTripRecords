@@ -158,7 +158,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
                 alert(
                   '비밀번호가 정상적으로 변경되었습니다.\n다시 로그인 해주세요.',
                 );
-                window.location.reload();
+                location.reload();
               })
               .catch((error) => console.log(error));
           })
