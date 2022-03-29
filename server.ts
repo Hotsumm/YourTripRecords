@@ -54,14 +54,11 @@ async function createServer(
         // always read fresh template in dev
 
         template = fs.readFileSync(resolve('index.html'), 'utf-8');
-        console.log(template);
         template = await vite.transformIndexHtml(url, template);
         render = (await vite.ssrLoadModule('src/entry-server.tsx')).render;
-        console.log(render);
       } else {
         template = indexProd;
         render = require('./build/server/entry-server.js').render;
-        console.log(render);
       }
 
       const context = {};
@@ -72,7 +69,6 @@ async function createServer(
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (e: any) {
       !isProd && vite.ssrFixStacktrace(e);
-      console.log(e.stack);
       res.status(500).end(e.stack);
     }
   });
