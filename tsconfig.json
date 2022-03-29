@@ -23,5 +23,5 @@
     "strictNullChecks": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["vite.config.ts", "src/**/*", "server/*"]
+  "include": ["src/**/*", "*"]
 }
