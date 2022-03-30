@@ -30,7 +30,7 @@ const DetailWrap = styled.article`
     width: 95vw;
   }
   width: 65vw;
-  padding: 100px 0;
+  padding: 110px 0;
 `;
 
 const DetailHeaderWrap = styled.header`
