@@ -14,7 +14,7 @@ import { useLocation } from 'react-router-dom';
 
 const CityContainer = styled.main`
   width: 100%;
-  padding-top: 80px;
+  padding-top: 100px;
   max-width: 2560px;
   margin: 0 auto;
 `;

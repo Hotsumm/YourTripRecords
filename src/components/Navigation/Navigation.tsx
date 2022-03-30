@@ -75,9 +75,9 @@ const ThemeContainer = styled.div`
   position: absolute;
   top: 20px;
   right: 280px;
+  z-index: -1;
 
-  @media (max-width: 768px) {
-    z-index: -1;
+  @media (max-width: 1024px) {
     top: 90px;
     right: 20px;
   }
