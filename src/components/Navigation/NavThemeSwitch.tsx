@@ -5,7 +5,7 @@ import { darkTheme } from '../../styles/theme';
 
 const ThemeSwitchWrap = styled.div`
   position: relative;
-  @media (max-width: 500px) {
+  @media (max-width: 1024px) {
     width: 65px;
     height: 35px;
   }
@@ -18,6 +18,12 @@ const ThemeMode = styled.span`
   font-size: 10px;
   top: 40px;
   left: 15px;
+  @media (max-width: 1024px) {
+    left: 10px;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ThemeSwitchLabel = styled.label`
@@ -31,7 +37,7 @@ const ThemeSwitchLabel = styled.label`
   border: 1px solid #ababab80;
   cursor: pointer;
   ::after {
-    @media (max-width: 500px) {
+    @media (max-width: 1024px) {
       font-size: 18px;
     }
     content: '🌞';
@@ -57,7 +63,7 @@ const ThemeSwitchInput = styled.input`
   &:checked + ${ThemeSwitchLabel} {
     background: ${(props) => props.theme.bgColor};
     ::after {
-      @media (max-width: 500px) {
+      @media (max-width: 1024px) {
         font-size: 18px;
         margin-left: 35px;
       }
