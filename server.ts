@@ -61,10 +61,9 @@ async function createServer(
         render = require('./build/server/entry-server.js').render;
       }
 
-      const context = {};
-      const appHtml = render(url, context);
+      const appHtml = render(url);
 
-      const html = template.replace(`<!--app-html-->`, appHtml);
+      const html = template.replace('<!--ssr-outlet-->', appHtml);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (e: any) {
