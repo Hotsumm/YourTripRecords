@@ -7,13 +7,8 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-
   build: {
     minify: false,
-    outDir: './build',
-    commonjsOptions: {
-      include: [/linked-dep/, /node_modules/],
-    },
   },
   plugins: [
     react(),
