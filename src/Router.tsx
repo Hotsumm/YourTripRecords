@@ -29,22 +29,20 @@ const Upload = loadable(
 
 const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/city/:cityName" element={<City />} />
-        <Route path="/profile/:userId" element={<Profile />} />
-        <Route path="/myAccount/:userId" element={<MyAccount />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="/postEdit/:postId" element={<PostEdit />} />
-        <Route path="/city/:cityName/:postId" element={<PostDetail />} />
-        <Route
-          path="/city/:cityName/:postId/:pictureId"
-          element={<AllPictures />}
-        />
-        <Route path="*" element={<Navigate replace to="/" />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/city/:cityName" element={<City />} />
+      <Route path="/profile/:userId" element={<Profile />} />
+      <Route path="/myAccount/:userId" element={<MyAccount />} />
+      <Route path="/upload" element={<Upload />} />
+      <Route path="/postEdit/:postId" element={<PostEdit />} />
+      <Route path="/city/:cityName/:postId" element={<PostDetail />} />
+      <Route
+        path="/city/:cityName/:postId/:pictureId"
+        element={<AllPictures />}
+      />
+      <Route path="*" element={<Navigate replace to="/" />} />
+    </Routes>
   );
 };
 
