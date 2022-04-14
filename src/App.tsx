@@ -8,7 +8,6 @@ import { useDarkMode } from './hooks/useDarkMode';
 
 const App: React.FC = () => {
   const [userObj, setUserObj] = useState<IUserObj | null>(null);
-  const [init, setInit] = useState(false);
   const { theme, toggleTheme } = useDarkMode();
 
   useEffect(() => refreshUser(true), []);
@@ -24,14 +23,11 @@ const App: React.FC = () => {
             if (doc.exists) {
               const userData: any = { ...doc.data() };
               setUserObj(userData);
-              setInit(true);
             } else {
               console.log('No such document!');
             }
           })
           .catch((error) => console.log(error));
-      } else {
-        setInit(true);
       }
     });
   };
@@ -41,7 +37,7 @@ const App: React.FC = () => {
       <UserContext.Provider value={{ userObj, refreshUser }}>
         <React.Fragment>
           <GlobalStyles theme={theme} />
-          {init && <Router />}
+          <Router />
         </React.Fragment>
       </UserContext.Provider>
     </ThemeContext.Provider>
