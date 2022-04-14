@@ -1,31 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import loadable from '@loadable/component';
-
-const Home = loadable(
-  () => import(/* webpackChunkName: "Home" */ './pages/Home'),
-);
-const City = loadable(
-  () => import(/* webpackChunkName: "City" */ './pages/City'),
-);
-const Profile = loadable(
-  () => import(/* webpackChunkName: "Profile" */ './pages/Profile'),
-);
-const MyAccount = loadable(
-  () => import(/* webpackChunkName: "MyAccount" */ './pages/MyAccount'),
-);
-const AllPictures = loadable(
-  () => import(/* webpackChunkName: "AllPictures" */ './pages/AllPictures'),
-);
-const PostEdit = loadable(
-  () => import(/* webpackChunkName: "PostEdit" */ './pages/PostEdit'),
-);
-const PostDetail = loadable(
-  () => import(/* webpackChunkName: "PostDetail" */ './pages/PostDetail'),
-);
-const Upload = loadable(
-  () => import(/* webpackChunkName: "Upload" */ './pages/Upload'),
-);
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home';
+import City from './pages/City';
+import Profile from './pages/Profile';
+import MyAccount from './pages/MyAccount';
+import AllPictures from './pages/AllPictures';
+import PostEdit from './pages/PostEdit';
+import PostDetail from './pages/PostDetail';
+import Upload from './pages/Upload';
 
 const Router = () => {
   return (

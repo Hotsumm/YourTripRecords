@@ -1,10 +1,11 @@
-import React, { useState, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/Navigation/Navigation';
 import Background from '../components/Home/Background';
 import PopularCity from '../components/Home/PopularCity';
 import Footer from '../components/Home/Footer';
 import { throttle } from 'lodash';
+import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect';
 
 const HomeContainer = styled.main`
   width: 100%;
@@ -27,7 +28,7 @@ const Home: React.FC = () => {
     [],
   );
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     addEventListener('scroll', throttleScroll);
     return () => removeEventListener('scroll', throttleScroll);
   }, [throttleScroll]);
