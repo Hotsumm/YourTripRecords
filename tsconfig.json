@@ -20,8 +20,9 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noEmit": true,
+    "sourceMap": true,
     "strictNullChecks": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src", "*"]
+  "include": ["src/**/*", "*"]
 }
