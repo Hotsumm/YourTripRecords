@@ -9,20 +9,18 @@
     "declaration": true,
     "skipLibCheck": true,
     "allowJs": false,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "outDir": "build",
     "types": ["node", "vite/client", "vite-plugin-svgr/client"],
-    "typeRoots": ["src/@types", "node_modules/@types"],
+    "typeRoots": ["src/@types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "noEmit": true,
-    "sourceMap": true,
     "strictNullChecks": true
   },
-  "exclude": ["node_modules", "build"],
-  "include": ["src/**/*", "*"]
+  "include": ["**/*.ts", "src"],
+  "exclude": ["node_modules", "build"]
 }
