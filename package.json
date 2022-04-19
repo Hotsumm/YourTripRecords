@@ -41,7 +41,8 @@
     "start": "nodemon --exec ts-node server.ts",
     "build:client": "vite build --outDir build/client --ssrManifest",
     "build:server": "vite build --outDir build/server --ssr src/entry-server.tsx",
-    "build": "CI= tsc -p tsconfig.server.json && yarn build:client && yarn build:server",
+    "build": "CI= tsc && yarn build:client && yarn build:server",
+    "generate": "CI= vite build --outDir build/static && npm run build:server && ts-node prerender.ts",
     "serve": "yarn build && cross-env NODE_ENV=production node build/server.js",
     "test": "jest"
   },
