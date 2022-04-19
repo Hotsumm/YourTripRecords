@@ -6,13 +6,13 @@ const express = require('express');
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD;
 async function createServer(
-  root = process.cwd(),
+  root = __dirname,
   isProd = process.env.NODE_ENV === 'production',
 ) {
   const resolve = (p: string) => path.resolve(__dirname, p);
 
   const indexProd = isProd
-    ? fs.readFileSync(resolve('build/client/index.html'), 'utf-8')
+    ? fs.readFileSync(resolve('client/index.html'), 'utf-8')
     : '';
   const app = express();
 
@@ -39,13 +39,13 @@ async function createServer(
   } else {
     app.use(require('compression')());
     app.use(
-      require('serve-static')(resolve('build/client'), {
+      require('serve-static')(resolve('client'), {
         index: false,
       }),
     );
   }
 
-  app.use('*', async (req: any, res: any) => {
+  app.get('*', async (req: any, res: any) => {
     try {
       const url = req.originalUrl;
 
@@ -58,7 +58,7 @@ async function createServer(
         render = (await vite.ssrLoadModule('src/entry-server.tsx')).render;
       } else {
         template = indexProd;
-        render = require('./build/server/entry-server.js').render;
+        render = require('./server/entry-server.js').render;
       }
 
       const { appHtml, styleTags } = await render(url);
@@ -83,4 +83,4 @@ createServer().then(({ app }) =>
 );
 
 // for test use
-//exports.createServer = createServer;
+// exports.createServer = createServer;
