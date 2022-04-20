@@ -38,10 +38,11 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node server.ts",
+    "start:dev": "nodemon --exec ts-node server.ts",
+    "start": "node build/server.js",
     "build:client": "vite build --outDir build/client --ssrManifest",
     "build:server": "vite build --outDir build/server --ssr src/entry-server.tsx",
-    "build": "CI= tsc && yarn build:client && yarn build:server",
+    "build": "CI= tsc && cross-env NODE_ENV=production && yarn build:client && yarn build:server",
     "generate": "CI= vite build --outDir build/static && npm run build:server && ts-node prerender.ts",
     "serve": "yarn build && cross-env NODE_ENV=production node build/server.js",
     "test": "jest"
