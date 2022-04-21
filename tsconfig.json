@@ -10,6 +10,16 @@
     "skipLibCheck": true,
     "allowJs": false,
     "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@static/*": ["./src/static/*"],
+      "@assets/*": ["./src/assets/*"]
+    },
     "outDir": "build",
     "types": ["node", "vite/client", "vite-plugin-svgr/client"],
     "typeRoots": ["src/@types"],
