@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Loading from '../Load/Loading';
 import styled from 'styled-components';
-import { firebaseFireStore } from '../../firebaseConfig';
-import { getCreatedDay } from '../../utils/getCreatedDay';
-import SignIn from '../Auth/SignIn';
-import SignUp from '../Auth/SignUp';
-import { HiX } from 'react-icons/hi';
 import { v4 as uuidv4 } from 'uuid';
+import { HiX } from 'react-icons/hi';
+
+import { firebaseFireStore } from '@src/firebaseConfig';
+import { getCreatedDay } from '@utils/getCreatedDay';
+import SignIn from '@components/Auth/SignIn';
+import SignUp from '@components/Auth/SignUp';
+import Loading from '@components/Load/Loading';
 
 const CommentContainer = styled.section`
   width: 100%;

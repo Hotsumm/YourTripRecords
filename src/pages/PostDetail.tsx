@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import Comment from '../components/Detail/Comment';
-import Hashtag from '../components/Detail/Hashtag';
-import Preview from '../components/Detail/Preview';
-import PostInfo from '../components/Detail/PostInfo';
-import { firebaseFireStore } from '../firebaseConfig';
-import PostDetailEdit from '../components/Detail/PostDetailEdit';
-import Footer from '../components/Home/Footer';
-import Loading from '../components/Load/Loading';
-import { UserContext } from '../Context';
+
+import { UserContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+
+import Comment from '@components/Detail/Comment';
+import Hashtag from '@components/Detail/Hashtag';
+import Preview from '@components/Detail/Preview';
+import PostInfo from '@components/Detail/PostInfo';
+import PostDetailEdit from '@components/Detail/PostDetailEdit';
+import Navigation from '@components/Navigation/Navigation';
+import Footer from '@components/Home/Footer';
+import Loading from '@components/Load/Loading';
 
 const DetailContainer = styled.main`
   width: 100%;

@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+
 import {
   firebaseAuth,
   firebaseInstance,
   firebaseFireStore,
-} from '../../firebaseConfig';
-import { ThemeContext, UserContext } from '../../Context';
-import Loading from '../Load/Loading';
+} from '@src/firebaseConfig';
+import { ThemeContext, UserContext } from '@src/Context';
+import Loading from '@components/Load/Loading';
 
 const UserDeleteContainer = styled.div`
   width: 100vw;

@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
-import Loading from '../Load/Loading';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+import Loading from '@components/Load/Loading';
 
 const UploadedListContainer = styled.section`
   width: 70%;

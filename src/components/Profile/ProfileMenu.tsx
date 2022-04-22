@@ -1,13 +1,14 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import ProfileEdit from './ProfileEdit';
-import { IoLogoInstagram } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { FaExchangeAlt } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
-import SignIn from '../Auth/SignIn';
-import SignUp from '../Auth/SignUp';
+import { FaExchangeAlt } from 'react-icons/fa';
+import { IoLogoInstagram } from 'react-icons/io';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+
+import SignIn from '@components/Auth/SignIn';
+import SignUp from '@components/Auth/SignUp';
+import ProfileEdit from '@components/Profile/ProfileEdit';
 import { ThemeContext } from '../../Context';
 
 const ProfileMenuContainer = styled.div`

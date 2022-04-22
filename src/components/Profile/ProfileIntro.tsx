@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
 
 const ProfileIntroContainer = styled.section`
   width: 30%;

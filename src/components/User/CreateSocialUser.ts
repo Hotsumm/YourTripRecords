@@ -1,6 +1,5 @@
-import { firebaseFireStore } from '../../firebaseConfig';
-import { getCreatedDay } from '../../utils/getCreatedDay';
-import { firebaseAuth } from '../../firebaseConfig';
+import { firebaseAuth, firebaseFireStore } from '@src/firebaseConfig';
+import { getCreatedDay } from '@utils/getCreatedDay';
 
 interface CreateSocialUserParam {
   (email: string, nickname: string, avatar: string): Promise<void>;

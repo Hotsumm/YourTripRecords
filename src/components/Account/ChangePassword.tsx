@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { ThemeContext, UserContext } from '../../Context';
+
+import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
+import { ThemeContext, UserContext } from '@src/Context';
 
 const ChangePasswordContainer = styled.div`
   width: 100vw;

@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
-import noPostImg from '../../static/assets/NoPost1.jpeg';
+
+import noPostImg from '@assets/NoPost1.jpeg';
 
 const CityPostContainer = styled.section`
   width: 100%;

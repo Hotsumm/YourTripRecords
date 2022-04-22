@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import NavProfileBar from './NavProfileBar';
 import { Link } from 'react-router-dom';
-import NavThemeSwitch from './NavThemeSwitch';
-import { ThemeContext } from '../../Context';
-import { darkTheme } from '../../styles/theme';
+
+import { ThemeContext } from '@src/Context';
+import { darkTheme } from '@styles/theme';
+import NavProfileBar from '@components/Navigation/NavProfileBar';
+import NavThemeSwitch from '@components/Navigation/NavThemeSwitch';
 
 const NavContainer = styled.header<{ show: boolean }>`
   width: 100vw;

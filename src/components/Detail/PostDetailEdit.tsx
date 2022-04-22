@@ -2,8 +2,9 @@ import React, { useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { ThemeContext } from '../../Context';
+
+import { useOutsideClick } from '@hooks/useOutsideClick';
+import { ThemeContext } from '@src/Context';
 
 const PostDetailEditContainer = styled.div`
   width: 30px;

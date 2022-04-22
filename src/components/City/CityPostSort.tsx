@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { HiSortDescending } from 'react-icons/hi';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
 
 const CityPostSortContainer = styled.div`
   @media (max-width: 1024px) {

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ThemeContext } from '../../Context';
-import { darkTheme } from '../../styles/theme';
+
+import { ThemeContext } from '@src/Context';
+import { darkTheme } from '@styles/theme';
 
 const ThemeSwitchWrap = styled.div`
   position: relative;

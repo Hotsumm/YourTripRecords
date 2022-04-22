@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import Loading from '../Load/Loading';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
-import { CreateUser } from '../User/CreateUser';
-import { CreateSocialUser } from '../User/CreateSocialUser';
-import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
+
+import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
+import { ThemeContext } from '@src/Context';
+import { CreateUser } from '@components/User/CreateUser';
+import { CreateSocialUser } from '@components/User/CreateSocialUser';
+import Loading from '@components/Load/Loading';
 
 const SignUpContainer = styled.div`
   width: 100vw;

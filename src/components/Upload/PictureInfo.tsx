@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Pagination from '../Detail/KakaoMap/Pagination';
+
+import Pagination from '@components/Detail/KakaoMap/Pagination';
 
 const PictureInfoContainer = styled.section`
   display: flex;

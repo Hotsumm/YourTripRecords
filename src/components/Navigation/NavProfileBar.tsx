@@ -1,13 +1,14 @@
 import React, { useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { HiUserCircle } from 'react-icons/hi';
 import { VscTriangleDown } from 'react-icons/vsc';
-import SignIn from '../Auth/SignIn';
-import SignUp from '../Auth/SignUp';
-import { firebaseAuth } from '../../firebaseConfig';
-import { ThemeContext, UserContext } from '../../Context';
-import { Link } from 'react-router-dom';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
+
+import { ThemeContext, UserContext } from '@src/Context';
+import { firebaseAuth } from '@src/firebaseConfig';
+import SignIn from '@components/Auth/SignIn';
+import SignUp from '@components/Auth/SignUp';
+import { useOutsideClick } from '@hooks/useOutsideClick';
 
 const ProfileBarWrap = styled.div`
   position: relative;

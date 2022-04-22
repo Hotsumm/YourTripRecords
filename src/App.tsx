@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Router from './Router';
-import { GlobalStyles } from './styles/global-styles';
-import { firebaseAuth } from './firebaseConfig';
-import { firebaseFireStore } from './firebaseConfig';
-import { UserContext, ThemeContext } from './Context';
-import { useDarkMode } from './hooks/useDarkMode';
+import Router from '@src/Router';
+import { firebaseAuth, firebaseFireStore } from '@src/firebaseConfig';
+import { UserContext, ThemeContext } from '@src/Context';
+import { GlobalStyles } from '@styles/global-styles';
+import { useDarkMode } from '@hooks/useDarkMode';
 
 const App: React.FC = () => {
   const [userObj, setUserObj] = useState<IUserObj | null>(null);

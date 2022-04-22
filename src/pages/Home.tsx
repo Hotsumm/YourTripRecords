@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import Background from '../components/Home/Background';
-import PopularCity from '../components/Home/PopularCity';
-import Footer from '../components/Home/Footer';
 import { throttle } from 'lodash';
-import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect';
+
+import useIsomorphicLayoutEffect from '@hooks/useIsomorphicLayoutEffect';
+import Footer from '@components/Home/Footer';
+import Background from '@components/Home/Background';
+import PopularCity from '@components/Home/PopularCity';
+import Navigation from '@components/Navigation/Navigation';
 
 const HomeContainer = styled.main`
   width: 100%;

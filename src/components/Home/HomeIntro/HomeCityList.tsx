@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { FiMapPin } from 'react-icons/fi';
-import { cityArray } from '../../../utils/cityArray';
 import { Link } from 'react-router-dom';
-import { ThemeContext } from '../../../Context';
+import { FiMapPin } from 'react-icons/fi';
+
+import { ThemeContext } from '@src/Context';
+import { cityArray } from '@utils/cityArray';
 
 const HomeCityListContainer = styled.div`
   @media (max-width: 768px) {

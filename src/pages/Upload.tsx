@@ -1,19 +1,20 @@
 import React, { useState, useContext } from 'react';
-import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
+import { useNavigate } from 'react-router-dom';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
-import { cityArray } from '../utils/cityArray';
-import { firebaseFireStore, firebaseStorage } from '../firebaseConfig';
-import { getCreatedDay } from '../utils/getCreatedDay';
-import Loading from '../components/Load/Loading';
-import Footer from '../components/Home/Footer';
-import UploadGuide from '../components/Upload/UploadGuide';
-import RecordInfo from '../components/Upload/RecordInfo';
-import PictureInfo from '../components/Upload/PictureInfo';
-import { browserImageCompression } from '../utils/browserImageCompression';
-import { UserContext } from '../Context';
+
+import { UserContext } from '@src/Context';
+import { firebaseFireStore, firebaseStorage } from '@src/firebaseConfig';
+import { getCreatedDay } from '@utils/getCreatedDay';
+import { browserImageCompression } from '@utils/browserImageCompression';
+import UploadGuide from '@components/Upload/UploadGuide';
+import RecordInfo from '@components/Upload/RecordInfo';
+import PictureInfo from '@components/Upload/PictureInfo';
+import Navigation from '@components/Navigation/Navigation';
+import Loading from '@components/Load/Loading';
+import Footer from '@components/Home/Footer';
+import { cityArray } from '@utils/cityArray';
 
 const UploadContainer = styled.main`
   width: 100%;

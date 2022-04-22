@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import UserUploadedList from '../components/Profile/UserUploadedList';
-import { firebaseFireStore } from '../firebaseConfig';
-import ProfileMenu from '../components/Profile/ProfileMenu';
-import ProfileIntro from '../components/Profile/ProfileIntro';
-import Loading from '../components/Load/Loading';
-import bgProfile from '../static/assets/bgProfile.jpg';
-import { UserContext } from '../Context';
+
+import { UserContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+import bgProfile from '@assets/bgProfile.jpg';
+import UserUploadedList from '@components/Profile/UserUploadedList';
+import ProfileMenu from '@components/Profile/ProfileMenu';
+import ProfileIntro from '@components/Profile/ProfileIntro';
+import Navigation from '@components/Navigation/Navigation';
+import Loading from '@components/Load/Loading';
 
 const ProfileContainer = styled.main`
   width: 100%;

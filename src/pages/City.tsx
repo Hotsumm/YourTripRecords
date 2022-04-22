@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {} from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import CityPost from '../components/City/CityPost';
-import CityCategory from '../components/City/CityCategory';
-import CityPostSort from '../components/City/CityPostSort';
-import { firebaseFireStore } from '../firebaseConfig';
-import Footer from '../components/Home/Footer';
-import { sortByPopular, sortByLatest, sortByOldest } from '../utils/sortBy';
-import Loading from '../components/Load/Loading';
-import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+
+import { firebaseFireStore } from '@src/firebaseConfig';
+import { sortByPopular, sortByLatest, sortByOldest } from '@utils/sortBy';
+import CityPost from '@components/City/CityPost';
+import CityCategory from '@components/City/CityCategory';
+import CityPostSort from '@components/City/CityPostSort';
+import Footer from '@components/Home/Footer';
+import Loading from '@components/Load/Loading';
+import Navigation from '@components/Navigation/Navigation';
 
 const CityContainer = styled.main`
   width: 100%;

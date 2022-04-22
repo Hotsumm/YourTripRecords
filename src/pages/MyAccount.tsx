@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import ChangePassword from '../components/Account/ChangePassword';
-import { FcLock } from 'react-icons/fc';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { BsBoxArrowInUpRight } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 import { FiUserX } from 'react-icons/fi';
-import { ThemeContext, UserContext } from '../Context';
-import UserDelete from '../components/Account/UserDelete';
-import Footer from '../components/Home/Footer';
+import { FcLock } from 'react-icons/fc';
+
+import { ThemeContext, UserContext } from '@src/Context';
+import Footer from '@components/Home/Footer';
+import Navigation from '@components/Navigation/Navigation';
+import ChangePassword from '@components/Account/ChangePassword';
+import UserDelete from '@components/Account/UserDelete';
 
 const MyAccountContainer = styled.main`
   width: 100vw;

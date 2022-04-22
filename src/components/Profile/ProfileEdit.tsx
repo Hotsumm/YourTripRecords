@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { firebaseFireStore, firebaseStorage } from '../../firebaseConfig';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
+import { firebaseFireStore, firebaseStorage } from '@src/firebaseConfig';
 
 const ProfileEditContainer = styled.div`
   width: 100vw;

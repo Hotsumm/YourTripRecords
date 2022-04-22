@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { cityArray } from '../../utils/cityArray';
-import arrowImg from '../../static/assets/arrow.jpeg';
-import { hashtagArray } from '../../utils/hashtagArray';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
+import { cityArray } from '@utils/cityArray';
+import { hashtagArray } from '@utils/hashtagArray';
+import arrowImg from '@assets/arrow.jpeg';
 
 const CityCategoryContainer = styled.div`
   @media (max-width: 500px) {

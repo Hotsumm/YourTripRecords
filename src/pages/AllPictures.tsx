@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { ThemeContext } from '../Context';
-import SelectPicture from '../components/AllPictures/SelectPicture';
-import AllPicturesList from '../components/AllPictures/AllPicturesList';
+import { BsBoxArrowInLeft } from 'react-icons/bs';
+
+import { ThemeContext } from '@src/Context';
+import AllPicturesList from '@components/AllPictures/AllPicturesList';
+import SelectPicture from '@components/AllPictures/SelectPicture';
 
 const AllPicturesContainer = styled.main`
   @media (max-width: 768px) {

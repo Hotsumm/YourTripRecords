@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import bgImg from '../../static/assets/backgroundImg.jpg';
-import HomeIntro from './HomeIntro/HomeIntro';
-import HomeCityList from './HomeIntro/HomeCityList';
+
+import bgImg from '@assets/backgroundImg.jpg';
+import HomeIntro from '@components/Home/HomeIntro/HomeIntro';
+import HomeCityList from '@components/Home/HomeIntro/HomeCityList';
 
 const BackgroundContainer = styled.div`
   width: 100%;

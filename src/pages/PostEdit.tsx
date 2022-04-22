@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation/Navigation';
-import { firebaseFireStore } from '../firebaseConfig';
-import Loading from '../components/Load/Loading';
-import Footer from '../components/Home/Footer';
-import PictureInfoEdit from '../components/PostEdit/PictureInfoEdit';
-import RecordInfoEdit from '../components/PostEdit/RecordInfoEdit';
-import { UserContext } from '../Context';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { UserContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+import PictureInfoEdit from '@components/PostEdit/PictureInfoEdit';
+import RecordInfoEdit from '@components/PostEdit/RecordInfoEdit';
+import Navigation from '@components/Navigation/Navigation';
+import Loading from '@components/Load/Loading';
+import Footer from '@components/Home/Footer';
 
 const PostEditContainer = styled.main`
   width: 100%;

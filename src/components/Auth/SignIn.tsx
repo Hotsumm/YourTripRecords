@@ -2,10 +2,11 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
-import { firebaseAuth, firebaseInstance } from '../../firebaseConfig';
-import { CreateSocialUser } from '../User/CreateSocialUser';
-import { ThemeContext } from '../../Context';
-import Loading from '../Load/Loading';
+
+import { ThemeContext } from '@src/Context';
+import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
+import { CreateSocialUser } from '@components/User/CreateSocialUser';
+import Loading from '@components/Load/Loading';
 
 const SignInContainer = styled.div`
   width: 100vw;

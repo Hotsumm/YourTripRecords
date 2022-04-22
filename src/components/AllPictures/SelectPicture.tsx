@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Marker from '../Detail/KakaoMap/Marker';
-import { ThemeContext } from '../../Context';
 import { AiOutlineSound } from 'react-icons/ai';
 import { TiLocationOutline } from 'react-icons/ti';
-import { BsArrowLeftShort } from 'react-icons/bs';
-import { BsArrowRightShort } from 'react-icons/bs';
+import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
+import { ThemeContext } from '@src/Context';
+import Marker from '@components/Detail/KakaoMap/Marker';
 
 const SelectPictureContainer = styled.article`
   @media (max-width: 1024px) {

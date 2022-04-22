@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from 'styled-components';
-import { firebaseFireStore } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
-import { sortByPopular } from '../../utils/sortBy';
-import Loading from '../Load/Loading';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+import { sortByPopular } from '@utils/sortBy';
+import Loading from '@components/Load/Loading';
 
 const PopularCityContainer = styled.div`
   width: 100%;

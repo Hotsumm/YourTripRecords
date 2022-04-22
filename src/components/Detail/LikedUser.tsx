@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { firebaseFireStore } from '../../firebaseConfig';
 import { HiX } from 'react-icons/hi';
-import Loading from '../Load/Loading';
-import { ThemeContext } from '../../Context';
+
+import { firebaseFireStore } from '@src/firebaseConfig';
+import { ThemeContext } from '@src/Context';
+import Loading from '@components/Load/Loading';
 
 const LikedUserListContainer = styled.div`
   @media (max-width: 390px) {

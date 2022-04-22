@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import City from './pages/City';
-import Profile from './pages/Profile';
-import MyAccount from './pages/MyAccount';
-import AllPictures from './pages/AllPictures';
-import PostEdit from './pages/PostEdit';
-import PostDetail from './pages/PostDetail';
-import Upload from './pages/Upload';
+import Home from '@pages/Home';
+import City from '@pages/City';
+import Profile from '@pages/Profile';
+import MyAccount from '@pages/MyAccount';
+import AllPictures from '@pages/AllPictures';
+import PostEdit from '@pages/PostEdit';
+import PostDetail from '@pages/PostDetail';
+import Upload from '@pages/Upload';
 
 const Router = () => {
   return (

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ThemeContext } from '../../Context';
-import { hashtagArray } from '../../utils/hashtagArray';
+
+import { ThemeContext } from '@src/Context';
+import { hashtagArray } from '@utils/hashtagArray';
 
 const RecordInfoContainer = styled.section`
   width: 100%;

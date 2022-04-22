@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { GoComment } from 'react-icons/go';
-import { firebaseFireStore } from '../../firebaseConfig';
-import { Link } from 'react-router-dom';
-import LikedUser from './LikedUser';
-import { ThemeContext } from '../../Context';
+
+import { ThemeContext } from '@src/Context';
+import { firebaseFireStore } from '@src/firebaseConfig';
+import LikedUser from '@components/Detail/LikedUser';
 
 const PostInfoContainer = styled.div`
   width: 100%;
