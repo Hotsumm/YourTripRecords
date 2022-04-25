@@ -25,6 +25,7 @@ const DetailContainer = styled.main`
 `;
 
 const DetailWrap = styled.article`
+  max-width: 1440px;
   @media (max-width: 1024px) {
     width: 80vw;
   }
