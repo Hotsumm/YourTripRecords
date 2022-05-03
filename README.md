@@ -7,7 +7,7 @@
 
 ## **WebSite**
 
-### 👉 [YourTripRecords](https://yourtripRecords.netlify.app)
+### 👉 [YourTripRecords](https://yourtriprecords.herokuapp.com)
 
 <br/>
 
