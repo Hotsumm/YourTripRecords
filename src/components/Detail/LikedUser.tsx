@@ -7,6 +7,88 @@ import { firebaseFireStore } from '@src/firebaseConfig';
 import { ThemeContext } from '@src/Context';
 import Loading from '@components/Load/Loading';
 
+interface LikedUserProps {
+  likedUserList: string[];
+  toggleLikesUser(): void;
+}
+
+const LikedUser: React.FC<LikedUserProps> = ({
+  likedUserList,
+  toggleLikesUser,
+}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [likesUserList, setLikesUserList] = useState<IUserObj[]>([]);
+
+  const { theme } = useContext(ThemeContext);
+
+  const closeButton = (): void => toggleLikesUser();
+
+  const fetchLikesUserCallback = useCallback<() => void>(async () => {
+    setIsLoading(true);
+    let likesUserArr: IUserObj[] = [];
+    for (let userId of likedUserList) {
+      await firebaseFireStore
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then((doc: any) => {
+          if (doc.exists) {
+            likesUserArr.push(doc.data());
+          } else {
+            console.log('No such document!');
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+    setLikesUserList(likesUserArr);
+    setIsLoading(false);
+  }, [likedUserList]);
+
+  useEffect(() => {
+    const fetchLikesUser = () => {
+      fetchLikesUserCallback();
+    };
+    fetchLikesUser();
+  }, [fetchLikesUserCallback]);
+
+  return (
+    <LikedUserListContainer>
+      <LikedUserListWrap theme={theme}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <LikedUserListHeader>
+              <HiX onClick={closeButton} size={'20'} />
+              <h3>좋아요 한 사용자</h3>
+            </LikedUserListHeader>
+            <LikedUserList>
+              {likesUserList &&
+                likesUserList.length > 0 &&
+                likesUserList.map((user) => (
+                  <li key={user.userId}>
+                    <LikedUserInfoWrap>
+                      <AvatarWrap>
+                        <img src={user.avatar} alt="프로필사진" />
+                      </AvatarWrap>
+                      <UserInfo>
+                        <span>{user.nickname}</span>
+                        <span>포스팅 : {user.records.length}개</span>
+                      </UserInfo>
+                    </LikedUserInfoWrap>
+                    <UserProfileLink to={`/profile/${user.userId}`}>
+                      <button>프로필 이동</button>
+                    </UserProfileLink>
+                  </li>
+                ))}
+            </LikedUserList>
+          </>
+        )}
+      </LikedUserListWrap>
+    </LikedUserListContainer>
+  );
+};
+
 const LikedUserListContainer = styled.div`
   @media (max-width: 390px) {
     padding: 0px 10px;
@@ -141,87 +223,5 @@ const UserProfileLink = styled(Link)`
     }
   }
 `;
-
-interface LikedUserProps {
-  likedUserList: string[];
-  toggleLikesUser(): void;
-}
-
-const LikedUser: React.FC<LikedUserProps> = ({
-  likedUserList,
-  toggleLikesUser,
-}) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [likesUserList, setLikesUserList] = useState<IUserObj[]>([]);
-
-  const { theme } = useContext(ThemeContext);
-
-  const closeButton = (): void => toggleLikesUser();
-
-  const fetchLikesUserCallback = useCallback<() => void>(async () => {
-    setIsLoading(true);
-    let likesUserArr: IUserObj[] = [];
-    for (let userId of likedUserList) {
-      await firebaseFireStore
-        .collection('users')
-        .doc(userId)
-        .get()
-        .then((doc: any) => {
-          if (doc.exists) {
-            likesUserArr.push(doc.data());
-          } else {
-            console.log('No such document!');
-          }
-        })
-        .catch((error) => console.log(error));
-    }
-    setLikesUserList(likesUserArr);
-    setIsLoading(false);
-  }, [likedUserList]);
-
-  useEffect(() => {
-    const fetchLikesUser = () => {
-      fetchLikesUserCallback();
-    };
-    fetchLikesUser();
-  }, [fetchLikesUserCallback]);
-
-  return (
-    <LikedUserListContainer>
-      <LikedUserListWrap theme={theme}>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <>
-            <LikedUserListHeader>
-              <HiX onClick={closeButton} size={'20'} />
-              <h3>좋아요 한 사용자</h3>
-            </LikedUserListHeader>
-            <LikedUserList>
-              {likesUserList &&
-                likesUserList.length > 0 &&
-                likesUserList.map((user) => (
-                  <li key={user.userId}>
-                    <LikedUserInfoWrap>
-                      <AvatarWrap>
-                        <img src={user.avatar} alt="프로필사진" />
-                      </AvatarWrap>
-                      <UserInfo>
-                        <span>{user.nickname}</span>
-                        <span>포스팅 : {user.records.length}개</span>
-                      </UserInfo>
-                    </LikedUserInfoWrap>
-                    <UserProfileLink to={`/profile/${user.userId}`}>
-                      <button>프로필 이동</button>
-                    </UserProfileLink>
-                  </li>
-                ))}
-            </LikedUserList>
-          </>
-        )}
-      </LikedUserListWrap>
-    </LikedUserListContainer>
-  );
-};
 
 export default LikedUser;

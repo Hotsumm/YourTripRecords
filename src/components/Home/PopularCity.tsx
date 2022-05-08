@@ -7,94 +7,6 @@ import { firebaseFireStore } from '@src/firebaseConfig';
 import { sortByPopular } from '@utils/sortBy';
 import Loading from '@components/Load/Loading';
 
-const PopularCityContainer = styled.div`
-  width: 100%;
-  padding: 40px 0;
-`;
-
-const PopularCityWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const PopularCityHeaderWrap = styled.header`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-`;
-
-const PopularCityHeader = styled.h2`
-  @media (max-width: 500px) {
-    font-size: 20px;
-  }
-  color: ${(props) => props.theme.textColor};
-  font-size: 28px;
-  font-weight: 600;
-`;
-
-const PopularCityListWrap = styled.div`
-  width: 100%;
-  padding: 20px 0 0;
-`;
-
-const CityNameWrap = styled.ul`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & div {
-    font-size: 30px;
-  }
-`;
-
-const CityName = styled.li`
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ababab80;
-  color: black;
-  border-radius: 3px;
-  margin-right: 20px;
-  cursor: pointer;
-  :hover {
-    color: #16a085;
-  }
-`;
-
-const PopularPostWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 30px 100px;
-  margin: 0 auto;
-  gap: 0 20px;
-
-  @media (max-width: 768px) {
-    padding: 30px 50px;
-    gap: 0 10px;
-  }
-  @media (max-width: 500px) {
-    padding: 30px;
-  }
-`;
-
-const PopularImgLink = styled(Link)`
-  width: 300px;
-  position: relative;
-  ::before {
-    content: '';
-    display: block;
-    margin-top: 100%;
-  }
-  & img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-`;
-
 const PopularCity: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [popularPost, setPopularPost] = useState<IPost[]>([]);
@@ -208,5 +120,93 @@ const PopularCity: React.FC = () => {
     </PopularCityContainer>
   );
 };
+
+const PopularCityContainer = styled.div`
+  width: 100%;
+  padding: 40px 0;
+`;
+
+const PopularCityWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const PopularCityHeaderWrap = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+`;
+
+const PopularCityHeader = styled.h2`
+  @media (max-width: 500px) {
+    font-size: 20px;
+  }
+  color: ${(props) => props.theme.textColor};
+  font-size: 28px;
+  font-weight: 600;
+`;
+
+const PopularCityListWrap = styled.div`
+  width: 100%;
+  padding: 20px 0 0;
+`;
+
+const CityNameWrap = styled.ul`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & div {
+    font-size: 30px;
+  }
+`;
+
+const CityName = styled.li`
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #ababab80;
+  color: black;
+  border-radius: 3px;
+  margin-right: 20px;
+  cursor: pointer;
+  :hover {
+    color: #16a085;
+  }
+`;
+
+const PopularPostWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 30px 100px;
+  margin: 0 auto;
+  gap: 0 20px;
+
+  @media (max-width: 768px) {
+    padding: 30px 50px;
+    gap: 0 10px;
+  }
+  @media (max-width: 500px) {
+    padding: 30px;
+  }
+`;
+
+const PopularImgLink = styled(Link)`
+  width: 300px;
+  position: relative;
+  ::before {
+    content: '';
+    display: block;
+    margin-top: 100%;
+  }
+  & img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+`;
 
 export default PopularCity;

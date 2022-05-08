@@ -7,88 +7,6 @@ import { cityArray } from '@utils/cityArray';
 import { hashtagArray } from '@utils/hashtagArray';
 import arrowImg from '@assets/arrow.jpeg';
 
-const CityCategoryContainer = styled.div`
-  @media (max-width: 500px) {
-    width: 100%;
-    padding: 0;
-    align-items: center;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0px 60px;
-`;
-
-const CityCategoryWrap = styled.div`
-  @media (max-width: 500px) {
-    flex-direction: column;
-    width: 100%;
-  }
-  width: 100%;
-  display: flex;
-  align-items: center;
-`;
-
-const CategorySelectWrap = styled.div`
-  @media (max-width: 500px) {
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
-  gap: 15px;
-  display: flex;
-  align-items: center;
-  margin-right: 70px;
-`;
-
-const CategoryHeader = styled.h3`
-  font-size: 20px;
-  white-space: pre;
-`;
-
-const Category = styled.select`
-  width: 120px;
-  font-size: 16px;
-  padding: 10px 20px;
-  border: 1px solid #16a085;
-  background: url(${arrowImg}) no-repeat 95% 50%;
-  background-color: white;
-  color: black;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  border-radius: 5px;
-  :-ms-expand {
-    display: none;
-  }
-`;
-
-const HashtagWrap = styled.ul`
-  @media (max-width: 500px) {
-    padding: 0 20px;
-  }
-  overflow-x: auto;
-  width: 100%;
-  display: flex;
-  margin-top: 30px;
-  gap: 0 20px;
-  margin-bottom: 20px;
-`;
-
-const Hashtag = styled.li`
-  @media (min-width: 600px) {
-    white-space: pre;
-  }
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 1rem;
-  border: 1px solid #16a085;
-  color: ${(props) => props.theme.textColor};
-
-  :hover {
-    color: #16a085;
-  }
-`;
-
 interface CityCategoryProps {
   cityName: string;
   handleSeasonSelect(season: string): void;
@@ -173,5 +91,87 @@ const CityCategory: React.FC<CityCategoryProps> = ({
     </CityCategoryContainer>
   );
 };
+
+const CityCategoryContainer = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 0;
+    align-items: center;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 60px;
+`;
+
+const CityCategoryWrap = styled.div`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    width: 100%;
+  }
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const CategorySelectWrap = styled.div`
+  @media (max-width: 500px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  gap: 15px;
+  display: flex;
+  align-items: center;
+  margin-right: 70px;
+`;
+
+const CategoryHeader = styled.h3`
+  font-size: 20px;
+  white-space: pre;
+`;
+
+const Category = styled.select`
+  width: 120px;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: 1px solid #16a085;
+  background: url(${arrowImg}) no-repeat 95% 50%;
+  background-color: white;
+  color: black;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  :-ms-expand {
+    display: none;
+  }
+`;
+
+const HashtagWrap = styled.ul`
+  @media (max-width: 500px) {
+    padding: 0 20px;
+  }
+  overflow-x: auto;
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  gap: 0 20px;
+  margin-bottom: 20px;
+`;
+
+const Hashtag = styled.li`
+  @media (min-width: 600px) {
+    white-space: pre;
+  }
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 1px solid #16a085;
+  color: ${(props) => props.theme.textColor};
+
+  :hover {
+    color: #16a085;
+  }
+`;
 
 export default React.memo(CityCategory);

@@ -4,6 +4,84 @@ import styled from 'styled-components';
 import { ThemeContext } from '@src/Context';
 import { hashtagArray } from '@utils/hashtagArray';
 
+interface RecordInfoProps {
+  onChange(
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ): void;
+  cityArray: ICityArray[];
+  handleHashtagSelect(name: string): void;
+  selectedHashtag: string[];
+}
+
+const RecordInfo: React.FC<RecordInfoProps> = ({
+  onChange,
+  cityArray,
+  handleHashtagSelect,
+  selectedHashtag,
+}) => {
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <RecordInfoContainer>
+      <RecordContentWrap>
+        <RecordContent>
+          <span>여행 제목</span>
+          <input type="title" name="postTitle" onChange={onChange} />
+        </RecordContent>
+        <RecordContent>
+          <span>도시</span>
+          <select name="city" onChange={onChange}>
+            {cityArray &&
+              cityArray.length > 0 &&
+              cityArray.map((city) => (
+                <option key={city.id} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+          </select>
+        </RecordContent>
+        <RecordContent>
+          <span>여행 계절</span>
+          <select name="season" onChange={onChange}>
+            <option value="봄">봄</option>
+            <option value="여름">여름</option>
+            <option value="가을">가을</option>
+            <option value="겨울">겨울</option>
+          </select>
+        </RecordContent>
+        <HashtagContainer>
+          <HashtagWrap>
+            {hashtagArray.map((hashtag) => (
+              <Hashtag
+                theme={theme}
+                key={hashtag.id}
+                onClick={() => handleHashtagSelect(hashtag.name)}
+                style={
+                  selectedHashtag.includes(hashtag.name)
+                    ? {
+                        background: '#e3f4ea',
+                        fontWeight: '600',
+                        color: '#16a085',
+                        cursor: 'default',
+                        border: 'none',
+                      }
+                    : {
+                        cursor: 'pointer',
+                      }
+                }
+              >
+                {hashtag.name}
+              </Hashtag>
+            ))}
+          </HashtagWrap>
+        </HashtagContainer>
+      </RecordContentWrap>
+    </RecordInfoContainer>
+  );
+};
+
 const RecordInfoContainer = styled.section`
   width: 100%;
   display: flex;
@@ -99,83 +177,5 @@ const Hashtag = styled.li`
     color: #16a085;
   }
 `;
-
-interface RecordInfoProps {
-  onChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ): void;
-  cityArray: ICityArray[];
-  handleHashtagSelect(name: string): void;
-  selectedHashtag: string[];
-}
-
-const RecordInfo: React.FC<RecordInfoProps> = ({
-  onChange,
-  cityArray,
-  handleHashtagSelect,
-  selectedHashtag,
-}) => {
-  const { theme } = useContext(ThemeContext);
-
-  return (
-    <RecordInfoContainer>
-      <RecordContentWrap>
-        <RecordContent>
-          <span>여행 제목</span>
-          <input type="title" name="postTitle" onChange={onChange} />
-        </RecordContent>
-        <RecordContent>
-          <span>도시</span>
-          <select name="city" onChange={onChange}>
-            {cityArray &&
-              cityArray.length > 0 &&
-              cityArray.map((city) => (
-                <option key={city.id} value={city.name}>
-                  {city.name}
-                </option>
-              ))}
-          </select>
-        </RecordContent>
-        <RecordContent>
-          <span>여행 계절</span>
-          <select name="season" onChange={onChange}>
-            <option value="봄">봄</option>
-            <option value="여름">여름</option>
-            <option value="가을">가을</option>
-            <option value="겨울">겨울</option>
-          </select>
-        </RecordContent>
-        <HashtagContainer>
-          <HashtagWrap>
-            {hashtagArray.map((hashtag) => (
-              <Hashtag
-                theme={theme}
-                key={hashtag.id}
-                onClick={() => handleHashtagSelect(hashtag.name)}
-                style={
-                  selectedHashtag.includes(hashtag.name)
-                    ? {
-                        background: '#e3f4ea',
-                        fontWeight: '600',
-                        color: '#16a085',
-                        cursor: 'default',
-                        border: 'none',
-                      }
-                    : {
-                        cursor: 'pointer',
-                      }
-                }
-              >
-                {hashtag.name}
-              </Hashtag>
-            ))}
-          </HashtagWrap>
-        </HashtagContainer>
-      </RecordContentWrap>
-    </RecordInfoContainer>
-  );
-};
 
 export default RecordInfo;

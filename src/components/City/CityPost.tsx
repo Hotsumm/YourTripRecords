@@ -5,6 +5,78 @@ import { RiHeartFill } from 'react-icons/ri';
 
 import noPostImg from '@assets/NoPost1.jpeg';
 
+interface CityPostProps {
+  posts: IPost[];
+}
+
+const CityPost: React.FC<CityPostProps> = ({ posts }) => {
+  return (
+    <CityPostContainer>
+      {posts && posts.length > 0 ? (
+        <CityPostWrap>
+          {posts.map((post) => (
+            <CityPostLinkWrap key={post.postId}>
+              <CityPostLink to={`/city/${post.city}/${post.postId}`}>
+                <PostIntro>
+                  <PostThumbnail>
+                    <img src={post.pictureList[0].pictureURL} alt="썸네일" />
+                    <PictureCountWrap>
+                      <span>+{post.pictureList.length - 1}</span>
+                    </PictureCountWrap>
+                  </PostThumbnail>
+                  {post.hashtags && (
+                    <HashtagWrap>
+                      {post.hashtags.map((hashtag, index) => (
+                        <Hashtag key={index}>{hashtag}</Hashtag>
+                      ))}
+                    </HashtagWrap>
+                  )}
+                  <PostInfo>
+                    <PostCountWrap>
+                      <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
+                      <LikeCount>{post.likes.length}</LikeCount>
+                      <CommentCount>({post.comments.length})</CommentCount>
+                    </PostCountWrap>
+                    <PostTitle>
+                      {post.postTitle.length > 15
+                        ? `${post.postTitle.substring(0, 15)}...`
+                        : post.postTitle}
+                    </PostTitle>
+                    <InfoContent>
+                      <InfoWrap>
+                        <span>도시: {post.city}</span>
+                        <span>여행계절: {post.season}</span>
+                      </InfoWrap>
+                      <CreatorWrap>
+                        <Avatar
+                          src={post.creator.userObj.avatar}
+                          alt="프로필 사진"
+                        />
+                        <Nickname>{post.creator.userObj.nickname}</Nickname>
+                      </CreatorWrap>
+                    </InfoContent>
+                  </PostInfo>
+                </PostIntro>
+              </CityPostLink>
+            </CityPostLinkWrap>
+          ))}
+        </CityPostWrap>
+      ) : (
+        <NoPostWrap>
+          <NoPost>
+            <p>
+              아직 등록 된 게시물이 없습니다. <br />첫 게시물을 등록해보세요!
+            </p>
+          </NoPost>
+          <NoPostImgWrap>
+            <img src={noPostImg} alt="게시물 없음" />
+          </NoPostImgWrap>
+        </NoPostWrap>
+      )}
+    </CityPostContainer>
+  );
+};
+
 const CityPostContainer = styled.section`
   width: 100%;
   display: flex;
@@ -223,77 +295,5 @@ const NoPost = styled.div`
     color: black;
   }
 `;
-
-interface CityPostProps {
-  posts: IPost[];
-}
-
-const CityPost: React.FC<CityPostProps> = ({ posts }) => {
-  return (
-    <CityPostContainer>
-      {posts && posts.length > 0 ? (
-        <CityPostWrap>
-          {posts.map((post) => (
-            <CityPostLinkWrap key={post.postId}>
-              <CityPostLink to={`/city/${post.city}/${post.postId}`}>
-                <PostIntro>
-                  <PostThumbnail>
-                    <img src={post.pictureList[0].pictureURL} alt="썸네일" />
-                    <PictureCountWrap>
-                      <span>+{post.pictureList.length - 1}</span>
-                    </PictureCountWrap>
-                  </PostThumbnail>
-                  {post.hashtags && (
-                    <HashtagWrap>
-                      {post.hashtags.map((hashtag, index) => (
-                        <Hashtag key={index}>{hashtag}</Hashtag>
-                      ))}
-                    </HashtagWrap>
-                  )}
-                  <PostInfo>
-                    <PostCountWrap>
-                      <RiHeartFill size={'16'} style={{ color: '#ff4757' }} />
-                      <LikeCount>{post.likes.length}</LikeCount>
-                      <CommentCount>({post.comments.length})</CommentCount>
-                    </PostCountWrap>
-                    <PostTitle>
-                      {post.postTitle.length > 15
-                        ? `${post.postTitle.substring(0, 15)}...`
-                        : post.postTitle}
-                    </PostTitle>
-                    <InfoContent>
-                      <InfoWrap>
-                        <span>도시: {post.city}</span>
-                        <span>여행계절: {post.season}</span>
-                      </InfoWrap>
-                      <CreatorWrap>
-                        <Avatar
-                          src={post.creator.userObj.avatar}
-                          alt="프로필 사진"
-                        />
-                        <Nickname>{post.creator.userObj.nickname}</Nickname>
-                      </CreatorWrap>
-                    </InfoContent>
-                  </PostInfo>
-                </PostIntro>
-              </CityPostLink>
-            </CityPostLinkWrap>
-          ))}
-        </CityPostWrap>
-      ) : (
-        <NoPostWrap>
-          <NoPost>
-            <p>
-              아직 등록 된 게시물이 없습니다. <br />첫 게시물을 등록해보세요!
-            </p>
-          </NoPost>
-          <NoPostImgWrap>
-            <img src={noPostImg} alt="게시물 없음" />
-          </NoPostImgWrap>
-        </NoPostWrap>
-      )}
-    </CityPostContainer>
-  );
-};
 
 export default CityPost;

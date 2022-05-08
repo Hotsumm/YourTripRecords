@@ -4,6 +4,26 @@ import styled from 'styled-components';
 import { ThemeContext } from '@src/Context';
 import { darkTheme } from '@styles/theme';
 
+const NavThemeSwitch: React.FC = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  return (
+    <ThemeSwitchWrap>
+      <ThemeMode>Light / Dark</ThemeMode>
+      <ThemeSwitchInput
+        theme={theme}
+        id={'switch-input'}
+        type="checkbox"
+        onChange={toggleTheme}
+        checked={theme === darkTheme ? true : false}
+      />
+      <ThemeSwitchLabel
+        theme={theme}
+        htmlFor={'switch-input'}
+      ></ThemeSwitchLabel>
+    </ThemeSwitchWrap>
+  );
+};
+
 const ThemeSwitchWrap = styled.div`
   position: relative;
   @media (max-width: 1024px) {
@@ -84,25 +104,5 @@ const ThemeSwitchInput = styled.input`
     }
   }
 `;
-
-const NavThemeSwitch: React.FC = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  return (
-    <ThemeSwitchWrap>
-      <ThemeMode>Light / Dark</ThemeMode>
-      <ThemeSwitchInput
-        theme={theme}
-        id={'switch-input'}
-        type="checkbox"
-        onChange={toggleTheme}
-        checked={theme === darkTheme ? true : false}
-      />
-      <ThemeSwitchLabel
-        theme={theme}
-        htmlFor={'switch-input'}
-      ></ThemeSwitchLabel>
-    </ThemeSwitchWrap>
-  );
-};
 
 export default NavThemeSwitch;

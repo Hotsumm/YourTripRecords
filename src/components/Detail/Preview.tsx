@@ -2,6 +2,47 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+interface PreviewProps {
+  postObj: IPost;
+  pathName: string;
+}
+
+const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
+  return (
+    <PreviewContainer>
+      <PreviewWrap>
+        {postObj.pictureList &&
+          postObj.pictureList.length > 0 &&
+          postObj.pictureList.map(
+            (picture, index) =>
+              index < 5 && (
+                <PreviewImgWrap key={picture.pictureId}>
+                  <Link
+                    to={`${pathName}/${postObj.pictureList[index].pictureId}`}
+                    state={{
+                      initPictureIndex: index,
+                      pictureList: postObj.pictureList,
+                    }}
+                  >
+                    <img src={picture.pictureURL} alt="미리보기" />
+                  </Link>
+                </PreviewImgWrap>
+              ),
+          )}
+        <Link
+          to={`${pathName}/${postObj.pictureList[0].pictureId}`}
+          state={{
+            initPictureIndex: 0,
+            pictureList: postObj.pictureList,
+          }}
+        >
+          <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
+        </Link>
+      </PreviewWrap>
+    </PreviewContainer>
+  );
+};
+
 const PreviewContainer = styled.div`
   width: 100%;
 `;
@@ -67,46 +108,5 @@ const PreviewImgWrap = styled.div`
     grid-area: 2 / 4 / 3 / 5;
   }
 `;
-
-interface PreviewProps {
-  postObj: IPost;
-  pathName: string;
-}
-
-const Preview: React.FC<PreviewProps> = ({ postObj, pathName }) => {
-  return (
-    <PreviewContainer>
-      <PreviewWrap>
-        {postObj.pictureList &&
-          postObj.pictureList.length > 0 &&
-          postObj.pictureList.map(
-            (picture, index) =>
-              index < 5 && (
-                <PreviewImgWrap key={picture.pictureId}>
-                  <Link
-                    to={`${pathName}/${postObj.pictureList[index].pictureId}`}
-                    state={{
-                      initPictureIndex: index,
-                      pictureList: postObj.pictureList,
-                    }}
-                  >
-                    <img src={picture.pictureURL} alt="미리보기" />
-                  </Link>
-                </PreviewImgWrap>
-              ),
-          )}
-        <Link
-          to={`${pathName}/${postObj.pictureList[0].pictureId}`}
-          state={{
-            initPictureIndex: 0,
-            pictureList: postObj.pictureList,
-          }}
-        >
-          <button>사진 전체보기 ({postObj.pictureList.length}장)</button>
-        </Link>
-      </PreviewWrap>
-    </PreviewContainer>
-  );
-};
 
 export default Preview;

@@ -7,6 +7,29 @@ import { darkTheme } from '@styles/theme';
 import NavProfileBar from '@components/Navigation/NavProfileBar';
 import NavThemeSwitch from '@components/Navigation/NavThemeSwitch';
 
+interface NavigationProps {
+  show: boolean;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ show }) => {
+  const { theme } = useContext(ThemeContext);
+  return (
+    <NavContainer theme={theme} show={show}>
+      <NavWrap>
+        <TitleContainer show={show} theme={theme}>
+          <Link to="/">YourTripRecords</Link>
+        </TitleContainer>
+        <ProfileContainer theme={theme}>
+          <NavProfileBar />
+        </ProfileContainer>
+        <ThemeContainer>
+          <NavThemeSwitch />
+        </ThemeContainer>
+      </NavWrap>
+    </NavContainer>
+  );
+};
+
 const NavContainer = styled.header<{ show: boolean }>`
   width: 100vw;
   height: 80px;
@@ -83,28 +106,5 @@ const ThemeContainer = styled.div`
     right: 20px;
   }
 `;
-
-interface NavigationProps {
-  show: boolean;
-}
-
-const Navigation: React.FC<NavigationProps> = ({ show }) => {
-  const { theme } = useContext(ThemeContext);
-  return (
-    <NavContainer theme={theme} show={show}>
-      <NavWrap>
-        <TitleContainer show={show} theme={theme}>
-          <Link to="/">YourTripRecords</Link>
-        </TitleContainer>
-        <ProfileContainer theme={theme}>
-          <NavProfileBar />
-        </ProfileContainer>
-        <ThemeContainer>
-          <NavThemeSwitch />
-        </ThemeContainer>
-      </NavWrap>
-    </NavContainer>
-  );
-};
 
 export default Navigation;

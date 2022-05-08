@@ -6,6 +6,38 @@ import { FiMapPin } from 'react-icons/fi';
 import { ThemeContext } from '@src/Context';
 import { cityArray } from '@utils/cityArray';
 
+const HomeCityList: React.FC = () => {
+  const { theme } = useContext(ThemeContext);
+  return (
+    <HomeCityListContainer>
+      <HomeCityListHeader>
+        <HomeCityMenu>
+          <Menu theme={theme}>
+            <IconWrap>
+              <FiMapPin size={'20'} />
+            </IconWrap>
+            <span>도시</span>
+          </Menu>
+        </HomeCityMenu>
+      </HomeCityListHeader>
+      <CityListWrap theme={theme}>
+        <Link to={'/city/전체'}>
+          <City theme={theme}>
+            <CityName theme={theme}>전체</CityName>
+          </City>
+        </Link>
+        {cityArray.map((city) => (
+          <Link key={city.id} to={`/city/${city.name}`}>
+            <City theme={theme}>
+              <CityName theme={theme}>{city.name}</CityName>
+            </City>
+          </Link>
+        ))}
+      </CityListWrap>
+    </HomeCityListContainer>
+  );
+};
+
 const HomeCityListContainer = styled.div`
   @media (max-width: 768px) {
     display: none;
@@ -97,37 +129,5 @@ const CityName = styled.div`
     color: white;
   }
 `;
-
-const HomeCityList: React.FC = () => {
-  const { theme } = useContext(ThemeContext);
-  return (
-    <HomeCityListContainer>
-      <HomeCityListHeader>
-        <HomeCityMenu>
-          <Menu theme={theme}>
-            <IconWrap>
-              <FiMapPin size={'20'} />
-            </IconWrap>
-            <span>도시</span>
-          </Menu>
-        </HomeCityMenu>
-      </HomeCityListHeader>
-      <CityListWrap theme={theme}>
-        <Link to={'/city/전체'}>
-          <City theme={theme}>
-            <CityName theme={theme}>전체</CityName>
-          </City>
-        </Link>
-        {cityArray.map((city) => (
-          <Link key={city.id} to={`/city/${city.name}`}>
-            <City theme={theme}>
-              <CityName theme={theme}>{city.name}</CityName>
-            </City>
-          </Link>
-        ))}
-      </CityListWrap>
-    </HomeCityListContainer>
-  );
-};
 
 export default HomeCityList;

@@ -8,12 +8,6 @@ import Background from '@components/Home/Background';
 import PopularCity from '@components/Home/PopularCity';
 import Navigation from '@components/Navigation/Navigation';
 
-const HomeContainer = styled.main`
-  width: 100%;
-  max-width: 2560px;
-  margin: 0 auto;
-`;
-
 const Home: React.FC = () => {
   const [navBar, setNavBar] = useState<boolean>(false);
 
@@ -45,5 +39,11 @@ const Home: React.FC = () => {
     </>
   );
 };
+
+const HomeContainer = styled.main`
+  width: 100%;
+  max-width: 2560px;
+  margin: 0 auto;
+`;
 
 export default Home;

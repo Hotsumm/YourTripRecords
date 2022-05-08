@@ -3,6 +3,76 @@ import styled from 'styled-components';
 
 import Pagination from '@components/Detail/KakaoMap/Pagination';
 
+interface PictureInfoEditProps {
+  pictureObjList: IPictureList[];
+  onChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void;
+  searchPlace: string[];
+  isSearchPlaceSelect: boolean[];
+  locationSelect: LocationSelectParams;
+}
+
+const PictureInfoEdit: React.FC<PictureInfoEditProps> = ({
+  pictureObjList,
+  onChange,
+  searchPlace,
+  isSearchPlaceSelect,
+  locationSelect,
+}) => {
+  return (
+    <PictureInfoContainer>
+      <PictureInfoWrap>
+        {pictureObjList.map((pictureObj, index) => (
+          <li key={pictureObj.pictureId}>
+            <PictureWrap>
+              <img src={pictureObj.pictureURL} alt="여행기록 사진" />
+            </PictureWrap>
+            <PictureInputWrap>
+              <PictureInfo>
+                <h3>위치</h3>
+                <InputWrap>
+                  <input
+                    type="text"
+                    placeholder="위치"
+                    name="location"
+                    value={searchPlace[index] ? searchPlace[index] : ''}
+                    onChange={onChange}
+                    tabIndex={index}
+                  />
+                  {searchPlace[index] && !isSearchPlaceSelect[index] && (
+                    <Pagination
+                      searchPlace={searchPlace[index]}
+                      locationSelect={locationSelect}
+                      id={index}
+                    />
+                  )}
+                </InputWrap>
+              </PictureInfo>
+              <PictureInfo>
+                <h3>설명</h3>
+                <TextAreaWrap>
+                  <textarea
+                    placeholder="최대 300자로 사진을 설명해보세요."
+                    rows={7}
+                    maxLength={300}
+                    tabIndex={index}
+                    name="description"
+                    value={pictureObj.description}
+                    onChange={onChange}
+                  />
+                  <div>
+                    {pictureObjList[index].description.length}
+                    /300자
+                  </div>
+                </TextAreaWrap>
+              </PictureInfo>
+            </PictureInputWrap>
+          </li>
+        ))}
+      </PictureInfoWrap>
+    </PictureInfoContainer>
+  );
+};
+
 const PictureInfoContainer = styled.section`
   display: flex;
   justify-content: center;
@@ -137,75 +207,5 @@ const TextAreaWrap = styled.div`
     margin-top: 5px;
   }
 `;
-
-interface PictureInfoEditProps {
-  pictureObjList: IPictureList[];
-  onChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void;
-  searchPlace: string[];
-  isSearchPlaceSelect: boolean[];
-  locationSelect: LocationSelectParams;
-}
-
-const PictureInfoEdit: React.FC<PictureInfoEditProps> = ({
-  pictureObjList,
-  onChange,
-  searchPlace,
-  isSearchPlaceSelect,
-  locationSelect,
-}) => {
-  return (
-    <PictureInfoContainer>
-      <PictureInfoWrap>
-        {pictureObjList.map((pictureObj, index) => (
-          <li key={pictureObj.pictureId}>
-            <PictureWrap>
-              <img src={pictureObj.pictureURL} alt="여행기록 사진" />
-            </PictureWrap>
-            <PictureInputWrap>
-              <PictureInfo>
-                <h3>위치</h3>
-                <InputWrap>
-                  <input
-                    type="text"
-                    placeholder="위치"
-                    name="location"
-                    value={searchPlace[index] ? searchPlace[index] : ''}
-                    onChange={onChange}
-                    tabIndex={index}
-                  />
-                  {searchPlace[index] && !isSearchPlaceSelect[index] && (
-                    <Pagination
-                      searchPlace={searchPlace[index]}
-                      locationSelect={locationSelect}
-                      id={index}
-                    />
-                  )}
-                </InputWrap>
-              </PictureInfo>
-              <PictureInfo>
-                <h3>설명</h3>
-                <TextAreaWrap>
-                  <textarea
-                    placeholder="최대 300자로 사진을 설명해보세요."
-                    rows={7}
-                    maxLength={300}
-                    tabIndex={index}
-                    name="description"
-                    value={pictureObj.description}
-                    onChange={onChange}
-                  />
-                  <div>
-                    {pictureObjList[index].description.length}
-                    /300자
-                  </div>
-                </TextAreaWrap>
-              </PictureInfo>
-            </PictureInputWrap>
-          </li>
-        ))}
-      </PictureInfoWrap>
-    </PictureInfoContainer>
-  );
-};
 
 export default PictureInfoEdit;

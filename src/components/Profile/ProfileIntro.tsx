@@ -3,6 +3,31 @@ import styled from 'styled-components';
 
 import { ThemeContext } from '@src/Context';
 
+interface ProfileIntroProps {
+  thisUser: IUserObj;
+}
+
+const ProfileIntro: React.FC<ProfileIntroProps> = ({ thisUser }) => {
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <>
+      <ProfileIntroContainer>
+        <ProfileIntroWrap theme={theme}>
+          <IntroHeaderWrap>
+            <IntroHeader>소개</IntroHeader>
+          </IntroHeaderWrap>
+          <Intro>
+            <span>
+              {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
+            </span>
+          </Intro>
+        </ProfileIntroWrap>
+      </ProfileIntroContainer>
+    </>
+  );
+};
+
 const ProfileIntroContainer = styled.section`
   width: 30%;
 
@@ -51,30 +76,5 @@ const Intro = styled.div`
     text-align: left;
   }
 `;
-
-interface ProfileIntroProps {
-  thisUser: IUserObj;
-}
-
-const ProfileIntro: React.FC<ProfileIntroProps> = ({ thisUser }) => {
-  const { theme } = useContext(ThemeContext);
-
-  return (
-    <>
-      <ProfileIntroContainer>
-        <ProfileIntroWrap theme={theme}>
-          <IntroHeaderWrap>
-            <IntroHeader>소개</IntroHeader>
-          </IntroHeaderWrap>
-          <Intro>
-            <span>
-              {thisUser.intro ? thisUser.intro : '소개글이 없습니다.'}
-            </span>
-          </Intro>
-        </ProfileIntroWrap>
-      </ProfileIntroContainer>
-    </>
-  );
-};
 
 export default ProfileIntro;

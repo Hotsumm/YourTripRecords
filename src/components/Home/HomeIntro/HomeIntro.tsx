@@ -2,6 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+const HomeIntro: React.FC = () => {
+  return (
+    <HomeIntroContainer>
+      <IntroWrap>
+        <span>
+          너의 <br />
+          여행기록들을 <br />
+          공유 해봐 !
+        </span>
+      </IntroWrap>
+      <CityLink to={'/city/전체'}>지금 여행기록 보러가기</CityLink>
+    </HomeIntroContainer>
+  );
+};
+
 const HomeIntroContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,20 +66,5 @@ const CityLink = styled(Link)`
     font-size: 16px;
   }
 `;
-
-const HomeIntro: React.FC = () => {
-  return (
-    <HomeIntroContainer>
-      <IntroWrap>
-        <span>
-          너의 <br />
-          여행기록들을 <br />
-          공유 해봐 !
-        </span>
-      </IntroWrap>
-      <CityLink to={'/city/전체'}>지금 여행기록 보러가기</CityLink>
-    </HomeIntroContainer>
-  );
-};
 
 export default HomeIntro;

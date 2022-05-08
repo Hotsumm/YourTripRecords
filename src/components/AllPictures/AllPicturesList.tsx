@@ -1,6 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface AllPicturesListProps {
+  changePicture(index: number): void;
+  pictureList: IPictureList[];
+  pictureIndex: number;
+}
+
+const AllPicturesList: React.FC<AllPicturesListProps> = ({
+  changePicture,
+  pictureList,
+  pictureIndex,
+}) => {
+  return (
+    <AllPicturesListContainer>
+      <PicturesListWrap>
+        {pictureList.length > 0 &&
+          pictureList.map((picture, index) => (
+            <PictureWrap
+              key={picture.pictureId}
+              index={pictureIndex}
+              onClick={() => changePicture(index)}
+            >
+              <img src={picture.pictureURL} alt="스크롤사진" />
+            </PictureWrap>
+          ))}
+      </PicturesListWrap>
+    </AllPicturesListContainer>
+  );
+};
+
 const AllPicturesListContainer = styled.div`
   @media (max-width: 1024px) {
     padding: 0px 10px;
@@ -48,32 +77,4 @@ const PictureWrap = styled.div<{ index: number }>`
   }
 `;
 
-interface AllPicturesListProps {
-  changePicture(index: number): void;
-  pictureList: IPictureList[];
-  pictureIndex: number;
-}
-
-const AllPicturesList: React.FC<AllPicturesListProps> = ({
-  changePicture,
-  pictureList,
-  pictureIndex,
-}) => {
-  return (
-    <AllPicturesListContainer>
-      <PicturesListWrap>
-        {pictureList.length > 0 &&
-          pictureList.map((picture, index) => (
-            <PictureWrap
-              key={picture.pictureId}
-              index={pictureIndex}
-              onClick={() => changePicture(index)}
-            >
-              <img src={picture.pictureURL} alt="스크롤사진" />
-            </PictureWrap>
-          ))}
-      </PicturesListWrap>
-    </AllPicturesListContainer>
-  );
-};
 export default AllPicturesList;

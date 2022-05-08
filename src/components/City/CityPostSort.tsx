@@ -4,6 +4,47 @@ import { HiSortDescending } from 'react-icons/hi';
 
 import { ThemeContext } from '@src/Context';
 
+interface CityPostSortProps {
+  handleCurrentSort(sortName: string): void;
+}
+
+const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
+  const [isSort, setIsSort] = useState<boolean>(false);
+  const [currentSort, setCurrentSort] = useState<string>('최신순');
+  const { theme } = useContext(ThemeContext);
+
+  const onClick = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+
+    if (target.nodeName !== 'LI') return;
+
+    const selectedSortName = target.innerText;
+
+    setCurrentSort(selectedSortName);
+    handleCurrentSort(selectedSortName);
+  };
+
+  return (
+    <CityPostSortContainer>
+      <CityPostSortWrap>
+        <SortBox onClick={() => setIsSort((prev) => !prev)}>
+          <span>{currentSort}</span>
+          <SortIconWrap>
+            <HiSortDescending size={20} />
+          </SortIconWrap>
+          {isSort && (
+            <SortMenuWrap onClick={onClick} theme={theme}>
+              <SortMenu>인기순</SortMenu>
+              <SortMenu>최신순</SortMenu>
+              <SortMenu>오래된순</SortMenu>
+            </SortMenuWrap>
+          )}
+        </SortBox>
+      </CityPostSortWrap>
+    </CityPostSortContainer>
+  );
+};
+
 const CityPostSortContainer = styled.div`
   @media (max-width: 1024px) {
     padding: 0 30px;
@@ -74,46 +115,5 @@ const SortMenu = styled.li`
     text-decoration: underline;
   }
 `;
-
-interface CityPostSortProps {
-  handleCurrentSort(sortName: string): void;
-}
-
-const CityPostSort: React.FC<CityPostSortProps> = ({ handleCurrentSort }) => {
-  const [isSort, setIsSort] = useState<boolean>(false);
-  const [currentSort, setCurrentSort] = useState<string>('최신순');
-  const { theme } = useContext(ThemeContext);
-
-  const onClick = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-
-    if (target.nodeName !== 'LI') return;
-
-    const selectedSortName = target.innerText;
-
-    setCurrentSort(selectedSortName);
-    handleCurrentSort(selectedSortName);
-  };
-
-  return (
-    <CityPostSortContainer>
-      <CityPostSortWrap>
-        <SortBox onClick={() => setIsSort((prev) => !prev)}>
-          <span>{currentSort}</span>
-          <SortIconWrap>
-            <HiSortDescending size={20} />
-          </SortIconWrap>
-          {isSort && (
-            <SortMenuWrap onClick={onClick} theme={theme}>
-              <SortMenu>인기순</SortMenu>
-              <SortMenu>최신순</SortMenu>
-              <SortMenu>오래된순</SortMenu>
-            </SortMenuWrap>
-          )}
-        </SortBox>
-      </CityPostSortWrap>
-    </CityPostSortContainer>
-  );
-};
 
 export default React.memo(CityPostSort);

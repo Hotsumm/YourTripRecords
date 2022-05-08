@@ -11,66 +11,6 @@ import ProfileIntro from '@components/Profile/ProfileIntro';
 import Navigation from '@components/Navigation/Navigation';
 import Loading from '@components/Load/Loading';
 
-const ProfileContainer = styled.main`
-  width: 100%;
-  max-width: 2560px;
-  margin: 0 auto;
-`;
-
-const ProfileHeader = styled.header`
-  width: 100%;
-`;
-
-const ProfileBackground = styled.img`
-  width: 100%;
-  object-fit: cover;
-  position: relative;
-  z-index: 1;
-  height: 350px;
-`;
-
-const ProfileWrap = styled.div`
-  @media (max-width: 1200px) {
-    padding: 50px;
-  }
-  @media (max-width: 768px) {
-    padding: 50px 20px;
-  }
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  max-width: 1450px;
-  margin: 0 auto;
-  position: absolute;
-  padding: 50px 0px;
-  top: 100px;
-  left: 0;
-  right: 0;
-  z-index: 99;
-`;
-
-const ProfileRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 50px;
-  padding: 0 100px;
-
-  @media (max-width: 1024px) {
-    padding: 0;
-    :first-child {
-      width: 100%;
-    }
-    :last-child {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-`;
-
 const Profile: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [thisUser, setThisUser] = useState<IUserObj | null>(null);
@@ -136,5 +76,65 @@ const Profile: React.FC = () => {
     </>
   );
 };
+
+const ProfileContainer = styled.main`
+  width: 100%;
+  max-width: 2560px;
+  margin: 0 auto;
+`;
+
+const ProfileHeader = styled.header`
+  width: 100%;
+`;
+
+const ProfileBackground = styled.img`
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  height: 350px;
+`;
+
+const ProfileWrap = styled.div`
+  @media (max-width: 1200px) {
+    padding: 50px;
+  }
+  @media (max-width: 768px) {
+    padding: 50px 20px;
+  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  position: absolute;
+  padding: 50px 0px;
+  top: 100px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+`;
+
+const ProfileRow = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  padding: 0 100px;
+
+  @media (max-width: 1024px) {
+    padding: 0;
+    :first-child {
+      width: 100%;
+    }
+    :last-child {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+`;
 
 export default Profile;

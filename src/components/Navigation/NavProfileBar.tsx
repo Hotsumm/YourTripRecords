@@ -10,78 +10,6 @@ import SignIn from '@components/Auth/SignIn';
 import SignUp from '@components/Auth/SignUp';
 import { useOutsideClick } from '@hooks/useOutsideClick';
 
-const ProfileBarWrap = styled.div`
-  position: relative;
-  height: 40px;
-  border-radius: 20px;
-  background: ${(props) => props.theme.bgColor};
-  padding: 0 10px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const AvatarWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0 10px;
-  & span {
-    @media (max-width: 500px) {
-      display: none;
-    }
-    font-weight: 700;
-    font-size: 15px;
-    color: ${(props) => props.theme.textColor};
-  }
-  & img {
-    @media (max-width: 500px) {
-      width: 25px;
-      height: 25px;
-    }
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-  }
-`;
-
-const Icon = styled.div`
-  & svg {
-    color: ${(props) => props.theme.textColor};
-  }
-`;
-
-const ProfileMenu = styled.div`
-  @media (max-width: 500px) {
-    width: 180px;
-  }
-  position: absolute;
-  width: 230px;
-  padding: 10px 0;
-  background: ${(props) => props.theme.menuColor};
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  top: 50px;
-  right: 0px;
-
-  &ul {
-    width: 100%;
-    height: 100%;
-  }
-  & li {
-    color: ${(props) => props.theme.textColor};
-    font-size: 15px;
-    padding: 15px 20px;
-    cursor: pointer;
-    :hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  }
-`;
-
 const NavProfile: React.FC = () => {
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
@@ -172,5 +100,77 @@ const NavProfile: React.FC = () => {
     </>
   );
 };
+
+const ProfileBarWrap = styled.div`
+  position: relative;
+  height: 40px;
+  border-radius: 20px;
+  background: ${(props) => props.theme.bgColor};
+  padding: 0 10px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const AvatarWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 10px;
+  & span {
+    @media (max-width: 500px) {
+      display: none;
+    }
+    font-weight: 700;
+    font-size: 15px;
+    color: ${(props) => props.theme.textColor};
+  }
+  & img {
+    @media (max-width: 500px) {
+      width: 25px;
+      height: 25px;
+    }
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+`;
+
+const Icon = styled.div`
+  & svg {
+    color: ${(props) => props.theme.textColor};
+  }
+`;
+
+const ProfileMenu = styled.div`
+  @media (max-width: 500px) {
+    width: 180px;
+  }
+  position: absolute;
+  width: 230px;
+  padding: 10px 0;
+  background: ${(props) => props.theme.menuColor};
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  top: 50px;
+  right: 0px;
+
+  &ul {
+    width: 100%;
+    height: 100%;
+  }
+  & li {
+    color: ${(props) => props.theme.textColor};
+    font-size: 15px;
+    padding: 15px 20px;
+    cursor: pointer;
+    :hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+`;
 
 export default NavProfile;

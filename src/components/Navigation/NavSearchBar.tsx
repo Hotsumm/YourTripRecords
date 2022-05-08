@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const NavSearchBar: React.FC = () => {
+  return (
+    <SearchBarWrap>
+      <SearchBar type="text" placeholder="보고싶은 도시를 입력해주세요." />
+    </SearchBarWrap>
+  );
+};
+
 const SearchBarWrap = styled.div`
   width: 100%;
   display: none;
@@ -27,13 +35,5 @@ const SearchBar = styled.input`
     text-align: center;
   }
 `;
-
-const NavSearchBar: React.FC = () => {
-  return (
-    <SearchBarWrap>
-      <SearchBar type="text" placeholder="보고싶은 도시를 입력해주세요." />
-    </SearchBarWrap>
-  );
-};
 
 export default NavSearchBar;

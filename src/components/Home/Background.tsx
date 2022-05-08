@@ -5,6 +5,16 @@ import bgImg from '@assets/backgroundImg.jpg';
 import HomeIntro from '@components/Home/HomeIntro/HomeIntro';
 import HomeCityList from '@components/Home/HomeIntro/HomeCityList';
 
+const Background: React.FC = () => {
+  return (
+    <BackgroundContainer>
+      <img src={bgImg} alt="메인배경" />
+      <HomeIntro />
+      <HomeCityList />
+    </BackgroundContainer>
+  );
+};
+
 const BackgroundContainer = styled.div`
   width: 100%;
   height: 100vh;
@@ -19,15 +29,5 @@ const BackgroundContainer = styled.div`
     height: 100%;
   }
 `;
-
-const Background: React.FC = () => {
-  return (
-    <BackgroundContainer>
-      <img src={bgImg} alt="메인배경" />
-      <HomeIntro />
-      <HomeCityList />
-    </BackgroundContainer>
-  );
-};
 
 export default Background;

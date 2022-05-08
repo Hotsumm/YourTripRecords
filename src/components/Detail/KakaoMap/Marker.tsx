@@ -1,21 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const MarkerContanier = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-`;
-
-const MarkerWrap = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
 interface MarkerProps {
   coords: ICoords;
 }
@@ -45,5 +30,20 @@ const Marker: React.FC<MarkerProps> = ({ coords }) => {
     </MarkerContanier>
   );
 };
+
+const MarkerContanier = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+const MarkerWrap = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default Marker;

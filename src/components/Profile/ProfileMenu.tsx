@@ -11,6 +11,107 @@ import SignUp from '@components/Auth/SignUp';
 import ProfileEdit from '@components/Profile/ProfileEdit';
 import { ThemeContext } from '../../Context';
 
+interface ProfileMenuProps {
+  userCheck: boolean;
+  thisUser: IUserObj;
+  userObj: IUserObj | null;
+}
+
+const ProfileMenu: React.FC<ProfileMenuProps> = ({
+  userCheck,
+  thisUser,
+  userObj,
+}) => {
+  const [isEditClick, setIsEditClick] = useState<boolean>(false);
+  const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
+  const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
+
+  const { theme } = useContext(ThemeContext);
+
+  const toggleProfileEdit = (): void => setIsEditClick(!isEditClick);
+
+  const toggleSignIn = (): void => setIsSignInClick(!isSignInClick);
+
+  const toggleSignUp = (): void => setIsSignUpClick(!isSignUpClick);
+
+  const handleInstagram = (): void => {
+    if (typeof open === 'function') {
+      open(`https://www.instagram.com/${thisUser.instagram}/`);
+    } else {
+      location.href = `https://www.instagram.com/${thisUser.instagram}/`;
+    }
+  };
+
+  return (
+    <>
+      <ProfileMenuContainer>
+        <ProfileMenuWrap theme={theme}>
+          <ProfileInfoWrap>
+            <AvatarWrap>
+              <img src={thisUser.avatar} alt="프로필 사진" />
+            </AvatarWrap>
+            <AvatarInfoWrap>
+              <InfoContent>
+                <span>닉네임</span>
+                <Nickname>{thisUser.nickname}</Nickname>
+              </InfoContent>
+              <InfoContent>
+                <span>포스팅</span>
+                <PostConunt>{thisUser.records.length}</PostConunt>
+              </InfoContent>
+              {thisUser.instagram && (
+                <InfoContent>
+                  <IoLogoInstagram size={18} />
+                  <Instagram onClick={handleInstagram}>
+                    @{thisUser.instagram}
+                  </Instagram>
+                </InfoContent>
+              )}
+            </AvatarInfoWrap>
+          </ProfileInfoWrap>
+          {!userObj ? (
+            <OtherUserWrap>
+              <OtherUser onClick={toggleSignIn}>
+                로그인을 하여 더 많은 서비스를 이용해보세요 !
+              </OtherUser>
+            </OtherUserWrap>
+          ) : (
+            <>
+              {userCheck && (
+                <MenuWrap>
+                  <MenuLink to={'/upload'}>
+                    <Menu theme={theme}>
+                      <AiOutlinePlusCircle size={'18'} />
+                      <span>여행기록 올리기</span>
+                    </Menu>
+                  </MenuLink>
+                  <MenuLink to={`/myAccount/${userObj.userId}`}>
+                    <Menu theme={theme}>
+                      <FaExchangeAlt size={'18'} />
+                      <span>계정정보 변경</span>
+                    </Menu>
+                  </MenuLink>
+                  <Menu theme={theme} onClick={toggleProfileEdit}>
+                    <CgProfile size={'18'} />
+                    <span>프로필 변경</span>
+                  </Menu>
+                </MenuWrap>
+              )}
+            </>
+          )}
+        </ProfileMenuWrap>
+      </ProfileMenuContainer>
+      {isEditClick && userObj && (
+        <ProfileEdit toggleProfileEdit={toggleProfileEdit} userObj={userObj} />
+      )}
+      {isSignInClick && (
+        <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
+      )}
+      {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
+    </>
+  );
+};
+
 const ProfileMenuContainer = styled.div`
   width: 100%;
   padding-top: 100px;
@@ -164,106 +265,5 @@ const Menu = styled.div`
     margin-left: 10px;
   }
 `;
-
-interface ProfileMenuProps {
-  userCheck: boolean;
-  thisUser: IUserObj;
-  userObj: IUserObj | null;
-}
-
-const ProfileMenu: React.FC<ProfileMenuProps> = ({
-  userCheck,
-  thisUser,
-  userObj,
-}) => {
-  const [isEditClick, setIsEditClick] = useState<boolean>(false);
-  const [isSignInClick, setIsSignInClick] = useState<boolean>(false);
-  const [isSignUpClick, setIsSignUpClick] = useState<boolean>(false);
-
-  const { theme } = useContext(ThemeContext);
-
-  const toggleProfileEdit = (): void => setIsEditClick(!isEditClick);
-
-  const toggleSignIn = (): void => setIsSignInClick(!isSignInClick);
-
-  const toggleSignUp = (): void => setIsSignUpClick(!isSignUpClick);
-
-  const handleInstagram = (): void => {
-    if (typeof open === 'function') {
-      open(`https://www.instagram.com/${thisUser.instagram}/`);
-    } else {
-      location.href = `https://www.instagram.com/${thisUser.instagram}/`;
-    }
-  };
-
-  return (
-    <>
-      <ProfileMenuContainer>
-        <ProfileMenuWrap theme={theme}>
-          <ProfileInfoWrap>
-            <AvatarWrap>
-              <img src={thisUser.avatar} alt="프로필 사진" />
-            </AvatarWrap>
-            <AvatarInfoWrap>
-              <InfoContent>
-                <span>닉네임</span>
-                <Nickname>{thisUser.nickname}</Nickname>
-              </InfoContent>
-              <InfoContent>
-                <span>포스팅</span>
-                <PostConunt>{thisUser.records.length}</PostConunt>
-              </InfoContent>
-              {thisUser.instagram && (
-                <InfoContent>
-                  <IoLogoInstagram size={18} />
-                  <Instagram onClick={handleInstagram}>
-                    @{thisUser.instagram}
-                  </Instagram>
-                </InfoContent>
-              )}
-            </AvatarInfoWrap>
-          </ProfileInfoWrap>
-          {!userObj ? (
-            <OtherUserWrap>
-              <OtherUser onClick={toggleSignIn}>
-                로그인을 하여 더 많은 서비스를 이용해보세요 !
-              </OtherUser>
-            </OtherUserWrap>
-          ) : (
-            <>
-              {userCheck && (
-                <MenuWrap>
-                  <MenuLink to={'/upload'}>
-                    <Menu theme={theme}>
-                      <AiOutlinePlusCircle size={'18'} />
-                      <span>여행기록 올리기</span>
-                    </Menu>
-                  </MenuLink>
-                  <MenuLink to={`/myAccount/${userObj.userId}`}>
-                    <Menu theme={theme}>
-                      <FaExchangeAlt size={'18'} />
-                      <span>계정정보 변경</span>
-                    </Menu>
-                  </MenuLink>
-                  <Menu theme={theme} onClick={toggleProfileEdit}>
-                    <CgProfile size={'18'} />
-                    <span>프로필 변경</span>
-                  </Menu>
-                </MenuWrap>
-              )}
-            </>
-          )}
-        </ProfileMenuWrap>
-      </ProfileMenuContainer>
-      {isEditClick && userObj && (
-        <ProfileEdit toggleProfileEdit={toggleProfileEdit} userObj={userObj} />
-      )}
-      {isSignInClick && (
-        <SignIn toggleSignIn={toggleSignIn} toggleSignUp={toggleSignUp} />
-      )}
-      {isSignUpClick && <SignUp toggleSignUp={toggleSignUp} />}
-    </>
-  );
-};
 
 export default ProfileMenu;

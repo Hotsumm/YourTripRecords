@@ -10,59 +10,6 @@ import Navigation from '@components/Navigation/Navigation';
 import Loading from '@components/Load/Loading';
 import Footer from '@components/Home/Footer';
 
-const PostEditContainer = styled.main`
-  width: 100%;
-  padding-top: 80px;
-  text-align: center;
-  max-width: 2560px;
-  margin: 0 auto;
-`;
-const UploadHeaderWrap = styled.header`
-  @media (max-width: 768px) {
-    font-size: 30px;
-  }
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-
-  & h1 {
-    font-size: 40px;
-    @media (max-width: 320px) {
-      font-size: 30px;
-    }
-  }
-`;
-const PostEditWrap = styled.article`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0px;
-`;
-
-const ButtonWrap = styled.div<{ isLoading: number }>`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-  gap: 0 20px;
-  & button {
-    @media (max-width: 320px) {
-      width: 90px;
-      height: 45px;
-    }
-    font-size: 14px;
-    width: 100px;
-    height: 50px;
-    border: 0.1px solid #16a085;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    pointer-events: ${(props) => props.isLoading && 'none'};
-  }
-`;
-
 interface InputsProps {
   postTitle: string;
   season: string;
@@ -249,5 +196,58 @@ const PostEdit: React.FC = () => {
     </>
   );
 };
+
+const PostEditContainer = styled.main`
+  width: 100%;
+  padding-top: 80px;
+  text-align: center;
+  max-width: 2560px;
+  margin: 0 auto;
+`;
+const UploadHeaderWrap = styled.header`
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+  & h1 {
+    font-size: 40px;
+    @media (max-width: 320px) {
+      font-size: 30px;
+    }
+  }
+`;
+const PostEditWrap = styled.article`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
+`;
+
+const ButtonWrap = styled.div<{ isLoading: number }>`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 0 20px;
+  & button {
+    @media (max-width: 320px) {
+      width: 90px;
+      height: 45px;
+    }
+    font-size: 14px;
+    width: 100px;
+    height: 50px;
+    border: 0.1px solid #16a085;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    pointer-events: ${(props) => props.isLoading && 'none'};
+  }
+`;
 
 export default PostEdit;

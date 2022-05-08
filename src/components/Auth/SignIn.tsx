@@ -8,6 +8,162 @@ import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
 import { CreateSocialUser } from '@components/User/CreateSocialUser';
 import Loading from '@components/Load/Loading';
 
+interface SignInProps {
+  toggleSignIn(): void;
+  toggleSignUp(): void;
+}
+
+interface InputsProps {
+  email: string;
+  password: string;
+}
+
+const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
+  const [inputs, setInputs] = useState<InputsProps>({
+    email: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { theme } = useContext(ThemeContext);
+
+  const { email, password } = inputs;
+
+  const resendMessage =
+    '이메일 확인링크가 인증되지 않았습니다. \n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다.\n이메일 확인링크를 재전송 하시겠습니까?';
+
+  const closeButton = () => toggleSignIn();
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value },
+    } = e;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const handleSignIn = () => {
+    if (!email) return alert('이메일을 입력해주세요.');
+    if (!password) return alert('비밀번호를 입력해주세요.');
+
+    setLoading(true);
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential: any) => {
+        if (!userCredential.user.emailVerified) {
+          const answer = confirm(resendMessage);
+          if (answer) {
+            firebaseAuth.currentUser?.sendEmailVerification();
+            alert('이메일 확인링크가 재전송 되었습니다.');
+          }
+          firebaseAuth.signOut();
+          return;
+        }
+        location.reload();
+      })
+      .catch((error) => {
+        if (error.code === 'auth/wrong-password') {
+          alert('비밀번호를 확인해주세요.');
+        } else if (error.code === 'auth/invalid-email') {
+          alert('이메일을 확인해주세요.');
+        } else {
+          alert(error.code);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const googleSignIn = () => {
+    setLoading(true);
+    const provider = new firebaseInstance.auth.GoogleAuthProvider();
+    firebaseAuth
+      .signInWithPopup(provider)
+      .then((result: any) => {
+        if (result.additionalUserInfo.isNewUser)
+          return CreateSocialUser(
+            result.user.email,
+            result.user.displayName,
+            result.user.photoURL,
+          );
+      })
+      .then(() => location.reload())
+      .catch((error) => {
+        alert(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent): void => {
+    if (e.key === 'Enter') {
+      handleSignIn();
+    }
+  };
+  return (
+    <SignInContainer>
+      <SignInWrap theme={theme}>
+        <SignInHeaderWrap>
+          <HeaderIconWrap>
+            <BsBoxArrowInLeft onClick={closeButton} />
+          </HeaderIconWrap>
+          <HeaderTitle>로그인</HeaderTitle>
+        </SignInHeaderWrap>
+        <SignInContentWrap>
+          {loading ? (
+            <Loading />
+          ) : (
+            <>
+              <InputContainer>
+                <InputWrap>
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}
+                    placeholder="이메일"
+                    required
+                  />
+                </InputWrap>
+                <InputWrap>
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}
+                    placeholder="비밀번호"
+                    required
+                  />
+                </InputWrap>
+              </InputContainer>
+              <SignUpTextWrap>
+                <span>아직 회원이 아니신가요?</span>
+                <span
+                  onClick={() => {
+                    closeButton();
+                    toggleSignUp();
+                  }}
+                >
+                  회원가입 바로가기
+                </span>
+              </SignUpTextWrap>
+              <ButtonWrap theme={theme}>
+                <button onClick={handleSignIn}>로그인</button>
+                <button onClick={googleSignIn}>
+                  <FcGoogle />
+                  Google로 로그인하기
+                </button>
+              </ButtonWrap>
+            </>
+          )}
+        </SignInContentWrap>
+      </SignInWrap>
+    </SignInContainer>
+  );
+};
+
 const SignInContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -164,161 +320,5 @@ const ButtonWrap = styled.div`
     }
   }
 `;
-
-interface SignInProps {
-  toggleSignIn(): void;
-  toggleSignUp(): void;
-}
-
-interface InputsProps {
-  email: string;
-  password: string;
-}
-
-const SignIn: React.FC<SignInProps> = ({ toggleSignIn, toggleSignUp }) => {
-  const [inputs, setInputs] = useState<InputsProps>({
-    email: '',
-    password: '',
-  });
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const { theme } = useContext(ThemeContext);
-
-  const { email, password } = inputs;
-
-  const resendMessage =
-    '이메일 확인링크가 인증되지 않았습니다. \n등록한 이메일로 발송된 확인링크 인증 후 서비스 이용이 가능합니다.\n이메일 확인링크를 재전송 하시겠습니까?';
-
-  const closeButton = () => toggleSignIn();
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { name, value },
-    } = e;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const handleSignIn = () => {
-    if (!email) return alert('이메일을 입력해주세요.');
-    if (!password) return alert('비밀번호를 입력해주세요.');
-
-    setLoading(true);
-    firebaseAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential: any) => {
-        if (!userCredential.user.emailVerified) {
-          const answer = confirm(resendMessage);
-          if (answer) {
-            firebaseAuth.currentUser?.sendEmailVerification();
-            alert('이메일 확인링크가 재전송 되었습니다.');
-          }
-          firebaseAuth.signOut();
-          return;
-        }
-        location.reload();
-      })
-      .catch((error) => {
-        if (error.code === 'auth/wrong-password') {
-          alert('비밀번호를 확인해주세요.');
-        } else if (error.code === 'auth/invalid-email') {
-          alert('이메일을 확인해주세요.');
-        } else {
-          alert(error.code);
-        }
-      })
-      .finally(() => setLoading(false));
-  };
-
-  const googleSignIn = () => {
-    setLoading(true);
-    const provider = new firebaseInstance.auth.GoogleAuthProvider();
-    firebaseAuth
-      .signInWithPopup(provider)
-      .then((result: any) => {
-        if (result.additionalUserInfo.isNewUser)
-          return CreateSocialUser(
-            result.user.email,
-            result.user.displayName,
-            result.user.photoURL,
-          );
-      })
-      .then(() => location.reload())
-      .catch((error) => {
-        alert(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const onKeyPress = (e: React.KeyboardEvent): void => {
-    if (e.key === 'Enter') {
-      handleSignIn();
-    }
-  };
-  return (
-    <SignInContainer>
-      <SignInWrap theme={theme}>
-        <SignInHeaderWrap>
-          <HeaderIconWrap>
-            <BsBoxArrowInLeft onClick={closeButton} />
-          </HeaderIconWrap>
-          <HeaderTitle>로그인</HeaderTitle>
-        </SignInHeaderWrap>
-        <SignInContentWrap>
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
-              <InputContainer>
-                <InputWrap>
-                  <input
-                    type="email"
-                    name="email"
-                    onChange={onChange}
-                    onKeyPress={onKeyPress}
-                    placeholder="이메일"
-                    required
-                  />
-                </InputWrap>
-                <InputWrap>
-                  <input
-                    type="password"
-                    name="password"
-                    onChange={onChange}
-                    onKeyPress={onKeyPress}
-                    placeholder="비밀번호"
-                    required
-                  />
-                </InputWrap>
-              </InputContainer>
-              <SignUpTextWrap>
-                <span>아직 회원이 아니신가요?</span>
-                <span
-                  onClick={() => {
-                    closeButton();
-                    toggleSignUp();
-                  }}
-                >
-                  회원가입 바로가기
-                </span>
-              </SignUpTextWrap>
-              <ButtonWrap theme={theme}>
-                <button onClick={handleSignIn}>로그인</button>
-                <button onClick={googleSignIn}>
-                  <FcGoogle />
-                  Google로 로그인하기
-                </button>
-              </ButtonWrap>
-            </>
-          )}
-        </SignInContentWrap>
-      </SignInWrap>
-    </SignInContainer>
-  );
-};
 
 export default SignIn;

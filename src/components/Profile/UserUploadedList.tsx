@@ -6,6 +6,96 @@ import { ThemeContext } from '@src/Context';
 import { firebaseFireStore } from '@src/firebaseConfig';
 import Loading from '@components/Load/Loading';
 
+interface UserUploadedListProps {
+  thisUser: IUserObj;
+}
+
+const UserUploadedList: React.FC<UserUploadedListProps> = ({ thisUser }) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [recordList, setRecordList] = useState<IPost[] | []>([]);
+  const { theme } = useContext(ThemeContext);
+
+  const fetchPost = useCallback(async () => {
+    setLoading(true);
+    let recordArr: IPost[] = [];
+    for (let i = 0; i < thisUser.records.length; i++) {
+      await firebaseFireStore
+        .collection('records')
+        .doc(thisUser.records[i])
+        .get()
+        .then((doc: any) => {
+          if (doc.exists) {
+            recordArr.push(doc.data());
+          } else {
+            console.log('찾을 수 없음.');
+          }
+        });
+    }
+    setLoading(false);
+    setRecordList(recordArr);
+  }, [thisUser.records]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
+
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <UploadedListContainer>
+          <UploadedListHeaderWrap>
+            <UploadedListHeader>
+              {thisUser.nickname}의 여행기록
+            </UploadedListHeader>
+          </UploadedListHeaderWrap>
+          {recordList.length === 0 ? (
+            <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
+          ) : (
+            <UploadedListWrap>
+              {recordList.map((record) => (
+                <UploadedList key={record.postId}>
+                  <Link to={`/city/${record.city}/${record.postId}`}>
+                    <PostContainer theme={theme}>
+                      <PostHeaderWrap>
+                        <PostHeader>
+                          <AvatarWrap>
+                            <AvatarImgWrap>
+                              <img src={thisUser.avatar} alt="프로필 사진" />
+                            </AvatarImgWrap>
+                            <NickName theme={theme}>
+                              {thisUser.nickname}
+                            </NickName>
+                          </AvatarWrap>
+                        </PostHeader>
+                        <PostHeader>
+                          <PostTitle theme={theme}>
+                            {record.postTitle.length > 14
+                              ? `${record.postTitle.substring(0, 14)}...`
+                              : record.postTitle}
+                          </PostTitle>
+                          <PostCreated>{record.createdAt}</PostCreated>
+                        </PostHeader>
+                      </PostHeaderWrap>
+                      <PostThumbnailWrap>
+                        <img
+                          src={record.pictureList[0].pictureURL}
+                          alt="썸네일"
+                        />
+                      </PostThumbnailWrap>
+                    </PostContainer>
+                  </Link>
+                </UploadedList>
+              ))}
+            </UploadedListWrap>
+          )}
+        </UploadedListContainer>
+      )}
+    </>
+  );
+};
+
 const UploadedListContainer = styled.section`
   width: 70%;
   @media (max-width: 1200px) {
@@ -123,95 +213,5 @@ const PostThumbnailWrap = styled.div`
     right: 0;
   }
 `;
-
-interface UserUploadedListProps {
-  thisUser: IUserObj;
-}
-
-const UserUploadedList: React.FC<UserUploadedListProps> = ({ thisUser }) => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [recordList, setRecordList] = useState<IPost[] | []>([]);
-  const { theme } = useContext(ThemeContext);
-
-  const fetchPost = useCallback(async () => {
-    setLoading(true);
-    let recordArr: IPost[] = [];
-    for (let i = 0; i < thisUser.records.length; i++) {
-      await firebaseFireStore
-        .collection('records')
-        .doc(thisUser.records[i])
-        .get()
-        .then((doc: any) => {
-          if (doc.exists) {
-            recordArr.push(doc.data());
-          } else {
-            console.log('찾을 수 없음.');
-          }
-        });
-    }
-    setLoading(false);
-    setRecordList(recordArr);
-  }, [thisUser.records]);
-
-  useEffect(() => {
-    fetchPost();
-  }, [fetchPost]);
-
-  return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <UploadedListContainer>
-          <UploadedListHeaderWrap>
-            <UploadedListHeader>
-              {thisUser.nickname}의 여행기록
-            </UploadedListHeader>
-          </UploadedListHeaderWrap>
-          {recordList.length === 0 ? (
-            <NoUploadedList>아직 등록한 게시물이 없습니다.</NoUploadedList>
-          ) : (
-            <UploadedListWrap>
-              {recordList.map((record) => (
-                <UploadedList key={record.postId}>
-                  <Link to={`/city/${record.city}/${record.postId}`}>
-                    <PostContainer theme={theme}>
-                      <PostHeaderWrap>
-                        <PostHeader>
-                          <AvatarWrap>
-                            <AvatarImgWrap>
-                              <img src={thisUser.avatar} alt="프로필 사진" />
-                            </AvatarImgWrap>
-                            <NickName theme={theme}>
-                              {thisUser.nickname}
-                            </NickName>
-                          </AvatarWrap>
-                        </PostHeader>
-                        <PostHeader>
-                          <PostTitle theme={theme}>
-                            {record.postTitle.length > 14
-                              ? `${record.postTitle.substring(0, 14)}...`
-                              : record.postTitle}
-                          </PostTitle>
-                          <PostCreated>{record.createdAt}</PostCreated>
-                        </PostHeader>
-                      </PostHeaderWrap>
-                      <PostThumbnailWrap>
-                        <img
-                          src={record.pictureList[0].pictureURL}
-                          alt="썸네일"
-                        />
-                      </PostThumbnailWrap>
-                    </PostContainer>
-                  </Link>
-                </UploadedList>
-              ))}
-            </UploadedListWrap>
-          )}
-        </UploadedListContainer>
-      )}
-    </>
-  );
-};
 
 export default UserUploadedList;

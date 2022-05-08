@@ -11,32 +11,6 @@ import Footer from '@components/Home/Footer';
 import Loading from '@components/Load/Loading';
 import Navigation from '@components/Navigation/Navigation';
 
-const CityContainer = styled.main`
-  width: 100%;
-  padding-top: 100px;
-  max-width: 2560px;
-  margin: 0 auto;
-`;
-
-const CityHeader = styled.header`
-  @media (max-width: 1024px) {
-    align-items: center;
-    padding: 40px 0;
-  }
-  width: 100%;
-  padding: 60px 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-const CityName = styled.h1`
-  white-space: pre;
-  font-size: 40px;
-  font-weight: 600;
-`;
-
 const City: React.FC = () => {
   const { cityName } = useParams() as { cityName: string };
   const { state } = useLocation() as any;
@@ -147,5 +121,31 @@ const City: React.FC = () => {
     </>
   );
 };
+
+const CityContainer = styled.main`
+  width: 100%;
+  padding-top: 100px;
+  max-width: 2560px;
+  margin: 0 auto;
+`;
+
+const CityHeader = styled.header`
+  @media (max-width: 1024px) {
+    align-items: center;
+    padding: 40px 0;
+  }
+  width: 100%;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const CityName = styled.h1`
+  white-space: pre;
+  font-size: 40px;
+  font-weight: 600;
+`;
 
 export default City;

@@ -6,41 +6,6 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useOutsideClick } from '@hooks/useOutsideClick';
 import { ThemeContext } from '@src/Context';
 
-const PostDetailEditContainer = styled.div`
-  width: 30px;
-  height: 30px;
-`;
-
-const IconWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 2px 3px;
-  :hover {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-  }
-  cursor: pointer;
-`;
-
-const EditWrap = styled.div`
-  background: ${(props) => props.theme.menuColor};
-  position: absolute;
-  z-index: 99;
-  border-radius: 5px;
-  top: 35px;
-  right: 0px;
-  padding: 5px;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  li {
-    font-size: 12px;
-    padding: 5px 10px;
-    cursor: pointer;
-    :hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  }
-`;
-
 interface PostDetailEditProps {
   postObj: IPost;
   handleDeletePost(): void;
@@ -80,5 +45,40 @@ const PostDetailEdit: React.FC<PostDetailEditProps> = ({
     </PostDetailEditContainer>
   );
 };
+
+const PostDetailEditContainer = styled.div`
+  width: 30px;
+  height: 30px;
+`;
+
+const IconWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 2px 3px;
+  :hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+  }
+  cursor: pointer;
+`;
+
+const EditWrap = styled.div`
+  background: ${(props) => props.theme.menuColor};
+  position: absolute;
+  z-index: 99;
+  border-radius: 5px;
+  top: 35px;
+  right: 0px;
+  padding: 5px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  li {
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+    :hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+`;
 
 export default PostDetailEdit;

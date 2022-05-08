@@ -16,136 +16,6 @@ import Loading from '@components/Load/Loading';
 import Footer from '@components/Home/Footer';
 import { cityArray } from '@utils/cityArray';
 
-const UploadContainer = styled.main`
-  width: 100%;
-  max-width: 2560px;
-  margin: 0 auto;
-  padding-top: 80px;
-  text-align: center;
-`;
-
-const UploadHeaderWrap = styled.header`
-  @media (max-width: 768px) {
-    font-size: 30px;
-  }
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  & h1 {
-    font-size: 40px;
-    @media (max-width: 500px) {
-      font-size: 30px;
-    }
-  }
-`;
-
-const UploadWrap = styled.article`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0px;
-`;
-
-const UploadFileContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (max-width: 520px) {
-    padding: 0 10px;
-  }
-`;
-
-const UploadFileWrap = styled.div`
-  @media (max-width: 500px) {
-    width: 100%;
-  }
-  @media (max-width: 320px) {
-    height: 200px;
-  }
-  position: relative;
-  width: 500px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LabelWrap = styled.div`
-  position: absolute;
-  opacity: 0.9;
-  width: 100%;
-  height: 100%;
-
-  & label {
-    background: #cae5dd;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    color: ${(props) => props.theme.textColor};
-    display: flex;
-    border: 1px dashed #16a085;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    :hover {
-      opacity: 0.7;
-    }
-  }
-`;
-
-const LabelTextWrap = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 15px 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & span {
-    @media (max-width: 320px) {
-      font-size: 16px;
-    }
-    font-size: 20px;
-  }
-`;
-
-const IconWrap = styled.div`
-  @media (max-width: 320px) {
-    width: 60px;
-    height: 60px;
-  }
-  width: 80px;
-  height: 80px;
-  & svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const ButtonWrap = styled.div<{ isLoading: number }>`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 0 20px;
-  margin-bottom: 20px;
-  & button {
-    @media (max-width: 320px) {
-      width: 90px;
-      height: 45px;
-    }
-    font-size: 14px;
-    width: 100px;
-    height: 50px;
-    border: 0.1px solid #16a085;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    pointer-events: ${(props) => props.isLoading && 'none'};
-  }
-`;
-
 interface InputsProps {
   postTitle: string;
   season: string;
@@ -436,5 +306,135 @@ const Upload = () => {
     </>
   );
 };
+
+const UploadContainer = styled.main`
+  width: 100%;
+  max-width: 2560px;
+  margin: 0 auto;
+  padding-top: 80px;
+  text-align: center;
+`;
+
+const UploadHeaderWrap = styled.header`
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  & h1 {
+    font-size: 40px;
+    @media (max-width: 500px) {
+      font-size: 30px;
+    }
+  }
+`;
+
+const UploadWrap = styled.article`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
+`;
+
+const UploadFileContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 520px) {
+    padding: 0 10px;
+  }
+`;
+
+const UploadFileWrap = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  @media (max-width: 320px) {
+    height: 200px;
+  }
+  position: relative;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LabelWrap = styled.div`
+  position: absolute;
+  opacity: 0.9;
+  width: 100%;
+  height: 100%;
+
+  & label {
+    background: #cae5dd;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    color: ${(props) => props.theme.textColor};
+    display: flex;
+    border: 1px dashed #16a085;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    :hover {
+      opacity: 0.7;
+    }
+  }
+`;
+
+const LabelTextWrap = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 15px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & span {
+    @media (max-width: 320px) {
+      font-size: 16px;
+    }
+    font-size: 20px;
+  }
+`;
+
+const IconWrap = styled.div`
+  @media (max-width: 320px) {
+    width: 60px;
+    height: 60px;
+  }
+  width: 80px;
+  height: 80px;
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const ButtonWrap = styled.div<{ isLoading: number }>`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 0 20px;
+  margin-bottom: 20px;
+  & button {
+    @media (max-width: 320px) {
+      width: 90px;
+      height: 45px;
+    }
+    font-size: 14px;
+    width: 100px;
+    height: 50px;
+    border: 0.1px solid #16a085;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    pointer-events: ${(props) => props.isLoading && 'none'};
+  }
+`;
 
 export default Upload;

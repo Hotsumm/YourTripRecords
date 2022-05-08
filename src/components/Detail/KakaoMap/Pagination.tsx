@@ -1,49 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const PaginationContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: absolute;
-  background: #16a085;
-  width: 100%;
-  max-height: 200px;
-  overflow: auto;
-  top: 100%;
-  left: 0px;
-  border: 1px solid gray;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  z-index: 1;
-`;
-
-const PaginationWrap = styled.li`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 5px 10px;
-  border-bottom: 1px solid white;
-  cursor: pointer;
-`;
-
-const PaginationPlaceName = styled.span`
-  min-width: 100%;
-  font-size: 12px;
-  color: white;
-  padding: 5px;
-  display: inline;
-`;
-
-const PaginationAddress = styled.span`
-  min-width: 100%;
-  display: inline;
-  font-size: 10px;
-  color: white;
-  padding: 5px;
-`;
-
 interface PaginationProps {
   searchPlace: string;
   locationSelect: LocationSelectParams;
@@ -103,5 +60,48 @@ const Pagination: React.FC<PaginationProps> = ({
     </PaginationContainer>
   );
 };
+
+const PaginationContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  background: #16a085;
+  width: 100%;
+  max-height: 200px;
+  overflow: auto;
+  top: 100%;
+  left: 0px;
+  border: 1px solid gray;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+`;
+
+const PaginationWrap = styled.li`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px 10px;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+`;
+
+const PaginationPlaceName = styled.span`
+  min-width: 100%;
+  font-size: 12px;
+  color: white;
+  padding: 5px;
+  display: inline;
+`;
+
+const PaginationAddress = styled.span`
+  min-width: 100%;
+  display: inline;
+  font-size: 10px;
+  color: white;
+  padding: 5px;
+`;
 
 export default Pagination;

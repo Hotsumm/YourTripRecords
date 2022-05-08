@@ -4,6 +4,31 @@ import styled from 'styled-components';
 
 import { ThemeContext } from '@src/Context';
 
+interface HashtagProps {
+  postObj: IPost;
+}
+
+const Hashtag: React.FC<HashtagProps> = ({ postObj }) => {
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <HashtagContainer>
+      <HashtagWrap>
+        {postObj.hashtags &&
+          postObj.hashtags.map((hashtag, index) => (
+            <HashtagLink
+              key={index}
+              to={'/city/전체'}
+              state={{ hashtags: [hashtag] }}
+            >
+              <HashTagLI theme={theme}>{hashtag}</HashTagLI>
+            </HashtagLink>
+          ))}
+      </HashtagWrap>
+    </HashtagContainer>
+  );
+};
+
 const HashtagContainer = styled.div`
   overflow-x: auto;
   width: 100%;
@@ -39,28 +64,4 @@ const HashTagLI = styled.li`
   }
 `;
 
-interface HashtagProps {
-  postObj: IPost;
-}
-
-const Hashtag: React.FC<HashtagProps> = ({ postObj }) => {
-  const { theme } = useContext(ThemeContext);
-
-  return (
-    <HashtagContainer>
-      <HashtagWrap>
-        {postObj.hashtags &&
-          postObj.hashtags.map((hashtag, index) => (
-            <HashtagLink
-              key={index}
-              to={'/city/전체'}
-              state={{ hashtags: [hashtag] }}
-            >
-              <HashTagLI theme={theme}>{hashtag}</HashTagLI>
-            </HashtagLink>
-          ))}
-      </HashtagWrap>
-    </HashtagContainer>
-  );
-};
 export default Hashtag;

@@ -3,6 +3,32 @@ import styled from 'styled-components';
 import { AiFillGithub } from 'react-icons/ai';
 import { AiOutlineMail } from 'react-icons/ai';
 
+const Footer: React.FC = () => {
+  const [isMailHover, setIsMailHover] = useState<boolean>(false);
+  return (
+    <FooterContainer>
+      <FooterWrap>
+        <FooterTitle>©YourTripRecords</FooterTitle>
+        <FooterIconWrap>
+          <FooterIcon>
+            <AiFillGithub onClick={() => open('https://github.com/Hotsumm')} />
+          </FooterIcon>
+          <FooterIcon
+            onMouseEnter={() => setIsMailHover(true)}
+            onMouseLeave={() => setIsMailHover(false)}
+          >
+            <MailWrap isMailHover={isMailHover ? 1 : 0}>
+              <span>Gmail : </span>
+              <span>tjddufgk@gmail.com</span>
+            </MailWrap>
+            <AiOutlineMail />
+          </FooterIcon>
+        </FooterIconWrap>
+      </FooterWrap>
+    </FooterContainer>
+  );
+};
+
 const FooterContainer = styled.footer`
   width: 100%;
   height: 100px;
@@ -67,31 +93,5 @@ const MailWrap = styled.div<{ isMailHover: number }>`
     }
   }
 `;
-
-const Footer: React.FC = () => {
-  const [isMailHover, setIsMailHover] = useState<boolean>(false);
-  return (
-    <FooterContainer>
-      <FooterWrap>
-        <FooterTitle>©YourTripRecords</FooterTitle>
-        <FooterIconWrap>
-          <FooterIcon>
-            <AiFillGithub onClick={() => open('https://github.com/Hotsumm')} />
-          </FooterIcon>
-          <FooterIcon
-            onMouseEnter={() => setIsMailHover(true)}
-            onMouseLeave={() => setIsMailHover(false)}
-          >
-            <MailWrap isMailHover={isMailHover ? 1 : 0}>
-              <span>Gmail : </span>
-              <span>tjddufgk@gmail.com</span>
-            </MailWrap>
-            <AiOutlineMail />
-          </FooterIcon>
-        </FooterIconWrap>
-      </FooterWrap>
-    </FooterContainer>
-  );
-};
 
 export default Footer;

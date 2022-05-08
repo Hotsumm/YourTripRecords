@@ -10,125 +10,6 @@ import SignIn from '@components/Auth/SignIn';
 import SignUp from '@components/Auth/SignUp';
 import Loading from '@components/Load/Loading';
 
-const CommentContainer = styled.section`
-  width: 100%;
-  padding: 0 10px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const CommentHeaderWrap = styled.header`
-  width: 100%;
-  margin-top: 20px;
-  & h2 {
-    font-size: 20px;
-    font-weight: 700;
-  }
-`;
-
-const CommentCreatorWrap = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 30px 0;
-  gap: 0 15px;
-  & button {
-    white-space: pre;
-    border: 1px solid #16a085;
-    border-radius: 5px;
-    color: #16a085;
-    padding: 10px;
-    :hover {
-      background: #16a085;
-      color: white;
-      border: none;
-    }
-  }
-`;
-
-const CommentInputWrap = styled.div`
-  width: 100%;
-  & input {
-    padding: 10px;
-    -webkit-appearance: none;
-    width: 100%;
-    font-size: 16px;
-    border: none;
-    line-height: 10px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-`;
-
-const CommentWrap = styled.ul`
-  width: 100%;
-  padding: 20px 40px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ababab80;
-  border-radius: 5px;
-`;
-const CommentList = styled.li`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const CommentContent = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 0 15px;
-  padding: 5px 0;
-`;
-
-const ContentInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ContentInfo = styled.div`
-  width: 100%;
-  padding: 0 0 5px 0;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #ababab80;
-`;
-
-const Avatar = styled.div`
-  width: 35px;
-  height: 35px;
-  & img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-  }
-`;
-
-const Author = styled.span`
-  font-size: 14px;
-  font-weight: 700;
-  margin-right: 10px;
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-const CreatedAt = styled.span`
-  font-size: 10px;
-  color: #636e72;
-  margin-right: 10px;
-`;
-
-const Content = styled.div`
-  padding: 10px 0;
-  font-size: 15px;
-`;
-
 interface CommentProps {
   postObj: IPost;
   userObj: IUserObj | null;
@@ -331,5 +212,124 @@ const Comment: React.FC<CommentProps> = ({ postObj, userObj }) => {
     </>
   );
 };
+
+const CommentContainer = styled.section`
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CommentHeaderWrap = styled.header`
+  width: 100%;
+  margin-top: 20px;
+  & h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+
+const CommentCreatorWrap = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 30px 0;
+  gap: 0 15px;
+  & button {
+    white-space: pre;
+    border: 1px solid #16a085;
+    border-radius: 5px;
+    color: #16a085;
+    padding: 10px;
+    :hover {
+      background: #16a085;
+      color: white;
+      border: none;
+    }
+  }
+`;
+
+const CommentInputWrap = styled.div`
+  width: 100%;
+  & input {
+    padding: 10px;
+    -webkit-appearance: none;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    line-height: 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
+  }
+`;
+
+const CommentWrap = styled.ul`
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ababab80;
+  border-radius: 5px;
+`;
+const CommentList = styled.li`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CommentContent = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 0 15px;
+  padding: 5px 0;
+`;
+
+const ContentInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentInfo = styled.div`
+  width: 100%;
+  padding: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ababab80;
+`;
+
+const Avatar = styled.div`
+  width: 35px;
+  height: 35px;
+  & img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+`;
+
+const Author = styled.span`
+  font-size: 14px;
+  font-weight: 700;
+  margin-right: 10px;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const CreatedAt = styled.span`
+  font-size: 10px;
+  color: #636e72;
+  margin-right: 10px;
+`;
+
+const Content = styled.div`
+  padding: 10px 0;
+  font-size: 15px;
+`;
 
 export default Comment;

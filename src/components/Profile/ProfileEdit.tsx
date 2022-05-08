@@ -5,187 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@src/Context';
 import { firebaseFireStore, firebaseStorage } from '@src/firebaseConfig';
 
-const ProfileEditContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  z-index: 99;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-`;
-
-const ProfileEditWrap = styled.div`
-  @media (max-width: 1024px) {
-    width: 80%;
-  }
-  @media (max-width: 500px) {
-    width: 95%;
-  }
-  width: 768px;
-  max-height: 75vh;
-  margin-top: 80px;
-  background: ${(props) => props.theme.menuColor};
-  border-radius: 20px;
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #bdc3c7;
-    background-clip: padding-box;
-    border: 2px solid transparent;
-  }
-`;
-
-const ProfileEditHeader = styled.div`
-  width: 100%;
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #ababab80;
-`;
-const HeaderTitle = styled.div`
-  font-size: 20px;
-`;
-
-const ProfileEditContentWrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-  max-height: calc(75vh - 61px);
-  overflow-y: auto;
-`;
-
-const ProfileContent = styled.div`
-  width: 100%;
-  display: flex;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const ProfileAvatarWrap = styled.div`
-  @media (max-width: 500px) {
-    margin-bottom: 20px;
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-  width: 35%;
-  & button {
-    padding: 10px 10px;
-    background: #16a085;
-    border: 1px solid #16a085;
-    border-radius: 5px;
-  }
-`;
-
-const AvatarWrap = styled.div`
-  width: 150px;
-  height: 150px;
-  position: relative;
-  margin-bottom: 20px;
-  :hover {
-    opacity: 0.7;
-  }
-  & label {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0px;
-    font-weight: 700;
-    color: black;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-`;
-
-const Avatar = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;
-
-const ProfileInputWrap = styled.div`
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 0 20px;
-  }
-  @media (max-width: 500px) {
-    padding: 0;
-  }
-  width: 64%;
-`;
-const InputWrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  & input {
-    -webkit-appearance: none;
-    text-align: start;
-    width: 100%;
-    height: 40px;
-    padding: 0 10px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  & textarea {
-    -webkit-appearance: none;
-    line-height: 20px;
-    padding: 10px 0 0 10px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    :focus {
-      outline: none;
-      border: 2px solid #16a085;
-    }
-  }
-  & span {
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  :last-child {
-    & span {
-      :last-child {
-        text-align: right;
-        color: gray;
-        margin-top: 10px;
-      }
-    }
-  }
-`;
-
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  & button {
-    width: 100px;
-    height: 50px;
-    border: 0.1px solid #16a085;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    margin-right: 30px;
-  }
-`;
-
 interface ProfileEditProps {
   toggleProfileEdit(): void;
   userObj: IUserObj;
@@ -464,5 +283,186 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
     </ProfileEditContainer>
   );
 };
+
+const ProfileEditContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+`;
+
+const ProfileEditWrap = styled.div`
+  @media (max-width: 1024px) {
+    width: 80%;
+  }
+  @media (max-width: 500px) {
+    width: 95%;
+  }
+  width: 768px;
+  max-height: 75vh;
+  margin-top: 80px;
+  background: ${(props) => props.theme.menuColor};
+  border-radius: 20px;
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #bdc3c7;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+`;
+
+const ProfileEditHeader = styled.div`
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ababab80;
+`;
+const HeaderTitle = styled.div`
+  font-size: 20px;
+`;
+
+const ProfileEditContentWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  max-height: calc(75vh - 61px);
+  overflow-y: auto;
+`;
+
+const ProfileContent = styled.div`
+  width: 100%;
+  display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const ProfileAvatarWrap = styled.div`
+  @media (max-width: 500px) {
+    margin-bottom: 20px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  width: 35%;
+  & button {
+    padding: 10px 10px;
+    background: #16a085;
+    border: 1px solid #16a085;
+    border-radius: 5px;
+  }
+`;
+
+const AvatarWrap = styled.div`
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-bottom: 20px;
+  :hover {
+    opacity: 0.7;
+  }
+  & label {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    font-weight: 700;
+    color: black;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+`;
+
+const Avatar = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
+
+const ProfileInputWrap = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 20px;
+  }
+  @media (max-width: 500px) {
+    padding: 0;
+  }
+  width: 64%;
+`;
+const InputWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  & input {
+    -webkit-appearance: none;
+    text-align: start;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
+  }
+  & textarea {
+    -webkit-appearance: none;
+    line-height: 20px;
+    padding: 10px 0 0 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    :focus {
+      outline: none;
+      border: 2px solid #16a085;
+    }
+  }
+  & span {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  :last-child {
+    & span {
+      :last-child {
+        text-align: right;
+        color: gray;
+        margin-top: 10px;
+      }
+    }
+  }
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  & button {
+    width: 100px;
+    height: 50px;
+    border: 0.1px solid #16a085;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin-right: 30px;
+  }
+`;
 
 export default ProfileEdit;

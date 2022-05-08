@@ -1,6 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Loading: React.FC = () => {
+  return (
+    <>
+      <LoadingContainer>
+        <LoadingWrap>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </LoadingWrap>
+      </LoadingContainer>
+    </>
+  );
+};
+
 const LoadingContainer = styled.div`
   width: 100%;
   display: flex;
@@ -45,20 +60,5 @@ const LoadingWrap = styled.div`
     }
   }
 `;
-
-const Loading: React.FC = () => {
-  return (
-    <>
-      <LoadingContainer>
-        <LoadingWrap>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </LoadingWrap>
-      </LoadingContainer>
-    </>
-  );
-};
 
 export default Loading;

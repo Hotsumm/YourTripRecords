@@ -1,25 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const GuideContainer = styled.section`
-  width: 100%;
-  margin: 25px 0;
-  padding: 0 10px;
-`;
-
-const GuideHeaderWrap = styled.header`
-  width: 100%;
-  margin-bottom: 15px;
-  & h2 {
-    font-size: 20px;
-    font-weight: 700;
-  }
-`;
-const Guide = styled.p`
-  font-size: 14px;
-  padding: 5px 0;
-`;
-
 const UploadGuide: React.FC = () => {
   return (
     <GuideContainer>
@@ -38,5 +19,24 @@ const UploadGuide: React.FC = () => {
     </GuideContainer>
   );
 };
+
+const GuideContainer = styled.section`
+  width: 100%;
+  margin: 25px 0;
+  padding: 0 10px;
+`;
+
+const GuideHeaderWrap = styled.header`
+  width: 100%;
+  margin-bottom: 15px;
+  & h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+const Guide = styled.p`
+  font-size: 14px;
+  padding: 5px 0;
+`;
 
 export default UploadGuide;

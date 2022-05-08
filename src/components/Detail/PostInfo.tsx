@@ -8,56 +8,6 @@ import { ThemeContext } from '@src/Context';
 import { firebaseFireStore } from '@src/firebaseConfig';
 import LikedUser from '@components/Detail/LikedUser';
 
-const PostInfoContainer = styled.div`
-  width: 100%;
-`;
-
-const PostInfoWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 10px;
-`;
-
-const CountWrap = styled.div`
-  display: flex;
-  align-items: flex-end;
-  svg {
-    margin-right: 7px;
-  }
-`;
-
-const LikeCount = styled.div`
-  font-size: 18px;
-  margin-right: 20px;
-  :hover {
-    text-decoration: underline;
-  }
-  cursor: pointer;
-`;
-
-const CommentCount = styled.div`
-  font-size: 18px;
-`;
-const CreatorWrap = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 10px;
-  cursor: pointer;
-  div {
-    font-size: 14px;
-    font-weight: 700;
-  }
-  img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 5px;
-  }
-`;
-
 interface PostInfoProps {
   postObj: IPost;
   userObj: IUserObj | null;
@@ -162,5 +112,55 @@ const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {
     </>
   );
 };
+
+const PostInfoContainer = styled.div`
+  width: 100%;
+`;
+
+const PostInfoWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+`;
+
+const CountWrap = styled.div`
+  display: flex;
+  align-items: flex-end;
+  svg {
+    margin-right: 7px;
+  }
+`;
+
+const LikeCount = styled.div`
+  font-size: 18px;
+  margin-right: 20px;
+  :hover {
+    text-decoration: underline;
+  }
+  cursor: pointer;
+`;
+
+const CommentCount = styled.div`
+  font-size: 18px;
+`;
+const CreatorWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+  div {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+`;
 
 export default PostInfo;

@@ -11,6 +11,75 @@ import Navigation from '@components/Navigation/Navigation';
 import ChangePassword from '@components/Account/ChangePassword';
 import UserDelete from '@components/Account/UserDelete';
 
+const MyAccount: React.FC = () => {
+  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+  const [isUserDelete, setIsUserDelete] = useState<boolean>(false);
+  const { userObj } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+
+  const { userId } = useParams() as { userId: string };
+
+  const toggleChangePassword = (): void =>
+    setIsChangePassword(!isChangePassword);
+
+  const toggleUserDelete = (): void => setIsUserDelete(!isUserDelete);
+
+  if (userObj === null || userObj.userId !== userId) {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <>
+      <Navigation show={true} />
+      {userObj && (
+        <MyAccountContainer>
+          <MyAccountHeaderWrap>
+            <MyAccountHeader>내 계정</MyAccountHeader>
+          </MyAccountHeaderWrap>
+          <MyAccountWrap>
+            <UserWrap>
+              <UserInfoWrap>
+                <Avatar>
+                  <img src={userObj.avatar} alt="Avatar" />
+                </Avatar>
+                <span>{userObj.nickname}</span>
+                <span>{userObj.email}</span>
+              </UserInfoWrap>
+            </UserWrap>
+            <MenuWrap>
+              <Link to={`/profile/${userObj.userId}`}>
+                <Menu theme={theme}>
+                  <IconWrap>
+                    <BsBoxArrowInUpRight style={{ color: '#00b894' }} />
+                  </IconWrap>
+                  <Title>프로필로 이동</Title>
+                </Menu>
+              </Link>
+              <Menu onClick={toggleChangePassword} theme={theme}>
+                <IconWrap>
+                  <FcLock />
+                </IconWrap>
+                <Title>비밀번호 변경</Title>
+              </Menu>
+              <Menu onClick={toggleUserDelete} theme={theme}>
+                <IconWrap>
+                  <FiUserX style={{ color: '#e74c3c' }} />
+                </IconWrap>
+                <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
+              </Menu>
+            </MenuWrap>
+          </MyAccountWrap>
+          <Footer />
+        </MyAccountContainer>
+      )}
+      {isChangePassword && (
+        <ChangePassword toggleChangePassword={toggleChangePassword} />
+      )}
+      {isUserDelete && <UserDelete toggleUserDelete={toggleUserDelete} />}
+    </>
+  );
+};
+
 const MyAccountContainer = styled.main`
   width: 100vw;
   max-width: 2560px;
@@ -127,74 +196,5 @@ const IconWrap = styled.div`
 const Title = styled.span`
   margin-top: 15px;
 `;
-
-const MyAccount: React.FC = () => {
-  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
-  const [isUserDelete, setIsUserDelete] = useState<boolean>(false);
-  const { userObj } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
-
-  const { userId } = useParams() as { userId: string };
-
-  const toggleChangePassword = (): void =>
-    setIsChangePassword(!isChangePassword);
-
-  const toggleUserDelete = (): void => setIsUserDelete(!isUserDelete);
-
-  if (userObj === null || userObj.userId !== userId) {
-    return <Navigate to="/" />;
-  }
-
-  return (
-    <>
-      <Navigation show={true} />
-      {userObj && (
-        <MyAccountContainer>
-          <MyAccountHeaderWrap>
-            <MyAccountHeader>내 계정</MyAccountHeader>
-          </MyAccountHeaderWrap>
-          <MyAccountWrap>
-            <UserWrap>
-              <UserInfoWrap>
-                <Avatar>
-                  <img src={userObj.avatar} alt="Avatar" />
-                </Avatar>
-                <span>{userObj.nickname}</span>
-                <span>{userObj.email}</span>
-              </UserInfoWrap>
-            </UserWrap>
-            <MenuWrap>
-              <Link to={`/profile/${userObj.userId}`}>
-                <Menu theme={theme}>
-                  <IconWrap>
-                    <BsBoxArrowInUpRight style={{ color: '#00b894' }} />
-                  </IconWrap>
-                  <Title>프로필로 이동</Title>
-                </Menu>
-              </Link>
-              <Menu onClick={toggleChangePassword} theme={theme}>
-                <IconWrap>
-                  <FcLock />
-                </IconWrap>
-                <Title>비밀번호 변경</Title>
-              </Menu>
-              <Menu onClick={toggleUserDelete} theme={theme}>
-                <IconWrap>
-                  <FiUserX style={{ color: '#e74c3c' }} />
-                </IconWrap>
-                <Title style={{ color: '#e74c3c' }}>회원 탈퇴</Title>
-              </Menu>
-            </MenuWrap>
-          </MyAccountWrap>
-          <Footer />
-        </MyAccountContainer>
-      )}
-      {isChangePassword && (
-        <ChangePassword toggleChangePassword={toggleChangePassword} />
-      )}
-      {isUserDelete && <UserDelete toggleUserDelete={toggleUserDelete} />}
-    </>
-  );
-};
 
 export default MyAccount;

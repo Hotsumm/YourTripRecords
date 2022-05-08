@@ -14,75 +14,6 @@ import Navigation from '@components/Navigation/Navigation';
 import Footer from '@components/Home/Footer';
 import Loading from '@components/Load/Loading';
 
-const DetailContainer = styled.main`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  max-width: 2560px;
-  margin: 0 auto;
-`;
-
-const DetailWrap = styled.article`
-  max-width: 1440px;
-  @media (max-width: 1024px) {
-    width: 80vw;
-  }
-  @media (max-width: 768px) {
-    width: 95vw;
-  }
-  width: 65vw;
-  padding: 110px 0;
-`;
-
-const DetailHeaderWrap = styled.header`
-  @media (max-width: 500px) {
-    flex-direction: column;
-    justify-content: center;
-  }
-  width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const PostTitleWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  & h2 {
-    @media (max-width: 768px) {
-      font-size: 20px;
-    }
-    font-size: 24px;
-    white-space: pre;
-  }
-`;
-
-const PostCreatedWrap = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0 10px;
-  align-items: center;
-`;
-
-const PostCreated = styled.span`
-  width: 100%;
-  color: gray;
-  text-align: right;
-`;
-
-const DetailInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
 const PostDetail: React.FC = () => {
   const { userObj, refreshUser } = useContext(UserContext);
   const [postObj, setPostObj] = useState<IPost | null>(null);
@@ -206,5 +137,74 @@ const PostDetail: React.FC = () => {
     </>
   );
 };
+
+const DetailContainer = styled.main`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 2560px;
+  margin: 0 auto;
+`;
+
+const DetailWrap = styled.article`
+  max-width: 1440px;
+  @media (max-width: 1024px) {
+    width: 80vw;
+  }
+  @media (max-width: 768px) {
+    width: 95vw;
+  }
+  width: 65vw;
+  padding: 110px 0;
+`;
+
+const DetailHeaderWrap = styled.header`
+  @media (max-width: 500px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PostTitleWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  & h2 {
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+    font-size: 24px;
+    white-space: pre;
+  }
+`;
+
+const PostCreatedWrap = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0 10px;
+  align-items: center;
+`;
+
+const PostCreated = styled.span`
+  width: 100%;
+  color: gray;
+  text-align: right;
+`;
+
+const DetailInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
 
 export default PostDetail;

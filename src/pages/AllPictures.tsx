@@ -7,40 +7,6 @@ import { ThemeContext } from '@src/Context';
 import AllPicturesList from '@components/AllPictures/AllPicturesList';
 import SelectPicture from '@components/AllPictures/SelectPicture';
 
-const AllPicturesContainer = styled.main`
-  @media (max-width: 768px) {
-    padding: 0 10px;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 2560px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
-
-const AllPicturesHeaderWrap = styled.header`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  & h1 {
-    font-size: 18px;
-  }
-
-  & svg {
-    @media (max-width: 1024px) {
-      left: 20px;
-    }
-    cursor: pointer;
-    position: absolute;
-    left: 40px;
-  }
-`;
-
 interface LocationProps {
   state: {
     postId: string;
@@ -132,5 +98,39 @@ const AllPictures: React.FC = () => {
     </AllPicturesContainer>
   );
 };
+
+const AllPicturesContainer = styled.main`
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 2560px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
+const AllPicturesHeaderWrap = styled.header`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  & h1 {
+    font-size: 18px;
+  }
+
+  & svg {
+    @media (max-width: 1024px) {
+      left: 20px;
+    }
+    cursor: pointer;
+    position: absolute;
+    left: 40px;
+  }
+`;
 
 export default AllPictures;

@@ -4,93 +4,6 @@ import styled from 'styled-components';
 import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
 import { ThemeContext, UserContext } from '@src/Context';
 
-const ChangePasswordContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 999;
-`;
-
-const ChangePasswordWrap = styled.div`
-  width: 450px;
-  padding: 30px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  background: ${(props) => props.theme.menuColor};
-`;
-
-const ChangePasswordHeaderWrap = styled.header`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 0 20px 0;
-  border-bottom: 1px solid #ababab80;
-  & h2 {
-    font-size: 18px;
-    font-weight: 700;
-  }
-`;
-
-const InputContainer = styled.div`
-  width: 100%;
-  padding: 25px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const InputWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-
-  & input {
-    -webkit-appearance: none;
-    width: 250px;
-    padding: 15px 20px;
-    border-style: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    ::placeholder {
-      font-size: 14px;
-    }
-    :focus {
-      outline: none;
-      border: 1px solid #16a085;
-    }
-  }
-`;
-
-const ButtonWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  & button {
-    width: 120px;
-    height: 50px;
-    border-radius: 10px;
-    background: white;
-    border: 1px solid #16a085;
-    color: #16a085;
-    :last-child {
-      border: 1px solid red;
-      color: red;
-      margin-left: 15px;
-    }
-  }
-`;
-
 interface ChangePasswordProps {
   toggleChangePassword(): void;
 }
@@ -227,5 +140,92 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
     </ChangePasswordContainer>
   );
 };
+
+const ChangePasswordContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+`;
+
+const ChangePasswordWrap = styled.div`
+  width: 450px;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  background: ${(props) => props.theme.menuColor};
+`;
+
+const ChangePasswordHeaderWrap = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid #ababab80;
+  & h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  padding: 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const InputWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+
+  & input {
+    -webkit-appearance: none;
+    width: 250px;
+    padding: 15px 20px;
+    border-style: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    ::placeholder {
+      font-size: 14px;
+    }
+    :focus {
+      outline: none;
+      border: 1px solid #16a085;
+    }
+  }
+`;
+
+const ButtonWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & button {
+    width: 120px;
+    height: 50px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #16a085;
+    color: #16a085;
+    :last-child {
+      border: 1px solid red;
+      color: red;
+      margin-left: 15px;
+    }
+  }
+`;
 
 export default ChangePassword;

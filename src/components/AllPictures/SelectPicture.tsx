@@ -6,6 +6,77 @@ import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 import { ThemeContext } from '@src/Context';
 import Marker from '@components/Detail/KakaoMap/Marker';
 
+interface SelectPictureProps {
+  selectPicture: IPictureList;
+  slideLeft(): void;
+  slideRight(): void;
+}
+
+const SelectPicture: React.FC<SelectPictureProps> = ({
+  selectPicture,
+  slideLeft,
+  slideRight,
+}) => {
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <SelectPictureContainer>
+      <SelectPictureSlideWrap>
+        <BsArrowLeftShort onClick={slideLeft} size={32} />
+        <SelectPictureWrap>
+          <img src={selectPicture.pictureURL} alt="선택사진" />
+        </SelectPictureWrap>
+        <BsArrowRightShort onClick={slideRight} size={32} />
+      </SelectPictureSlideWrap>
+      <SelectPictureInfoWrap>
+        <DescriptionWrap>
+          <PictureInfoHeaderWrap>
+            <HeaderIconWrap>
+              <AiOutlineSound size={22} />
+            </HeaderIconWrap>
+            <span>설명</span>
+          </PictureInfoHeaderWrap>
+          <Description description={selectPicture.description}>
+            {selectPicture.description
+              ? selectPicture.description
+              : '설명 없음'}
+          </Description>
+        </DescriptionWrap>
+        <LocationWrap>
+          <PictureInfoHeaderWrap>
+            <HeaderIconWrap>
+              <TiLocationOutline size={22} style={{ color: theme.textColor }} />
+            </HeaderIconWrap>
+            <span>위치</span>
+          </PictureInfoHeaderWrap>
+          {selectPicture.location ? (
+            <KakaoMapWrap>
+              <KakaoMapLinkWrap>
+                <span
+                  onClick={() =>
+                    open(
+                      `https://map.kakao.com/link/map/${selectPicture.location?.locationId}`,
+                    )
+                  }
+                >
+                  {selectPicture.location.placeName}
+                </span>
+              </KakaoMapLinkWrap>
+              <MarkerWrap>
+                <Marker coords={selectPicture.location.coords} />
+              </MarkerWrap>
+            </KakaoMapWrap>
+          ) : (
+            <NoLocationWrap>
+              <NoLocation>위치 정보가 없습니다.</NoLocation>
+            </NoLocationWrap>
+          )}
+        </LocationWrap>
+      </SelectPictureInfoWrap>
+    </SelectPictureContainer>
+  );
+};
+
 const SelectPictureContainer = styled.article`
   @media (max-width: 1024px) {
     order: 3;
@@ -185,76 +256,5 @@ const NoLocation = styled.span`
   font-size: 16px;
   text-decoration: underline;
 `;
-
-interface SelectPictureProps {
-  selectPicture: IPictureList;
-  slideLeft(): void;
-  slideRight(): void;
-}
-
-const SelectPicture: React.FC<SelectPictureProps> = ({
-  selectPicture,
-  slideLeft,
-  slideRight,
-}) => {
-  const { theme } = useContext(ThemeContext);
-
-  return (
-    <SelectPictureContainer>
-      <SelectPictureSlideWrap>
-        <BsArrowLeftShort onClick={slideLeft} size={32} />
-        <SelectPictureWrap>
-          <img src={selectPicture.pictureURL} alt="선택사진" />
-        </SelectPictureWrap>
-        <BsArrowRightShort onClick={slideRight} size={32} />
-      </SelectPictureSlideWrap>
-      <SelectPictureInfoWrap>
-        <DescriptionWrap>
-          <PictureInfoHeaderWrap>
-            <HeaderIconWrap>
-              <AiOutlineSound size={22} />
-            </HeaderIconWrap>
-            <span>설명</span>
-          </PictureInfoHeaderWrap>
-          <Description description={selectPicture.description}>
-            {selectPicture.description
-              ? selectPicture.description
-              : '설명 없음'}
-          </Description>
-        </DescriptionWrap>
-        <LocationWrap>
-          <PictureInfoHeaderWrap>
-            <HeaderIconWrap>
-              <TiLocationOutline size={22} style={{ color: theme.textColor }} />
-            </HeaderIconWrap>
-            <span>위치</span>
-          </PictureInfoHeaderWrap>
-          {selectPicture.location ? (
-            <KakaoMapWrap>
-              <KakaoMapLinkWrap>
-                <span
-                  onClick={() =>
-                    open(
-                      `https://map.kakao.com/link/map/${selectPicture.location?.locationId}`,
-                    )
-                  }
-                >
-                  {selectPicture.location.placeName}
-                </span>
-              </KakaoMapLinkWrap>
-              <MarkerWrap>
-                <Marker coords={selectPicture.location.coords} />
-              </MarkerWrap>
-            </KakaoMapWrap>
-          ) : (
-            <NoLocationWrap>
-              <NoLocation>위치 정보가 없습니다.</NoLocation>
-            </NoLocationWrap>
-          )}
-        </LocationWrap>
-      </SelectPictureInfoWrap>
-    </SelectPictureContainer>
-  );
-};
 
 export default SelectPicture;
