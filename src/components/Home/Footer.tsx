@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   return (
     <FooterContainer>
       <FooterWrap>
-        <FooterTitle>©YourTripRecords</FooterTitle>
+        <FooterTitle>YourTripRecords</FooterTitle>
         <FooterIconWrap>
           <FooterIcon>
             <AiFillGithub onClick={() => open('https://github.com/Hotsumm')} />
