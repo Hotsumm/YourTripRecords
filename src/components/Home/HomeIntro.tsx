@@ -23,12 +23,8 @@ const HomeIntroContainer = styled.div`
   align-items: flex-start;
   width: auto;
   position: absolute;
-  top: 400px;
-  left: 150px;
-  @media (max-width: 500px) {
-    top: 200px;
-    left: 50px;
-  }
+  top: 50%;
+  left: 10%;
 `;
 
 const IntroWrap = styled.div`
@@ -41,8 +37,13 @@ const IntroWrap = styled.div`
     line-height: 120%;
     color: white;
     text-shadow: 1px 0.5px 2px black;
+    @media (max-width: 768px) {
+      font-size: 36px;
+      width: 150px;
+    }
+
     @media (max-width: 500px) {
-      font-size: 26px;
+      font-size: 30px;
       width: 150px;
     }
   }
