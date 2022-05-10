@@ -57,6 +57,7 @@ const CitySearchBar: React.FC = () => {
 const CitySearchBarContainer = styled.div`
   width: 100%;
   position: relative;
+  z-index: 9999;
 `;
 
 const CitySearchBarWrap = styled.div<{ isFocus: number }>`
@@ -64,7 +65,7 @@ const CitySearchBarWrap = styled.div<{ isFocus: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
+  height: 45px;
   border-radius: 20px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   border-style: none;
@@ -82,7 +83,15 @@ const CitySearchBarWrap = styled.div<{ isFocus: number }>`
 `;
 
 const CitySearchListWrap = styled.ul`
+  @media (max-height: 700px) {
+    height: 350px;
+  }
+  @media (max-height: 500px) {
+    height: 200px;
+  }
+
   position: absolute;
+  top: 45px;
   z-index: 999;
   width: 100%;
   background: white;
@@ -138,7 +147,7 @@ const FocusBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: -1;
+  z-index: 999;
   background: rgba(0, 0, 0, 0.4);
 `;
 

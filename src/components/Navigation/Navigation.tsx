@@ -17,15 +17,15 @@ const Navigation: React.FC<NavigationProps> = ({ show }) => {
   return (
     <NavContainer theme={theme} show={show}>
       <NavWrap>
-        <TitleContainer show={show} theme={theme}>
+        <TitleWrap show={show} theme={theme}>
           <Link to="/">YourTripRecords</Link>
-        </TitleContainer>
-        <SearchContainer>
+        </TitleWrap>
+        <CitySearchBarWrap>
           <CitySearchBar />
-        </SearchContainer>
-        <ProfileContainer theme={theme}>
+        </CitySearchBarWrap>
+        <ProfileWrap theme={theme}>
           <NavProfileBar />
-        </ProfileContainer>
+        </ProfileWrap>
         <ThemeContainer>
           <NavThemeSwitch />
         </ThemeContainer>
@@ -39,7 +39,7 @@ const NavContainer = styled.header<{ show: boolean }>`
   height: 80px;
   position: fixed;
   top: 0;
-  z-index: 999;
+  z-index: 99999;
   box-shadow: ${(props) =>
     props.show ? '0px 0px 8px rgba(0, 0, 0, 0.2)' : '0px'};
   background: ${(props) =>
@@ -64,7 +64,7 @@ const NavWrap = styled.nav`
   align-items: center;
 `;
 
-const TitleContainer = styled.div<{ show: boolean }>`
+const TitleWrap = styled.div<{ show: boolean }>`
   @media (max-width: 1024px) {
     width: 50%;
   }
@@ -86,7 +86,7 @@ const TitleContainer = styled.div<{ show: boolean }>`
       : 'white'};
 `;
 
-const SearchContainer = styled.div`
+const CitySearchBarWrap = styled.div`
   @media (max-width: 1024px) {
     display: none;
   }
@@ -96,7 +96,7 @@ const SearchContainer = styled.div`
   justify-content: center;
 `;
 
-const ProfileContainer = styled.div`
+const ProfileWrap = styled.div`
   @media (max-width: 1024px) {
     width: 50%;
   }
