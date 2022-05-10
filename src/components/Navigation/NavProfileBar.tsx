@@ -116,16 +116,18 @@ const ProfileBarWrap = styled.div`
 const AvatarWrap = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 210px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0 10px;
   & span {
-    @media (max-width: 500px) {
+    @media (max-width: 768px) {
       display: none;
     }
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
+    margin-top: 2px;
     color: ${(props) => props.theme.textColor};
   }
   & img {

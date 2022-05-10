@@ -6,6 +6,7 @@ import { ThemeContext } from '@src/Context';
 import { darkTheme } from '@styles/theme';
 import NavProfileBar from '@components/Navigation/NavProfileBar';
 import NavThemeSwitch from '@components/Navigation/NavThemeSwitch';
+import CitySearchBar from '@src/components/City/CitySearchBar';
 
 interface NavigationProps {
   show: boolean;
@@ -19,6 +20,9 @@ const Navigation: React.FC<NavigationProps> = ({ show }) => {
         <TitleContainer show={show} theme={theme}>
           <Link to="/">YourTripRecords</Link>
         </TitleContainer>
+        <SearchContainer>
+          <CitySearchBar />
+        </SearchContainer>
         <ProfileContainer theme={theme}>
           <NavProfileBar />
         </ProfileContainer>
@@ -48,8 +52,8 @@ const NavWrap = styled.nav`
   height: 100%;
   display: flex;
   padding: 0px 60px;
-  @media (max-width: 768px) {
-    padding: 0px 20px;
+  @media (max-width: 1440px) {
+    padding: 0px 30px;
   }
   @media (max-width: 500px) {
     padding: 0px 10px;
@@ -61,12 +65,16 @@ const NavWrap = styled.nav`
 `;
 
 const TitleContainer = styled.div<{ show: boolean }>`
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
   @media (max-width: 768px) {
-    font-size: 24px;
+    font-size: 26px;
   }
   @media (max-width: 500px) {
-    font-size: 20px;
+    font-size: 22px;
   }
+  width: 33%;
   display: flex;
   padding: 20px 0;
   align-items: flex-start;
@@ -78,33 +86,38 @@ const TitleContainer = styled.div<{ show: boolean }>`
       : 'white'};
 `;
 
-/*
 const SearchContainer = styled.div`
+  @media (max-width: 1024px) {
+    display: none;
+  }
   width: 33%;
   padding: 20px 0;
   display: flex;
   justify-content: center;
 `;
-*/
 
 const ProfileContainer = styled.div`
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
   display: flex;
-  max-width: 200px;
+  width: 33%;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 20px 0;
 `;
 
 const ThemeContainer = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 280px;
-
-  @media (max-width: 1024px) {
-    z-index: -1;
-    top: 90px;
-    right: 20px;
+  @media (max-width: 1440px) {
+    right: 30px;
   }
+  @media (max-width: 500px) {
+    right: 10px;
+  }
+  position: absolute;
+  z-index: -1;
+  top: 90px;
+  right: 60px;
 `;
 
 export default Navigation;
