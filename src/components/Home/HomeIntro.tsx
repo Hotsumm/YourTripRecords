@@ -23,11 +23,11 @@ const HomeIntroContainer = styled.div`
   align-items: flex-start;
   width: auto;
   position: absolute;
-  top: 200px;
-  left: 100px;
+  top: 400px;
+  left: 150px;
   @media (max-width: 500px) {
-    top: 120px;
-    left: 40px;
+    top: 200px;
+    left: 50px;
   }
 `;
 
@@ -57,9 +57,6 @@ const CityLink = styled(Link)`
   :hover {
     background: #e3f4ea;
     color: #16a085;
-  }
-  @media (min-width: 767px) {
-    display: none;
   }
   @media (max-width: 500px) {
     padding: 10px 20px;
