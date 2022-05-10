@@ -2,23 +2,27 @@ import React from 'react';
 import styled from 'styled-components';
 
 import bgImg from '@assets/backgroundImg.jpg';
-import HomeIntro from '@components/Home/HomeIntro/HomeIntro';
-import HomeCityList from '@components/Home/HomeIntro/HomeCityList';
+import HomeIntro from '@src/components/Home/HomeIntro';
 
 const Background: React.FC = () => {
   return (
     <BackgroundContainer>
-      <img src={bgImg} alt="메인배경" />
+      <BackgroundImgWrap>
+        <img src={bgImg} alt="메인배경" />
+      </BackgroundImgWrap>
       <HomeIntro />
-      <HomeCityList />
     </BackgroundContainer>
   );
 };
 
 const BackgroundContainer = styled.div`
   width: 100%;
-  height: 100vh;
   position: relative;
+`;
+
+const BackgroundImgWrap = styled.div`
+  width: 100%;
+  height: 80vh;
   @media (max-width: 768px) {
     height: 70vh;
   }
