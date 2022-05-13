@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Router from '@src/Router';
 import { firebaseAuth, firebaseFireStore } from '@src/firebaseConfig';
+import Router from '@src/Router';
 import { UserContext, ThemeContext } from '@src/Context';
 import { GlobalStyles } from '@styles/global-styles';
 import { useDarkMode } from '@hooks/useDarkMode';
 
 const App: React.FC = () => {
-  const [userObj, setUserObj] = useState<IUserObj | null>(null);
+  const [userObj, setUserObj] = useState<IUserObj | null | undefined>(
+    undefined,
+  );
   const { theme, toggleTheme } = useDarkMode();
 
   useEffect(() => refreshUser(true), []);
@@ -24,9 +26,12 @@ const App: React.FC = () => {
               setUserObj(userData);
             } else {
               console.log('No such document!');
+              setUserObj(null);
             }
           })
           .catch((error) => console.log(error));
+      } else {
+        setUserObj(null);
       }
     });
   };

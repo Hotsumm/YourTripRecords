@@ -4,7 +4,7 @@ import { theme } from '@styles/theme';
 const { lightTheme } = theme;
 
 const userContextDefaultValue: IUserContext = {
-  userObj: null,
+  userObj: undefined,
   refreshUser: () => {},
 };
 

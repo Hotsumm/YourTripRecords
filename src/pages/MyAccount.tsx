@@ -24,7 +24,7 @@ const MyAccount: React.FC = () => {
 
   const toggleUserDelete = (): void => setIsUserDelete(!isUserDelete);
 
-  if (userObj === null || userObj.userId !== userId) {
+  if (userObj === null || userObj?.userId !== userId) {
     return <Navigate to="/" />;
   }
 

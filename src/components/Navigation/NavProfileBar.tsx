@@ -39,26 +39,27 @@ const NavProfile: React.FC = () => {
   return (
     <>
       <ProfileBarWrap theme={theme} ref={ref} onClick={menuClick}>
-        {userObj ? (
-          <AvatarWrap theme={theme}>
-            <Icon>
-              <VscTriangleDown size={15} />
-            </Icon>
-            <span>{userObj.nickname}</span>
-            <img src={userObj.avatar} alt="avatar" />
-          </AvatarWrap>
-        ) : (
-          <AvatarWrap theme={theme}>
-            <Icon>
-              <VscTriangleDown size={15} />
-            </Icon>
-            <span>로그인을 해주세요</span>
-            <HiUserCircle size={35} color={theme.textColor} />
-          </AvatarWrap>
-        )}
+        <AvatarWrap theme={theme}>
+          <Icon>
+            <VscTriangleDown size={15} />
+          </Icon>
+          {userObj !== undefined &&
+            (userObj ? (
+              <>
+                <span>{userObj.nickname}</span>
+                <img src={userObj?.avatar} alt="avatar" />
+              </>
+            ) : (
+              <>
+                <span>로그인을 해주세요</span>
+                <HiUserCircle size={35} color={theme.textColor} />
+              </>
+            ))}
+        </AvatarWrap>
+
         {isMenu && (
           <ProfileMenu theme={theme}>
-            {userObj ? (
+            {userObj && Object.keys(userObj).length !== 0 ? (
               <ul>
                 <Link to={`/myAccount/${userObj.userId}`}>
                   <li style={{ fontWeight: '700' }}>내 계정</li>
@@ -107,6 +108,7 @@ const ProfileBarWrap = styled.div`
   border-radius: 20px;
   background: ${(props) => props.theme.bgColor};
   padding: 0 10px;
+  min-width: 115px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;

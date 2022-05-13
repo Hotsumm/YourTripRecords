@@ -10,7 +10,7 @@ import LikedUser from '@components/Detail/LikedUser';
 
 interface PostInfoProps {
   postObj: IPost;
-  userObj: IUserObj | null;
+  userObj: IUserObj | null | undefined;
 }
 
 const PostInfo: React.FC<PostInfoProps> = ({ postObj, userObj }) => {

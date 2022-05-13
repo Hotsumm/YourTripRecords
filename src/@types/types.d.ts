@@ -13,7 +13,7 @@ interface IUserObj {
 }
 
 interface IUserContext {
-  userObj: IUserObj | null;
+  userObj: IUserObj | null | undefined;
   refreshUser: (sign: boolean) => void;
 }
 

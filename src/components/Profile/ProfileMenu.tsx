@@ -14,7 +14,7 @@ import { ThemeContext } from '../../Context';
 interface ProfileMenuProps {
   userCheck: boolean;
   thisUser: IUserObj;
-  userObj: IUserObj | null;
+  userObj: IUserObj | null | undefined;
 }
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({
