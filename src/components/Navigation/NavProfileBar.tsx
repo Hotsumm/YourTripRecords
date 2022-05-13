@@ -103,6 +103,9 @@ const NavProfile: React.FC = () => {
 };
 
 const ProfileBarWrap = styled.div`
+  @media (max-width: 768px) {
+    min-width: 80px;
+  }
   position: relative;
   height: 40px;
   border-radius: 20px;
