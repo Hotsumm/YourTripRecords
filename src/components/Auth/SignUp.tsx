@@ -5,8 +5,8 @@ import { FcGoogle } from 'react-icons/fc';
 
 import { firebaseAuth, firebaseInstance } from '@src/firebaseConfig';
 import { ThemeContext } from '@src/Context';
-import { CreateUser } from '@components/User/CreateUser';
-import { CreateSocialUser } from '@components/User/CreateSocialUser';
+import { CreateUser } from '@_firebase/auth/CreateUser';
+import { CreateSocialUser } from '@_firebase/auth/CreateSocialUser';
 import Loading from '@components/Load/Loading';
 
 interface SignUpProps {

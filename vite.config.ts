@@ -20,6 +20,7 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
       '@static': path.resolve(__dirname, './src/static'),
       '@assets': path.resolve(__dirname, './src/static/assets'),
+      '@_firebase': path.resolve(__dirname, './src/_firebase'),
     },
   },
   plugins: [
