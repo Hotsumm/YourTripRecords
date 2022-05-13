@@ -32,7 +32,7 @@ const BackgroundImgWrap = styled.div`
     height: 90vh;
   }
   @media (max-height: 500px) {
-    height: 100vh;
+    height: 125vh;
   }
   width: 100%;
   height: 80vh;
